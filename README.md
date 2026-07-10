@@ -8,11 +8,11 @@ All comparisons are paired (same seeds), on held-out seeds, against the stronges
 
 | # | Result | Environment | Margin |
 |---|--------|-------------|--------|
-| 1 | Run2 HardMain: PPO vs best fixed heuristic | K=16, 30 km/h, stale quantized CSI (p_csi = 0.2) | **+50 %** (and +3.6 % over a genie-CSI baseline) |
+| 1 | Run2 HardMain: PPO vs the best MU heuristic in the then-eval set | K=16, 30 km/h, stale quantized CSI (p_csi = 0.2) | **+50 %** vs the best MU heuristic in the then-eval set (and +3.6 % over a genie-CSI baseline); vs the strongest heuristic overall (SU+CQI): **+3.2 %** (see [docs/RUNS.md §2.4](docs/RUNS.md)) |
 | 2 | Run3 MixedLoad_L2 vs **per-seed oracle envelope** (per-seed best of the two strongest heuristics, SU+CQI and SUS+CQI@0.8) | n_active ~ U[16, 32] per episode | **+6.35 %** (n = 20, significant) |
 | 3 | Run3 MixedSpeed_L2b vs per-seed oracle envelope | UE speed ~ U(5, 30) km/h per episode | **+6.88 %** (n = 20; ~+9–10 % vs best realizable hybrid switch) |
-| 4 | Run3 DeadlineScarcity vs SU+CQI | K=16, deadlines [2, 6] slots | **+2.62 %** (n = 60, CI [+82, +258]) |
-| 5 | Run4 QueueMixedArrival vs SUS+CQI | per-UE FIFO queues, p_arrival ~ U(0.15, 0.40) per episode | **+21.4 %** (best queue-era result) |
+| 4 | Run3 DeadlineScarcity vs SU+CQI | K=16, deadlines [2, 6] slots | **+2.62 %** (n = 60, CI [+79.9, +259.7]) |
+| 5 | Run4 QueueMixedArrival vs SUS+CQI | per-UE FIFO queues, p_arrival ~ U(0.15, 0.40) per episode | **+21.4 %** (best queue-era result; interim: 3-seed run-eval — final 20-seed evaluation after harvest) |
 | 6 | Run4 transfer: Run3 policy zero-shot on the queue env (queue-blind observations) | multi-packet queue env | **+11.4 %**, 10/10 seeds |
 | 7 | Genie zero-shot: Run3 policy under **perfect CSI** (never trained on it) | pmi_mode=genie, p_csi = 1.0, 20-seed paired | **+8.1 %** vs SUS+CQI; **156 W – 4 L / 160** vs all fixed heuristics |
 | 8 | Regime lock-in of fixed-condition training | K16-trained policy evaluated at K32 | **−17 %** — mixed-condition training is what creates adaptivity |
@@ -61,10 +61,10 @@ Each campaign folder holds one subfolder per training run (e.g. `Run3/MixedSpeed
 
 ## Quickstart
 
-Dependencies (the channel stack is TensorFlow-based, the agent is PyTorch; the channel code uses the `sionna.phy` namespace introduced in Sionna 1.0 — developed against Sionna 1.2.x):
+Dependencies (the channel stack is TensorFlow-based, the agent is PyTorch; the channel code uses the `sionna.phy` namespace introduced in Sionna 1.0 — developed against Sionna 1.2.x). Install the pinned versions from `requirements.txt` (note `sionna>=1.0,<2`: the code targets the Sionna 1.x TF API):
 
 ```bash
-pip install numpy tensorflow "sionna>=1.0" torch tensorboard
+pip install -r requirements.txt
 ```
 
 Sanity-check the environment, PHY chain, and baselines (no training, CPU-friendly):
@@ -109,7 +109,7 @@ Post-hoc analyses live in `Run4/_analysis/` — e.g. `csi_fidelity.py` decompose
 
 ## Reproducibility notes
 
-- **Paired protocol.** Every PPO-vs-baseline comparison runs all schedulers on the *same* episode seeds (same channels, same arrivals) and reports paired differences with pre-declared sample sizes.
+- **Paired protocol.** Every PPO-vs-baseline comparison runs all schedulers on the *same* episode seeds and reports paired differences with pre-declared sample sizes. A shared seed fixes the channel realization, topology, true-CSI quantization and load parameters; realized arrival times and CSI-feedback timing are scheduler-dependent (schedulers consume the shared RNG stream at different rates). The shared channel accounts for ~98.6 % of episode-score variance (pair correlation 0.911), so the paired CIs remain valid. In Run4 queue mode with zero buffer overflow the arrival and CSI streams are additionally bit-identical across schedulers.
 - **Held-out seeds.** Evaluation uses seeds ≥ 10000, disjoint from training seeds.
 - **Deterministic evaluation.** The PPO policy acts greedily (argmax) at eval time.
 - **JFI convention.** Jain's fairness index is computed over **active** users only (`metrics.py`).

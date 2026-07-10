@@ -13,7 +13,7 @@ for i in $(seq 1 1000); do
   if [ -f "$RUN_DIR/ckpt/latest.pt" ]; then
     ARGS="--resume $RUN_DIR/ckpt/latest.pt"
   else
-    [ -n "$RUN_DIR" ] && rm -rf "$RUN_DIR"
+    [ -n "$RUN_DIR" ] && [ -e "$RUN_DIR" ] && mv "$RUN_DIR" "${RUN_DIR}.stale.$(date +%s)"
     ARGS="--run_root Run3 --run_name MixedSpeed_L2"
   fi
   echo "===== [wrap] attempt $i $(date '+%F %T') :: $ARGS =====" >> "$LOG"

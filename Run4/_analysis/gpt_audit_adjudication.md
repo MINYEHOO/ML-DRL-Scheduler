@@ -1,0 +1,56 @@
+# 외부 GPT 감사 판정 (2026-07-10, 31건 전건 코드검증+프로브)
+
+## 총평
+
+GPT 외부 감사 31건을 전건 라인-수준 코드 검증과 10여 개의 경험적 프로브(scratchpad/gpt_audit_verify, CPU 전용, 리포 읽기전용)로 판정한 결과: 맞음 21건, 부분적으로 맞음 10건, 완전히 틀림 0건. 총평: GitHub 텍스트만 읽고도 메커니즘과 라인 번호를 거의 정확히 짚어낸 고품질 감사지만, 영향 평가는 체계적으로 과장되어 있다 — "paired CI는 확증용으로 무효"(B2), "보상 교정·재실행 필요"(A3) 같은 핵심 결론 2건은 프로브로 기각했고(공유 채널이 에피소드 분산의 98.6%, corr 0.911로 CI 유효·~8배 분산감소 유지; 팬텀 비트 0.9-1.7%·순위 불변), 발표된 수치·순위·통계 판정 중 뒤집힌 것은 0건이다. 반면 가장 뼈아픈 유효 지적은 C-클러스터다: B_tx 링크적응이 co-scheduled 스트림 수 m을 반영하지 않아 depth≥2 첫 전송이 구조적으로 NACK됨을 우리 코드로 정확 재현했고(IR 라운드 1.34/1.64/1.91@10dB, MU 위치의 60%가 재전송 고정, retx-drop 2.6-4.5% vs SU 0%), 아티팩트를 제거한 raw PHY sum-SE는 실제 K16 지점에서도 depth와 함께 증가(+84-89%)함을 확인 — 솔직히 말해 RUNS.md §3.1의 "SU 근처가 물리적 최적 확정" 결론은 현 LA 모델 조건부로 격하되어야 하며(기존 depth-cap/p_csi sweep과 genie 런 전부가 교란을 분리하지 못함), m-aware LA ablation 신규 실험이 필요하다. 다만 K16 저경합 물리와 양자화-CSI 간섭도 실재하고 K32 결과는 아티팩트 회피가 아니므로 "전부 아티팩트"는 과장이다. 둘째 유효 한계는 전 런이 학습 시드 2024 단일(F6)이라는 점 — eval-시드 재사용 우려는 fresh-17 프로브(제외 시 마진 오히려 상승)로 방어됐으나 학습 레시피 재현성은 미검증. 그 외 README의 "+50% vs best fixed heuristic" 오기(F1, 실제 +3.2% vs SU+CQI)와 래퍼 rm -rf 위험(G1)이 즉시 수정 대상이고, 나머지 약 2/3는 문서·표현 수정으로 충분하며 상당수(F2/F3/F7/E3/E4)는 이미 우리 문서가 선공개·방어해 둔 내용이다.
+
+| GPT 주장(요약) | 판정 | 근거(코드/프로브) | 실제 영향 | 조치 |
+|---|---|---|---|---|
+| **① 결과에 실질 영향 → 재실험/코드수정 필요** | | | | |
+| C1. B_tx가 SU-CQI 기준(m 미반영)이라 depth≥2 첫 전송은 구조적 NACK | 맞음 | phy.py:160-167, env.py:391-401, OLLA 부재; probe1이 IR 라운드 1.34/1.64/1.91@10dB 정확 재현; genie K16에서 depth1 첫ACK 100% vs depth2-4는 18-28% | MU의 depth2-3 가치 선택적 소거(m=2 MU 이득 +0% vs 올바른 LA 시 +49%) → PPO-vs-MU 마진 과대; PPO-vs-SU 비교는 무영향 | doc-fix(§13.3 명기) + C3 ablation과 연동 |
+| C2. NACK 시 동일 RBG 강제 고정 재전송이 MU를 이중 불리 | 맞음 | transmission.py:41,215-219; env.py:161-166; probe: SUS+CQI 위치 59.6%가 retx-고정, 2.56 vs 1.00 attempts/unit, retx-drop 2.6-4.5% vs SU 0% | MU 휴리스틱은 할당 ~60%가 선점된 채 동작 + SU는 구조적으로 겪지 않는 drop 채널 발생; 선언된 설계지만 반-MU 패키지의 일부 | doc-fix(측정치 명기), 반사실은 C3 ablation이 커버 |
+| C3. "SU 근처=물리적 최적" 결론은 LA 아티팩트 교란, 진짜 물리 아님 | 부분적으로 맞음 | probe3: 아티팩트 제거한 raw PHY sum-SE는 실 K16 지점에서도 depth와 함께 증가(+84-89% SUS@0.8); 기존 depth-cap/p_csi sweep·genie 런 전부 아티팩트 포함 측정 | **문서화된 물리 결론(RUNS.md §3.1) 실제로 흔들림** — 단 K16 저경합 물리·양자화 간섭도 실재, K32는 아티팩트 회피 아님(depth 1.88-2.14로 SUS 승리) → "전부 아티팩트"는 과장 | **new-experiment: m-aware LA ablation**(eval-only, CPU) + §3.1 조건부 격하 |
+| F6. 학습 시드 2024 단일 + eval 시드 10000-10002가 선택·최종평가 재사용 | 맞음 | 전 run config.json seed=2024; train_phase2.py:234-235. 방어 probe: 10000-10002 제외해도 전 판정 유지, 마진 오히려 상승(envelope +6.60/+7.34%) | eval-시드 재사용은 결과를 부풀리지 않음(입증); 단일 학습 시드는 진짜 열린 한계(레시피 재현성 미검증, 14개 환경 준-복제에만 의존) | new-experiment: seed 2025 복제 1회 + fresh-17 방어 스크립트 커밋 |
+| G1. 래퍼의 rm -rf $RUN_DIR 위험 | 맞음 | 전 13개 _wrap_*.sh 동일 패턴; [ -n ] 가드는 빈 변수만 방어; 07-06 사건 + 07-10 verdict-banked 런에 wrapper 잔류 순환으로 노출 실존 | latest.pt만 유실돼도 best.pt/CSV/TB 전부 소실 가능한 잠재 위험(실제 손실은 아직 0건) | code-fix: rm -rf → mv 아카이브(다음 재기동 시; live 4런 래퍼는 불가침) |
+| F5. CI가 1.96 사용(t-분포 아님) | 맞음 | stats20*.py:90, final20_envelope.py:101; 정확 t-critical로 전 경계 케이스 재계산 완료 | 판정 뒤집힘 0건(최근접 ScarcityK32 하한 +35→+31, 여전히 양수); 끝점 <5 이동 | code-fix 1줄×4 스크립트 + 문서 CI 끝점 갱신 |
+| **② 문서·표현 수정(경미한 코드정리 포함)으로 충분 — 기존 결과 무영향** | | | | |
+| A1. 드롭 패킷의 ACK 비트가 지표·보상에 잔류(롤백 없음) | 맞음 | env.py:260-320, 342-347; probe: 100% 실패 패킷이 throughput 2.0Mbps 기여, 보상 미회수 | 팬텀 비트 실측 0.9-1.7%; 문서화된 보상 스펙이 전 스케줄러 동일 적용 → 비교 편향 없음 | doc-fix: 지표 정의(link-layer ACKed-bit) 명시 |
+| A2. throughput≠goodput + 실패 패킷도 순양(+) 보상 가능 | 맞음 | metrics.py:41; probe: 12000비트 deadline-miss에도 net +0.25; 손익분기 10667비트(희귀 코너) | Jain 차이 ≤0.029, 스케줄러 순위 불변; goodput은 completion_rate로 이미 병행 보고 | doc-fix(A1과 동일) |
+| B1. CSI·트래픽 단일 RNG 공유 → 스케줄러별 조기 발산 | 맞음 | env.py:83, traffic.py:116; probe: legacy 도착 slot1·마스크 slot3부터 발산; queue-mode 무overflow면 비트동일 | 채널/토폴로지/true-CSI/n_active/p_arrival은 시드별 동일 유지; legacy 도착은 설계상 행동의존(자기-스로틀링) | doc-fix: README:112 등 문구 수정(+향후 RNG 스트림 분리 옵션) |
+| C4. genie 런도 LA 아티팩트 미제거 | 맞음 | codebook.py:46-66은 방향만 교정, B_tx 불변; genie 하에서도 첫ACK 18-28%·retx-drop 2.4-3.5% 재현 | genie 결과는 "CSI 오차 비용"만 격리 — 명시된 목적엔 유효, 아티팩트-프리 상한은 아님 | doc-fix 1문장 + C3 ablation에 genie 셀 포함 |
+| D1. genie 모드가 σ² 재보정 → 두 세계 잡음 상이 | 맞음 | phy.py:29-57, csi.py:89-101; probe: σ² +0.45~0.69dB, 양 세계 모두 median SU SNR 10dB 고정 | 세계 내 비교(+8.1% 등) 전부 유효; cross-world 절대보상 비교만 금물; paired +4.7%는 오히려 보수적 하한 | doc-fix caveat(+선택: σ² 고정 재평가 프로브) |
+| D2. σ²가 미래 슬롯 통계 사용(비인과) | 부분적으로 맞음 | csi.py:100-101; probe: slot-0-only 대비 ±14% 이내, 에피소드 간 편차 21dB가 지배 | 스케줄러-중립 정규화 상수, 착취 가능한 미래 신호 없음 → 결과 무영향; 인과성 훼손 함의는 과장 | doc-fix 2줄(csi.py:65 docstring 완화) |
+| D3. Run2 'genie(완벽 CSI)'는 선택만 true-channel, 전송은 양자화 CSI | 맞음 | Run2/scripts/genie_probe.py:108(pmi_mode 미지정), 당시 GenieCodebook 부재; 전송은 재구성 h_hat 사용 | Run2 '+3.6% vs genie' 라벨 과장(진짜 perfect-CSI면 더 높았을 것); Run4 genie 20-seed가 이미 올바른 대체 실험 | doc-fix: 재라벨 + Run4 참조로 대체 |
+| E1. in-flight HARQ 상태(i_acc/attempts/b_tx) 비관측 → POMDP | 맞음 | env.py:409-446; probe: obs 비트동일인데 보상 0.60 vs 1.01 / 0.60 vs -1.40 | 유효한 반응형 정책 최적화 성립; baseline과 정보 동등 → 비교 무영향; 미활용 개선 기회일 뿐 | doc-fix(§9.1 POMDP 단락) + 선택적 feature 추가 실험 |
+| E2. 종단 bootstrap V(s_T)가 비일관 obs 사용 | 맞음 | env.py:210-214, ppo.py:86-119(코드 주석이 이미 자인); probe: 진짜 s_T는 IndexError로 존재 불가 | 에피소드당 경계값 1개, 마지막 ~30-50 슬롯 advantage에만 소폭; 평가 비교 무영향 | code-fix(향후 런): T+1 슬롯 precompute |
+| E5. direction_fb 절대 위상 = 물리 무의미 자유도로 입력 오염 | 맞음 | policy.py:54-59; probe: type2 모드 위상회전 시 feature 0.42 변화, corr 0.71-0.78; env 결과는 불변(1.8e-15) | 표현 비효율(샘플효율)뿐 — 편향/누출/결과 무효 없음; baseline 무영향 | code-fix(Run5 후보): 위상 정준화 |
+| E6. 속도/Doppler 비관측인데 'adaptation' 서사 | 부분적으로 맞음 | obs에 속도 없음·무기억 MLP 맞음; 단 Age/EWMA/retx 그리드라는 이력 요약 존재; 'adapts to speed' 주장은 repo에 없음(grep) | 문서가 이미 CSI-신뢰도 프레임 사용; 향후 per-speed 분석 시 귀속 주의만 필요 | doc-fix 1문장 |
+| E7. share_critic_encoder/rzf_alpha_mode 미배선 | 맞음 | grep + 런타임 probe: 엉터리 값에도 동일 state_dict, 검증 오류 없음 | 기본값=하드코딩 동작 일치 → 기존 런 전부 무영향; 전방(flag 뒤집기) 위험만 | code-fix: 삭제 또는 ValueError(수정 전 승인 필요) |
+| F1. '+50% vs best fixed heuristic'은 과장(실제 +3.2% vs SU+CQI) | 부분적으로 맞음 | 산술 재검증(6438/4292=+50%, 6438/6241=+3.2%); RUNS.md §2.4엔 정직한 분해 이미 존재; README:11만 오기 | README 단독 독자는 ~15배 부풀린 인상 — 실제 오기 맞음; 단 RUNS.md에 대한 비난은 과장(MU 풀로 정확히 한정됨) | doc-fix: README 헤드라인 'best MU heuristic'으로 수정 + +3.2% 병기 |
+| F4. JFI -4.7/-6.2%·miss 증가 악화를 문서가 은폐 | 부분적으로 맞음 | official9full CSV에서 수치 정확 재현; JFI 열세는 RUNS.md:283-285에 이미 정량 공개; miss는 MixedSpeed만 유의(+0.3-0.8pp) | GPT도 대칭적으로 누락: PPO total-fail은 -14% 유의 개선(20/20·19/20 시드 승) — 논지·판정 불변 | doc-fix: tradeoff 1문장 추가 |
+| G2. 재개 런 CSV 중복/역행 행 + 11/14-col 스키마 혼합 | 맞음 | scan probe: 전 재개 런 중복 2-23행, Run3 3개 런 스키마 혼합 확인 | 인용 수치 원천(eval_metrics/_analysis CSV)은 중복 0 → 결과 무영향; 제3자 파싱 오독 위험만(감사자 본인처럼) | doc-fix: keep-last 컨벤션·junk-row 영문 명시 |
+| G3. 커밋 단위 코드↔결과 매핑 부재 | 부분적으로 맞음 | 단일 squash 커밋(23bc8aa) 사실; 단 RUNS.md 재현 맵 + per-run CHANGES 문서로 config/서사 수준 provenance 존재 | 훈련 곡선 비트단위 재현 불가(주장한 적 없음); 헤드라인 eval은 재생성 경로 문서화됨 | doc-fix: provenance 표 + git hash stamping 2줄 |
+| G4. 분석 스크립트 절대경로 하드코딩 | 맞음 | 17+개소(stats20.py:24, final20_envelope.py:24 등); 핵심 train/eval 엔트리는 상대경로 | 이식성 마찰뿐, 계산 결과 무영향 | code-fix: 기계적 치환(~15파일) |
+| G5. 의존성 미고정·CI/테스트 부재, 'Sionna 2.x 위험' | 부분적으로 맞음 | requirements/CI/tests 부재 사실; 단 Sionna 2.x는 미존재 릴리스(README:64가 1.x 명시) — 실위험은 TF 버전 드리프트 | 재현이 리졸버 운에 의존; 결과 유효성 무영향, 온보딩 마찰만 | code-fix: requirements.txt 핀 + pip freeze 락 |
+| **③ 이미 알고 있었거나 방어 존재** | | | | |
+| F2. Run4 '+21.4%'는 3-seed 선택-결합 interim 수치 | 맞음 | eval CSV 재현(6020@519 vs 4960); 시드 10000-10002 선택 재사용 확인 | RUNS.md:468-469·README:23이 이미 interim/'so far'로 명시 — 최종으로 제시된 적 없음 | 수확 시 20-seed 최종 eval(기존 프로토콜) + 인라인 라벨 |
+| F3. OOD '+135.7%'는 소분모 시드 부풀림 | 맞음 | per-seed 분모 [285..4742], seed 10000 단독 +688%; pooled 마진 +52.7% | 두 문서 모두 감사 전에 절대값 병기로 자기-공개; 8/8 시드 승리는 집계방식 무관 | doc-fix: pooled/median 병기 |
+| F7. MixedLoad_L2 -21% 붕괴를 best-checkpoint로 구제 | 맞음 | eval CSV: 10087@219 → 7951@1059 정확 | RUNS.md:370-374·lesson 10이 근본원인(엔트로피 소진)까지 공개; 표준 관행, 은폐 아님 | no-action |
+| E3. 'actor/critic 분리 클리핑'은 실제론 encoder가 actor 그룹 — 문서 과장 | 부분적으로 맞음 | ppo.py:149-155 배선 사실; 단 SYSTEM_MODEL.md:471-474와 코드 주석이 정확히 그대로 라인 수준 공개 | '문서 과장' 비난은 거짓 — README 한 줄 축약뿐; 결과 무영향 | no-action(선택: README 한 줄 보강) |
+| E4. 첫 스트림 no-user 금지가 최적성 훼손 | 맞음 | policy.py:400-406; probe: commit-lock으로 +18% 나은 RBG 포기 사례 시연 | 의도·문서화된 설계(SYSTEM_MODEL.md:378-380); 전 baseline 동일 제약 → 비교 무영향 | no-action(선택: 저부하 ablation) |
+| **④ 핵심 주장이 틀림(완전 오류는 0건 — 지엽 사실만 맞음)** | | | | |
+| A3. 로그에서 goodput 복원 불가 → 보상 교정·비교 '재실행 필요' | 부분적으로 맞음(핵심 기각) | per-packet size 미로깅은 사실; 그러나 acked-goodput 갭 0.9-1.7%·순위 불변(probe3), n_comp×8000 근사 가능, 필요시 ckpt에서 eval-only 재계산이면 충분 | 어떤 결과도 무효화되지 않음; 보상은 문서화된 스펙이며 전 스케줄러 동일 → '재실행 필요' 기각(재학습 불필요) | doc-fix + 선택: goodput_mbps 로깅(향후 런) |
+| B2. 'same arrivals' 거짓 → paired CI 통계적으로 무효 | 부분적으로 맞음(핵심 기각) | 문구 오류는 맞음(README:112 등); 그러나 paired-t CI는 커플링과 무관하게 유효(실현 차이로 계산); probe: 공유 채널이 분산 98.6%, corr 0.911, ~8배 분산감소 유지; envelope 마진은 PPO에 보수적 | 20-seed CI·승수·envelope 판정 전부 유효 유지; 'confirmatory 사용 불가'는 통계적으로 기각 | doc-fix: 문구·캡션 수정만(재실행 불필요) |
+
+## 액션 플랜
+
+1. 1. [최우선·신규실험] m-aware LA ablation (C1/C2/C3): config 플래그로 b_tx'=min(backlog, η·1344·log2(1+(2^CQI−1)/m_planned)) 추가 → K16/K32 지점에서 baseline 그리드 + frozen PPO zero-shot eval-only 10-seed(CPU, 재학습 불필요) — 코드 0.5일 + 평가 0.5일. SUS가 여전히 지면 '진짜 물리' 입증, MU가 뒤집히면 SU-vs-MU 섹션 재작성
+2. 2. [문서·즉시] RUNS.md §3.1·§13.3·Uniform10 CHANGES 수정: '물리적 최적 확정' → '현 LA 모델 조건부 최적'으로 격하, idealization 표에 구조적 NACK 수치(IR 1.34/1.64/1.91, pinned 60%, retx-drop 2.6-4.5% vs 0%) + genie 런은 CSI 오차만 격리한다는 문장(C4) — 0.5일 (수정 전 승인 요청)
+3. 3. [문서·즉시] README.md:11 헤드라인 수정: '+50% vs best fixed heuristic' → '+50% vs best MU heuristic; +3.2% vs 최강 휴리스틱 SU+CQI (§2.4 분해 참조)' + row5에 '(interim: 3-seed run-eval)' 인라인 — 10분
+4. 4. [신규실험] 학습 시드 복제 1회 (F6): MixedLoad_L2 또는 QueueMain을 --seed 2025로 재학습해 레시피 재현성 입증 — GPU 확보 시 수 일; 병행으로 fresh-17 방어 재계산 스크립트(~30줄, 아카이브 CSV만 읽음)를 Run3/_analysis_20260702/에 커밋 — 30분
+5. 5. [코드·안전] G1: 래퍼 fresh-start 분기 rm -rf → mv "${RUN_DIR}.stale.$(date +%s)" 아카이브로 교체 + verdict-banked 런의 잔류 wrapper kill — 30분. 단 live 4런(QueueHighLoad/QueueMixedArrival/GenieL2b/GenieFineTune) 래퍼는 절대 mid-run 수정 금지, 다음 재기동 시 적용
+6. 6. [코드·1시간] F5: stats20.py/stats20_ext.py/stats20_ext2.py/final20_envelope.py의 1.96 → scipy.stats.t.ppf(0.975, n-1) + RUNS.md:291-295 CI 끝점 몇 단위 갱신 (판정 변화 0 확인 완료, 재실행 불필요)
+7. 7. [문서 일괄·0.5일] 지표 정의 doc-fix (A1-A3, F4, G2): SYSTEM_MODEL.md/metrics.py에 throughput_mbps=link-layer ACKed-bit(팬텀 ~1-2%, 롤백 없음은 설계)·goodput=completion_rate 명시; RUNS.md §3.4에 tradeoff 문장(JFI -0.034/-0.045·miss +0.3-0.8pp vs total-fail -14%); CSV keep-last 컨벤션·14-col junk row 영문 명시
+8. 8. [문서 일괄·0.5일] 재현성 문구 doc-fix (B1/B2, D1-D3, E1, E6): README:112·SYSTEM_MODEL:509-525 'same arrivals/identical randomness' → '시드=동일 채널·토폴로지·true-CSI·부하 파라미터, 실현 도착·CSI 마스크는 스케줄러 의존(ICC 0.986로 CI 유효)'; σ² cross-world +0.5-0.7dB caveat; Run2 genie를 'true-channel 선택 + 양자화 전송'으로 재라벨하고 Run4 genie 연구로 대체 지시; §9.1에 HARQ-상태 POMDP 단락
+9. 9. [인프라·0.5-1일] G3-G5/E7 정리: requirements.txt 핀(numpy 1.26.4, TF 2.15.0, sionna>=1.0,<2, torch 2.7.1) + pip freeze 락, train_phase2.py에 git hash stamping 2줄, 분석 스크립트 ~15파일 경로 하드코딩 치환, dead config 플래그(share_critic_encoder/rzf_alpha_mode) 삭제 또는 ValueError
+10. 10. [선택·후순위] 저비용 후속: σ² 고정 paired-CSI 10-seed 재평가로 perfect-CSI 순이득 정량화(D1, 수 시간); goodput_mbps/completed_bits_per_ue 로깅 추가(A3, 향후 런); 위상 정준화 + in-flight HARQ feature를 Run5 레시피 후보로 등록(E5/E1); QueueMixedArrival 수확 시 20-seed 최종 eval(F2, 기존 프로토콜)

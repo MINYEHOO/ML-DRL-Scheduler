@@ -47,7 +47,9 @@ use the form `file.py: symbol` so every claim can be checked against source.
   `ood_p_arrival.csv` (generating scripts were ad hoc and not preserved;
   rebuild from the run `config.json` + `baselines.all_baselines` +
   `train_phase2.PPOScheduler` following the Run3 script pattern). All CIs
-  are 95% paired CIs on per-seed differences.
+  are 95% paired CIs on per-seed differences, computed with **Student-t
+  critical values** (earlier drafts used the normal 1.96 approximation; the
+  CIs quoted in this document were updated 2026-07-10, verdicts unchanged).
 - **Honesty note on absolute numbers**: the standards audit
   (`STANDARDS_AUDIT_20260707.md`) found no substantive 3GPP violations but
   one significant idealization — uncapped Shannon spectral efficiency
@@ -63,7 +65,7 @@ use the form `file.py: symbol` so every claim can be checked against source.
 | Run | When | Config delta (vs previous) | Purpose / hypothesis | Headline result |
 |---|---|---|---|---|
 | **Run1 FirstFullRun** | 2026-06-12 → stopped @1199 | First real training: K=16, 3 km/h, p_arr 0.2, deadline U[5,30], p_csi 0.2, value_coef 0.5 | Can the Phase-2 PPO harness learn at all? | **FAILED** — PPO 4046 ≈ SUS+PF 4117; two root causes diagnosed (no headroom; value grad ~34,000× policy grad) |
-| **Run2 HardMain** | 2026-06-15 → 06-21 (2000 upd, ~5.6 d) | Hard point: 30 km/h, p_arr 0.4, dl U[3,12]; optimizer fixes (return norm, separate clip, value_coef 0.25) | Same architecture at an operating point with headroom | **PPO 6438 = +50% vs best MU heuristic (4292), +3.6% vs genie ref (6217)**; mechanism = learned near-SU (depth 1.12) |
+| **Run2 HardMain** | 2026-06-15 → 06-21 (2000 upd, ~5.6 d) | Hard point: 30 km/h, p_arr 0.4, dl U[3,12]; optimizer fixes (return norm, separate clip, value_coef 0.25) | Same architecture at an operating point with headroom | **PPO 6438 = +50% vs best MU heuristic (4292), +3.6% vs a selection-only genie ref (6217; see §2.3 caveat), +3.2% vs the strongest heuristic overall (SU+CQI, §2.4)**; mechanism = learned near-SU (depth 1.12) |
 | **Run3** (5 runs) | late June → 2026-07-06 | K=32 era: p_csi 0.6, entropy 0.02, axes: speed / deadline / K / mixed load / mixed speed | Where exactly does the learned advantage come from? | Single-regime: tie / +2.62% / +1.71%. **Mixed regimes: beats the per-seed oracle envelope by +6.35% / +6.88%** |
 | **Run4 queue family** (5 runs) | 2026-07-06 → (2 still training; 2 verdict-banked runs' auto-resume wrappers were still cycling on 2026-07-10, see §4.3) | One-packet traffic → per-UE FIFO queues (size 8), p_arr 0.22, 2×6 baseline grid | Does the advantage survive when queueing/fairness levers exist for the heuristics? | **+16.8% to +21.4% vs strongest tuned baseline** in every queue environment |
 | **Transfer studies** | 2026-07-06+ | L2b policy on queue env, warm vs fresh, entropy A/B | Do Run3 skills transfer? | Queue-blind zero-shot **+11.4%** (10/10 seeds); warm-start exceeds that ceiling at update 9; fresh first touches it at update 159 and holds above it only from ~update 399 |
@@ -170,12 +172,18 @@ from `Run2/README.md` §6):
 |---|---|---|---|---|---|---|---|---|
 | Best MU heuristic (CQI-greedy) | 4292 | 44 | 6.7 | 0.743 | 0.087 | 0.167 | 0.254 | 1.63 |
 | SU+CQI (hand-coded SU baseline) | 6241 | – | 22.2 | 0.843 | 0.152 | 0.003 | – | 1.00 |
-| Genie reference (perfect CSI) | 6217 | 54 | 9.4 | 0.869 | 0.121 | 0.008 | – | 2.95 |
+| Genie-selection reference (true CSI for *selection* only; transmission still quantized) | 6217 | 54 | 9.4 | 0.869 | 0.121 | 0.008 | – | 2.95 |
 | **PPO (stale CSI)** | **6438** | **57** | 20.6 | 0.854 | 0.140 | 0.004 | 0.144 | 1.12 |
 
 **PPO = +50% vs the best MU heuristic and +3.6% vs the genie reference**,
 12/12 seed wins; PPO's worst seed (5613) beat the heuristics' best seed
 (5510), with the lowest per-seed variance (9.4% vs 14–22%).
+
+**Genie caveat (relabelled 2026-07-10).** The Run2-era genie used the true
+channel for scheduler **selection** only — transmission still used the
+quantized fed-back CSI — so it is *not* a perfect-CSI execution bound. The
+proper perfect-CSI experiments are the Run4 genie studies
+(`pmi_mode=genie`, §6).
 
 ### 2.4 Mechanism: the SU discovery (and the honest framing)
 
@@ -237,11 +245,38 @@ Run2's story ("stale CSI breaks MU") turned out to be incomplete. Offline
 probes (`Run3/_analysis_20260702/mu_physics_probe.py`, depth-cap sweeps)
 established:
 
-- **SU beats MU at *every* p_csi**, including p_csi = 1.0 (fresh feedback).
+- **SU beats MU at *every* p_csi**, including p_csi = 1.0 (fresh feedback) —
+  **under the SU-CQI link-adaptation abstraction used throughout** (see the
+  simulation doc, "Link adaptation and its known bias").
 - A **depth-cap sweep** on the heuristics shows throughput *monotonically
-  decreasing* with allowed MU depth under imperfect CSI — near-SU is the
-  physically optimal operating mode here, so PPO's learned depth ~1.1–1.3 is
-  correct, not a training artifact.
+  decreasing* with allowed MU depth — but the depth-cap and p_csi sweeps and
+  the genie runs **all inherit the link-adaptation artifact** (B_tx sized
+  from the full-power SU CQI, no MU-aware backoff), so they do **not**
+  separate the LA artifact from physics. Near-SU is the optimal operating
+  mode *under this abstraction*; it is **not** established as the
+  unconditional physical optimum, and "MU has no value
+  (quantization-limited)" cannot stand unconditionally: a probe with the
+  artifact removed shows raw PHY sum-SE *increasing* with depth (**+84–89%
+  at the K16 point**).
+  **m-aware LA ablation (2026-07-10, `cfg.mu_aware_la`,
+  `Run4/_analysis/la_ablation_{type2,genie}.csv`, 10 paired seeds at the
+  K=32 mixed point)** — three findings settle the scope of the artifact:
+  (1) *the mechanism is real and the flag removes it*: MU-heuristic
+  retx-drop collapses 0.049 → 0.0003 (type2) and 0.026 → 0.000 (genie);
+  (2) *but the artifact cuts both ways*: the retransmission pinning it
+  causes also acts as an implicit "serve this packet to completion" aid, so
+  removing it raises deadline misses (SUS+CQI 0.122 → 0.164) — tax and
+  subsidy roughly cancel, and the MU-vs-SU heuristic balance barely moves
+  (SUS+CQI over SU+CQI: +4.5% → +4.1% under fair LA, both 5/10 = tie-ish);
+  (3) *quantization, not the LA artifact, remains the first-order wall*: in
+  the genie world (quantization removed, same old LA) MU is already revived
+  to parity/slight advantage (+10.7%, 5/10). Frozen PPO-L2b stays #1 under
+  both LA rules in both worlds (type2: +15.0% old / +6.8% fair vs
+  best-of-{SU+CQI, SUS+CQI}), with the reduced fair-LA margin consistent
+  with regime lock-in (it was trained under the old rule; retraining under
+  m-aware LA is future work). PPO's learned depth ~1.1–1.3 in Run3 remains
+  the correct response to the environment as modeled, not a training
+  artifact.
 - The bottleneck is **codebook quantization**, not staleness: the
   Type-II-like 56-bit PMI (`codebook.py: Type2SparseCodebook`, 4 atoms ×
   (9+3+2) bits) achieves direction correlation only ~0.86–0.88, and RZF
@@ -288,19 +323,20 @@ strong as possible before any PPO claim:
 
 | Run | Axis changed (only variable vs its sibling) | Final verdict (paired, pre-declared n) |
 |---|---|---|
-| `Uniform10_Ent002` | K16, 10 km/h, p_csi 0.6 — "is near-SU physics or under-exploration?" | **TIE** vs SU+CQI: +0.36%, CI [−24, +74], 24/40 (n=40) |
-| `DeadlineScarcity` | deadline U[3,12] → **U[2,6]** | **WIN** vs SU+CQI: **+2.62%**, CI [+82, +258], 38/60 (n=60, pre-declared) |
-| `ScarcityK32` | K 16 → **32** (all active) | **WIN** vs SUS+CQI@0.8: **+1.71%**, CI [+35, +322], 26/40 (n=40) |
-| `MixedLoad_L2` | K=32, **n_active ~ U[16,32] per episode**, 15 km/h | **Beats per-seed oracle envelope +6.35%**, CI [+338, +803], 17/20 (n=20) |
-| `MixedSpeed_L2` → `L2b` | + **per-UE speeds U(5,30) km/h per episode** | **Beats per-seed oracle envelope +6.88%**, CI [+410, +824], 16/20 (n=20) |
+| `Uniform10_Ent002` | K16, 10 km/h, p_csi 0.6 — "is near-SU physics or under-exploration?" | **TIE** vs SU+CQI: +25.3 (+0.36%), CI [−25.4, +76.0], 24/40 (n=40) |
+| `DeadlineScarcity` | deadline U[3,12] → **U[2,6]** | **WIN** vs SU+CQI: **+169.8 (+2.62%)**, CI [+79.9, +259.7], 38/60 (n=60, pre-declared) |
+| `ScarcityK32` | K 16 → **32** (all active) | **WIN** vs SUS+CQI@0.8: **+178.6 (+1.71%)**, CI [+30.7, +326.5], 26/40 (n=40) |
+| `MixedLoad_L2` | K=32, **n_active ~ U[16,32] per episode**, 15 km/h | **Beats per-seed oracle envelope +570.5 (+6.35%)**, CI [+322.1, +819.0], 17/20 (n=20) |
+| `MixedSpeed_L2` → `L2b` | + **per-UE speeds U(5,30) km/h per episode** | **Beats per-seed oracle envelope +617.0 (+6.88%)**, CI [+395.7, +838.2], 16/20 (n=20) |
 
 **Uniform10_Ent002** settled the Run2 debate: with fresher CSI (p_csi 0.6,
 10 km/h) and doubled exploration entropy, PPO *still* converged to near-SU
-(depth ~1.03) — the physical-optimum explanation wins (a 0.05-entropy
+(depth ~1.03) — the physical-optimum explanation wins under the SU-CQI
+LA abstraction (see the §3.1 caveat) (a 0.05-entropy
 sibling, "Ent005", diverged and was abandoned; 0.02 became the Run3
 standard). Statistically this run is also the protocol cautionary tale: at
 n=20 the margin over SU+CQI was "+1.08%, significant"; doubling to n=40
-collapsed it to +0.36%, CI [−24, +74] → **tie**. Verdict: in the
+collapsed it to +0.36%, CI [−25.4, +76.0] → **tie**. Verdict: in the
 uncongested K16 regime, SU+CQI *is* the ceiling and PPO reaches it.
 
 **DeadlineScarcity** changed exactly one knob — deadlines U[2,6] — to make
@@ -328,7 +364,7 @@ verdict: PPO 9560 vs SUS+CQI@0.8 8550 (**+11.81%, 20/20**), vs the strongest
 (+9.03%, 18/20), and — the defense experiment that pre-empts the "adaptation
 is just one if-statement" reviewer objection — vs the **per-episode oracle
 envelope** (the better of SU+CQI / SUS+CQI@0.8 chosen per seed by an oracle)
-8989: **+6.35%, CI [+338, +803], 17/20**. The advantage does not come from
+8989: **+570.5 (+6.35%), CI [+322.1, +819.0], 17/20**. The advantage does not come from
 mode *selection* but from within-episode behavior (triage + selective
 pairing); a realizable switch is nearly useless because episode n_active is
 not directly observable.
@@ -522,7 +558,7 @@ percentages — absolute rewards quoted where that bites):
 | 0.22 | in-distribution (QueueMain point) | **+10.2 %** | 8/8 |
 | 0.33 | in-distribution (QueueHighLoad point) | **+20.1 %** | 8/8 |
 | 0.45 | OOD (high) | **+44.2 %** | 8/8 |
-| 0.50 | OOD (far) | **+135.7 %** (per-seed % inflated by small baseline denominators — quote the absolute too: PPO 4236 vs 2774) | 8/8 |
+| 0.50 | OOD (far) | **+135.7 %** per-seed mean; pooled margin **+52.7 %** (per-seed percentage means are inflated by near-zero baseline denominators — quote the absolute too: PPO 4236 vs baseline 2774) | 8/8 |
 
 **Conclusion: no overfitting cliff at the training-distribution boundary.**
 Upward extrapolation is robust — as load rises past the training range the
@@ -561,6 +597,16 @@ Setup: `pmi_mode=genie` (`codebook.py: GenieCodebook`, BS uses
 `h_hat == h_true`) plus p_csi = 1.0, in the otherwise exact MixedSpeed_L2b
 environment. Purpose: separate "the policy exploits CSI imperfection" from
 "the policy is a good scheduler".
+
+Two scope caveats (2026-07-10): (a) the genie isolates the
+**CSI-quantization/staleness cost only** — the SU-CQI link-adaptation bias
+(simulation doc, "Link adaptation and its known bias") persists unchanged in
+the genie world, so the genie results do not bound or remove that artifact;
+(b) σ² is recalibrated per CSI-world (10 dB median SU SNR in each), so
+**cross-world absolute rewards must not be compared** — the within-world
+20-seed zero-shot +8.1% result below is unaffected, and the paired
+same-noise +4.7% figure is the conservative per-policy gain from perfect
+CSI.
 
 **Zero-shot, 20 seeds, paired** (`Run4/_analysis/genie_zeroshot_l2b_20seed.csv`):
 the *unchanged* L2b policy (trained entirely under imperfect CSI) scores
@@ -642,6 +688,15 @@ engineered lever).
    is not a result.
 5. **Run the defense experiments yourself** (oracle envelope, realizable
    hybrid switch) before a reviewer asks.
+
+**Data-handling conventions** (for anyone re-deriving numbers): training
+CSVs of resumed runs contain **duplicate update rows**, and a mid-Run3
+schema change widened rows from 11 to 14 columns — analysis takes the
+**last** row per update. The headline numbers come from the eval CSVs and
+the `_analysis` exports, which contain no duplicates. Statistics protocol
+note: comparisons use paired seeds throughout; CIs use **Student-t**
+critical values; the run-time eval seeds 10000–10002 double as selection
+seeds, so robustness was re-checked excluding them (verdicts unchanged).
 
 **Training-recipe lessons:**
 

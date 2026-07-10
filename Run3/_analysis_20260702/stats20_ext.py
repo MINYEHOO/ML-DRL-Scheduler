@@ -17,6 +17,9 @@ import csv as csvmod          # noqa: E402
 import json                   # noqa: E402
 import time                   # noqa: E402
 
+from scipy import stats as _scistats
+def _tcrit(n):
+    return float(_scistats.t.ppf(0.975, n - 1))
 import numpy as np            # noqa: E402
 import torch                  # noqa: E402
 
@@ -87,6 +90,6 @@ for name, r in res.items():
         continue
     d = ppo - np.array(r)
     se = d.std(ddof=1) / np.sqrt(len(d))
-    print(f"  PPO - {name}: {d.mean():+8.1f} (95% CI +-{1.96*se:.1f} paired)  "
+    print(f"  PPO - {name}: {d.mean():+8.1f} (95% CI +-{_tcrit(len(d))*se:.1f} paired)  "
           f"wins {int((d > 0).sum())}/{len(d)}  rel {d.mean()/np.mean(r):+.2%}")
 print(f"[{RUN}] done in {time.time()-t0:.0f}s -> {out_path}")

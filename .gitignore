@@ -21,3 +21,6 @@ Run3/**/csv_logs_polluted_backup/
 
 # watchdog markers
 Run*/**/.wd_marker
+
+# local bundles
+*.zip

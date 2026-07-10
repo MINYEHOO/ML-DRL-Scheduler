@@ -369,6 +369,35 @@ class SchedulerEnv:
         sel_ue = [s.copy() for s in self.initial_S_r]
         rbg_closed = np.zeros(cfg.num_rbg, dtype=bool)
 
+        # m-aware link adaptation (cfg.mu_aware_la, default OFF = historical):
+        # size B_tx with the per-stream power split the gNB itself is about to
+        # create, instead of the full-power SU CQI. m_planned counts, per RBG,
+        # the retx-pinned layers plus the allocation's admissible new entries
+        # (same pre-checks as the creation loop below, minus the b_tx-epsilon
+        # self-reference -- a later epsilon drop makes the sizing conservative).
+        # Fixes the structural first-NACK of depth>=2 (GPT-audit C-cluster).
+        m_planned = None
+        if cfg.mu_aware_la:
+            m_planned = self.fixed_mask.sum(axis=1).astype(int)   # [R]
+            _seen = [set(s) for s in self.initial_S_r]
+            _closed = np.zeros(cfg.num_rbg, dtype=bool)
+            for l in range(cfg.l_max):
+                for r in range(cfg.num_rbg):
+                    if self.fixed_mask[r, l] or _closed[r]:
+                        continue
+                    k = int(allocation[r, l]) if allocation[r, l] > 0 else 0
+                    if k == 0:
+                        _closed[r] = True
+                        continue
+                    u = k - 1
+                    if not (0 <= u < cfg.num_ue) or u in _seen[r]:
+                        continue
+                    pkt = self.traffic.packets[u]
+                    if pkt is None or pkt.uncommitted_backlog <= 0:
+                        continue
+                    m_planned[r] += 1
+                    _seen[r].add(u)
+
         # free positions, layer-major order
         for l in range(cfg.l_max):
             for r in range(cfg.num_rbg):
@@ -388,8 +417,15 @@ class SchedulerEnv:
                 pkt = self.traffic.packets[u]
                 if pkt is None or pkt.uncommitted_backlog <= 0:
                     continue
-                b_tx = min(pkt.uncommitted_backlog,
-                           float(predict_b_tx(self.csi.cqi_fb[u, r], cfg)))
+                if m_planned is not None and m_planned[r] > 1:
+                    # de-rate the fed-back SU CQI by the planned stream count:
+                    # SE_m = log2(1 + (2^CQI - 1) / m)
+                    snr_su = 2.0 ** float(self.csi.cqi_fb[u, r]) - 1.0
+                    se_m = np.log2(1.0 + snr_su / float(m_planned[r]))
+                    b_tx_cap = cfg.eta_data * cfg.n_re_rbg * cfg.beta_rate * se_m
+                else:
+                    b_tx_cap = float(predict_b_tx(self.csi.cqi_fb[u, r], cfg))
+                b_tx = min(pkt.uncommitted_backlog, b_tx_cap)
                 if b_tx < cfg.b_tx_epsilon:
                     continue
                 if pkt.uncommitted_backlog - b_tx < cfg.b_tx_epsilon:

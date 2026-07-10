@@ -17,6 +17,9 @@ import csv as csvmod          # noqa: E402
 import json                   # noqa: E402
 import time                   # noqa: E402
 
+from scipy import stats as _scistats
+def _tcrit(n):
+    return float(_scistats.t.ppf(0.975, n - 1))
 import numpy as np            # noqa: E402
 import torch                  # noqa: E402
 
@@ -98,7 +101,7 @@ for tag, ref in (("SUS-CQI@0.8", np.array([per["SUS-CQI@0.8"][s] for s in SEEDS]
                  ("oracle-envelope", envl)):
     d = ppo - ref
     se = d.std(ddof=1) / np.sqrt(len(d))
-    lo, hi = d.mean() - 1.96 * se, d.mean() + 1.96 * se
+    lo, hi = d.mean() - _tcrit(len(d)) * se, d.mean() + _tcrit(len(d)) * se
     v = "유의한 승" if lo > 0 else ("유의한 패" if hi < 0 else "동률")
     print(f"  PPO - {tag}: {d.mean():+8.1f} CI[{lo:+.0f},{hi:+.0f}] "
           f"{int((d > 0).sum())}/{len(d)}승 ({d.mean()/ref.mean():+.2%}) -> {v}")

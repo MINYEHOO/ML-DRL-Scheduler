@@ -109,6 +109,13 @@ class Config:
     eta_data: float = 1.0          # fraction of REs carrying data
     beta_rate: float = 1.0         # rate backoff for B_tx prediction
     b_tx_epsilon: float = 1.0      # bits; predicted B_tx below this -> no unit
+    # m-aware link adaptation (2026-07-10, external-audit C-cluster ablation):
+    # False (default/historical) = B_tx sized from the full-power SU CQI even
+    # when m>1 co-scheduled streams share the RBG power -> depth>=2 first
+    # transmissions are structurally NACKed (no OLLA; an anti-MU landscape).
+    # True = env de-rates B_tx by the planned stream count at unit creation:
+    # SE_m = log2(1 + (2^CQI - 1)/m). Scheduler-side predictions/obs unchanged.
+    mu_aware_la: bool = False
 
     # ---- power / noise ----
     p_total: float = 8.0           # normalized total BS power (P_r = 1 per RBG)

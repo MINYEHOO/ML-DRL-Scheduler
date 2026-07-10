@@ -1,0 +1,9 @@
+# Tested environment (2026-07, Ubuntu 22.04 / CUDA 11.8; CPU-only also works).
+# NOTE: code targets the Sionna 1.x (TensorFlow-based) API -- do NOT install
+# a hypothetical 2.x line without checking the channel-generation API.
+numpy==1.26.4
+scipy>=1.10
+tensorflow==2.15.0
+sionna>=1.0,<2
+torch>=2.0            # tested with 2.7.1+cu118; CPU build fine
+tensorboard>=2.15

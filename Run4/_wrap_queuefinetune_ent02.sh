@@ -17,7 +17,7 @@ for i in $(seq 1 1000); do
     ARGS="--resume $RUN_DIR/ckpt/latest.pt"
   else
     # fork lost its ckpt (should not happen) -> rebuild from the L2b init
-    [ -n "$RUN_DIR" ] && rm -rf "$RUN_DIR"
+    [ -n "$RUN_DIR" ] && [ -e "$RUN_DIR" ] && mv "$RUN_DIR" "${RUN_DIR}.stale.$(date +%s)"
     ARGS="--run_root Run4 --run_name QueueFineTuneEnt02 --init_from Run4/_init_from_L2b/l2b_padded_init.pt"
   fi
   echo "===== [wrap] attempt $i $(date '+%F %T') :: $ARGS =====" >> "$LOG"

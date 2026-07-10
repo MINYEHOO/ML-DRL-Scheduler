@@ -284,13 +284,42 @@ No per-RE link simulation. The abstraction (`phy.py: mi_bits()`,
   L_max=4 pending units collide in one RBG, the earliest-deadline four are
   kept and the rest become retx-overflow packet drops
   (`transmission.py:134-162`).
-- **Standards mapping** (audit §2): a unit ≡ **CBG-based HARQ** (independent
-  A/N per unit, ≤8 units/UE ≡ maxCodeBlockGroupsPerTransportBlock=8); a UE's
+- **Standards mapping** (audit §2): a unit is a **CBG-like per-RBG
+  abstraction** (independent A/N per unit; ≤8 units/UE mirrors
+  maxCodeBlockGroupsPerTransportBlock=8; one TB/MCS spanning a CBG group is
+  **not** modeled); a UE's
   multi-RBG rank-1 allocation ≡ one PDSCH with RA Type 0 + PRG subband
   precoding; RBG pinning is a standard-permitted gNB restriction adopted to
   keep the DRL action space stationary. HARQ RTT is 1 slot with error-free
   A/N (idealization; favors the retx-heavy MU baselines → PPO margins are
   lower bounds).
+
+### 7.1 Link adaptation and its known bias
+
+`B_tx` is sized from the fed-back **full-power SU CQI**
+(`phy.py: predict_b_tx()`) even when m > 1 streams share the RBG power (each
+stream then gets P_r/m plus residual inter-stream interference). Under
+ideal-IR HARQ this makes depth ≥ 2 **first transmissions structurally NACK**:
+even with perfect, mutually orthogonal CSI, the required IR rounds at the
+10 dB operating point are **1.34 / 1.64 / 1.91 for m = 2/3/4**. Measured
+consequences: ~60 % of the MU heuristics' scheduled positions are pinned on
+retransmissions, and a retx-drop failure channel (2.6–4.5 %) opens that SU
+strategies never face. This models a gNB with **no MU-aware backoff and no
+OLLA** — a deliberate abstraction, applied identically to every scheduler
+(PPO and all baselines) — and it tilts the landscape against deep MU. For
+the ablation, the flag `cfg.mu_aware_la` (added 2026-07-10; default False =
+historical behavior) makes the env de-rate B_tx by the planned stream count:
+SE_m = log₂(1 + (2^CQI − 1)/m).
+
+Ablation outcome (10 paired seeds, K=32 mixed point; see
+`Run4/_analysis/la_ablation_{type2,genie}.csv` and docs/RUNS.md §3.1): the
+de-rate removes the structural NACK entirely (MU retx-drop → ~0), **but the
+artifact is double-edged** — its retransmission pinning also served as an
+implicit serve-to-completion mechanism, so removing it raises deadline
+misses and the net MU-vs-SU heuristic balance barely moves (+4.5% → +4.1%).
+The first-order MU limiter in this simulator is codebook quantization, not
+the LA artifact; conclusions about MU value remain conditional on this LA
+abstraction either way.
 
 ## 8. Traffic and QoS
 
@@ -352,6 +381,13 @@ Re/Im of direction (64) + CQI/8 + min(Age,50)/50 + backlog/B_norm +
 deadline/deadline_max + avg_thr/B_norm + active flag = **70 dims**; queue mode
 appends queue_len/8, queue_bits/(8·B_norm), next_deadline/deadline_max →
 **73 dims** (`policy.py:72-81`). B_norm = 8000 = mean packet size.
+
+**Formally a POMDP.** In-flight HARQ state — per-unit accumulated mutual
+information and attempt counts — is not part of the observation, so identical
+observations can precede different ACK/drop outcomes; the decision process is
+formally a POMDP rather than an MDP. All baselines act on the same
+information (strict parity), so no scheduler is advantaged by the hidden
+state.
 
 ### 9.2 Action space: 8×4 autoregressive (`policy.py: decode()`)
 
@@ -417,6 +453,11 @@ user rule 2026-07-06). The underlying per-episode records come from
 `train_phase2.py: env_episode_metrics()` (logs mu_depth and each failure
 component; total failure = their sum, derived in analysis) and
 `metrics.py: run_episode()`; **JFI is computed over active UEs only** in both.
+
+Throughput definition: `throughput_mbps` counts **link-layer ACKed bits**.
+Bits of packets that are later dropped (deadline miss / retx exhaustion)
+remain counted — measured at ~1–2 % of the total; there is no rollback, by
+design. Application-level goodput is tracked by `completion_rate`.
 
 ## 11. Baseline Schedulers (`baselines.py`)
 
@@ -545,7 +586,7 @@ the retransmission-reliant MU baselines.
 | Simulation mechanism | NR equivalent (clause) |
 |---|---|
 | Multi-RBG rank-1 allocation per UE (`env.py:386-401`) | One PDSCH, RA Type 0 bitmap + PRG subband precoding (TS 38.214 §5.1.2.2.1, §5.1.2.3) |
-| Per-(UE,RBG) retx unit, ≤8/UE, independent A/N (`transmission.py`) | CBG-based HARQ, maxCBG/TB = 8 (TS 38.214 §5.1.7); RBG pinning = permitted gNB restriction |
+| Per-(UE,RBG) retx unit, ≤8/UE, independent A/N (`transmission.py`) | CBG-like per-RBG abstraction (cf. CBG-based HARQ, maxCBG/TB = 8, TS 38.214 §5.1.7; one TB/MCS per CBG group is **not** modeled); RBG pinning = permitted gNB restriction |
 | One report updates all 8 RBGs (`csi.py:157-167`) | 8-PRB CSI subband, single report covers all subbands (TS 38.214 Tab. 5.2.1.4-2) |
 | B_tx fixed across retx (`transmission.py:41`) | TBS invariance on retransmission (TS 38.214 §5.1.3.2) |
 | Hard per-packet deadlines, in-queue expiry (`traffic.py`) | Delay-critical GBR PDB accounting / PDCP discardTimer (TS 23.501 §5.7.3.4, TS 38.323) |
@@ -559,6 +600,7 @@ the retransmission-reliant MU baselines.
 |---|---|---|---|
 | **Uncapped Shannon SE + continuous CQI** (no 7.4063 b/s/Hz cap, no CQI/MCS tables) | `phy.py:152-167`, `csi.py:42` | **SU operation** (SU baselines *and* PPO's SU mode): 24.3 % of SU attempts exceed the cap vs 0.21 % of MU | Top of the limitations list; SU-vs-MU gap partly cap-inflated; PPO-vs-SU-baseline gap conservative. Defend with a capped-SE ablation |
 | Ideal IR HARQ (lossless MI accumulation, deterministic ACK) | `transmission.py:204-219` | Mildly favors retx-reliant **MU** strategies | Absolute completion inflated; upper bound on LDPC/RV combining |
+| **SU-CQI link adaptation without MU backoff / OLLA** (B_tx from full-power SU CQI even at depth m > 1) | `phy.py: predict_b_tx()`, `env.py:391-401` | **SU-leaning strategies** (depth ≥ 2 first transmissions structurally NACK under ideal IR; §7.1) | Depth-cap / p_csi / genie conclusions are conditional on this abstraction; ablation flag `cfg.mu_aware_la` (2026-07-10) |
 | 1-slot HARQ RTT, error-free A/N (real: ≥4–8 slots) | `env.py:162`, `transmission.py:215-219` | Retx-heavy **MU baselines**, tight-deadline feasibility | **PPO margins are lower bounds**; deadlines live on a compressed timescale |
 | Zero-latency CSI (min Age 0; real ≥4–5 slots) | `env.py:147-183` | All schedulers' MU/RZF null quality | Stale-CSI degradation reported is a lower bound → conservative for the Age-aware PPO |
 | eta_data = 1.0 (no DM-RS/PDCCH/CSI-RS overhead) | `config.py:109` | Uniform ~8–25 % absolute inflation | Comparisons overhead-invariant (load calibrated on same capacity) |
@@ -571,6 +613,7 @@ the retransmission-reliant MU baselines.
 | Per-subband full PMI re-selection (beyond Rel-15) | `codebook.py` | All schedulers' RZF accuracy | Offset by ~3× payload; applied uniformly |
 | No per-antenna power constraint (sum power only) | `phy.py:103-105` | Neutral (peak/avg ≤2.7 dB) | One-sentence flag |
 | σ² per-episode re-fit; non-physical link budget | `phy.py:29-57` | Neutral across schedulers; marginal PPO training stability | Never quote absolute power |
+| σ² calibrated **per CSI-world** to a 10 dB median SU SNR | `phy.py: sigma2_from_gain()` | Neutral within a world | **Cross-world ABSOLUTE reward comparisons are invalid** (σ² differs by ~0.5–0.7 dB between the quantized and genie worlds); within-world comparisons unaffected |
 | Equal per-stream power (no waterfilling) | `phy.py:105` | **Conservative for MU/PPO** (asset) | MU/PPO gains are understated on this axis |
 | All-outdoor UEs (indoor_probability=0, no O2I) | `config.py:60` | ~Neutral; removes worst-case deep-O2I UEs, mildly friendly to MU pairing | Scenario simplification vs the TR 38.901 evaluation assumption of 80 % indoor; one-sentence flag |
 | Ideal control plane (PDCCH/DCI capacity unmodeled) | slot loop, `env.py:352-404` | Neutral across schedulers; slight absolute-capacity inflation at high K | Up to 32 allocations + multi-PDSCH DCIs cost 0 REs; CORESET / blind-decode / CCE limits (TS 38.213 §10.1) out of scope |
