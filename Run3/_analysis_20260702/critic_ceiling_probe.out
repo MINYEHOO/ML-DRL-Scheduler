@@ -1,0 +1,30 @@
+policy: best.pt update 29 (eval 9179), K=32, episode_len=1000
+  rollout 5/30  ep_rew     3924  (157s)
+  rollout 10/30  ep_rew     6652  (411s)
+  rollout 15/30  ep_rew     5957  (568s)
+  rollout 20/30  ep_rew     5527  (871s)
+  rollout 25/30  ep_rew     6633  (1015s)
+  rollout 30/30  ep_rew     6099  (1208s)
+
+rollouts done (1208s). samples: train 16800, test 4200
+
+=== held-out R^2 (== achievable-ev proxy), gamma=0.99, tail 300 dropped ===
+return target     6-scalar ridge  rich ridge  rich MLP
+TOTAL                     -0.993       0.516     0.404
+short(bits)               -1.258       0.281     0.262
+completion                -0.861       0.367     0.387
+miss(-2x)                  0.019       0.557     0.089
+
+top-10 |ridge coef| (standardized), TOTAL return:
+  avgthr             +92.4
+  cqi_mean_act       +73.8
+  slot_phase         -65.7
+  cqi_mean_all       +30.7
+  cqi_max_act        -30.7
+  unc_tot            -23.5
+  dlcnt_b4           +17.7
+  n_active           +15.8
+  dlcnt_b3            +9.3
+  n_hasdata           -6.6
+
+total time 1252s

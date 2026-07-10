@@ -1,0 +1,64 @@
+[MixedLoad_L2] seed 10000 SU-CQI         7952.5  depth 1.00  (13s)
+[MixedLoad_L2] seed 10000 SUS-CQI@0.8    6281.6  depth 3.98  (15s)
+[MixedLoad_L2] seed 10000 Hybrid<= 10    6307.8  depth 3.97  (17s)
+[MixedLoad_L2] seed 10000 Hybrid<= 14    6177.2  depth 3.78  (20s)
+[MixedLoad_L2] seed 10000 Hybrid<= 18    7534.5  depth 2.23  (21s)
+[MixedLoad_L2] seed 10000 Hybrid<= 22    7952.5  depth 1.00  (23s)
+[MixedLoad_L2] seed 10000 PPO-best       7833.2  depth 1.79  (47s)
+[MixedLoad_L2] seed 10001 SU-CQI         8106.3  depth 1.00  (60s)
+[MixedLoad_L2] seed 10001 SUS-CQI@0.8   10035.8  depth 3.95  (64s)
+[MixedLoad_L2] seed 10001 Hybrid<= 10   10026.4  depth 3.95  (67s)
+[MixedLoad_L2] seed 10001 Hybrid<= 14    9903.8  depth 3.91  (70s)
+[MixedLoad_L2] seed 10001 Hybrid<= 18    9141.5  depth 3.22  (72s)
+[MixedLoad_L2] seed 10001 Hybrid<= 22    8208.6  depth 1.93  (75s)
+[MixedLoad_L2] seed 10001 PPO-best      10980.2  depth 2.78  (97s)
+[MixedLoad_L2] seed 10002 SU-CQI         7570.9  depth 1.00  (110s)
+[MixedLoad_L2] seed 10002 SUS-CQI@0.8   10701.7  depth 3.97  (113s)
+[MixedLoad_L2] seed 10002 Hybrid<= 10   10701.7  depth 3.97  (116s)
+[MixedLoad_L2] seed 10002 Hybrid<= 14   10587.6  depth 3.96  (120s)
+[MixedLoad_L2] seed 10002 Hybrid<= 18   10428.6  depth 3.76  (123s)
+[MixedLoad_L2] seed 10002 Hybrid<= 22    8635.4  depth 2.72  (126s)
+[MixedLoad_L2] seed 10002 PPO-best      11406.4  depth 3.09  (150s)
+
+=== MixedLoad_L2 (PPO ckpt upd 119, eval 10071) ===
+  SU-CQI         mean   7876.6  per-seed ['7953', '8106', '7571']
+  SUS-CQI@0.8    mean   9006.4  per-seed ['6282', '10036', '10702']
+  Hybrid<= 10    mean   9012.0  per-seed ['6308', '10026', '10702']
+  Hybrid<= 14    mean   8889.5  per-seed ['6177', '9904', '10588']
+  Hybrid<= 18    mean   9034.9  per-seed ['7534', '9142', '10429']
+  Hybrid<= 22    mean   8265.5  per-seed ['7953', '8209', '8635']
+  PPO-best       mean  10073.3  per-seed ['7833', '10980', '11406']
+  oracle-envelope mean   9563.3  (per-episode perfect switch)
+  best hybrid = Hybrid<= 18 (9034.9);  PPO 10073.3  -> PPO vs best-hybrid +11.49%, vs envelope +5.33%
+[MixedSpeed_L2] seed 10000 SU-CQI         8121.4  depth 1.00  (163s)
+[MixedSpeed_L2] seed 10000 SUS-CQI@0.8    6077.9  depth 3.98  (166s)
+[MixedSpeed_L2] seed 10000 Hybrid<= 10    6185.1  depth 3.98  (169s)
+[MixedSpeed_L2] seed 10000 Hybrid<= 14    6139.5  depth 3.84  (172s)
+[MixedSpeed_L2] seed 10000 Hybrid<= 18    7598.8  depth 2.29  (174s)
+[MixedSpeed_L2] seed 10000 Hybrid<= 22    8121.4  depth 1.00  (176s)
+[MixedSpeed_L2] seed 10000 PPO-best       7817.6  depth 1.20  (197s)
+[MixedSpeed_L2] seed 10001 SU-CQI         8135.2  depth 1.00  (208s)
+[MixedSpeed_L2] seed 10001 SUS-CQI@0.8    9941.1  depth 3.95  (211s)
+[MixedSpeed_L2] seed 10001 Hybrid<= 10    9941.1  depth 3.95  (213s)
+[MixedSpeed_L2] seed 10001 Hybrid<= 14    9915.9  depth 3.90  (215s)
+[MixedSpeed_L2] seed 10001 Hybrid<= 18    8857.1  depth 3.25  (217s)
+[MixedSpeed_L2] seed 10001 Hybrid<= 22    8184.3  depth 1.92  (219s)
+[MixedSpeed_L2] seed 10001 PPO-best       9986.1  depth 2.16  (242s)
+[MixedSpeed_L2] seed 10002 SU-CQI         7590.8  depth 1.00  (251s)
+[MixedSpeed_L2] seed 10002 SUS-CQI@0.8   10797.7  depth 3.97  (253s)
+[MixedSpeed_L2] seed 10002 Hybrid<= 10   10797.7  depth 3.97  (256s)
+[MixedSpeed_L2] seed 10002 Hybrid<= 14   10815.3  depth 3.97  (258s)
+[MixedSpeed_L2] seed 10002 Hybrid<= 18   10382.2  depth 3.77  (260s)
+[MixedSpeed_L2] seed 10002 Hybrid<= 22    8624.0  depth 2.68  (262s)
+[MixedSpeed_L2] seed 10002 PPO-best       9666.1  depth 2.41  (284s)
+
+=== MixedSpeed_L2 (PPO ckpt upd 29, eval 9179) ===
+  SU-CQI         mean   7949.1  per-seed ['8121', '8135', '7591']
+  SUS-CQI@0.8    mean   8938.9  per-seed ['6078', '9941', '10798']
+  Hybrid<= 10    mean   8974.6  per-seed ['6185', '9941', '10798']
+  Hybrid<= 14    mean   8956.9  per-seed ['6139', '9916', '10815']
+  Hybrid<= 18    mean   8946.1  per-seed ['7599', '8857', '10382']
+  Hybrid<= 22    mean   8309.9  per-seed ['8121', '8184', '8624']
+  PPO-best       mean   9156.6  per-seed ['7818', '9986', '9666']
+  oracle-envelope mean   9620.0  (per-episode perfect switch)
+  best hybrid = Hybrid<= 10 (8974.6);  PPO 9156.6  -> PPO vs best-hybrid +2.03%, vs envelope -4.82%

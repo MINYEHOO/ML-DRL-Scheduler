@@ -1,0 +1,20 @@
+
+### Uniform10_Ent002 (champion SU-CQI = 7325.2)
+  SUS+PF@0.8       rew   6299.0  thr  54.31  comp 0.873  depth 3.60  vs champ -14.0%  (19s)
+  SUS+vPF@0.8      rew   6261.6  thr  54.06  comp 0.871  depth 3.63  vs champ -14.5%  (24s)
+
+### DeadlineScarcity (champion SU-CQI = 6677.9)
+  SUS+PF@0.8       rew   5357.9  thr  52.39  comp 0.744  depth 3.52  vs champ -19.8%  (41s)
+  SUS+vPF@0.8      rew   5242.1  thr  51.61  comp 0.739  depth 3.53  vs champ -21.5%  (46s)
+
+### ScarcityK32 (champion SUS-CQI@0.8 = 10178.9)
+  SUS+PF@0.8       rew   8663.1  thr  86.20  comp 0.779  depth 3.99  vs champ -14.9%  (75s)
+  SUS+vPF@0.8      rew   8636.1  thr  85.61  comp 0.778  depth 3.99  vs champ -15.2%  (82s)
+
+### MixedLoad_L2 (champion PPO/SUS-CQI@0.8 = 9006.4)
+  SUS+PF@0.8       rew   8110.2  thr  77.29  comp 0.798  depth 3.98  vs champ -10.0%  (111s)
+  SUS+vPF@0.8      rew   8043.9  thr  76.61  comp 0.796  depth 3.99  vs champ -10.7%  (117s)
+
+### MixedSpeed_L2 (champion PPO/SUS-CQI@0.8 = 8938.9)
+  SUS+PF@0.8       rew   8008.1  thr  76.49  comp 0.795  depth 3.98  vs champ -10.4%  (146s)
+  SUS+vPF@0.8      rew   7979.5  thr  76.13  comp 0.795  depth 3.98  vs champ -10.7%  (152s)

@@ -1,0 +1,23 @@
+# --- noise / bulk excluded from the public record ---
+__pycache__/
+*.pyc
+*.bak
+
+# training telemetry too bulky / non-essential
+*_run.log
+Run*/**/tb_logs/
+runs/
+
+# resume snapshots (best.pt IS tracked; latest.pt is operational state only)
+Run*/**/ckpt/latest.pt
+Run*/**/ckpt/latest_polluted.pt
+
+# historical backups (lessons preserved in docs)
+phase1_backup/
+Run*/code_backup/
+Run3/_watchdog.log
+Run3/_resurrection_20260706_backup/
+Run3/**/csv_logs_polluted_backup/
+
+# watchdog markers
+Run*/**/.wd_marker
