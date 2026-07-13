@@ -35,6 +35,7 @@ RUNS=(
   # Run3 training phase CLOSED 2026-07-02/06 (all best.pt preserved).
   "Run4/GenieFineTune:genie_finetune:Run4/_wrap_genie_finetune.sh"  # GPU3, genie warm-start 2026-07-09
   "Run4/QueueMixedFairLA:queuemixedfairla:Run4/_wrap_queuemixedfairla.sh"  # GPU5, fair-LA 2026-07-10
+  "Run4/QueuePostRZF:queuepostrzf:Run4/_wrap_queuepostrzf.sh"  # GPU0, post-RZF pilot, hash-pinned 2026-07-13
 )
 
 say(){ echo "[$(date '+%F %T')] $*" >> "$LOG"; }

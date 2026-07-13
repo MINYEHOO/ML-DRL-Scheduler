@@ -68,3 +68,22 @@ if __name__ == "__main__":
         lo, hi = wilson(k, len(v))
         print(f"m={m} beta={BETA[m-1]:.4f} n={len(v)} "
               f"first-ACK={k/len(v):.4f} CI[{lo:.4f},{hi:.4f}]")
+
+
+# --- episode-cluster bootstrap CI (audit round 7) -------------------------
+# Samples within an episode share its channel mixture (speeds, n_active), so
+# member-level binomial CIs overstate precision. Resample the holdout
+# EPISODES with replacement (B=10,000), pooled sum(ACK)/sum(units) per draw.
+# Result (2026-07-13): m1 88.8% [87.5,90.0] | m2 93.5% [91.3,95.2]
+# | m3 94.2% [92.2,95.8] | m4 94.8% [93.1,96.2]; per-episode 0.83..0.98.
+# beta_m stays frozen -- this CI is uncertainty reporting, not retuning.
+def cluster_bootstrap(ack_by_ep, n_by_ep, B=10000, seed=42):
+    """ack_by_ep, n_by_ep: [n_episodes, 4] arrays -> per-depth (lo, hi)."""
+    rng = np.random.default_rng(seed)
+    idx = rng.integers(0, ack_by_ep.shape[0], size=(B, ack_by_ep.shape[0]))
+    out = []
+    for m in range(4):
+        boots = (ack_by_ep[idx, m].sum(axis=1)
+                 / n_by_ep[idx, m].sum(axis=1))
+        out.append(tuple(np.percentile(boots, [2.5, 97.5])))
+    return out

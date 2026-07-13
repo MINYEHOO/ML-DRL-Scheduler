@@ -609,11 +609,19 @@ kept as an ablation mode; it hits 90% only on average (per-depth
 99.8/93.5/89.9/85.9%), leaving an SU-vs-MU calibration bias — for m=1 the
 prediction equals the fed-back SNR *identically* (by `reconstruct_h_hat`'s
 definition), so global β cuts SU rate by exactly 35%, which is what
-collapsed SU+CQI to 1246 in the global-β probe. Holdout validation
-(12 disjoint episodes, never used for tuning): m1 88.8% [87.7, 89.8],
-m2–m4 93.5–94.8% — m≥2 lands ~4pp conservative of the 90% target
-(episode-cluster variability; direction is conservative and applied
-identically to every scheduler). Genie worlds use β = 1.
+collapsed SU+CQI to 1246 in the global-β probe.
+
+The correct characterization is **"independently calibrated depth-dependent
+margins targeting approximately 10% first-transmission BLER"** — not
+exactly-10%-everywhere. Holdout validation (12 disjoint episodes, never
+used for tuning; CIs are EPISODE-CLUSTER bootstrap, B=10,000 — samples
+within an episode share its channel mixture, so member-level binomial CIs
+overstate precision ~3×): m1 88.8% [87.5, 90.0], m2 93.5% [91.3, 95.2],
+m3 94.2% [92.2, 95.8], m4 94.8% [93.1, 96.2]; per-episode pooled rates
+span 0.83–0.98. m≥2 lands ~4pp conservative of the target; the direction
+is conservative (MU sends slightly fewer bits) and the same β_m applies to
+every scheduler, so comparison fairness is preserved. β_m is frozen — no
+retuning on holdout or evaluation seeds. Genie worlds use β = 1.
 
 **Four-way decomposition** (8 paired seeds, queue op point; anchors
 SUS+CQI / SU+CQI mean reward):
