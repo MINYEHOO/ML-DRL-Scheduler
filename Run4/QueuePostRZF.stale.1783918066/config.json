@@ -122,6 +122,6 @@
   "episode_len_main": 1000,
   "episode_len_debug": 200,
   "debug": false,
-  "git_hash": "a67aac4d29d4ae6a2cf090f2ab897bfd43e48180",
+  "git_hash": "22bda542f8e69a2ccf07b8e2aafbec16fc318002",
   "git_dirty_py": false
 }

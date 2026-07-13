@@ -17,7 +17,7 @@ from policy import ActorCritic
 EPL = 200  # slots per episode checked (plenty of units)
 
 
-BETA_M = (0.9815, 0.7306, 0.6466, 0.5922)   # official depth-wise backoff (36-ep calibration)
+BETA_M = (0.979, 0.723, 0.646, 0.590)   # official depth-wise backoff
 
 
 def make_cfg(pmi, pcsi):
@@ -159,7 +159,10 @@ print(f"[Gate1 depth-1] genie SU first-ACK {d1[0]}/{d1[1]} "
 assert g2_max == 0.0 and g2_keyset_mismatch == 0, "GATE 2 (baselines) FAIL"
 assert p2_max == 0.0 and p2_mismatch == 0, "GATE 2 (PPO) FAIL"
 assert retx_btx_changes == 0 and retx_pin_moves == 0, "RETX IMMUTABILITY FAIL"
-assert g3_logp_max < 1e-6 and g3_budget_max == 0.0 and g3_btx_max == 0.0, \
-    "GATE 3 FAIL"
+# audit round 8: per-position logp and value deltas are gate conditions too,
+# not just printed diagnostics
+assert g3_logp_max < 1e-6 and g3_pos_max < 1e-6 and g3_val_max < 1e-4, \
+    "GATE 3 FAIL (logp/pos/value)"
+assert g3_budget_max == 0.0 and g3_btx_max == 0.0, "GATE 3 FAIL (budget)"
 assert d1[0] == d1[1], "GATE 1 depth-1 FAIL"
 print("\nALL GATES PASSED")

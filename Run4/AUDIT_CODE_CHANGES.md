@@ -22,10 +22,10 @@ checked out.
 **Problem found by audit:** B_tx for a new unit was sized from the
 full-power SU CQI even when m > 1 streams share the RBG power, making
 **cap-limited** depth ≥ 2 first transmissions structurally NACK
-(backlog-capped units send less than the cap and can still first-ACK). The
-required accumulated-MI-to-B_tx ratio is 1.34/1.64/1.91 for m = 2/3/4 at
-10 dB — i.e. the first slot delivers only 1/1.34… of the target, not a
-statement about integer HARQ round counts.
+(backlog-capped units send less than the cap and can still first-ACK).
+B_tx / first-slot MI = 1.34/1.64/1.91 for m = 2/3/4 at 10 dB — i.e. the
+first slot delivers only 1/1.34… of the target payload; this is a required
+MI ratio, not a statement about integer HARQ round counts.
 
 **Change:** `config.mu_aware_la` (default False = historical), env-side
 de-rate at unit creation: `SE_m = log2(1 + (2^CQI − 1)/m)` with `m_planned`
@@ -174,23 +174,38 @@ per-episode rates).
   kill/relaunch-churned. `ALLOW_HASH_MISMATCH=1` is the explicit override;
   it cannot be injected into a running shell — apply it by relaunching the
   session deliberately.
-- Commit roles: `efcfac6` = the post-RZF redesign (root-py baseline of the
-  first pilot attempt); `22bda54` = round-7 ops/docs (pin + cluster CI, no
-  root-py change); the round-8 fix commit = the **current** root-py
-  baseline that `QueuePostRZF` is pinned to (snr_m routing fix — see §11).
+- Commit roles (exact hashes):
+  - `efcfac6` — post-RZF redesign (root-py baseline of the archived first
+    attempt); `22bda54` — round-7 ops/docs on top of it (no root-py change).
+  - **`9ed28d0` — executable root-Python baseline** of the official run
+    (snr_m routing fix, §11); the wrapper pin points here.
+  - **`a67aac4` — official fresh-run launch HEAD** and the value stamped in
+    the run's `config.json` — a wrapper-only descendant of `9ed28d0` with a
+    verified-identical root-Python tree.
+  - The round-8 **evidence commit** (this document's version, manifest,
+    regression tests, re-run artifacts) — a docs/analysis-only descendant;
+    it does not touch root `*.py`, so the pin stays valid.
 
 ## 10. Verification artifacts (all in `_analysis/scripts/audit_probes/`)
 
-`gate1_genie_first_ack.py` (Gate 1 full: depth bins asserted non-empty,
-full-cap/backlog-cap separated), `gate23_post_rzf.py` (Gates 2–3 + retx
-immutability + a depth-1 Gate-1 supplement), `independent_reference_test.py`,
-`beta_m_calib_holdout.py` (calibration → holdout → Wilson + cluster
-bootstrap, end-to-end in one run), `control_lm_rm.py` (order-effect
-control), `new_la_baselines.py` (BOTH post-RZF worlds; per-baseline
-summaries with pooled per-depth rates + `*_raw.csv` world×scheduler×seed
-rows). Superseded outputs are kept, clearly labeled, in
-`_analysis/superseded/` (the global-β summary whose per-depth columns
-carried the empty-bin artifact).
+`gate1_genie_first_ack.py` (Gate 1: scheduler-driven pass + FORCED
+exact-depth pass with ≥100 new units per depth asserted,
+full-cap/backlog-cap separated, and SINR_pred == SINR_actual asserted in
+genie), `gate23_post_rzf.py` (Gates 2–3 + retx immutability; per-position
+Δlogp and ΔV are gate conditions, not just diagnostics),
+`snr_m_routing_regression.py` (the §11 fix down to actual created B_tx
+under fixed allocations), `independent_reference_test.py`,
+`beta_m_calib_holdout.py` (calibration → DEPLOYED-β holdout → Wilson +
+cluster bootstrap, end-to-end; asserts round(β_raw, 4) equals the deployed
+tuple), `control_lm_rm.py` (order-effect control), `new_la_baselines.py`
+(BOTH post-RZF worlds; pooled per-depth rates + `*_raw.csv`
+world×scheduler×seed rows), `hold_watchdog_integration_test.sh` (manual,
+~6 min; reproduces the §9 HOLD/watchdog test incl. negative control).
+Superseded outputs are kept, clearly labeled, in `_analysis/superseded/`.
+Run provenance: each official run carries `RUN_MANIFEST.json` (launch
+HEAD, root-python baseline, seed, fresh-start declaration, archive path of
+prior attempts, CSV-snapshot caveat) next to its `config.json`; archived
+attempts carry a `SUPERSEDED.md`.
 
 | gate | result |
 |---|---|

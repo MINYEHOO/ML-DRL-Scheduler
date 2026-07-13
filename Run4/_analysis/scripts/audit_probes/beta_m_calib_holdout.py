@@ -85,12 +85,20 @@ if __name__ == "__main__":
 
     print("(1) calibration: episodes 50000-50035, rng 777 ...", flush=True)
     cal = collect_ratios_by_episode(env, cfg, 50000, 36, 777)
-    beta = [float(np.percentile(np.concatenate(cal[m]), 10))
-            for m in (1, 2, 3, 4)]
-    print("(2) beta_m =", " ".join(f"{b:.4f}" for b in beta), flush=True)
+    beta_raw = [float(np.percentile(np.concatenate(cal[m]), 10))
+                for m in (1, 2, 3, 4)]
+    # the DEPLOYED backoff is the 4-decimal literal the trainings actually
+    # use (config la_beta_by_depth); holdout must be judged against IT, not
+    # the full-precision percentile (audit round 8)
+    BETA_DEPLOYED = (0.9815, 0.7306, 0.6466, 0.5922)
+    print("(2) beta_raw =", " ".join(f"{b:.6f}" for b in beta_raw),
+          "| deployed =", BETA_DEPLOYED, flush=True)
+    assert np.allclose(np.round(beta_raw, 4), BETA_DEPLOYED), \
+        (beta_raw, BETA_DEPLOYED)
+    beta = list(BETA_DEPLOYED)
 
     print("(3) holdout: episodes 70000-70011, rng 20250713 "
-          "(beta_m frozen) ...", flush=True)
+          "(deployed beta_m, frozen) ...", flush=True)
     hold = collect_ratios_by_episode(env, cfg, 70000, 12, 20250713)
 
     print(f"{'m':>2s} {'beta_m':>7s} {'n':>6s} {'firstACK':>8s} "

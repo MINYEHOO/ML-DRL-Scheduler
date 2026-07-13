@@ -1,0 +1,28 @@
+{
+  "run_name": "QueuePostRZF",
+  "purpose": "first official post-RZF world PPO training (pilot seed)",
+  "seed": 2024,
+  "fresh_start": true,
+  "resume_checkpoint": null,
+  "launch_time": "2026-07-13 04:47:46 KST",
+  "launch_head": "a67aac4d29d4ae6a2cf090f2ab897bfd43e48180",
+  "root_python_baseline": "9ed28d0706b979bbede8fa1b1b57eb8a9cfe1c9c",
+  "la_mode": "post_rzf",
+  "decode_order": "rbg_major",
+  "la_beta_by_depth": [
+    0.9815,
+    0.7306,
+    0.6466,
+    0.5922
+  ],
+  "traffic": {
+    "mode": "queue",
+    "queue_size": 8,
+    "p_arrival": "U(0.15, 0.40) per episode"
+  },
+  "entropy_coef": 0.01,
+  "gpu": 0,
+  "wrapper": "Run4/_wrap_queuepostrzf.sh (hash-pinned to root_python_baseline; fresh AND resume verified)",
+  "previous_attempt_archive": "Run4/QueuePostRZF.stale.1783918066/ (launch HEAD 22bda54, ~10 updates, superseded by this run -- see its SUPERSEDED.md)",
+  "csv_snapshot_note": "csv_logs/ contents in any given commit are a snapshot at that commit's time; the run keeps appending on the training server. config.json and this manifest are immutable for the run's life."
+}
