@@ -1,0 +1,58 @@
+[
+ {
+  "seed": 10000,
+  "A_la0": {
+   "reward": 1879.3112672015802,
+   "acked_mbit": 9.87124796659928,
+   "comp": 0.747308423052565,
+   "miss": 0.17352754908169726,
+   "retx_drop": 0.07346421785940468,
+   "n_arrivals": 1579,
+   "pinned_frac": 0.6392708333333333
+  },
+  "B_la1": {
+   "reward": 1892.0476846500899,
+   "acked_mbit": 10.027968387719506,
+   "comp": 0.7581783194355356,
+   "miss": 0.23604874919820398,
+   "retx_drop": 0.0,
+   "n_arrivals": 1559,
+   "pinned_frac": 0.42354166666666665,
+   "mech": {
+    "slots": 300,
+    "n_touched": 3001,
+    "n_under": 1815,
+    "n_stranded": 819,
+    "believed_bits": 12588035.916326538,
+    "actual_bits": 10112798.953967573,
+    "shortfall_bits": 2475236.9623589558,
+    "ratio_sum": 2012.4165268185739,
+    "ratio_cnt": 3001,
+    "stranded_missed_same_slot": 43,
+    "stranded_gone_same_slot": 43,
+    "stranded_reservable_next": 776,
+    "stranded_selected_next": 760,
+    "n_eps_skip": 0,
+    "pinned_pos": 4066,
+    "occ_pos": 9600,
+    "mplan_ge2_units": 5534,
+    "new_units": 5534
+   },
+   "stranded_outcome": {
+    "completed": 500,
+    "missed": 51,
+    "retx_drop": 0,
+    "open_end": 1
+   }
+  },
+  "C_la1_cons": {
+   "reward": 1992.2462219434449,
+   "acked_mbit": 10.202337142112178,
+   "comp": 0.7726114649681529,
+   "miss": 0.2197452229299363,
+   "retx_drop": 0.0006369426751592356,
+   "n_arrivals": 1570,
+   "pinned_frac": 0.4214583333333333
+  }
+ }
+]

@@ -19,6 +19,7 @@ from __future__ import annotations
 import numpy as np
 
 from config import Config
+from la_planner import SlotAllocationPlanner
 
 
 class Scheduler:
@@ -32,6 +33,8 @@ class Scheduler:
         Selection is layer-major; a per-UE commit budget is threaded so a UE
         is not over-assigned across RBGs (mirrors env unit creation).
         """
+        if env.cfg.decode_order == "rbg_major":
+            return self._schedule_rbg_major(env)
         cfg: Config = env.cfg
         obs = env.get_observation()
         alloc = np.zeros((cfg.num_rbg, cfg.l_max), dtype=np.int64)
@@ -56,6 +59,66 @@ class Scheduler:
                     sel_ue[r].add(pick)
                     budget[pick] -= env.estimate_btx(pick, r, budget[pick])
         return alloc
+
+    def _schedule_rbg_major(self, env) -> np.ndarray:
+        """RBG-major selection.
+
+        Traversal mirrors the env's post_rzf creation scan exactly: fill an
+        RBG's free layers top-down, close on the first no-pick (spec §5).
+
+        post_rzf: budgets are threaded through the shared
+        SlotAllocationPlanner and debited once per RBG with the FINAL group's
+        B_tx, so the threaded budget equals the env's actual commit (Gate 2).
+        The planner is kept on ``self.last_planner`` for the audit.
+
+        legacy: same traversal/closure, but per-pick ``estimate_btx`` debits
+        as in the layer-major path -- the order-effect CONTROL configuration
+        (isolates traversal order from the LA change).
+        """
+        cfg: Config = env.cfg
+        post_rzf = cfg.resolved_la_mode() == "post_rzf"
+        obs = env.get_observation()
+        alloc = np.zeros((cfg.num_rbg, cfg.l_max), dtype=np.int64)
+        occupied = obs["occupied"]
+        closed = np.zeros(cfg.num_rbg, dtype=bool)
+        if post_rzf:
+            planner = SlotAllocationPlanner(
+                cfg, env.h_hat_slot, env.noise_var, env.noise_var,
+                obs["uncommitted"].astype(np.float64))
+            budget = planner._remaining
+        else:
+            planner = None
+            budget = obs["uncommitted"].astype(np.float64).copy()
+        self._slot_init(obs, cfg)
+        for r in range(cfg.num_rbg):
+            fixed = sorted(set((occupied[r][occupied[r] > 0] - 1).tolist()))
+            sel_ue = set(fixed)
+            entries = []
+            for l in range(cfg.l_max):
+                if occupied[r, l] > 0 or closed[r]:
+                    continue
+                cand = env.position_candidates(r, sel_ue, budget)
+                pick = (self._select(env, obs, r, l, cand, sel_ue, closed)
+                        if cand.any() else None)
+                if pick is None:
+                    closed[r] = True         # no-user closes the RBG (spec §5)
+                    continue
+                alloc[r, l] = pick + 1
+                sel_ue.add(pick)
+                entries.append(pick)
+                if not post_rzf:
+                    budget[pick] -= env.estimate_btx(pick, r, budget[pick])
+            if post_rzf:
+                _, btx = planner.close_rbg(r, fixed, entries)
+                self._after_close(btx)
+        self.last_planner = planner
+        return alloc
+
+    def _slot_init(self, obs, cfg) -> None:
+        """Hook: per-slot state reset before rbg-major selection (vPF)."""
+
+    def _after_close(self, btx: dict) -> None:
+        """Hook: observe the finalized per-UE B_tx of a closed RBG (vPF)."""
 
     def _select(self, env, obs, r, l, cand, sel_ue, closed):
         """Return the chosen UE index, or None for no-user."""
@@ -268,7 +331,17 @@ class SUSPFVirtual(SUSPF):
 
     name = "SUS+vPF"
 
+    def _slot_init(self, obs, cfg) -> None:
+        self._vthr = np.maximum(obs["avg_throughput"].astype(np.float64),
+                                cfg.pf_epsilon).copy()
+
+    def _after_close(self, btx: dict) -> None:
+        for u, b in btx.items():
+            self._vthr[u] += b            # exact (finalized) in-slot PF bump
+
     def schedule(self, env) -> np.ndarray:
+        if env.cfg.decode_order == "rbg_major":
+            return self._schedule_rbg_major(env)
         cfg = env.cfg
         obs = env.get_observation()
         alloc = np.zeros((cfg.num_rbg, cfg.l_max), dtype=np.int64)

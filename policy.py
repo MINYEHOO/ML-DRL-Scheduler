@@ -22,6 +22,8 @@ import torch
 import torch.nn as nn
 
 from config import Config
+from la_planner import SlotAllocationPlanner
+from phy import reconstruct_h_hat
 
 
 # ---------------------------------------------------------------------------
@@ -441,9 +443,140 @@ class ActorCritic(nn.Module):
         ])                                                                 # [K+1]
         return logits, valid_mask, pred_btx
 
+    # ---------- rbg-major pass (decode AND replay share this one code path,
+    # so rollout/replay in-slot state can only diverge through the weights;
+    # trajectory-consistency asserts mirror the layer-major replay) ----------
+    def _rbg_major_pass(self, obs: dict, deterministic: bool = False,
+                        stored_actions: np.ndarray | None = None,
+                        stored_mask: np.ndarray | None = None) -> dict:
+        cfg = self.cfg
+        K, R, L = cfg.num_ue, cfg.num_rbg, cfg.l_max
+        device = self.device
+        teacher = stored_actions is not None
+
+        obs_t = obs_to_tensors(obs, device)
+        e = self.encode(obs_t)
+
+        # exact same h_hat the env reconstructs for this slot's precoding
+        # (obs carries copies of the very buffers env used + noise_var)
+        nv = float(obs["noise_var"])
+        h_hat = reconstruct_h_hat(obs["direction_fb"], obs["cqi_fb"],
+                                  cfg.p_rbg, nv)
+        planner = SlotAllocationPlanner(
+            cfg, h_hat, nv, nv, obs["uncommitted"].astype(np.float64))
+
+        S_r = [set(obs["initial_S_r"][r]) for r in range(R)]
+        in_slot_count = np.zeros(K, dtype=np.int64)
+        for r in range(R):
+            for u in S_r[r]:
+                in_slot_count[u] += 1
+
+        fixed_mask = obs["fixed_mask"]
+        fixed_alloc = obs["fixed_allocation"]
+        action_seq = np.zeros((R, L), dtype=np.int64)
+        policy_mask = np.zeros((R, L), dtype=bool)
+        log_prob_sum = torch.zeros((), device=device)
+        entropy_sum = torch.zeros((), device=device)
+        per_logprobs: list[float] = []
+        n_decisions = 0
+        budget_trace = np.zeros((R, K))       # remaining after each closure
+
+        for r in range(R):
+            fixed_ues = sorted(S_r[r])        # retx members of this RBG
+            entries: list[int] = []
+            closed = False
+            for l in range(L):
+                if fixed_mask[r, l]:
+                    action_seq[r, l] = int(fixed_alloc[r, l])
+                    if teacher:
+                        assert not stored_mask[r, l], (
+                            f"replay(rm): fixed retx position (r={r}, l={l}) "
+                            "is marked policy_decision_mask=True")
+                    continue
+                if closed:
+                    action_seq[r, l] = 0
+                    if teacher:
+                        assert not stored_mask[r, l], (
+                            f"replay(rm): (r={r}, l={l}) in closed RBG "
+                            "but policy_decision_mask=True")
+                    continue
+
+                # budget features/mask come from the planner's EXACT per-UE
+                # remaining (float64, debited only at group closure)
+                temp_uncommit = torch.from_numpy(
+                    planner._remaining.astype(np.float32)).to(device)
+                logits, valid_mask, _ = self._position_logits_and_mask(
+                    obs_t, e, r, l, S_r[r], in_slot_count, temp_uncommit)
+                assert bool(valid_mask.any().item()), \
+                    f"No valid action at (r={r}, l={l})"
+
+                masked_logits = logits.masked_fill(~valid_mask, -1e9)
+                dist = torch.distributions.Categorical(logits=masked_logits)
+                if teacher:
+                    assert stored_mask[r, l], (
+                        f"replay(rm): non-fixed, non-closed (r={r}, l={l}) "
+                        "has policy_decision_mask=False")
+                    action = int(stored_actions[r, l])
+                    assert bool(valid_mask[action].item()), (
+                        f"replay(rm): stored action {action} at (r={r}, "
+                        f"l={l}) invalid under current mask")
+                elif deterministic:
+                    action = int(masked_logits.argmax().item())
+                else:
+                    action = int(dist.sample().item())
+                action_t = torch.tensor(action, device=device,
+                                        dtype=torch.long)
+                log_prob = dist.log_prob(action_t)
+
+                action_seq[r, l] = action
+                policy_mask[r, l] = True
+                n_decisions += 1
+                log_prob_sum = log_prob_sum + log_prob
+                entropy_sum = entropy_sum + dist.entropy()
+                per_logprobs.append(float(log_prob.item()))
+
+                if action == 0:
+                    closed = True                 # spec §5 RBG closure
+                else:
+                    u = action - 1
+                    S_r[r].add(u)
+                    in_slot_count[u] += 1
+                    entries.append(u)
+
+            # group final -> exact B_tx sizing + budget debit (once per RBG)
+            planner.close_rbg(r, fixed_ues, entries)
+            budget_trace[r] = planner._remaining
+
+        value = self.value(e, obs_t, fixed_mask, obs["slot"])
+
+        return dict(
+            action_sequence=action_seq,
+            policy_decision_mask=policy_mask,
+            log_prob_sum=log_prob_sum,
+            entropy_sum=entropy_sum,
+            per_subaction_logprobs=per_logprobs,
+            num_policy_decisions=int(n_decisions),
+            value=value,
+            planned_btx=planner.planned_btx_map(),     # Gate 2
+            budget_trace=budget_trace,                 # Gate 3
+        )
+
     # ---------- decode (rollout, sampling, no grad) ----------
     @torch.no_grad()
     def decode(self, obs: dict, deterministic: bool = False) -> dict:
+        if self.cfg.decode_order == "rbg_major":
+            out = self._rbg_major_pass(obs, deterministic=deterministic)
+            return dict(
+                action_sequence=out["action_sequence"],
+                policy_decision_mask=out["policy_decision_mask"],
+                log_prob_sum=float(out["log_prob_sum"].item()),
+                per_subaction_logprobs=out["per_subaction_logprobs"],
+                entropy_sum=float(out["entropy_sum"].item()),
+                num_policy_decisions=out["num_policy_decisions"],
+                value=float(out["value"].item()),
+                planned_btx=out["planned_btx"],
+                budget_trace=out["budget_trace"],
+            )
         cfg = self.cfg
         K, R, L = cfg.num_ue, cfg.num_rbg, cfg.l_max
         device = self.device
@@ -529,6 +662,15 @@ class ActorCritic(nn.Module):
     # ---------- replay (PPO update, teacher forcing, with grad) ----------
     def replay(self, obs: dict, action_sequence: np.ndarray,
                policy_decision_mask: np.ndarray) -> dict:
+        if self.cfg.decode_order == "rbg_major":
+            out = self._rbg_major_pass(obs, stored_actions=action_sequence,
+                                       stored_mask=policy_decision_mask)
+            return dict(
+                log_prob_sum=out["log_prob_sum"],
+                entropy_sum=out["entropy_sum"],
+                num_policy_decisions=out["num_policy_decisions"],
+                value=out["value"],
+            )
         cfg = self.cfg
         K, R, L = cfg.num_ue, cfg.num_rbg, cfg.l_max
         device = self.device

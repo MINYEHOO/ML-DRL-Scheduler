@@ -108,6 +108,20 @@ class Config:
     # ---- PHY abstraction ----
     eta_data: float = 1.0          # fraction of REs carrying data
     beta_rate: float = 1.0         # rate backoff for B_tx prediction
+    # post_rzf-only cap backoff: btx_cap = la_beta * eta * N_RE * beta_rate
+    # * log2(1 + SINR_pred). Calibrated scheduler-independently to a
+    # first-ACK target (90%) under imperfect CSI; genie keeps 1.0
+    # (prediction exact). Separate from beta_rate so legacy SU-CQI
+    # features/masks are untouched by calibration.
+    la_beta: float = 1.0
+    # depth-wise backoff beta_m (2026-07-13, audit round 6): when non-empty
+    # (must have l_max entries), the planner uses la_beta_by_depth[m-1] for a
+    # FINAL group of size m instead of the scalar la_beta -- every spatial
+    # mode gets the same first-ACK target (per-rank OLLA analogue). Values
+    # from the scheduler-independent calibration (per-depth 10th pct of
+    # MI_actual/cap_pred): (0.979, 0.723, 0.646, 0.590) at the Run4 queue op
+    # point. Scalar la_beta stays as the global-beta ABLATION mode.
+    la_beta_by_depth: tuple = ()
     b_tx_epsilon: float = 1.0      # bits; predicted B_tx below this -> no unit
     # m-aware link adaptation (2026-07-10, external-audit C-cluster ablation):
     # False (default/historical) = B_tx sized from the full-power SU CQI even
@@ -115,7 +129,49 @@ class Config:
     # transmissions are structurally NACKed (no OLLA; an anti-MU landscape).
     # True = env de-rates B_tx by the planned stream count at unit creation:
     # SE_m = log2(1 + (2^CQI - 1)/m). Scheduler-side predictions/obs unchanged.
+    # (Equivalent to la_mode="snr_m"; kept for the QueueMixedFairLA run's CLI.)
     mu_aware_la: bool = False
+    # Link-adaptation mode (2026-07-13 redesign, supersedes mu_aware_la):
+    #   "legacy"   B_tx from full-power SU CQI (all historical results)
+    #   "snr_m"    power-split de-rate only (== mu_aware_la=True)
+    #   "post_rzf" B_tx from the PREDICTED post-RZF SINR of the FINAL RBG
+    #              group (same precoder/alpha/power as the actual tx, computed
+    #              from h_hat only) -- requires decode_order="rbg_major" so
+    #              scheduler budget accounting can match env commits exactly.
+    # "" = derive from mu_aware_la (backward compatible).
+    la_mode: str = ""
+    # Position traversal order for scheduling + unit creation:
+    #   "layer_major"  l0:r0..7, l1:r0..7, ... (historical; bit-exact default)
+    #   "rbg_major"    r0:l0..3, r1:l0..3, ... (groups close per-RBG; required
+    #                  by post_rzf, optional order-effect control for legacy)
+    decode_order: str = "layer_major"
+
+    def resolved_la_mode(self) -> str:
+        if self.la_mode:
+            return self.la_mode
+        return "snr_m" if self.mu_aware_la else "legacy"
+
+    def validate_la(self) -> None:
+        m = self.resolved_la_mode()
+        if m not in ("legacy", "snr_m", "post_rzf"):
+            raise ValueError(f"unknown la_mode {m!r}")
+        if self.decode_order not in ("layer_major", "rbg_major"):
+            raise ValueError(f"unknown decode_order {self.decode_order!r}")
+        if m == "post_rzf" and self.decode_order != "rbg_major":
+            raise ValueError(
+                "la_mode='post_rzf' requires decode_order='rbg_major': under "
+                "layer-major traversal the final RBG group is only known after "
+                "all layers, so exact packet-budget accounting would need "
+                "retroactive refunds (the very mismatch this mode removes)")
+        if self.la_beta_by_depth:
+            if len(self.la_beta_by_depth) != self.l_max:
+                raise ValueError(
+                    f"la_beta_by_depth needs {self.l_max} entries "
+                    f"(one per group size), got {self.la_beta_by_depth!r}")
+            if any(not (0.0 < b <= 1.5) for b in self.la_beta_by_depth):
+                raise ValueError(
+                    f"la_beta_by_depth values out of range: "
+                    f"{self.la_beta_by_depth!r}")
 
     # ---- power / noise ----
     p_total: float = 8.0           # normalized total BS power (P_r = 1 per RBG)

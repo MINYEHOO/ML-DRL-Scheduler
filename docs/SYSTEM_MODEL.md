@@ -313,13 +313,20 @@ SE_m = log₂(1 + (2^CQI − 1)/m).
 
 Ablation outcome (10 paired seeds, K=32 mixed point; see
 `Run4/_analysis/la_ablation_{type2,genie}.csv` and docs/RUNS.md §3.1): the
-de-rate removes the structural NACK entirely (MU retx-drop → ~0), **but the
-artifact is double-edged** — its retransmission pinning also served as an
-implicit serve-to-completion mechanism, so removing it raises deadline
-misses and the net MU-vs-SU heuristic balance barely moves (+4.5% → +4.1%).
-The first-order MU limiter in this simulator is codebook quantization, not
-the LA artifact; conclusions about MU value remain conditional on this LA
-abstraction either way.
+de-rate closes the retx-drop failure channel (MU retx-drop → ~0) but does
+**not** remove the first-NACK itself — ~93–95% of cap-limited m≥2 first
+transmissions still NACK, because SNR/m ignores the RZF projection loss
+(0.973/0.947/0.921 for m=2/3/4) and residual interference (probe
+2026-07-12). **The artifact is also double-edged** — its retransmission
+pinning also served as an implicit serve-to-completion mechanism, so
+removing it raises deadline misses and the net MU-vs-SU heuristic balance
+barely moves (+4.5% → +4.1%). The first-order MU limiter in this simulator
+is codebook quantization, not the LA artifact; conclusions about MU value
+remain conditional on this LA abstraction either way. The complete
+treatment — B_tx from the predicted post-RZF SINR of the final RBG group,
+with depth-wise backoff β_m calibrated scheduler-independently to a 90%
+first-ACK target — is `la_mode="post_rzf"` (2026-07-13; `la_planner.py`,
+Gates 1–3 in `Run4/_analysis/scripts/audit_probes/gate23_post_rzf.py`).
 
 ## 8. Traffic and QoS
 

@@ -33,10 +33,8 @@ LOG=Run3/_watchdog.log
 # stale hardcoded bashrc list).
 RUNS=(
   # Run3 training phase CLOSED 2026-07-02/06 (all best.pt preserved).
-  "Run4/QueueHighLoad:queuehighload:Run4/_wrap_queuehighload.sh"  # GPU4, launched 2026-07-07
-  "Run4/QueueMixedArrival:queuemixedarrival:Run4/_wrap_queuemixedarrival.sh"  # GPU2, launched 2026-07-07
-  "Run4/GenieL2b:genie_l2b:Run4/_wrap_genie_l2b.sh"  # CPU, perfect-CSI L2b 2026-07-08
   "Run4/GenieFineTune:genie_finetune:Run4/_wrap_genie_finetune.sh"  # GPU3, genie warm-start 2026-07-09
+  "Run4/QueueMixedFairLA:queuemixedfairla:Run4/_wrap_queuemixedfairla.sh"  # GPU5, fair-LA 2026-07-10
 )
 
 say(){ echo "[$(date '+%F %T')] $*" >> "$LOG"; }

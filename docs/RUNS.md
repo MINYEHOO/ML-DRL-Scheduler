@@ -261,8 +261,12 @@ established:
   **m-aware LA ablation (2026-07-10, `cfg.mu_aware_la`,
   `Run4/_analysis/la_ablation_{type2,genie}.csv`, 10 paired seeds at the
   K=32 mixed point)** — three findings settle the scope of the artifact:
-  (1) *the mechanism is real and the flag removes it*: MU-heuristic
-  retx-drop collapses 0.049 → 0.0003 (type2) and 0.026 → 0.000 (genie);
+  (1) *the mechanism is real and the flag closes the drop channel*:
+  MU-heuristic retx-drop collapses 0.049 → 0.0003 (type2) and 0.026 → 0.000
+  (genie). The first-NACK itself, however, persists — ~93–95% of cap-limited
+  m≥2 first transmissions still NACK under SNR/m sizing, because it ignores
+  the RZF projection loss and residual interference (probe 2026-07-12); the
+  complete fix is `la_mode="post_rzf"` (2026-07-13, see §4.5);
   (2) *but the artifact cuts both ways*: the retransmission pinning it
   causes also acts as an implicit "serve this packet to completion" aid, so
   removing it raises deadline misses (SUS+CQI 0.122 → 0.164) — tax and
@@ -566,6 +570,79 @@ baselines collapse faster than PPO (at p = 0.50 SU+CQI's mean reward is
 negative) — and downward degrades gracefully to parity: at p = 0.10 the
 system is lightly loaded and there is nothing to win, the Run1/Uniform10
 headroom lesson reappearing at evaluation time.
+
+### 4.5 Post-RZF link-adaptation redesign (2026-07-13, audit rounds 3–6)
+
+The §3.1/§7 LA artifact (B_tx sized from full-power SU CQI) got its complete
+treatment: `la_mode="post_rzf"` sizes every NEW unit from the **predicted
+post-RZF SINR of the final RBG group** — same precoder function, same α,
+same power split as the actual transmission, computed from h_hat only — via
+a single shared planner (`la_planner.py`) used identically by the env, all
+baselines, and the PPO decoder. This requires `decode_order="rbg_major"`
+(groups close per-RBG, budgets debit once at closure, no retroactive
+refunds), which eliminates the scheduler↔env commit mismatch by
+construction. Fixed retx units keep their historical B_tx (immutable) and
+their RBG pin; ε-dropped members shrink the group via a fixed-point loop.
+
+**Verification gates (all zero-tolerance, `audit_probes/gate23_post_rzf.py`
++ `independent_reference_test.py`):**
+- Gate 1 (genie): 21,593 new units, depth 1–4, first-ACK **100.00%** —
+  prediction ≡ realization when h_hat = h_true.
+- Gate 2 (accounting): scheduler planned commits vs env actual commits,
+  **max |Δ| = 0.0** over 86,986 units (baselines + PPO, both CSI worlds);
+  key-set mismatches 0. (Group-member order is canonicalized inside
+  `close_rbg` — SINR is permutation-invariant only to ~1e-12 in float.)
+- Gate 3 (replay): decode and replay share one code path
+  (`_rbg_major_pass`); action/mask identity asserted, max |Δlogp| = 0.0
+  over 11,891 decisions, budget traces bit-equal. An independent
+  closed-form reference (orthogonal groups: SINR_i = g_i²P/(mσ²); hand-
+  traced ε-drop/swallow-tail/debit) guards against shared-path bugs.
+- Retx immutability: 0 B_tx changes, 0 RBG pin moves.
+- Legacy default is **bit-exact** (CSV-identical) after every edit block.
+
+**Depth-wise backoff β_m** (h_hat is quantized/aged, so the prediction needs
+a margin): calibrated scheduler-independently — random (RBG, m, group)
+samples over 36 episodes advanced with empty allocations, β_m = per-depth
+10th percentile of MI_actual/cap_pred → **(0.9815, 0.7306, 0.6466, 0.5922)**
+for m = 1/2/3/4 at the Run4 queue op point. A global scalar β (0.6469) is
+kept as an ablation mode; it hits 90% only on average (per-depth
+99.8/93.5/89.9/85.9%), leaving an SU-vs-MU calibration bias — for m=1 the
+prediction equals the fed-back SNR *identically* (by `reconstruct_h_hat`'s
+definition), so global β cuts SU rate by exactly 35%, which is what
+collapsed SU+CQI to 1246 in the global-β probe. Holdout validation
+(12 disjoint episodes, never used for tuning): m1 88.8% [87.7, 89.8],
+m2–m4 93.5–94.8% — m≥2 lands ~4pp conservative of the 90% target
+(episode-cluster variability; direction is conservative and applied
+identically to every scheduler). Genie worlds use β = 1.
+
+**Four-way decomposition** (8 paired seeds, queue op point; anchors
+SUS+CQI / SU+CQI mean reward):
+
+| world | SUS+CQI | SU+CQI | note |
+|---|---|---|---|
+| legacy + layer-major | 4788 | 3332 | historical |
+| legacy + rbg-major | 4643 | 3332 | order effect: SU exactly 0 (bit-identical), SUS −2~−3% |
+| post-RZF + global β + RM | 5124 | 1246 | ablation; SU over-backed-off |
+| **post-RZF + β_m + RM (official)** | **4819** | **3571** | depth-fair 90% target |
+
+In the official world the retx-drop channel is closed for every baseline
+(0.0000), attempts/unit ≈ 1.02, and MU multiplexing is genuinely profitable
+(SUS+CQI at depth 3.94 beats SU+CQI by +35%); SU itself IMPROVES over
+legacy (+7%: β₁≈0.98 barely cuts rate while first-ACK rises ~70%→95%).
+Realized pooled per-depth first-ACK under real schedulers:
+SUS m4 ≈ 0.983–0.986 (orthogonal selection beats the uniform-random
+calibration mixture), SUS m1 ≈ 0.81–0.88 on n=115–181 (leftover-UE
+selection effect, quantified), SU m1 ≈ 0.90–0.95 on n≈60k. Empty depth
+bins are recorded as NaN with raw numerator/denominator columns
+(`acks_m*/units_m*`); multi-episode aggregation must pool
+Σacks/Σunits — averaging per-episode rates over episodes manufactures
+phantom zeros (the "m1 = 36%" artifact caught in audit round 6).
+
+New instruments (post_rzf runs only; legacy CSV headers untouched):
+first_ack_rate, attempts_per_acked, pinned_fraction, goodput_mbps, and the
+per-depth triples. Training runs stamp `git_hash`/`git_dirty_py` into
+config.json and checkpoints; a fresh run refuses to start with uncommitted
+.py changes (`--allow_dirty` for throwaway experiments).
 
 ---
 

@@ -109,6 +109,32 @@ def parse_args():
                    help="Level-2 mixed-arrival: max per-episode p_arrival; "
                         "enables p ~ U(min,max) drawn per episode so traffic "
                         "intensity is decorrelated from n_active")
+    p.add_argument("--mu_aware_la", action="store_true",
+                   help="fair link adaptation: env de-rates B_tx by the planned "
+                        "co-scheduled stream count (SE_m = log2(1+(2^CQI-1)/m)); "
+                        "default off = historical SU-CQI sizing")
+    p.add_argument("--la_mode", type=str, default=None,
+                   choices=["legacy", "snr_m", "post_rzf"],
+                   help="link-adaptation mode (2026-07-13 redesign); post_rzf "
+                        "sizes B_tx from the predicted post-RZF SINR of the "
+                        "final RBG group and requires --decode_order rbg_major")
+    p.add_argument("--decode_order", type=str, default=None,
+                   choices=["layer_major", "rbg_major"],
+                   help="position traversal order (default layer_major = "
+                        "historical bit-exact)")
+    p.add_argument("--la_beta", type=float, default=None,
+                   help="post_rzf cap backoff (scheduler-independent 90%% "
+                        "first-ACK calibration = 0.6469 at the Run4 queue op "
+                        "point; genie worlds use 1.0). Scalar = global-beta "
+                        "ablation mode; official runs use --la_beta_by_depth")
+    p.add_argument("--la_beta_by_depth", type=str, default=None,
+                   help="comma-separated depth-wise beta_m (l_max values), "
+                        "e.g. '0.9815,0.7306,0.6466,0.5922' -- per-group-size "
+                        "90%% first-ACK target (overrides scalar la_beta)")
+    p.add_argument("--allow_dirty", action="store_true",
+                   help="allow a FRESH run to start with uncommitted .py "
+                        "changes (throwaway experiments only; official runs "
+                        "must start from a clean, pushed commit)")
     p.add_argument("--deadline_min", type=int, default=None,
                    help="override deadline_min (slots); tighter = urgency scarcity")
     p.add_argument("--deadline_max", type=int, default=None,
@@ -173,6 +199,27 @@ class PPOScheduler:
         return out["action_sequence"]
 
 
+def _git_state() -> tuple:
+    """(commit hash, tracked-*.py-dirty flag) of the repo this file lives in.
+
+    Returns ("no-git"/"unknown", False) when git is unavailable -- stamping
+    must never break training.
+    """
+    import subprocess
+    root = os.path.dirname(os.path.abspath(__file__))
+    try:
+        h = subprocess.run(["git", "rev-parse", "HEAD"], cwd=root,
+                           capture_output=True, text=True, timeout=10)
+        if h.returncode != 0:
+            return "no-git", False
+        d = subprocess.run(["git", "status", "--porcelain", "--", "*.py"],
+                           cwd=root, capture_output=True, text=True,
+                           timeout=10)
+        return h.stdout.strip(), bool(d.stdout.strip())
+    except Exception:
+        return "unknown", False
+
+
 def env_episode_metrics(env, cfg: Config) -> dict:
     ep = env.ep
     arrivals = max(ep["n_arrivals"], 1)
@@ -209,6 +256,26 @@ def env_episode_metrics(env, cfg: Config) -> dict:
         out["buffer_overflow_rate"] = ep["n_buffer_overflow"] / max(offered, 1)
     if cfg.p_arrival_max > 0:                        # Level-2 mixed-arrival
         out["p_arrival_ep"] = float(env.traffic.p_arrival_ep)
+    if cfg.resolved_la_mode() == "post_rzf":         # HARQ/LA instrumentation
+        # (post_rzf runs only: legacy/live CSVs keep their historical header)
+        nu = max(ep["n_units_new"], 1)
+        out["first_ack_rate"] = ep["n_units_first_ack"] / nu
+        out["attempts_per_acked"] = (ep["attempts_acked_sum"]
+                                     / max(ep["n_units_acked"], 1))
+        out["pinned_fraction"] = (ep["pinned_pos_sum"]
+                                  / max(ep["sched_pos_sum"], 1))
+        out["goodput_mbps"] = ep["completed_bits"] / ep_time / 1e6
+        fa, ub = ep["first_ack_by_depth"], ep["units_by_depth"]
+        for m in range(4):
+            # raw numerator/denominator ALWAYS stored so multi-episode
+            # aggregation can pool sum(acks)/sum(units); the per-episode
+            # rate is NaN (not 0) when the depth bin is empty -- averaging
+            # per-episode rates over episodes reproduces the 2026-07-13
+            # empty-bin artifact (m1 "36%") and must not be done.
+            out[f"acks_m{m + 1}"] = int(fa[m])
+            out[f"units_m{m + 1}"] = int(ub[m])
+            out[f"first_ack_m{m + 1}"] = (float(fa[m]) / int(ub[m])
+                                          if ub[m] > 0 else float("nan"))
     return out
 
 
@@ -312,6 +379,18 @@ def main():
         cfg.p_arrival_min = args.p_arrival_min
     if args.p_arrival_max is not None:
         cfg.p_arrival_max = args.p_arrival_max
+    if args.mu_aware_la:                             # fair LA (Run5 axis)
+        cfg.mu_aware_la = True
+    if args.la_mode is not None:                     # 2026-07-13 LA redesign
+        cfg.la_mode = args.la_mode
+    if args.decode_order is not None:
+        cfg.decode_order = args.decode_order
+    if args.la_beta is not None:
+        cfg.la_beta = args.la_beta
+    if args.la_beta_by_depth is not None:
+        cfg.la_beta_by_depth = tuple(
+            float(x) for x in args.la_beta_by_depth.split(","))
+    cfg.validate_la()                                # fail fast (env re-checks)
     if args.deadline_min is not None:                # scarcity: tighter deadlines
         cfg.deadline_min = args.deadline_min
     if args.deadline_max is not None:
@@ -361,8 +440,23 @@ def main():
     os.makedirs(os.path.join(run_dir, "csv_logs"), exist_ok=True)
     os.makedirs(os.path.join(run_dir, "ckpt"), exist_ok=True)
 
+    # --- reproducibility stamp (audit round 6): git hash + py-dirty flag.
+    # dirty = uncommitted changes in tracked *.py only (run outputs like
+    # csv_logs/ckpt are tracked too and are ALWAYS dirty during live runs).
+    # A FRESH official run refuses to start dirty; resume is never blocked
+    # (auto-resume wrappers must survive unrelated edits elsewhere).
+    git_hash, git_dirty = _git_state()
+    print(f"git: {git_hash[:12]}  ({'DIRTY py' if git_dirty else 'clean py'})")
+    if args.resume is None and git_dirty and not args.allow_dirty:
+        raise SystemExit(
+            "refusing to START a fresh run with uncommitted .py changes "
+            "(reproducibility); commit/push first or pass --allow_dirty "
+            "for throwaway experiments.")
+
     cfg_dump = {k: v for k, v in cfg.__dict__.items()
                 if not k.startswith("_")}
+    cfg_dump["git_hash"] = git_hash
+    cfg_dump["git_dirty_py"] = git_dirty
     cfg_path = os.path.join(run_dir, "config.json")
     if not os.path.exists(cfg_path):          # keep the original on resume
         with open(cfg_path, "w") as f:
@@ -429,7 +523,8 @@ def main():
                   "queue_size", "p_arrival", "p_arrival_min", "p_arrival_max",
                   "deadline_min", "deadline_max",
                   "n_active_min", "n_active_max",
-                  "ue_speed_min", "ue_speed_max"):
+                  "ue_speed_min", "ue_speed_max", "mu_aware_la",
+                  "la_mode", "decode_order", "la_beta", "la_beta_by_depth"):
             ck_v = ckpt.get("cfg", {}).get(k)
             if ck_v is not None and str(ck_v) != str(getattr(cfg, k)):
                 print(f"WARNING: cfg mismatch vs checkpoint: {k}: "
@@ -470,6 +565,12 @@ def main():
                            "buffer_overflow_rate"]
         if cfg.p_arrival_max > 0:
             env_header += ["p_arrival_ep"]
+        if cfg.resolved_la_mode() == "post_rzf":     # HARQ/LA instruments
+            env_header += ["first_ack_rate", "attempts_per_acked",
+                           "pinned_fraction", "goodput_mbps"]
+            for m in (1, 2, 3, 4):
+                env_header += [f"acks_m{m}", f"units_m{m}",
+                               f"first_ack_m{m}"]
         env_csv.writerow(env_header)
         ppo_csv.writerow(["update", "policy_loss", "value_loss", "entropy_sum",
                            "entropy_mean", "approx_KL", "clip_fraction",

@@ -30,6 +30,7 @@ from csi import CSIFeedbackBuffer, precompute_episode_csi
 from traffic import TrafficModel
 from transmission import TransmissionManager
 from phy import reconstruct_h_hat, compute_slot_sinr, predict_b_tx
+from la_planner import SlotAllocationPlanner
 
 
 class SchedulerEnv:
@@ -57,6 +58,9 @@ class SchedulerEnv:
         self._episode_csi = None
         self.h_true_slot = None
         self.h_hat_slot = None
+        cfg.validate_la()                  # fail fast on illegal LA combos
+        self.last_env_planner = None       # post_rzf: shared-planner record
+        self.last_actual_btx = {}          # post_rzf: (rbg, ue) -> B_tx (Gate 2)
         self.avg_throughput = np.zeros(cfg.num_ue)
         self.cum_acked_bits = np.zeros(cfg.num_ue)
         self._deadline_snap = np.zeros(cfg.num_ue)
@@ -134,6 +138,15 @@ class SchedulerEnv:
                        n_arrivals=0, reward=0.0,
                        sinr_sum=0.0, sinr_count=0,
                        dir_corr_sum=0.0, dir_corr_count=0,
+                       # --- HARQ/LA instrumentation (2026-07-13; pure
+                       # counters, no reward/RNG effect; extra columns are
+                       # exported only for post_rzf runs)
+                       n_units_new=0, n_units_first_ack=0,
+                       n_units_acked=0, attempts_acked_sum=0,
+                       units_by_depth=np.zeros(4, np.int64),
+                       first_ack_by_depth=np.zeros(4, np.int64),
+                       pinned_pos_sum=0, sched_pos_sum=0,
+                       completed_bits=0.0,
                        # --- per-UE accumulators (for per-user / per-speed analysis)
                        acked_per_ue=np.zeros(K), comp_per_ue=np.zeros(K, np.int64),
                        miss_per_ue=np.zeros(K, np.int64),
@@ -246,6 +259,23 @@ class SchedulerEnv:
         # MI accumulation -> ACK / NACK / drop
         outcome = self.txmgr.process_slot(sinr_map)
 
+        # --- HARQ/LA instrumentation (counters only) ---
+        depth_r = [int((np.unique(realized[r][realized[r] > 0])).size)
+                   for r in range(cfg.num_rbg)]
+        for un in outcome.acked:
+            self.ep["n_units_acked"] += 1
+            self.ep["attempts_acked_sum"] += un.tx_attempts
+        for un in (outcome.acked + outcome.dropped + self.txmgr.units):
+            if un.tx_attempts == 1:                    # created this slot
+                self.ep["n_units_new"] += 1
+                d = min(max(depth_r[un.rbg_id], 1), 4) - 1
+                self.ep["units_by_depth"][d] += 1
+                if un.is_acked:
+                    self.ep["n_units_first_ack"] += 1
+                    self.ep["first_ack_by_depth"][d] += 1
+        self.ep["pinned_pos_sum"] += int(self.fixed_mask.sum())
+        self.ep["sched_pos_sum"] += int(occ.sum())
+
         # --- retx-drop: drop the whole parent packet ---
         dropped_pids = set()
         n_retx_drop = 0
@@ -274,6 +304,7 @@ class SchedulerEnv:
             if pkt is not None and pkt.is_complete:
                 n_comp += 1
                 self.ep["comp_per_ue"][u] += 1
+                self.ep["completed_bits"] += float(pkt.size)
                 self.ep["delays"].append(self.slot - pkt.arrival_slot + 1)
                 self._remove_packet(u, pkt.packet_id)
 
@@ -365,6 +396,8 @@ class SchedulerEnv:
         Returns the realized [R, L] allocation actually used for SINR.
         """
         cfg = self.cfg
+        if cfg.resolved_la_mode() == "post_rzf":
+            return self._sanitize_and_create_post_rzf(allocation)
         realized = self.fixed_allocation.copy()
         sel_ue = [s.copy() for s in self.initial_S_r]
         rbg_closed = np.zeros(cfg.num_rbg, dtype=bool)
@@ -376,6 +409,9 @@ class SchedulerEnv:
         # (same pre-checks as the creation loop below, minus the b_tx-epsilon
         # self-reference -- a later epsilon drop makes the sizing conservative).
         # Fixes the structural first-NACK of depth>=2 (GPT-audit C-cluster).
+        # NOTE: this de-rate reduces retx exhaustion but does NOT remove the
+        # first NACK (post-RZF SINR < SNR/m for non-orthogonal groups); the
+        # complete treatment is la_mode='post_rzf' (2026-07-13).
         m_planned = None
         if cfg.mu_aware_la:
             m_planned = self.fixed_mask.sum(axis=1).astype(int)   # [R]
@@ -439,6 +475,58 @@ class SchedulerEnv:
                 sel_ue[r].add(u)
         return realized
 
+    def _sanitize_and_create_post_rzf(self, allocation: np.ndarray) -> np.ndarray:
+        """post_rzf unit creation: RBG-major group closure via the shared
+        SlotAllocationPlanner (la_planner.py).
+
+        New units are sized from the FINAL group's predicted post-RZF SINR
+        (h_hat only -- same precoder/alpha/power as the actual transmission);
+        fixed retx members shape the prediction but keep their historical
+        B_tx. Budgets are debited once per RBG after closure, so the env's
+        commit equals the planner's plan by construction; Gate 2 compares a
+        scheduler's independently threaded plan against
+        ``self.last_actual_btx``.
+        """
+        cfg = self.cfg
+        realized = self.fixed_allocation.copy()
+        uncommitted0 = np.array(
+            [p.uncommitted_backlog if p is not None else 0.0
+             for p in self.traffic.packets], dtype=np.float64)
+        planner = SlotAllocationPlanner(cfg, self.h_hat_slot, self.noise_var,
+                                        self.noise_var, uncommitted0)
+        self.last_actual_btx = {}
+        for r in range(cfg.num_rbg):
+            fixed_ues, entries, seen, closed = [], [], set(), False
+            for l in range(cfg.l_max):
+                if self.fixed_mask[r, l]:
+                    fu = int(self.fixed_allocation[r, l]) - 1
+                    if fu >= 0 and fu not in fixed_ues:
+                        fixed_ues.append(fu)
+                    continue
+                if closed:
+                    continue
+                k = int(allocation[r, l]) if allocation[r, l] > 0 else 0
+                if k == 0:
+                    closed = True                     # spec §5 closure
+                    continue
+                u = k - 1
+                if not (0 <= u < cfg.num_ue) or u in seen or u in fixed_ues:
+                    continue
+                pkt = self.traffic.packets[u]
+                if pkt is None or pkt.uncommitted_backlog <= 0:
+                    continue
+                seen.add(u)
+                entries.append((l, u))
+            _, btx = planner.close_rbg(r, fixed_ues, [u for _, u in entries])
+            for l, u in entries:
+                if u in btx:
+                    self.txmgr.create_unit(self.traffic.packets[u], r, l,
+                                           btx[u])
+                    realized[r, l] = u + 1
+                    self.last_actual_btx[(r, u)] = btx[u]
+        self.last_env_planner = planner
+        return realized
+
     # ------------------------------------------------------------------
     # scheduler-facing helpers
     # ------------------------------------------------------------------
@@ -460,6 +548,7 @@ class SchedulerEnv:
                 uncommitted[u] = p.uncommitted_backlog
         return dict(
             slot=self.slot,
+            noise_var=self.noise_var,   # lets a scheduler rebuild h_hat_slot
             direction_fb=self.csi.direction_fb.copy(),
             cqi_fb=self.csi.cqi_fb.copy(),
             age=self.csi.age.copy(),
