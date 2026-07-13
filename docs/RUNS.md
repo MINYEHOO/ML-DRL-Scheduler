@@ -589,12 +589,12 @@ their RBG pin; ε-dropped members shrink the group via a fixed-point loop.
 - Gate 1 (genie): 21,593 new units, depth 1–4, first-ACK **100.00%** —
   prediction ≡ realization when h_hat = h_true.
 - Gate 2 (accounting): scheduler planned commits vs env actual commits,
-  **max |Δ| = 0.0** over 86,986 units (baselines + PPO, both CSI worlds);
+  **max |Δ| = 0.0** over 86,981 units (baselines + PPO, both CSI worlds, round-8 rerun with official β_m);
   key-set mismatches 0. (Group-member order is canonicalized inside
   `close_rbg` — SINR is permutation-invariant only to ~1e-12 in float.)
 - Gate 3 (replay): decode and replay share one code path
   (`_rbg_major_pass`); action/mask identity asserted, max |Δlogp| = 0.0
-  over 11,891 decisions, budget traces bit-equal. An independent
+  over 11,820 decisions, budget traces bit-equal. An independent
   closed-form reference (orthogonal groups: SINR_i = g_i²P/(mσ²); hand-
   traced ε-drop/swallow-tail/debit) guards against shared-path bugs.
 - Retx immutability: 0 B_tx changes, 0 RBG pin moves.

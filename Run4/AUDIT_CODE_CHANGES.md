@@ -1,6 +1,6 @@
 # Code changes from the external-audit era (2026-07-10 → 2026-07-13)
 
-Scope: **code** changes that came out of publishing the repo and the seven
+Scope: **code** changes that came out of publishing the repo and the eight
 rounds of external (GPT) audit + probe-based adjudication. Pure
 documentation edits are excluded on purpose — those corrected *wording that
 invited misreading*, not simulator behavior (adjudication records:
@@ -9,9 +9,11 @@ invited misreading*, not simulator behavior (adjudication records:
 it *records*.
 
 Ground rule that held throughout: the legacy default configuration stays
-**bit-exact** (CSV-identical debug runs against the pre-change code after
-every edit block — 7 blocks total), because two live trainings auto-resume
-from disk with whatever code is checked out.
+**bit-exact** — CSV-identical 3-update debug runs (`--mode debug --seed 7`)
+against the pre-change reference built from `Run3/code_backup/` (the frozen
+pre-redesign tree), re-checked after every edit block (8 blocks total) —
+because two live trainings auto-resume from disk with whatever code is
+checked out.
 
 ---
 
@@ -19,8 +21,11 @@ from disk with whatever code is checked out.
 
 **Problem found by audit:** B_tx for a new unit was sized from the
 full-power SU CQI even when m > 1 streams share the RBG power, making
-depth ≥ 2 first transmissions structurally NACK (required IR rounds
-1.34/1.64/1.91 for m = 2/3/4 at 10 dB).
+**cap-limited** depth ≥ 2 first transmissions structurally NACK
+(backlog-capped units send less than the cap and can still first-ACK). The
+required accumulated-MI-to-B_tx ratio is 1.34/1.64/1.91 for m = 2/3/4 at
+10 dB — i.e. the first slot delivers only 1/1.34… of the target, not a
+statement about integer HARQ round counts.
 
 **Change:** `config.mu_aware_la` (default False = historical), env-side
 de-rate at unit creation: `SE_m = log2(1 + (2^CQI − 1)/m)` with `m_planned`
@@ -90,29 +95,39 @@ virtual-PF bump uses finalized B_tx.
 ## 6. `policy.py` — one decode/replay code path (`_rbg_major_pass`)
 
 Rollout decode and PPO-update replay share a single rbg-major
-implementation (teacher-forcing is a parameter, not a second code path), so
-rollout/replay can only diverge through the weights. Budget features/masks
-come from the planner's float64 remaining; SU-CQI `pred_btx` stays as a
-*feature only* (debits happen at closure with final values). Gate 3:
-max |Δlogp| = 0.0 over 11,891 decisions, budget traces bit-equal. Because a
-shared path can hide shared bugs, an **independent closed-form reference**
+implementation (teacher-forcing is a parameter, not a second code path).
+Budget features/masks come from the planner's float64 remaining; SU-CQI
+`pred_btx` stays as a *feature only* (debits happen at closure with final
+values). Gate 3: under identical obs/config/weights and the tested
+execution conditions (CPU, deterministic threading), decode and replay
+agreed exactly — max |Δlogp| = 0.0 over 11,820 decisions, budget traces
+bit-equal. Because a shared path can hide shared bugs, an **independent
+closed-form reference**
 (`_analysis/scripts/audit_probes/independent_reference_test.py`: orthogonal
 groups SINR_i = g_i²P/(mσ²), hand-traced ε-drop/swallow-tail/debit) guards
-the math core, alongside Gate 1's physical oracle.
+the math core, alongside Gate 1 — which is itself a *simulator PHY-chain
+consistency gate* (prediction vs realization inside the same PHY
+implementation), not an external oracle for the RZF math.
 
 ## 7. Depth-wise backoff β_m (rounds 6–7) + global-β kept as ablation
 
 - `config.la_beta` (scalar) — global-β **ablation** mode. Round-6 audit
   proved (analytically: for m = 1 the predicted post-RZF SINR *equals* the
   fed-back SNR by `reconstruct_h_hat`'s definition) that a global
-  β = 0.6469 cuts SU rate by exactly 35% → the SU+CQI collapse to 1246.
+  β = 0.6469 cuts the **cap-limited m = 1 B_tx ceiling** by exactly
+  35.31% (backlog-limited units and ε-tail swallowing are not scaled by β)
+  → the SU+CQI collapse to 1246.
 - `config.la_beta_by_depth` — official mode: β_m = (0.9815, 0.7306,
   0.6466, 0.5922), the per-depth 10th percentile of MI_actual/cap_pred
   from a **scheduler-independent** calibration (36 episodes advanced with
   empty allocations, uniform random groups; same β_m for every scheduler;
-  genie = 1.0). Holdout validation on 12 disjoint episodes, β_m frozen:
-  m1 88.8%, m2–m4 93.5–94.8%, with **episode-cluster bootstrap** CIs
-  (member-level binomial CIs overstate precision ~3×). Script:
+  genie = 1.0). Correct characterization: *independently calibrated
+  depth-dependent margins targeting approximately 10% first-transmission
+  BLER* — not exactly-10%-everywhere. Holdout on 12 disjoint episodes,
+  β_m frozen: m1 88.8%, m2–m4 93.5–94.8% pooled, with **episode-cluster
+  bootstrap** CIs (member-level binomial CIs overstate precision ~1.2×
+  for m = 1 and ~3.3–4.1× for m = 2–4, because samples within an episode
+  share its channel mixture). Script (self-reproducing end-to-end):
   `_analysis/scripts/audit_probes/beta_m_calib_holdout.py`.
 - `--la_beta` / `--la_beta_by_depth` CLI; both in the resume warn-list.
 
@@ -130,39 +145,81 @@ Fix: empty bins are **NaN**, raw numerator/denominator columns are always
 stored, and multi-episode aggregation must pool Σacks/Σunits (never average
 per-episode rates).
 
-## 9. Reproducibility hardening (round 6–7)
+## 9. Reproducibility hardening (rounds 6–8)
 
 - `train_phase2._git_state()`: every run stamps `git_hash` +
-  `git_dirty_py` (tracked `*.py` only — run outputs are tracked too and are
-  always dirty during live runs) into `config.json` and every checkpoint.
+  `git_dirty_py` into `config.json` and every checkpoint. `git_dirty_py`
+  covers **tracked-modified and untracked** `*.py` anywhere in the repo
+  (`git status --porcelain -- '*.py'`); run outputs are excluded because
+  they are tracked non-py files, always dirty during live runs. On any git
+  error the stamp **fails open** (`"no-git"/"unknown"`, dirty = False) —
+  stamping must never break training, so the wrapper pin below is the
+  enforcing layer.
 - A **fresh** run refuses to start with uncommitted `.py` changes
   (`--allow_dirty` escape for throwaway experiments); resume is never
   blocked at this layer (auto-resume wrappers must survive unrelated
   edits).
-- `Run4/_wrap_queuepostrzf.sh` (the pilot's wrapper) closes the resume
-  hole: every launch **and** resume verifies (a) HEAD's root `*.py` tree
-  identical to the pinned redesign commit `efcfac6`, (b) clean root-`*.py`
-  worktree, (c) the checkpoint's stamped commit has an identical root-py
-  tree. Mismatch → idle HOLD loop (tmux session stays alive, so the
-  watchdog does not zombie-churn); `ALLOW_HASH_MISMATCH=1` is the explicit
-  override. Docs/analysis commits don't trip the pin; any training-code
-  drift does.
+- `Run4/_wrap_queuepostrzf.sh` (the official run's wrapper) closes the
+  resume hole: every launch **and** resume verifies (a) HEAD's
+  **root-level `*.py` tree** identical to the pinned baseline commit,
+  (b) clean root-`*.py` worktree, (c) the checkpoint's stamped commit has
+  an identical root-py tree. Scope is exactly that: the flat root-level
+  Python modules are the entire runtime import surface today, but the pin
+  does NOT cover the wrapper itself, CLI arguments, dependencies, or any
+  future sub-directory modules. Mismatch → idle HOLD loop that keeps
+  touching the run's `.wd_marker` every 30 s so the hang-watchdog
+  (`Run3/_watchdog.sh`, HANG_MIN-based kill+relaunch) does not churn the
+  HOLD — verified by an integration test with `HANG_MIN=1 CHECK_SEC=10`:
+  the new HOLD survives untouched while a no-marker control variant gets
+  kill/relaunch-churned. `ALLOW_HASH_MISMATCH=1` is the explicit override;
+  it cannot be injected into a running shell — apply it by relaunching the
+  session deliberately.
+- Commit roles: `efcfac6` = the post-RZF redesign (root-py baseline of the
+  first pilot attempt); `22bda54` = round-7 ops/docs (pin + cluster CI, no
+  root-py change); the round-8 fix commit = the **current** root-py
+  baseline that `QueuePostRZF` is pinned to (snr_m routing fix — see §11).
 
 ## 10. Verification artifacts (all in `_analysis/scripts/audit_probes/`)
 
-`gate23_post_rzf.py` (Gates 1–3 + retx immutability),
-`independent_reference_test.py`, `beta_m_calib_holdout.py` (+ cluster
-bootstrap), `control_lm_rm.py` (order-effect control),
-`new_la_baselines.py` (4-row world decomposition; results in
-`_analysis/new_la_baselines{,_betam}.csv`).
+`gate1_genie_first_ack.py` (Gate 1 full: depth bins asserted non-empty,
+full-cap/backlog-cap separated), `gate23_post_rzf.py` (Gates 2–3 + retx
+immutability + a depth-1 Gate-1 supplement), `independent_reference_test.py`,
+`beta_m_calib_holdout.py` (calibration → holdout → Wilson + cluster
+bootstrap, end-to-end in one run), `control_lm_rm.py` (order-effect
+control), `new_la_baselines.py` (BOTH post-RZF worlds; per-baseline
+summaries with pooled per-depth rates + `*_raw.csv` world×scheduler×seed
+rows). Superseded outputs are kept, clearly labeled, in
+`_analysis/superseded/` (the global-β summary whose per-depth columns
+carried the empty-bin artifact).
 
 | gate | result |
 |---|---|
-| G1 genie first-ACK (new units, depth 1–4) | 100.00% (21,593 units) |
-| G2 planned vs actual commit | max \|Δ\| = 0.0 (86,986 units, keyset mismatches 0) |
-| G3 rollout vs replay | max \|Δlogp\| = 0.0 (11,891 decisions), budget traces bit-equal |
+| G1 genie first-ACK (new units, depth 1–4 all non-empty) | 100.00% (21,593 units) |
+| G2 planned vs actual commit | max \|Δ\| = 0.0 (86,981 units, keyset mismatches 0) |
+| G3 rollout vs replay (same obs/config/weights) | max \|Δlogp\| = 0.0 (11,820 decisions), budget traces bit-equal |
 | retx immutability | 0 B_tx changes, 0 RBG pin moves |
-| legacy bit-exactness | CSV-identical through all 7 edit blocks |
+| legacy bit-exactness | CSV-identical through all 8 edit blocks (reference: `Run3/code_backup/`) |
 
-First consumer: `Run4/QueuePostRZF` (pilot, GPU0, seed 2024, launched
-2026-07-13, code pinned to `efcfac6` via commit `22bda54`).
+## 11. Round 8 — `snr_m` routing fix + verification-artifact consolidation
+
+External review of THIS ledger (round 8) found one real dormant bug and
+several stale checked-in artifacts; all fixed:
+
+- **Bug:** `env.py`'s SNR/m branch still gated on the raw `mu_aware_la`
+  flag, so `la_mode="snr_m"` alone silently ran legacy, and
+  `la_mode="legacy"` + `mu_aware_la=True` silently de-rated. Fix: gate on
+  `resolved_la_mode() == "snr_m"`. Four-combination regression (3-update
+  debug runs, CSV-compared): `("", False)` ≡ legacy reference;
+  `("legacy", True)` ≡ legacy reference; `("snr_m", False)` ≡
+  `("", True)`; and `("", True)` ≠ legacy on env/ppo metrics (the de-rate
+  demonstrably routes). No live or completed run ever used the broken
+  combinations (`QueueMixedFairLA` sets `mu_aware_la=True`, post_rzf runs
+  set `la_mode="post_rzf"` — both behavior-identical across the fix).
+- Verification scripts re-checked-in as final versions and re-run from the
+  repo (previous copies were pre-final snapshots; results unchanged).
+- HOLD/watchdog interaction fixed + integration-tested (see §9).
+
+First consumer: `Run4/QueuePostRZF` (GPU0, seed 2024, restarted fresh
+2026-07-13 on the round-8 commit after the snr_m fix — the earlier
+same-day attempt on `efcfac6`/`22bda54` was archived, not resumed, so the
+official run's entire history lives on one immutable code baseline).

@@ -1,55 +1,88 @@
-"""New-LA world baseline evaluation: post_rzf + rbg_major + la_beta=0.6469.
+"""post-RZF world baseline evaluation -- BOTH backoff modes (audit round 8).
 
-Same 8 seeds as the legacy control run (paired). Reports the standard metric
-set + the new HARQ instruments (first-ACK rate incl. per-depth, attempts per
-ACKed unit, pinned fraction, goodput).
+Runs the full baseline grid on the same 8 paired seeds in
+  world "global": post_rzf + rbg_major + scalar la_beta = 0.6469 (ablation)
+  world "betam" : post_rzf + rbg_major + la_beta_by_depth
+                  (0.9815, 0.7306, 0.6466, 0.5922)          (official)
+and writes, per world:
+  new_la_baselines_<world>.csv      -- per-baseline summary (rewards etc. are
+                                       seed means; per-depth first-ACK is the
+                                       POOLED sum(acks)/sum(units) -- never
+                                       the mean of per-episode rates)
+  new_la_baselines_<world>_raw.csv  -- world x scheduler x seed raw rows
+                                       (every scalar metric + per-depth
+                                       acks/units), for reanalysis.
+
+The legacy rows of the 4-way decomposition table (legacy+LM, legacy+RM)
+come from control_lm_rm.py. Reference results: docs/RUNS.md 4.5.
+
+Run from the repo root:
+  python3 Run4/_analysis/scripts/audit_probes/new_la_baselines.py
 """
+import csv
 import numpy as np
+
 from config import phase4_queue_config
 from env import SchedulerEnv
 from baselines import all_baselines
 from train_phase2 import env_episode_metrics
 
 SEEDS = list(range(10000, 10008))
-cfg = phase4_queue_config(la_mode="post_rzf", decode_order="rbg_major",
-                          la_beta=0.6469,
-                          p_arrival_min=0.15, p_arrival_max=0.40)
-env = SchedulerEnv(cfg)
-rows = {}
-for sch in all_baselines(cfg):
-    ms = []
-    for s in SEEDS:
-        env.reset(episode_idx=s)
-        done = False
-        while not done:
-            _, _, done, _ = env.step(sch.schedule(env))
-        ms.append(env_episode_metrics(env, cfg))
-    agg = {k: float(np.mean([m[k] for m in ms]))
-           for k in ms[0] if isinstance(ms[0][k], (int, float))}
-    rows[sch.name] = agg
-    print(f"{sch.name:16s} rew {agg['reward']:8.1f}  "
-          f"thr {agg['throughput_mbps']:6.2f}  comp {agg['completion_rate']:.3f}  "
-          f"miss {agg['deadline_miss_rate']:.3f}  "
-          f"rxd {agg['retx_drop_rate']:.4f}  depth {agg['mu_depth']:.2f}  "
-          f"1ACK {agg['first_ack_rate']:.3f}  "
-          f"att {agg['attempts_per_acked']:.2f}  "
-          f"pin {agg['pinned_fraction']:.3f}  "
-          f"good {agg['goodput_mbps']:.2f}", flush=True)
+OUT_DIR = "Run4/_analysis"
+WORLDS = {
+    "global": dict(la_beta=0.6469),
+    "betam": dict(la_beta_by_depth=(0.9815, 0.7306, 0.6466, 0.5922)),
+}
+SUMMARY_KEYS = ["reward", "throughput_mbps", "completion_rate",
+                "deadline_miss_rate", "retx_drop_rate", "mu_depth", "jain",
+                "first_ack_rate", "attempts_per_acked", "pinned_fraction",
+                "goodput_mbps"]
 
-print("\nper-depth first-ACK (mean over seeds):")
-for name, agg in rows.items():
-    print(f"{name:16s} " + " ".join(
-        f"m{m}:{agg[f'first_ack_m{m}']:.2f}" for m in (1, 2, 3, 4)))
+for world, la_kw in WORLDS.items():
+    cfg = phase4_queue_config(la_mode="post_rzf", decode_order="rbg_major",
+                              p_arrival_min=0.15, p_arrival_max=0.40, **la_kw)
+    env = SchedulerEnv(cfg)
+    raw_rows, summary = [], {}
+    for sch in all_baselines(cfg):
+        ms = []
+        for s in SEEDS:
+            env.reset(episode_idx=s)
+            done = False
+            while not done:
+                _, _, done, _ = env.step(sch.schedule(env))
+            em = env_episode_metrics(env, cfg)
+            ms.append(em)
+            raw_rows.append([world, sch.name, s]
+                            + [em[k] for k in SUMMARY_KEYS]
+                            + [em[f"acks_m{m}"] for m in (1, 2, 3, 4)]
+                            + [em[f"units_m{m}"] for m in (1, 2, 3, 4)])
+        agg = {k: float(np.mean([m[k] for m in ms])) for k in SUMMARY_KEYS}
+        for m in (1, 2, 3, 4):
+            ub = sum(x[f"units_m{m}"] for x in ms)
+            ak = sum(x[f"acks_m{m}"] for x in ms)
+            agg[f"acks_m{m}"], agg[f"units_m{m}"] = ak, ub
+            agg[f"first_ack_m{m}"] = ak / ub if ub > 0 else float("nan")
+        summary[sch.name] = agg
+        print(f"[{world}] {sch.name:16s} rew {agg['reward']:8.1f}  "
+              f"depth {agg['mu_depth']:.2f}  1ACK {agg['first_ack_rate']:.3f}"
+              + "".join(f"  m{m}:{agg[f'first_ack_m{m}']:.3f}"
+                        f"(n={agg[f'units_m{m}']})" for m in (1, 2, 3, 4)),
+              flush=True)
 
-import csv, os
-out = "/home/MYH/ML_DRL_Scheduler/Run4/_analysis/new_la_baselines.csv"
-keys = ["reward", "throughput_mbps", "completion_rate", "deadline_miss_rate",
-        "retx_drop_rate", "mu_depth", "jain", "first_ack_rate",
-        "attempts_per_acked", "pinned_fraction", "goodput_mbps",
-        "first_ack_m1", "first_ack_m2", "first_ack_m3", "first_ack_m4"]
-with open(out, "w", newline="") as f:
-    w = csv.writer(f)
-    w.writerow(["baseline"] + keys)
-    for name, agg in rows.items():
-        w.writerow([name] + [f"{agg[k]:.4f}" for k in keys])
-print(f"saved {out}")
+    with open(f"{OUT_DIR}/new_la_baselines_{world}_raw.csv", "w",
+              newline="") as f:
+        w = csv.writer(f)
+        w.writerow(["world", "baseline", "seed"] + SUMMARY_KEYS
+                   + [f"acks_m{m}" for m in (1, 2, 3, 4)]
+                   + [f"units_m{m}" for m in (1, 2, 3, 4)])
+        w.writerows(raw_rows)
+    keys = SUMMARY_KEYS + [x for m in (1, 2, 3, 4)
+                           for x in (f"acks_m{m}", f"units_m{m}",
+                                     f"first_ack_m{m}")]
+    with open(f"{OUT_DIR}/new_la_baselines_{world}.csv", "w",
+              newline="") as f:
+        w = csv.writer(f)
+        w.writerow(["baseline"] + keys)
+        for name, agg in summary.items():
+            w.writerow([name] + [agg[k] for k in keys])
+    print(f"[{world}] saved summary + raw CSVs", flush=True)

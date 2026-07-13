@@ -45,7 +45,16 @@ for i in $(seq 1 1000); do
   if [ "${ALLOW_HASH_MISMATCH:-0}" != "1" ]; then
     REASON=$(pin_check) || {
       echo "===== [wrap] PIN FAIL attempt $i $(date '+%F %T') :: $REASON -- HOLDING (no relaunch)" >> "$LOG"
-      while [ "${ALLOW_HASH_MISMATCH:-0}" != "1" ] && ! pin_check >/dev/null; do sleep 600; done
+      # HOLD: keep the watchdog's progress marker fresh every 30s (else its
+      # HANG_MIN no-progress rule kills the session and churns the HOLD);
+      # re-evaluate the pin only every ~5min (pin_check torch-loads the ckpt).
+      hold_n=0
+      while [ "${ALLOW_HASH_MISMATCH:-0}" != "1" ]; do
+        if [ $((hold_n % 10)) -eq 0 ] && pin_check >/dev/null; then break; fi
+        sleep 30
+        hold_n=$((hold_n + 1))
+        [ -d "$RUN_DIR" ] && touch "$RUN_DIR/.wd_marker"
+      done
       echo "===== [wrap] pin restored $(date '+%F %T') -- resuming loop" >> "$LOG"
     }
   fi

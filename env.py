@@ -402,18 +402,21 @@ class SchedulerEnv:
         sel_ue = [s.copy() for s in self.initial_S_r]
         rbg_closed = np.zeros(cfg.num_rbg, dtype=bool)
 
-        # m-aware link adaptation (cfg.mu_aware_la, default OFF = historical):
-        # size B_tx with the per-stream power split the gNB itself is about to
+        # m-aware link adaptation (la_mode "snr_m"; legacy CLI spelling
+        # mu_aware_la=True resolves to it, default OFF = historical): size
+        # B_tx with the per-stream power split the gNB itself is about to
         # create, instead of the full-power SU CQI. m_planned counts, per RBG,
         # the retx-pinned layers plus the allocation's admissible new entries
         # (same pre-checks as the creation loop below, minus the b_tx-epsilon
         # self-reference -- a later epsilon drop makes the sizing conservative).
-        # Fixes the structural first-NACK of depth>=2 (GPT-audit C-cluster).
+        # Addresses the cap-limited first-NACK of depth>=2 (audit C-cluster).
         # NOTE: this de-rate reduces retx exhaustion but does NOT remove the
         # first NACK (post-RZF SINR < SNR/m for non-orthogonal groups); the
         # complete treatment is la_mode='post_rzf' (2026-07-13).
+        # 2026-07-13 round-8 fix: gate on resolved_la_mode(), not the raw
+        # flag -- an explicit la_mode must win over mu_aware_la both ways.
         m_planned = None
-        if cfg.mu_aware_la:
+        if cfg.resolved_la_mode() == "snr_m":
             m_planned = self.fixed_mask.sum(axis=1).astype(int)   # [R]
             _seen = [set(s) for s in self.initial_S_r]
             _closed = np.zeros(cfg.num_rbg, dtype=bool)
