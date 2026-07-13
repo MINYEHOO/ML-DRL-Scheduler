@@ -17,7 +17,7 @@ from policy import ActorCritic
 EPL = 200  # slots per episode checked (plenty of units)
 
 
-BETA_M = (0.979, 0.723, 0.646, 0.590)   # official depth-wise backoff
+BETA_M = (0.9815, 0.7306, 0.6466, 0.5922)   # official depth-wise backoff (36-ep calibration)
 
 
 def make_cfg(pmi, pcsi):

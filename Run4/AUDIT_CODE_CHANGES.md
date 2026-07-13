@@ -182,9 +182,13 @@ per-episode rates).
   - **`a67aac4` — official fresh-run launch HEAD** and the value stamped in
     the run's `config.json` — a wrapper-only descendant of `9ed28d0` with a
     verified-identical root-Python tree.
-  - The round-8 **evidence commit** (this document's version, manifest,
-    regression tests, re-run artifacts) — a docs/analysis-only descendant;
-    it does not touch root `*.py`, so the pin stays valid.
+  - **`0cabbef` — initial round-8 evidence bundle** (manifest, regression
+    tests, strengthened gates) and its follow-up fix commit — docs/analysis-
+    only descendants; they do not touch root `*.py`, so the pin stays
+    valid. (The follow-up exists because `0cabbef` itself reintroduced the
+    OLD β tuple into `gate23_post_rzf.py` — the Gate-3 asserts were added
+    to a stale working copy and copied over the β-corrected file; caught by
+    external review, restored to the official tuple and re-run.)
 
 ## 10. Verification artifacts (all in `_analysis/scripts/audit_probes/`)
 
