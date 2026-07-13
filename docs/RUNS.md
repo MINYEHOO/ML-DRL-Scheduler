@@ -20,7 +20,12 @@ use the form `file.py: symbol` so every claim can be checked against source.
 - **Standard metric order** for comparison tables (fixed by the repo owner):
   reward, throughput, SINR, completion, deadline miss, retx drop, total
   failure, MU depth, JFI. JFI is computed over **active** users only
-  (`metrics.py`; definition fixed 2026-07-06, see §3.2).
+  (`metrics.py`; definition fixed 2026-07-06, see §3.2). **Extended
+  2026-07-13 (owner decision, post-RZF era)**: tables insert
+  **goodput (Mbps)** after throughput — completed-packet payload only,
+  so bits ACKed for packets that later miss/drop count in throughput
+  (ACKed-bit, link-level) but NOT in goodput (useful-delivery). Legacy-era
+  tables stay 9-metric (goodput was not instrumented then).
 - **Evaluation protocol**: paired same-seed episodes on held-out seeds
   (10000+), deterministic (argmax) PPO, pre-declared sample sizes for final
   verdicts. "MU depth" = per-UE realized pairing depth: for each scheduled
