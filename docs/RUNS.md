@@ -634,7 +634,7 @@ SUS+CQI / SU+CQI mean reward):
 | world | SUS+CQI | SU+CQI | note |
 |---|---|---|---|
 | legacy + layer-major | 4788 | 3332 | historical |
-| legacy + rbg-major | 4643 | 3332 | order effect: SU exactly 0 (bit-identical), SUS −2~−3% |
+| legacy + rbg-major | 4643 | 3332 | **composite implementation sensitivity** (audit round 9): the legacy env creates units layer-major regardless of decode_order, so this row mixes traversal-order selection with scheduler-plan↔env-creation B_tx placement remapping (totals conserved). SU exactly 0 (bit-identical; all units at l0) stands; the SUS −2~−3% must NOT be read as a causal order effect until the env honors decode_order and the control is re-run (next-gen batch, AUDIT_CODE_CHANGES §12) |
 | post-RZF + global β + RM | 5124 | 1246 | ablation; SU over-backed-off |
 | **post-RZF + β_m + RM (official)** | **4819** | **3571** | depth-fair 90% target |
 

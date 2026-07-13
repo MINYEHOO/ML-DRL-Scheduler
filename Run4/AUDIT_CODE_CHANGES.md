@@ -242,3 +242,103 @@ First consumer: `Run4/QueuePostRZF` (GPU0, seed 2024, restarted fresh
 2026-07-13 on the round-8 commit after the snr_m fix — the earlier
 same-day attempt on `efcfac6`/`22bda54` was archived, not resumed, so the
 official run's entire history lives on one immutable code baseline).
+
+## 12. Rounds 9–10 — adjudicated findings and the NEXT-GENERATION contract
+
+External rounds 9–10 (three-workflow review by the auditor, six-track
+probe-based adjudication on our side; probes in
+`_analysis/scripts/audit_probes/round9/`, raw outputs in
+`_analysis/round9_results/`) produced the following ledger. **Nothing in
+this section is implemented in the current pinned code (`9ed28d0`)** —
+`QueuePostRZF` continues as a *pilot* (capability probe; NOT a paper
+result), and the items below form the contract for the next-generation
+root-py batch, to be applied in one block → full gate re-verification →
+new pin → multi-seed official training.
+
+**Adjudicated real defects — PLANNED / NOT IMPLEMENTED:**
+- **Tail-swallow over-cap** (`la_planner.close_rbg`, same rule as legacy
+  `env.py`): swallow can set B_tx above the physical cap. Window math (M =
+  raw β-free one-slot MI, C = β_m·M = the code's `btx_cap`): a swallow
+  fires for backlog in (C, C+ε); it can *cause* a genie-style NACK only if
+  backlog also exceeds M, which requires **M < ε/(1−β_m)** (raw MI), i.e.
+  **C < β_m·ε/(1−β_m)** (code cap) — m=1: M<54.05 / C<53.05 bit; m=4:
+  M<2.45 / C<1.45 bit. Under Type-II CSI no deterministic threshold exists
+  (actual MI ≠ predicted). **Census** (r10 probe, code-under-test
+  `9ed28d0`, baseline traces SUS+CQI/CQI-greedy/Random × seeds
+  10000–10007): 1,477,128 units, 126 over-cap events (0.0085%, depths 3–4
+  only), mean overage 0.505 bit, total over-credit ≈64 bit, **0
+  swallow-induced first-NACKs**. Scope of that claim: *no observed
+  tail-induced ACK/HARQ flips on measured baseline traces; full
+  corrected-trajectory equivalence (reward/completion-slot/EWMA/obs
+  divergence) has NOT been tested, and the live PPO pilot's own action
+  trace was not measured.* Fix (next gen): one shared cap-safe helper used
+  by env, planner, PPO mask, and baseline candidate checks; reconcile all
+  >ε / ≥ε boundaries; counterfactual old-vs-new A/B recording Δreward,
+  Δacked_bits, completion-slot moves, first divergence point.
+- **Ghost picks**: PPO `_rbg_major_pass` leaves `in_slot_count`
+  incremented for planner-dropped UEs (budget is NOT leaked; env agrees).
+  Fix: 3-line rollback from the kept list + permanent per-scheduler
+  ghost/all-dropped-RBG counters.
+- **Guards**: (a) genie world: `pmi_mode=="genie"` must require
+  `p_csi==1.0` and effective β=1 (currently unenforced); (b) PPO decode
+  must reject `decode_order=rbg_major` with `resolved_la_mode() !=
+  "post_rzf"` (it would thread post-RZF budgets against a legacy env).
+  Guard lives in the PPO path, NOT globally in `validate_la` — baselines
+  legitimately need legacy+RM for the control re-run below.
+- **legacy+RM control**: the legacy env creates units layer-major
+  regardless of `decode_order`, so the published control row mixes
+  traversal-order selection with plan-vs-creation B_tx placement
+  remapping (probe-confirmed; totals conserved). Until the env honors
+  decode_order for legacy AND a Gate-2-style scheduler/env agreement
+  check passes AND the control is re-run, that row is a **composite
+  implementation sensitivity** — no causal order-effect or LA-effect
+  decomposition may be read from it. (All historical results are
+  legacy+LM, where scheduler and env orders coincide; the official
+  post-RZF world is self-consistent, Gate 2 = 0.)
+
+**Adjudicated as NOT fixes (kept by design, with evidence):**
+- **Terminal bootstrap**: mechanism real (done-path obs mixes fresh
+  traffic with stale CSI/fixed_*; `V(mixed obs)` bootstraps GAE — the code
+  documents it as an accepted approximation). Measured on the Run3/L2b
+  critic (**exploratory — non-transferable to QueuePostRZF**): staleness
+  error ≈0.37σ of TD noise on 1 of 1000 transitions, near-zero mean; the
+  critic's V is flat across the episode (does NOT decay toward the
+  episodic return-to-go), i.e. it learned the continuing/truncation
+  convention — though V ≈ 946–990 sits ~27% above r̄/(1−γ)=750, so
+  "converged to the fixed point" would overstate it. Plan: re-measure on a
+  QueuePostRZF checkpoint (normalized-advantage delta, gradient cosine,
+  error-vs-queue/retx correlation, episode-cluster CI) before declaring it
+  a quantitatively-validated boundary approximation. `last_value=0` is a
+  finite-horizon redesign, not a correction.
+- **σ² calibration**: per-episode median-gain normalization is retained.
+  Correct characterization (adopted): *a non-causal episode-level
+  benchmark normalization to equal median SNR per world — not a
+  deployment-causal PHY*. One scalar per seed shared by every scheduler
+  and by PPO train/eval alike; paired comparisons pair whole worlds. A
+  frozen large-scale-statistics σ² is a legitimate alternative design for
+  a future generation, not a correctness fix.
+- **ε-drop maximal subset**: batch-drop is kept. At the Run4 operating
+  point: 0 all-drop RBGs in 4,800 closures per scheduler (14,400 total),
+  and one-at-a-time removal reproduced the batch result in 482/482
+  observed drop events — *no gain on measured traces* (not: impossible in
+  general; deep-fade window ≈ singleton cap ≤6.6 bit exists).
+- **W sharing**: docs promise same precoder *function/α/power*, not a
+  literal shared matrix; planner-vs-env agreement ≤1.1e-13. The
+  previously-missing external check now exists: the non-orthogonal m=2
+  closed-form RZF oracle (`round9/r9_10_nonortho_rzf_oracle.py`) validates
+  `rzf_precoder`/α to 1.8e-15 independently of the shared code path.
+
+**Structural limitations (paper-generation experiment axes, not bugs):**
+ScoreNet group-state aliasing is a **PPO-specific representation limit**
+(implemented baselines also use the max-correlation summary today, but
+baselines CAN be upgraded to full-Gram/marginal-RZF selection — the
+planned strong greedy baseline — whereas the current ScoreNet function
+class cannot express it). Required for the paper generation: 3-way
+ablation (current lossy summary / selected-set pooling / marginal
+post-RZF features) + the marginal-RZF greedy baseline. No-user on first
+stream and HARQ-state observability remain shared PPO/baseline
+constraints (ablation candidates). Evaluation protocol adopted: untouched
+final-test seeds (20000+, one shot), SUS threshold re-sweep in the
+post-RZF world, canonical config.json-driven evaluator, full dependency
+freeze, fixed eval-worlds across training seeds (no best-seed selection),
+hierarchical/two-way cluster CIs, latency/FLOPs/K-R-L scaling.

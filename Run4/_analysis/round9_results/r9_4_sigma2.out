@@ -1,0 +1,6 @@
+default Config             noise_mode='calibration' target_snr_db=10.0
+Run2 phase2_hard_main      noise_mode='calibration' target_snr_db=10.0
+Run3 phase2_hetero         noise_mode='calibration' target_snr_db=10.0
+Run4 phase4_queue          noise_mode='calibration' target_snr_db=10.0
+sigma2 full=0.168371  sigma2 after future-only perturb=0.310744
+slot-0 CQI mean shift: 3.3864 -> 2.6361 (prefix-invariance violated: True)

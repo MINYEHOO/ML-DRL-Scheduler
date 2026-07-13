@@ -256,6 +256,19 @@ interference-limited UMi geometry (RAN1 large-scale-calibration medians), not
 a physical link budget — absolute dBm claims are forbidden (audit §2/§3).
 Per-UE near-far spread (~46 dB pathloss dynamic range) is preserved.
 
+**Causality caveat (audit rounds 9–10).** Because the median is taken over
+the WHOLE episode, σ² — and therefore every CQI value, the RZF α, and
+post-RZF predictions from slot 0 on — is a function of the episode's entire
+channel realization, including its future. Strict per-slot causality
+("observations up to t depend only on channels up to t") is intentionally
+traded for a fixed operating point: this is a **non-causal episode-level
+benchmark normalization to equal median SNR per world, not a
+deployment-causal PHY**. It is one scalar per seed, shared identically by
+every scheduler and by PPO training and evaluation alike, so no within-world
+comparison or paired CI depends on per-slot causality. (A frozen σ² derived
+from long-term large-scale statistics on an independent calibration set is a
+legitimate alternative design for a future generation.)
+
 ## 7. PHY Abstraction and HARQ
 
 No per-RE link simulation. The abstraction (`phy.py: mi_bits()`,

@@ -1,0 +1,6 @@
+trials=300 m=2 non-orthogonal (|rho| up to 0.95), alpha,nv in [0.05,3]
+max rel err W  (rzf_precoder vs scalar closed-form): 1.835e-15
+max rel err SINR (phy._rbg_sinr vs oracle):          8.085e-14
+max rel err SINR (planner predict vs oracle):        8.085e-14
+max rel err btx_cap (planner caps vs oracle):        1.130e-14
+NON-ORTHOGONAL ORACLE: PASS (<1e-10)

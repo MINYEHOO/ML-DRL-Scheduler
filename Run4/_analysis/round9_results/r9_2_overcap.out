@@ -1,0 +1,10 @@
+epsilon          = 1.0
+cap (physical)   = 7162.483861559 bits
+uncommitted      = 7162.983861559 bits (cap + eps/2)
+B_tx returned    = 7162.983861559 bits
+B_tx - cap       = 0.500000000 bits  -> over-cap: True
+delivered MI     = 7162.483861559 bits
+MI < B_tx - 1e-6 : True
+i_acc after 1st tx = 7162.483861559; is_acked = False  (threshold b_tx-1e-6 = 7162.983860559)
+control (unc=cap): b_tx=7162.483861559, is_acked=True
+beta_m=0.9815: cap=7029.978, swallowed b_tx=7030.478, delivered MI=7162.484 -> first-ACK still ok: True

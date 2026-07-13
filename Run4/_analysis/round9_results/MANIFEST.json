@@ -1,0 +1,49 @@
+{
+  "purpose": "Round-9/10 audit probe results (analysis-only evidence batch)",
+  "code_under_test_sha": "9ed28d0706b979bbede8fa1b1b57eb8a9cfe1c9c",
+  "probe_scripts_sha": "095bd9410643d31f78b1a013052d4cd3ed1ce4af",
+  "rerun_date": "2026-07-13",
+  "environment": {
+    "python": "3.11.0rc1",
+    "platform": "Linux-6.8.0-60-generic-x86_64-with-glibc2.35",
+    "numpy": "1.26.4",
+    "torch": "2.7.1+cu118",
+    "note": "CPU only (CUDA_VISIBLE_DEVICES=''), OMP_NUM_THREADS=12"
+  },
+  "commands": {
+    "r9_10_nonortho_oracle.out": "python3 Run4/_analysis/scripts/audit_probes/round9/r9_10_nonortho_rzf_oracle.py",
+    "r10_tail_census.out": "python3 Run4/_analysis/scripts/audit_probes/round9/r10_tail_swallow_census.py",
+    "r9_4_sigma2.out": "python3 Run4/_analysis/scripts/audit_probes/round9/r9_4_sigma2_prefix_invariance.py",
+    "r9_2_overcap.out": "python3 Run4/_analysis/scripts/audit_probes/round9/r9_2_tail_overcap_counterexample.py"
+  },
+  "tail_census_definitions": {
+    "world": "phase4_queue_config(la_mode=post_rzf, decode_order=rbg_major, la_beta_by_depth=(0.9815,0.7306,0.6466,0.5922), p_arrival U(0.15,0.40))",
+    "schedulers": [
+      "SUS+CQI",
+      "CQI-greedy",
+      "Random(seed=1)"
+    ],
+    "seeds": "episode_idx 10000..10007 (8), full episodes (episode_len=1000)",
+    "denominator_units": "every (rbg,ue) entry in close_rbg's returned btx map over all closures = 1,477,128 new units across 3 schedulers x 8 seeds",
+    "over_cap": "b > btx_cap + 1e-9 with btx_cap recomputed on the FINAL group (C = beta_m * M; M = raw beta-free one-slot MI)",
+    "induced_first_nack": "btx_cap - 1e-9 <= actual_MI(h_true, W(h_hat)) < b - 1e-6 (capping would have first-ACKed; swallow first-NACKs)",
+    "scope_limit": "baseline traces only; NOT the live PPO pilot's own actions; ACK-flip equivalence only -- corrected-trajectory (reward/completion/EWMA/obs) equivalence NOT tested",
+    "window_math": "swallow-NACK possible only if raw MI M < eps/(1-beta_m) i.e. code cap C < beta_m*eps/(1-beta_m); m=1: M<54.05/C<53.05 bit, m=4: M<2.45/C<1.45 bit"
+  },
+  "results_summary": {
+    "tail_census": "units=1477128; over-cap=126 (0.0085%, depths 3-4 only); mean overage 0.505 bit; total ~63.6 bit; induced first-NACK=0",
+    "nonortho_oracle": "closed-form 2x2 complex-inverse RZF oracle: W err 1.8e-15, SINR err 8.1e-14, cap err 1.1e-14 -> PASS",
+    "sigma2": "all official presets noise_mode='calibration'; future-only channel perturbation shifts slot-0 CQI 3.386->2.636 (prefix-invariance violated; see SYSTEM_MODEL causality caveat)",
+    "overcap_counterexample": "uncommitted=cap+eps/2 -> B_tx=cap+0.5 bit, delivered MI=cap -> first NACK (genie beta=1)"
+  },
+  "exploratory_non_transferable": [
+    "round9/r9_1_* terminal-bootstrap measurements used the Run3/MixedSpeed_L2b critic; results are exploratory and NOT transferable to QueuePostRZF -- re-measure on a QueuePostRZF checkpoint before closing the item"
+  ],
+  "planned_not_implemented": [
+    "unified cap-safe tail helper (env/planner/PPO-mask/baselines shared) + counterfactual A/B",
+    "ghost in_slot_count rollback + permanent per-scheduler ghost/all-drop counters",
+    "genie guard (pmi=genie AND p_csi=1.0 AND beta=1)",
+    "PPO guard rejecting rbg_major with resolved_la_mode()!='post_rzf'",
+    "legacy env RBG-major creation + Gate-2-style check + control re-run"
+  ]
+}
