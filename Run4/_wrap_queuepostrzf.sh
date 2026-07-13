@@ -18,7 +18,7 @@ export CUDA_VISIBLE_DEVICES=0 \
        TF_NUM_INTRAOP_THREADS=8 TF_NUM_INTEROP_THREADS=2
 RUN_DIR=Run4/QueuePostRZF
 LOG=Run4/QueuePostRZF_run.log
-PIN_BASE=efcfac6613603d34249f7255cd732bf4e87dd5c7   # post-RZF redesign commit
+PIN_BASE=9ed28d0706b979bbede8fa1b1b57eb8a9cfe1c9c   # round-8 commit (snr_m fix; current root-py baseline)
 
 pin_check() {  # returns non-zero with a reason on stdout if the pin fails
   git cat-file -e "$PIN_BASE" 2>/dev/null || { echo "pin commit missing"; return 1; }
