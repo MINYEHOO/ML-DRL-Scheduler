@@ -1,7 +1,7 @@
 {
   "purpose": "Round-9/10 audit probe results (analysis-only evidence batch)",
   "code_under_test_sha": "9ed28d0706b979bbede8fa1b1b57eb8a9cfe1c9c",
-  "probe_scripts_sha": "b5d6f2e97deb96d5191b3cc5daaccb6cc03ab7c9  # v2 probe scripts (census/maximality/oracle) last modified here; v1 originals in 095bd94",
+  "probe_scripts_sha": "b5d6f2e97deb96d5191b3cc5daaccb6cc03ab7c9",
   "environment": {
     "python": "3.11.0rc1",
     "platform": "Linux-6.8.0-60-generic-x86_64-with-glibc2.35",
@@ -41,10 +41,10 @@
     "over_cap": "b > btx_cap + 1e-9 with btx_cap recomputed on the FINAL group (C = beta_m * M; M = raw beta-free one-slot MI)",
     "induced_first_nack": "btx_cap - 1e-6 <= actual_MI(h_true, W(h_hat)) < b - 1e-6, matching the ACK rule i_acc >= b_tx - 1e-6",
     "scope_limit": "baseline traces only; NOT the live PPO pilot's own actions; ACK-flip equivalence only -- corrected-trajectory (reward/completion/EWMA/obs) equivalence NOT tested",
-    "window_math": "beta_m<1: swallow-NACK possible only if raw MI M < eps/(1-beta_m), i.e. code cap C=beta_m*M < beta_m*eps/(1-beta_m); m=1: M<54.05/C<53.05 bit, m=4: M<2.45/C<1.45 bit. beta=1 (genie): degenerate case -- every swallow (backlog in (M, M+eps)) exceeds deliverable MI, no size threshold."
+    "window_math": "with ACK tolerance tau=1e-6 (ACK iff i_acc >= B_tx - tau): beta_m<1 -> NACK window M+tau < B_tx < C+eps, non-empty iff raw MI M < (eps-tau)/(1-beta_m), i.e. code cap C=beta_m*M < beta_m*(eps-tau)/(1-beta_m); m=1: M<54.05/C<53.05 bit, m=4: M<2.45/C<1.45 bit (tau moves the raw-M threshold by tau/(1-beta_m): 5.41e-5 bit at m=1, 2.45e-6 bit at m=4). beta=1 (genie): C=M, NACK window M+tau < B_tx < M+eps -- swallows within tau of M still ACK on tolerance; no size threshold, (eps-tau)-wide backlog window only."
   },
   "results_summary": {
-    "nonortho_oracle": "v2 exact-correlation generator (realized |corr| 0.10..0.95 incl. ill-conditioned regime): W err 2.2e-15, SINR err 8.0e-14, cap err 1.2e-14 -> PASS, assert-guarded nonzero exit on failure",
+    "nonortho_oracle": "v2 exact-correlation generator (realized |corr| 0.10..0.95 incl. ill-conditioned regime); figures are MAX RELATIVE ERRORS over 300 trials: W 2.2e-15, per-user SINR 8.0e-14, btx_cap 1.2e-14 -> PASS, assert-guarded nonzero exit on failure",
     "sigma2": "all official presets noise_mode='calibration'; future-only channel perturbation shifts slot-0 CQI 3.386->2.636 (prefix-invariance violated; see SYSTEM_MODEL causality caveat)",
     "overcap_counterexample": "uncommitted=cap+eps/2 -> B_tx=cap+0.5 bit, delivered MI=cap -> first NACK (genie beta=1)",
     "tail_census_v2": "units=738,564; over-cap=63 (0.0085%, depth [0,0,1,62]); mean overage 0.505 bit; total 31.79 bit; induced first-NACK=0",
@@ -74,5 +74,6 @@
     "sha256": "2ea444960a7ec0d0be8514803b6504c873082e86766c92da28ee07188594ffff",
     "config": "Run3/MixedSpeed_L2b/config.json (in-repo)",
     "note": "used by r9_1_critic_value_bias / r9_1_staleness_spread; exploratory, non-transferable to QueuePostRZF"
-  }
+  },
+  "probe_scripts_note": "v2 scripts (census IN_ENV / exhaustive-subset maximality / exact-correlation oracle); v1 originals are in 095bd94"
 }
