@@ -244,8 +244,9 @@ the physical failure mechanism of MU pairing.
 a stream to an RBG costs every existing stream a factor m/(m−1) of transmit
 power, while imperfect ĥ leaves residual inter-stream interference that RZF
 cannot remove: with α > 0 it only *suppresses* interference (regularized,
-not zero-forcing), and only as measured on the *estimated* channels — the
-residual on the true channels is larger still. A layer is
+not zero-forcing), and its suppression targets the *estimated* channels —
+channel mismatch leaves an uncontrolled residual on the true channels,
+which can be and typically is larger. A layer is
 worth scheduling only if its MI exceeds what the power split plus residual
 interference takes from the others. Under the 56-bit codebook (ρ² ≈ 0.85) this
 tradeoff resolves near SU — the Run3 depth-cap sweep showed heuristic
@@ -288,7 +289,8 @@ No per-RE link simulation. The abstraction (`phy.py: mi_bits()`,
   the unit so a packet can always complete, `env.py:395-400`).
 - **Ideal IR accumulation**: each slot a unit is on air it accumulates
   `useful = min(1344·log₂(1+SINR_true), B_tx − I_acc)`; ACK is deterministic
-  when `I_acc ≥ B_tx` (`transmission.py:204-214`). Shannon SE is **uncapped**
+  when `I_acc ≥ B_tx − τ`, τ = 10⁻⁶ float tolerance
+  (`transmission.py:47-48, 204-214`). Shannon SE is **uncapped**
   (no 7.4063 b/s/Hz NR limit) — the top-priority declared idealization; it
   structurally favors SU operation (24.3 % of SU attempts exceed the cap vs
   0.21 % of MU attempts), so the PPO-vs-SU-baseline gap is conservative
@@ -321,9 +323,10 @@ stream then gets P_r/m plus residual inter-stream interference). Under
 ideal-IR HARQ this makes **cap-limited** depth ≥ 2 first transmissions
 structurally NACK (backlog-capped units send below the cap and can still
 first-ACK):
-even with perfect, mutually orthogonal CSI, the required IR rounds at the
-10 dB operating point are **1.34 / 1.64 / 1.91 for m = 2/3/4** — these are
-B_tx-to-first-slot-MI ratios, not integer HARQ round counts. Measured
+even with perfect, mutually orthogonal CSI, the B_tx-to-first-slot-MI
+ratios at the 10 dB operating point are **1.34 / 1.64 / 1.91 for
+m = 2/3/4** (the first slot delivers only 1/1.34… of the target — a
+required-MI ratio, not an integer HARQ round count). Measured
 consequences: ~60 % of the MU heuristics' scheduled positions are pinned on
 retransmissions, and a retx-drop failure channel (2.6–4.5 %) opens that SU
 strategies never face. This models a gNB with **no MU-aware backoff and no
@@ -645,7 +648,7 @@ the retransmission-reliant MU baselines.
 | Ideal IR HARQ (lossless MI accumulation, deterministic ACK) | `transmission.py:204-219` | Mildly favors retx-reliant **MU** strategies | Absolute completion inflated; upper bound on LDPC/RV combining |
 | **SU-CQI link adaptation without MU backoff / OLLA** (B_tx from full-power SU CQI even at depth m > 1) | `phy.py: predict_b_tx()`, `env.py:391-401` | **SU-leaning strategies** (cap-limited depth ≥ 2 first transmissions structurally NACK under ideal IR; §7.1) | Depth-cap / p_csi / genie conclusions are conditional on this abstraction; ablation flag `cfg.mu_aware_la` (2026-07-10) |
 | 1-slot HARQ RTT, error-free A/N (real: ≥4–8 slots) | `env.py:162`, `transmission.py:215-219` | Retx-heavy **MU baselines**, tight-deadline feasibility | **PPO margins are lower bounds**; deadlines live on a compressed timescale |
-| Zero-latency CSI (min Age 0; real ≥4–5 slots) | `env.py:147-183` | All schedulers' MU/RZF null quality | Stale-CSI degradation reported is a lower bound → conservative for the Age-aware PPO |
+| Zero-latency CSI (min Age 0; real ≥4–5 slots) | `env.py:147-183` | All schedulers' MU/RZF interference-suppression quality | Stale-CSI degradation reported is a lower bound → conservative for the Age-aware PPO |
 | eta_data = 1.0 (no DM-RS/PDCCH/CSI-RS overhead) | `config.py:109` | Uniform ~8–25 % absolute inflation | Comparisons overhead-invariant (load calibrated on same capacity) |
 | 100 % DL duty (no TDD pattern) | slot loop | Neutral (~1.3× absolute inflation) | Absolute throughput/latency not deployment-representative |
 | Frequency-flat channel per RBG (1 sample / 2.88 MHz) | `channel.py:81,159` | **MU** (no intra-RBG precoder mismatch) | Flag; UMi coherence BW ≈ RBG width |

@@ -268,7 +268,8 @@ new pin → multi-seed official training.
   i_acc ≥ B_tx − τ). For **β_m < 1** the NACK window is
   M+τ < B_tx < C+ε, non-empty iff **M < (ε−τ)/(1−β_m)** (raw MI), i.e.
   **C < β_m·(ε−τ)/(1−β_m)** (code cap) — numerically m=1: M<54.05 /
-  C<53.05 bit; m=4: M<2.45 / C<1.45 bit (τ shifts these by ~1e-6 bit).
+  C<53.05 bit; m=4: M<2.45 / C<1.45 bit (τ shifts the raw-M threshold by
+  τ/(1−β_m): 5.41e-5 bit at m=1, 2.45e-6 bit at m=4).
   For **β = 1 (genie)** C = M and the NACK window is
   **M+τ < B_tx < M+ε** — swallows landing within τ of M still ACK on
   tolerance; there is no size threshold, only the (ε−τ)-wide backlog
@@ -352,7 +353,7 @@ new pin → multi-seed official training.
   literal shared matrix; planner-vs-env agreement ≤1.1e-13. The
   previously-missing external check now exists: the non-orthogonal m=2
   closed-form RZF oracle (`round9/r9_10_nonortho_rzf_oracle.py`) validates
-  `rzf_precoder`/α to 2.2e-15 (W) / 8.0e-14 (SINR) independently of the shared code path, over realized channel correlations 0.10–0.95 (v2 exact-correlation generator).
+  `rzf_precoder`/α independently of the shared code path — max relative errors 2.2e-15 (W) / 8.0e-14 (per-user SINR) over realized channel correlations 0.10–0.95 (v2 exact-correlation generator).
 
 **Structural limitations (paper-generation experiment axes, not bugs):**
 ScoreNet group-state aliasing is a **PPO-specific representation limit**
