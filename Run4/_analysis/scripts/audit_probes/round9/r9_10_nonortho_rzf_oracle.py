@@ -17,6 +17,7 @@ from config import Config
 cfg = Config()
 M = cfg.num_bs_ant
 P = cfg.p_rbg
+CORRS = []
 rng = np.random.default_rng(42)
 
 def sdot(a, b):
@@ -33,12 +34,21 @@ max_rel_w = 0.0
 worst_corr = None
 
 for trial in range(300):
-    # non-orthogonal pair: h2 = mix of h1 direction and independent part
+    # non-orthogonal pair with EXACT correlation control (round 10b): build
+    # h2 = rho*u1 + sqrt(1-rho^2)*u_perp from unit vectors, so the realized
+    # |corr(h1,h2)| equals rho by construction -- this exercises the
+    # near-colinear (ill-conditioned Gram) regime up to 0.95 that the v1
+    # mixing-coefficient generator never actually reached (realized corr
+    # topped out at ~0.53).
     h1 = rng.standard_normal(M) + 1j * rng.standard_normal(M)
     h1 *= rng.uniform(0.3, 2.5)
+    u1 = h1 / np.sqrt(abs(sdot(h1, h1)))
     g = rng.standard_normal(M) + 1j * rng.standard_normal(M)
-    rho = rng.uniform(0.1, 0.95)          # forced overlap
-    h2 = rho * h1 / np.abs(np.sqrt(sdot(h1, h1))) + np.sqrt(1 - rho**2) * g
+    g_perp = g - sdot(u1, g) * u1
+    u_perp = g_perp / np.sqrt(abs(sdot(g_perp, g_perp)))
+    rho = rng.uniform(0.1, 0.95)          # = realized |corr| exactly
+    h2 = rho * u1 + np.sqrt(1 - rho ** 2) * u_perp
+    CORRS.append(abs(sdot(h1, h2)) / np.sqrt(abs(sdot(h1, h1)) * abs(sdot(h2, h2))))
     h2 *= rng.uniform(0.3, 2.5)
     alpha = rng.uniform(0.05, 3.0)
     nv = rng.uniform(0.05, 3.0)
@@ -110,10 +120,14 @@ for trial in range(300):
     max_rel_cap = max(max_rel_cap, rel_cap)
 
 corr_note = ""
-print(f"trials=300 m=2 non-orthogonal (|rho| up to 0.95), alpha,nv in [0.05,3]")
+print(f"trials=300 m=2 non-orthogonal, alpha,nv in [0.05,3]")
+print(f"realized |corr(h1,h2)| range: {min(CORRS):.3f}..{max(CORRS):.3f} "
+      f"(mean {sum(CORRS)/len(CORRS):.3f}) -- rho == realized corr by "
+      f"construction (v2 exact-correlation generator)")
 print(f"max rel err W  (rzf_precoder vs scalar closed-form): {max_rel_w:.3e}")
 print(f"max rel err SINR (phy._rbg_sinr vs oracle):          {max_rel_sinr_phy:.3e}")
 print(f"max rel err SINR (planner predict vs oracle):        {max_rel_sinr_pl:.3e}")
 print(f"max rel err btx_cap (planner caps vs oracle):        {max_rel_cap:.3e}")
 ok = max(max_rel_w, max_rel_sinr_phy, max_rel_sinr_pl, max_rel_cap) < 1e-10
 print("NON-ORTHOGONAL ORACLE:", "PASS (<1e-10)" if ok else "FAIL")
+assert ok, "non-orthogonal RZF oracle FAILED"

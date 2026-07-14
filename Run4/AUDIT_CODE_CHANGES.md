@@ -86,11 +86,15 @@ env, every baseline, and the PPO decoder:
 `Scheduler._schedule_rbg_major()`: same traversal/closure as the env scan.
 Under post_rzf the per-UE budget is the planner's `_remaining` (debited at
 closure → threaded budget ≡ env actual commit); under legacy it keeps the
-per-pick `estimate_btx` debit — that combination is the **order-effect
-control** (legacy + rbg_major), which showed SU baselines bit-identical to
-layer-major (traversal order cannot matter at depth 1) and SUS baselines
-−2~−3%. `SUSPFVirtual` got `_slot_init`/`_after_close` hooks so its
-virtual-PF bump uses finalized B_tx.
+per-pick `estimate_btx` debit. That combination (legacy + rbg_major) was
+originally run as an "order-effect control", but round 9 found the legacy
+env creates units layer-major regardless of `decode_order`, so its result is
+a **composite implementation sensitivity** (see §12): SU baselines
+bit-identical to layer-major (all units at l0, orders coincide) stands, but
+the SUS −2~−3% mixes traversal-order selection with plan-vs-creation B_tx
+placement remapping and carries no causal order-effect reading.
+`SUSPFVirtual` got `_slot_init`/`_after_close` hooks so its virtual-PF bump
+uses finalized B_tx.
 
 ## 6. `policy.py` — one decode/replay code path (`_rbg_major_pass`)
 
@@ -260,14 +264,23 @@ new pin → multi-seed official training.
   `env.py`): swallow can set B_tx above the physical cap. Window math (M =
   raw β-free one-slot MI, C = β_m·M = the code's `btx_cap`): a swallow
   fires for backlog in (C, C+ε); it can *cause* a genie-style NACK only if
-  backlog also exceeds M, which requires **M < ε/(1−β_m)** (raw MI), i.e.
-  **C < β_m·ε/(1−β_m)** (code cap) — m=1: M<54.05 / C<53.05 bit; m=4:
-  M<2.45 / C<1.45 bit. Under Type-II CSI no deterministic threshold exists
-  (actual MI ≠ predicted). **Census** (r10 probe, code-under-test
-  `9ed28d0`, baseline traces SUS+CQI/CQI-greedy/Random × seeds
-  10000–10007): 1,477,128 units, 126 over-cap events (0.0085%, depths 3–4
-  only), mean overage 0.505 bit, total over-credit ≈64 bit, **0
-  swallow-induced first-NACKs**. Scope of that claim: *no observed
+  backlog also exceeds M. For **β_m < 1** this requires **M < ε/(1−β_m)**
+  (raw MI), i.e. **C < β_m·ε/(1−β_m)** (code cap) — m=1: M<54.05 / C<53.05
+  bit; m=4: M<2.45 / C<1.45 bit. For **β = 1 (genie)** the formula
+  degenerates: C = M, so EVERY swallow (backlog ∈ (M, M+ε)) exceeds the
+  deliverable MI and first-NACKs, regardless of M — the genie case has no
+  size threshold, only the ε-wide backlog window. Under Type-II CSI no
+  deterministic threshold exists (actual MI ≠ predicted). **Census v2**
+  (r10 probe, env-side closures only — the v1 run hooked the planner
+  class-wide and double-counted scheduler+env, exactly 2× on all raw
+  counts, rates unaffected; v1 output preserved in
+  `round9_results/superseded_v1/`; code-under-test `9ed28d0`, baseline
+  traces SUS+CQI/CQI-greedy/Random × seeds 10000–10007, induced-NACK
+  boundary aligned to the ACK rule at cap−1e-6): see
+  `round9_results/r10_tail_census_v2.out` — **738,564 units, 63 over-cap
+  events (0.0085%, depth split [0,0,1,62]), mean overage 0.505 bit, total
+  31.79 bit, 0 swallow-induced first-NACKs**. Scope of that claim: *no
+  observed
   tail-induced ACK/HARQ flips on measured baseline traces; full
   corrected-trajectory equivalence (reward/completion-slot/EWMA/obs
   divergence) has NOT been tested, and the live PPO pilot's own action
@@ -317,10 +330,16 @@ new pin → multi-seed official training.
   and by PPO train/eval alike; paired comparisons pair whole worlds. A
   frozen large-scale-statistics σ² is a legitimate alternative design for
   a future generation, not a correctness fix.
-- **ε-drop maximal subset**: batch-drop is kept. At the Run4 operating
-  point: 0 all-drop RBGs in 4,800 closures per scheduler (14,400 total),
-  and one-at-a-time removal reproduced the batch result in 482/482
-  observed drop events — *no gain on measured traces* (not: impossible in
+- **ε-drop maximal subset**: batch-drop is kept. Round-10b upgraded the
+  check to an **exhaustive subset oracle** (≤2⁴−1=15 subsets per closure,
+  env-side only, swallow-rule-aware; the v1 "482/482" figure was
+  double-counted scheduler+env AND compared cardinality only): over 1,214
+  env-side drop events (3 schedulers × 8 seeds, full episodes) the batch
+  kept-set is a maximum-cardinality feasible subset in **1,213/1,214**;
+  the single counterexample keeps 1 more member but commits **72.9 bits
+  LESS in total** (a larger group shrinks every member's cap), i.e. batch
+  was arguably better on throughput there. Batch B_tx values recompute
+  exactly (0 mismatches). *No gain on measured traces* (not: impossible in
   general; deep-fade window ≈ singleton cap ≤6.6 bit exists).
 - **W sharing**: docs promise same precoder *function/α/power*, not a
   literal shared matrix; planner-vs-env agreement ≤1.1e-13. The

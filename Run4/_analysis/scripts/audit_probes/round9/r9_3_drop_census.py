@@ -10,7 +10,7 @@ from config import Config
 from env import SchedulerEnv
 from baselines import CQIGreedy, Random, SUSCQI
 
-raw = json.load(open("/home/MYH/ML_DRL_Scheduler/Run4/QueuePostRZF/config.json"))
+raw = json.load(open("Run4/QueuePostRZF/config.json"))
 raw.pop("git_hash", None); raw.pop("git_dirty_py", None)
 raw["debug"] = True; raw["episode_len_debug"] = 200
 cfg = Config(**raw)

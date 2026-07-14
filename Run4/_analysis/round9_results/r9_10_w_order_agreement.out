@@ -1,0 +1,4 @@
+500 groups m in 2..4, random permutations:
+max rel diff W columns (planner order vs env order): 2.462e-15
+max rel diff per-user SINR:                          1.102e-13
+bit-identical W? False

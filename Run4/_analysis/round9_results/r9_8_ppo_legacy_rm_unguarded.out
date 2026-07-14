@@ -1,0 +1,5 @@
+resolved_la_mode: legacy | decode_order: rbg_major
+validate_la: PASSED (no legacy+rbg_major rejection)
+decode() returned keys: ['action_sequence', 'budget_trace', 'entropy_sum', 'log_prob_sum', 'num_policy_decisions', 'per_subaction_logprobs', 'planned_btx', 'policy_decision_mask', 'value']
+decode used _rbg_major_pass (post-RZF planner exports present): True
+  sample (r=0, u=5): planner B_tx=11130.0  vs  legacy env rule min(backlog=11130.0, SU-CQI cap=11218.9)=11130.0

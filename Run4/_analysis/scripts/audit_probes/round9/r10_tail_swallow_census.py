@@ -1,4 +1,11 @@
-"""Round-10 tail-swallow census in the OFFICIAL beta_m world.
+"""Round-10b tail-swallow census in the OFFICIAL beta_m world (v2).
+
+v2 corrections (audit round 10b): (1) counts ENV-SIDE closures only -- v1
+hooked close_rbg class-wide and therefore double-counted every unit (once in
+the scheduler's planner, once in the env's; Gate 2 makes the two
+bit-identical, so v1's raw counts were exactly 2x and all RATES were
+unaffected); (2) the induced-NACK lower bound uses cap - 1e-6, matching the
+actual ACK rule i_acc >= b_tx - 1e-6.
 
 Counts over-cap swallow events (B_tx > btx_cap) on real baseline traces and,
 for each, whether capping at btx_cap would have changed the first-attempt
@@ -7,16 +14,17 @@ ACK outcome. Determinations:
   over-cap      : b > cap + 1e-9, where cap = la_beta_by_depth[m-1]-backed
                   btx_cap recomputed on the FINAL group (C in the audit
                   notation; the raw beta-free MI is M = C / beta_m)
-  induced NACK  : cap - 1e-9 <= actual_MI < b - 1e-6  (i.e. capping would
-                  have first-ACKed, the swallow first-NACKs)
+  induced NACK  : cap - 1e-6 <= actual_MI < b - 1e-6  (capping at cap
+                  would first-ACK under the ACK rule i_acc >= b_tx - 1e-6;
+                  the swallow first-NACKs)
 Scope: baseline traces (SUS+CQI, CQI-greedy, Random) x 8 eval seeds
 10000-10007 -- NOT the live PPO pilot's own action trace, and ACK-flip
 equivalence only: full corrected-trajectory (counterfactual helper A/B)
 equivalence is NOT tested here (see AUDIT_CODE_CHANGES round-9/10).
 
-Reference result (2026-07-13, code-under-test 9ed28d0): 1,477,128 units,
-126 over-cap events (0.0085%, depths 3-4 only), mean overage 0.505 bit,
-total over-credit ~63.6 bit, induced first-NACKs 0.
+Reference result v2 (2026-07-14, code-under-test 9ed28d0): see
+../../round9_results/r10_tail_census_v2.out. v1's double-counted output is
+preserved in ../../round9_results/superseded_v1/ for audit history.
 """
 import numpy as np
 from config import phase4_queue_config
@@ -33,11 +41,24 @@ env = SchedulerEnv(cfg)
 stats = dict(units=0, overcap=0, overcap_bits=0.0, overcap_nack=0,
              nack_by_depth=[0, 0, 0, 0], win_by_depth=[0, 0, 0, 0])
 orig_close = SlotAllocationPlanner.close_rbg
+IN_ENV = [False]
+_orig_create = SchedulerEnv._sanitize_and_create_post_rzf
+
+
+def _create_hook(self, allocation):
+    IN_ENV[0] = True
+    try:
+        return _orig_create(self, allocation)
+    finally:
+        IN_ENV[0] = False
+
+
+SchedulerEnv._sanitize_and_create_post_rzf = _create_hook
 
 
 def hooked(self, r, fixed_ues, new_ues):
     kept, btx = orig_close(self, r, fixed_ues, new_ues)
-    if btx:
+    if btx and IN_ENV[0]:
         grp = sorted(set(int(u) for u in fixed_ues)) + [u for u in new_ues
                                                         if u in btx]
         m = len(grp)
@@ -57,7 +78,7 @@ def hooked(self, r, fixed_ues, new_ues):
                     ENV.h_true_slot[grp, r, :], ENV.h_hat_slot[grp, r, :],
                     ENV.noise_var, self.cfg.p_rbg, ENV.noise_var),
                     self.cfg)[i])
-                if cap - 1e-9 <= mi < b - 1e-6:
+                if cap - 1e-6 <= mi < b - 1e-6:
                     stats["overcap_nack"] += 1
                     stats["nack_by_depth"][min(m, 4) - 1] += 1
     return kept, btx

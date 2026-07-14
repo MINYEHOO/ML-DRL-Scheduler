@@ -1,0 +1,7 @@
+trials=300 m=2 non-orthogonal, alpha,nv in [0.05,3]
+realized |corr(h1,h2)| range: 0.100..0.949 (mean 0.521) -- rho == realized corr by construction (v2 exact-correlation generator)
+max rel err W  (rzf_precoder vs scalar closed-form): 2.196e-15
+max rel err SINR (phy._rbg_sinr vs oracle):          7.965e-14
+max rel err SINR (planner predict vs oracle):        7.965e-14
+max rel err btx_cap (planner caps vs oracle):        1.210e-14
+NON-ORTHOGONAL ORACLE: PASS (<1e-10)

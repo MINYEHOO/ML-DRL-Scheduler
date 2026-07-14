@@ -1,0 +1,6 @@
+units created           : 738564
+over-cap swallow events : 63 (0.0085%)
+over-cap bits total     : 31.79 (mean 0.505)
+induced first-NACK      : 0
+window events by depth  : [0, 0, 1, 62]
+induced-NACK by depth   : [0, 0, 0, 0]

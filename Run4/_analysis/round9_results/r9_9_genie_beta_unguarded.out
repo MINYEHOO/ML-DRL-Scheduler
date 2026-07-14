@@ -1,0 +1,3 @@
+hetero genie + la_beta_by_depth=(0.9,0.7,0.6,0.5): validate_la PASSED
+queue  genie + scalar la_beta=0.6469          : validate_la PASSED
+SchedulerEnv(genie, post_rzf, beta_m!=1) constructed WITHOUT error: SchedulerEnv | resolved_la_mode = post_rzf | pmi_mode = genie | la_beta_by_depth = (0.9, 0.7, 0.6, 0.5)

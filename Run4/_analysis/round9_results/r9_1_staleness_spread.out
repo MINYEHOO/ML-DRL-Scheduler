@@ -1,0 +1,8 @@
+ep0: stale_mask= 23 corr_mask= 16  V_mixed= 957.706  V_corr= 953.473  err= +4.233
+ep1: stale_mask= 22 corr_mask= 16  V_mixed= 964.856  V_corr= 962.361  err= +2.495
+ep2: stale_mask= 16 corr_mask= 20  V_mixed= 931.183  V_corr= 932.845  err= -1.662
+ep3: stale_mask= 23 corr_mask= 21  V_mixed= 967.281  V_corr= 966.178  err= +1.103
+ep4: stale_mask= 22 corr_mask= 28  V_mixed= 964.803  V_corr= 966.379  err= -1.576
+ep5: stale_mask= 14 corr_mask= 26  V_mixed= 968.254  V_corr= 971.487  err= -3.233
+
+staleness err: mean=+0.227  std=2.606  |max|=4.233

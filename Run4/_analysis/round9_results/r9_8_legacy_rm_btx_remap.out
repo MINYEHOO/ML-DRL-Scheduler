@@ -1,0 +1,15 @@
+decode_order='rbg_major'  UE u=1, v=4
+  cap(u,r0)=17444.7  cap(u,r1)=17429.1  backlog B=26159.3
+  scheduler RBG-major plan for u : {(0, 1): 17444.744787399984, (1, 0): 8714.542745874325}
+  env actually created for u     : {(1, 0): 17429.085, (0, 1): 8730.202}
+  plan sum=26159.288  actual sum=26159.287
+  creation order of ALL create_unit calls: [(4, 0, 0, 10944.0), (1, 1, 0, 17429.085), (1, 0, 1, 8730.202)]
+
+decode_order='layer_major'  UE u=1, v=4
+  cap(u,r0)=17444.7  cap(u,r1)=17429.1  backlog B=26159.3
+  scheduler RBG-major plan for u : {(0, 1): 17444.744787399984, (1, 0): 8714.542745874325}
+  env actually created for u     : {(1, 0): 17429.085, (0, 1): 8730.202}
+  plan sum=26159.288  actual sum=26159.287
+  creation order of ALL create_unit calls: [(4, 0, 0, 10944.0), (1, 1, 0, 17429.085), (1, 0, 1, 8730.202)]
+
+env creation identical under both decode_order values: True

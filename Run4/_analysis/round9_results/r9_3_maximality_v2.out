@@ -1,0 +1,4 @@
+env-side drop events            : 1214
+batch == max-cardinality subset : 1213
+oracle beats batch (cardinality): 1 (extra members 1, extra bits -72.920)
+batch B_tx recompute mismatches : 0

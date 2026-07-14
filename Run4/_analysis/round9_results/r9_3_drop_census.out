@@ -1,0 +1,3 @@
+CQI-greedy   slots=600 closes(new>0)=4800 new=18631 dropped=9 (ghost-pick rate 0.0483%) all-drop RBGs=0 all-drop-with-feasible-singleton=0
+Random       slots=600 closes(new>0)=4800 new=18816 dropped=241 (ghost-pick rate 1.2808%) all-drop RBGs=0 all-drop-with-feasible-singleton=0
+SUS+CQI      slots=600 closes(new>0)=4800 new=18856 dropped=6 (ghost-pick rate 0.0318%) all-drop RBGs=0 all-drop-with-feasible-singleton=0

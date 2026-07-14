@@ -182,8 +182,12 @@ There is no 4-bit CQI table and no MCS quantization — a declared idealization
 (§13.3, top of the table). Because OMP is deterministic and σ² is episode-level,
 the whole episode's true CSI is precomputed once per episode seed
 (`csi.py: precompute_episode_csi()`); this is bit-identical to per-slot
-computation and cannot leak future information (the actor only ever sees the
-feedback buffer).
+computation and leaks no **slot-specific** future information (the actor only
+ever sees the feedback buffer). One episode-level exception applies: σ² is
+calibrated on the whole episode's gains, so every CQI magnitude carries a
+non-causal episode-level normalization constant — see the "Causality caveat"
+in §6 (noise calibration); it is one scalar per seed shared identically by
+all schedulers.
 
 ### 4.3 Feedback process and Age (`csi.py: CSIFeedbackBuffer`)
 
@@ -413,7 +417,10 @@ state.
 
 One slot's action is an allocation matrix [8 RBG × 4 layers] with entries in
 {0 = no-user, 1..K = UE}. The actor decodes the 32 positions **sequentially in
-layer-major order** (layer 0 across all RBGs, then layer 1, …), each position
+layer-major order** (layer 0 across all RBGs, then layer 1, …) in the legacy
+default; under `la_mode="post_rzf"` the decode is **RBG-major**
+(`decode_order="rbg_major"`, groups close per-RBG with exact planner budget
+debits — see docs/RUNS.md §4.5). Each position is
 a masked categorical over K+1 choices whose logits come from
 `ScoreNet` (per-UE: 64-d embedding + 7 in-slot scalars incl. OrthoScore of the
 candidate vs the RBG's already-selected set, remaining commit budget,
@@ -437,9 +444,11 @@ Masks and structural limits (`policy.py: _position_logits_and_mask()`,
 - **Retx-fixed positions** are skipped by the actor and force-overwritten by
   the env regardless of the action.
 
-Baselines build the same [8,4] matrix by layer-major greedy selection through
-identical helpers (`env.py: position_candidates()`, `orthoscore_all()`,
-`estimate_btx()`) — strict information parity with PPO.
+Baselines build the same [8,4] matrix by greedy selection through identical
+helpers (`env.py: position_candidates()`, `orthoscore_all()`,
+`estimate_btx()`) — strict information parity with PPO. Traversal follows
+`decode_order`: layer-major in the legacy default, RBG-major with shared
+planner budget debits under post_rzf (docs/RUNS.md §4.5).
 
 ### 9.3 Critic (`policy.py: build_value_input()`)
 

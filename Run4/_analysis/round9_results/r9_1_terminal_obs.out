@@ -1,0 +1,13 @@
+episode_len=200, final obs slot=200
+UNCHANGED vs s_(T-1): ['age', 'cqi_fb', 'direction_fb', 'fixed_allocation', 'fixed_mask', 'fixed_unit_map', 'initial_S_r', 'next_deadline', 'noise_var', 'occupied']
+CHANGED   vs s_(T-1): ['active', 'avg_throughput', 'backlog', 'deadline', 'queue_bits', 'queue_len', 'slot', 'uncommitted']
+age identical to s_(T-1) obs: True, age min/max = 0/9
+get_channel(T) raises: IndexError: index 200 is out of bounds for axis 0 with size 200
+episode_csi.slot(T) raises: IndexError: index 200 is out of bounds for axis 0 with size 200
+
+fixed_mask.sum (stale, in final obs)  vs  pending retx units (truth):
+  ep0: mask=  8  pending_units=  2  MISMATCH
+  ep1: mask= 25  pending_units= 12  MISMATCH
+  ep2: mask= 20  pending_units= 19  MISMATCH
+  ep3: mask= 18  pending_units= 21  MISMATCH
+  ep4: mask= 14  pending_units= 19  MISMATCH

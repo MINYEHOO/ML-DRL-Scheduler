@@ -1,0 +1,7 @@
+group-of-4 caps [bits]: [0.716 0.716 0.716 0.716] (all < eps=1)
+  singleton u0: cap = 4.752 bits  feasible=True
+  singleton u1: cap = 4.752 bits  feasible=True
+  singleton u2: cap = 4.752 bits  feasible=True
+  singleton u3: cap = 4.752 bits  feasible=True
+close_rbg -> kept = []  btx = {}
+one-at-a-time would keep: [1, 2, 3] caps: [1.043 1.043 1.043]

@@ -1,0 +1,16 @@
+loaded Run3/MixedSpeed_L2b/ckpt/best.pt update=859 eval_reward=10030.170261811185
+
+episode_len=200  mean reward/slot=7.498
+V stats over episode: mean=967.179 min=946.190 max=990.481  V(s_0)=947.916 V(s_T-1)=967.539
+stale fixed_mask.sum=3  corrected fixed_mask.sum=1
+A. last_value (mixed obs, AS TRAINED) = 946.0921
+B. V(corrected s_T approx)           = 943.7856   staleness error A-B = +2.3065
+C. terminal-consistent choice        = 0.0        bootstrap-vs-terminal error gamma*A = +936.6312
+delta (TD error) std over episode = 7.0864, mean = -2.1826
+  (gamma*lambda)^0 = 1.0000 -> adv perturbation at t=T-1-0: staleness 2.2835, vs-terminal 936.6312
+  (gamma*lambda)^5 = 0.7359 -> adv perturbation at t=T-1-5: staleness 1.6803, vs-terminal 689.2275
+  (gamma*lambda)^10 = 0.5415 -> adv perturbation at t=T-1-10: staleness 1.2365, vs-terminal 507.1736
+  (gamma*lambda)^20 = 0.2932 -> adv perturbation at t=T-1-20: staleness 0.6695, vs-terminal 274.6279
+  (gamma*lambda)^40 = 0.0860 -> adv perturbation at t=T-1-40: staleness 0.1963, vs-terminal 80.5231
+  (gamma*lambda)^78 = 0.0084 -> adv perturbation at t=T-1-78: staleness 0.0191, vs-terminal 7.8263
+perturbation falls below 1% of its t=T-1 size after 76 slots
