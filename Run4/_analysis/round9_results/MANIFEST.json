@@ -1,8 +1,7 @@
 {
   "purpose": "Round-9/10 audit probe results (analysis-only evidence batch)",
   "code_under_test_sha": "9ed28d0706b979bbede8fa1b1b57eb8a9cfe1c9c",
-  "probe_scripts_sha": "095bd9410643d31f78b1a013052d4cd3ed1ce4af",
-  "rerun_date": "2026-07-13",
+  "probe_scripts_sha": "b5d6f2e97deb96d5191b3cc5daaccb6cc03ab7c9  # v2 probe scripts (census/maximality/oracle) last modified here; v1 originals in 095bd94",
   "environment": {
     "python": "3.11.0rc1",
     "platform": "Linux-6.8.0-60-generic-x86_64-with-glibc2.35",
@@ -15,12 +14,20 @@
     "blas": "openblas64 (DYNAMIC_ARCH, MAX_THREADS=2 build default)"
   },
   "commands": {
-    "r9_10_nonortho_oracle.out": "PYTHONPATH=. python3 Run4/_analysis/scripts/audit_probes/round9/r9_10_nonortho_rzf_oracle.py",
-    "r10_tail_census.out": "PYTHONPATH=. python3 Run4/_analysis/scripts/audit_probes/round9/r10_tail_swallow_census.py",
-    "r9_4_sigma2.out": "PYTHONPATH=. python3 Run4/_analysis/scripts/audit_probes/round9/r9_4_sigma2_prefix_invariance.py",
+    "r9_1_terminal_obs.out": "PYTHONPATH=. python3 Run4/_analysis/scripts/audit_probes/round9/r9_1_terminal_obs.py",
+    "r9_1_critic_value_bias.out": "PYTHONPATH=. python3 Run4/_analysis/scripts/audit_probes/round9/r9_1_critic_value_bias.py",
+    "r9_1_staleness_spread.out": "PYTHONPATH=. python3 Run4/_analysis/scripts/audit_probes/round9/r9_1_staleness_spread.py",
     "r9_2_overcap.out": "PYTHONPATH=. python3 Run4/_analysis/scripts/audit_probes/round9/r9_2_tail_overcap_counterexample.py",
-    "r10_tail_census_v2.out": "PYTHONPATH=. python3 Run4/_analysis/scripts/audit_probes/round9/r10_tail_swallow_census.py",
-    "r9_3_maximality_v2.out": "PYTHONPATH=. python3 Run4/_analysis/scripts/audit_probes/round9/r9_3_one_by_one_vs_batch.py"
+    "r9_3_alldrop_counterexample.out": "PYTHONPATH=. python3 Run4/_analysis/scripts/audit_probes/round9/r9_3_alldrop_counterexample.py",
+    "r9_3_drop_census.out": "PYTHONPATH=. python3 Run4/_analysis/scripts/audit_probes/round9/r9_3_drop_census.py",
+    "r9_3_maximality_v2.out": "PYTHONPATH=. python3 Run4/_analysis/scripts/audit_probes/round9/r9_3_one_by_one_vs_batch.py",
+    "r9_4_sigma2.out": "PYTHONPATH=. python3 Run4/_analysis/scripts/audit_probes/round9/r9_4_sigma2_prefix_invariance.py",
+    "r9_8_legacy_rm_btx_remap.out": "PYTHONPATH=. python3 Run4/_analysis/scripts/audit_probes/round9/r9_8_legacy_rm_btx_remap.py",
+    "r9_8_ppo_legacy_rm_unguarded.out": "PYTHONPATH=. python3 Run4/_analysis/scripts/audit_probes/round9/r9_8_ppo_legacy_rm_unguarded.py",
+    "r9_9_genie_beta_unguarded.out": "PYTHONPATH=. python3 Run4/_analysis/scripts/audit_probes/round9/r9_9_genie_beta_unguarded.py",
+    "r9_10_nonortho_rzf_oracle.out": "PYTHONPATH=. python3 Run4/_analysis/scripts/audit_probes/round9/r9_10_nonortho_rzf_oracle.py",
+    "r9_10_w_order_agreement.out": "PYTHONPATH=. python3 Run4/_analysis/scripts/audit_probes/round9/r9_10_w_order_agreement.py",
+    "r10_tail_census_v2.out": "PYTHONPATH=. python3 Run4/_analysis/scripts/audit_probes/round9/r10_tail_swallow_census.py"
   },
   "tail_census_definitions": {
     "world": "phase4_queue_config(la_mode=post_rzf, decode_order=rbg_major, la_beta_by_depth=(0.9815,0.7306,0.6466,0.5922), p_arrival U(0.15,0.40))",
@@ -41,7 +48,7 @@
     "sigma2": "all official presets noise_mode='calibration'; future-only channel perturbation shifts slot-0 CQI 3.386->2.636 (prefix-invariance violated; see SYSTEM_MODEL causality caveat)",
     "overcap_counterexample": "uncommitted=cap+eps/2 -> B_tx=cap+0.5 bit, delivered MI=cap -> first NACK (genie beta=1)",
     "tail_census_v2": "units=738,564; over-cap=63 (0.0085%, depth [0,0,1,62]); mean overage 0.505 bit; total 31.79 bit; induced first-NACK=0",
-    "maximality_v2": "1,214 env-side drop events; batch kept-set == max-cardinality feasible subset in 1,213/1,214; single counterexample keeps +1 member but commits 72.9 bits LESS total; batch B_tx recompute mismatches 0 (exhaustive <=15-subset oracle, swallow-rule-aware)"
+    "maximality_v2": "1,214 env-side drop events; batch kept-set == max-cardinality feasible subset in 1,213/1,214; the single counterexample keeps +1 member while its PLANNED NEW-UNIT bits sum is 72.9 bits smaller than batch's (oracle = max cardinality, then max sum-B_tx within that cardinality -- NOT the global max-sum subset); actual ACKed throughput/goodput/trajectory consequences were NOT evaluated. batch B_tx recompute mismatches 0."
   },
   "exploratory_non_transferable": [
     "round9/r9_1_* terminal-bootstrap measurements used the Run3/MixedSpeed_L2b critic; results are exploratory and NOT transferable to QueuePostRZF -- re-measure on a QueuePostRZF checkpoint before closing the item"
@@ -53,8 +60,19 @@
     "PPO guard rejecting rbg_major with resolved_la_mode()!='post_rzf'",
     "legacy env RBG-major creation + Gate-2-style check + control re-run"
   ],
-  "revision": "v2 (audit round 10b)",
+  "revision": "v3 (audit round 10c: provenance corrections)",
   "erratum_v1": "v1 tail census and v1 maximality probe hooked SlotAllocationPlanner.close_rbg class-wide and therefore counted every closure TWICE (scheduler-side planner + env-side planner; Gate 2 makes them bit-identical, so all RATES were correct but raw counts were exactly 2x: 1,477,128 units -> 738,564; 126 over-cap -> 63; ~63.6 bit -> 31.79). v1 outputs preserved in superseded_v1/. v2 counts ENV-side closures only (IN_ENV guard) and aligns the induced-NACK boundary to the ACK rule (cap - 1e-6).",
   "probe_script_count": 14,
-  "output_coverage": "all 14 probes have preserved .out files in this directory (v2)"
+  "output_coverage": "all 14 probes have preserved .out files in this directory (v2)",
+  "rerun_dates": {
+    "v1_outputs": "2026-07-13",
+    "v2_outputs (census/maximality/oracle) and remaining probes": "2026-07-14"
+  },
+  "script_output_map_note": "14 scripts <-> 14 outputs, 1:1; superseded v1 outputs live in superseded_v1/",
+  "run3_critic_checkpoint": {
+    "path": "Run3/MixedSpeed_L2b/ckpt/best.pt",
+    "sha256": "2ea444960a7ec0d0be8514803b6504c873082e86766c92da28ee07188594ffff",
+    "config": "Run3/MixedSpeed_L2b/config.json (in-repo)",
+    "note": "used by r9_1_critic_value_bias / r9_1_staleness_spread; exploratory, non-transferable to QueuePostRZF"
+  }
 }

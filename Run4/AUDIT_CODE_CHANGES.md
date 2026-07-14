@@ -264,12 +264,15 @@ new pin → multi-seed official training.
   `env.py`): swallow can set B_tx above the physical cap. Window math (M =
   raw β-free one-slot MI, C = β_m·M = the code's `btx_cap`): a swallow
   fires for backlog in (C, C+ε); it can *cause* a genie-style NACK only if
-  backlog also exceeds M. For **β_m < 1** this requires **M < ε/(1−β_m)**
-  (raw MI), i.e. **C < β_m·ε/(1−β_m)** (code cap) — m=1: M<54.05 / C<53.05
-  bit; m=4: M<2.45 / C<1.45 bit. For **β = 1 (genie)** the formula
-  degenerates: C = M, so EVERY swallow (backlog ∈ (M, M+ε)) exceeds the
-  deliverable MI and first-NACKs, regardless of M — the genie case has no
-  size threshold, only the ε-wide backlog window. Under Type-II CSI no
+  backlog also exceeds M **plus the ACK tolerance τ = 1e-6** (ACK iff
+  i_acc ≥ B_tx − τ). For **β_m < 1** the NACK window is
+  M+τ < B_tx < C+ε, non-empty iff **M < (ε−τ)/(1−β_m)** (raw MI), i.e.
+  **C < β_m·(ε−τ)/(1−β_m)** (code cap) — numerically m=1: M<54.05 /
+  C<53.05 bit; m=4: M<2.45 / C<1.45 bit (τ shifts these by ~1e-6 bit).
+  For **β = 1 (genie)** C = M and the NACK window is
+  **M+τ < B_tx < M+ε** — swallows landing within τ of M still ACK on
+  tolerance; there is no size threshold, only the (ε−τ)-wide backlog
+  window. Under Type-II CSI no
   deterministic threshold exists (actual MI ≠ predicted). **Census v2**
   (r10 probe, env-side closures only — the v1 run hooked the planner
   class-wide and double-counted scheduler+env, exactly 2× on all raw
@@ -335,17 +338,21 @@ new pin → multi-seed official training.
   env-side only, swallow-rule-aware; the v1 "482/482" figure was
   double-counted scheduler+env AND compared cardinality only): over 1,214
   env-side drop events (3 schedulers × 8 seeds, full episodes) the batch
-  kept-set is a maximum-cardinality feasible subset in **1,213/1,214**;
-  the single counterexample keeps 1 more member but commits **72.9 bits
-  LESS in total** (a larger group shrinks every member's cap), i.e. batch
-  was arguably better on throughput there. Batch B_tx values recompute
-  exactly (0 mismatches). *No gain on measured traces* (not: impossible in
-  general; deep-fade window ≈ singleton cap ≤6.6 bit exists).
+  kept-set is a maximum-cardinality feasible subset in **1,213/1,214**. In
+  the single counterexample the max-cardinality subset keeps 1 more member
+  but its **planned new-unit bits sum is 72.9 bits smaller** than batch's
+  (a larger group shrinks every member's cap). Scope: that comparison is
+  planned-B_tx only, against the (max cardinality → max Σb within it)
+  oracle, NOT the global max-Σb subset — actual ACKed
+  throughput/goodput/trajectory consequences were not evaluated. Batch
+  B_tx values recompute exactly (0 mismatches). So: **one cardinality gain
+  exists on measured traces, with a planned-bits trade-off** (and the
+  deep-fade window ≈ singleton cap ≤6.6 bit exists in general).
 - **W sharing**: docs promise same precoder *function/α/power*, not a
   literal shared matrix; planner-vs-env agreement ≤1.1e-13. The
   previously-missing external check now exists: the non-orthogonal m=2
   closed-form RZF oracle (`round9/r9_10_nonortho_rzf_oracle.py`) validates
-  `rzf_precoder`/α to 1.8e-15 independently of the shared code path.
+  `rzf_precoder`/α to 2.2e-15 (W) / 8.0e-14 (SINR) independently of the shared code path, over realized channel correlations 0.10–0.95 (v2 exact-correlation generator).
 
 **Structural limitations (paper-generation experiment axes, not bugs):**
 ScoreNet group-state aliasing is a **PPO-specific representation limit**

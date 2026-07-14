@@ -476,17 +476,24 @@ deadline-urgency-weighted with the deadline snapshot taken **before** the tick.
 retx-compaction overflow drops + (queue mode) buffer-overflow rejects — all
 packet-failure modes are penalized identically (`env.py:303-311`).
 
-Comparison tables follow the standing 9-metric convention (reward, throughput,
-SINR, completion, deadline miss, retx drop, total failure, MU depth, JFI;
-user rule 2026-07-06). The underlying per-episode records come from
+Comparison tables follow the standing metric convention (user rule
+2026-07-06, extended 2026-07-13): **legacy-era tables use 9 metrics**
+(reward, throughput, SINR, completion, deadline miss, retx drop, total
+failure, MU depth, JFI); **post-RZF-era tables use 10**, inserting
+`goodput_mbps` after throughput (see docs/RUNS.md conventions). The
+underlying per-episode records come from
 `train_phase2.py: env_episode_metrics()` (logs mu_depth and each failure
 component; total failure = their sum, derived in analysis) and
 `metrics.py: run_episode()`; **JFI is computed over active UEs only** in both.
 
-Throughput definition: `throughput_mbps` counts **link-layer ACKed bits**.
-Bits of packets that are later dropped (deadline miss / retx exhaustion)
-remain counted — measured at ~1–2 % of the total; there is no rollback, by
-design. Application-level goodput is tracked by `completion_rate`.
+Delivery metrics, three distinct quantities: `throughput_mbps` counts
+**link-layer ACKed bits** — bits of packets that are later dropped
+(deadline miss / retx exhaustion) remain counted (~1–2 % of the total;
+no rollback, by design). `goodput_mbps` (post-RZF instrumentation) counts
+**completed-packet payload bits only** per episode time — every bit of a
+failed packet is excluded, including its already-ACKed portion.
+`completion_rate` is the **fraction of packets** completed before deadline
+(a count ratio, not a bit rate).
 
 ## 11. Baseline Schedulers (`baselines.py`)
 
