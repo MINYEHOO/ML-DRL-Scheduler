@@ -1,7 +1,7 @@
 #!/bin/bash
 # QueuePostRZF -- FIRST official post-RZF world PPO run (pilot seed).
 # Base = QueueMixedArrival config + la_mode=post_rzf + decode_order=rbg_major
-# + depth-wise beta_m (audit rounds 3-7). Launched 2026-07-13, GPU 0.
+# + depth-wise beta_m (audit rounds 3-7). Launched 2026-07-13 GPU0; moved to GPU5 2026-07-15 (GPU3/5 runs retired).
 #
 # CODE PINNING (audit round 7): every launch AND resume verifies that the
 # EXECUTABLE TRAINING CODE (root-level *.py) is identical to the pinned
@@ -12,7 +12,7 @@
 # does not zombie-churn) until a human intervenes or sets
 # ALLOW_HASH_MISMATCH=1 for one deliberate override.
 cd /home/MYH/ML_DRL_Scheduler || exit 1
-export CUDA_VISIBLE_DEVICES=0 \
+export CUDA_VISIBLE_DEVICES=5 \
        OMP_NUM_THREADS=8 MKL_NUM_THREADS=8 OPENBLAS_NUM_THREADS=8 \
        NUMEXPR_NUM_THREADS=8 VECLIB_MAXIMUM_THREADS=8 \
        TF_NUM_INTRAOP_THREADS=8 TF_NUM_INTEROP_THREADS=2

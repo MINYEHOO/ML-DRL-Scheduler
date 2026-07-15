@@ -37,8 +37,6 @@ sudo -n apt-get install -y -qq tmux gh >>"$LOG" 2>&1
 command -v tmux >/dev/null 2>&1 || { say "tmux install FAILED (network?)"; exit 1; }
 
 RECOVER_RUNS=(
-  "Run4/GenieFineTune:genie_finetune:Run4/_wrap_genie_finetune.sh"
-  "Run4/QueueMixedFairLA:queuemixedfairla:Run4/_wrap_queuemixedfairla.sh"
   "Run4/QueuePostRZF:queuepostrzf:Run4/_wrap_queuepostrzf.sh"
 )
 for spec in "${RECOVER_RUNS[@]}"; do

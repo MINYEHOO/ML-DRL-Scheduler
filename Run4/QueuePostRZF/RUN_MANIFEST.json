@@ -21,8 +21,9 @@
     "p_arrival": "U(0.15, 0.40) per episode"
   },
   "entropy_coef": 0.01,
-  "gpu": 0,
+  "gpu": 5,
   "wrapper": "Run4/_wrap_queuepostrzf.sh (hash-pinned to root_python_baseline; fresh AND resume verified)",
   "previous_attempt_archive": "Run4/QueuePostRZF.stale.1783918066/ (launch HEAD 22bda54, ~10 updates, superseded by this run -- see its SUPERSEDED.md)",
-  "csv_snapshot_note": "csv_logs/ contents in any given commit are a snapshot at that commit's time; the run keeps appending on the training server. config.json and this manifest are immutable for the run's life."
+  "csv_snapshot_note": "csv_logs/ contents in any given commit are a snapshot at that commit's time; the run keeps appending on the training server. config.json and this manifest are immutable for the run's life.",
+  "gpu_history": "GPU0 (launch 2026-07-13 04:47) -> GPU5 (2026-07-15 01:43, after retiring GenieFineTune/QueueMixedFairLA; graceful-ish stop at ~upd 148, resume from upd-139 checkpoint -- updates 140-148 redo bit-faithfully, CSV rows duplicate accordingly)"
 }
