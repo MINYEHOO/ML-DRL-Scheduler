@@ -1,0 +1,14 @@
+{
+  "run_name": "QueuePostRZF_Ent02",
+  "purpose": "entropy 0.02 A/B fork of the post-RZF pilot (exploration probe; user decision 2026-07-15)",
+  "forked_from": "Run4/QueuePostRZF/ckpt/latest.pt at update 189 (best 5122.1 banked; ckpt stamp 0bf5e27, root-py == pin 9ed28d0)",
+  "delta_vs_original": "ppo_entropy_coef 0.01 -> 0.02 (CLI); everything else identical incl. seed 2024 RNG stream continuation",
+  "fresh_start": false,
+  "resume_checkpoint": "copied latest.pt (optimizer/RNG continued)",
+  "launch_time": "2026-07-15 10:14:23 KST",
+  "launch_head": "51e7515",
+  "root_python_baseline": "9ed28d0",
+  "gpu": 4,
+  "original_run": "Run4/QueuePostRZF stays at 0.01 on GPU5 (A/B control)",
+  "csv_note": "CSVs in this dir start at the fork point (update 190+); pre-fork history lives in the original run's CSVs"
+}

@@ -34,6 +34,7 @@ LOG=Run3/_watchdog.log
 RUNS=(
   # Run3 training phase CLOSED 2026-07-02/06 (all best.pt preserved).
   "Run4/QueuePostRZF:queuepostrzf:Run4/_wrap_queuepostrzf.sh"  # GPU0, post-RZF pilot, hash-pinned 2026-07-13
+  "Run4/QueuePostRZF_Ent02:queuepostrzf_ent02:Run4/_wrap_queuepostrzf_ent02.sh"  # GPU4, entropy 0.02 A/B fork 2026-07-15
 )
 
 say(){ echo "[$(date '+%F %T')] $*" >> "$LOG"; }

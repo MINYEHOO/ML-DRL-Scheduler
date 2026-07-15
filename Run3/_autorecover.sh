@@ -38,6 +38,7 @@ command -v tmux >/dev/null 2>&1 || { say "tmux install FAILED (network?)"; exit 
 
 RECOVER_RUNS=(
   "Run4/QueuePostRZF:queuepostrzf:Run4/_wrap_queuepostrzf.sh"
+  "Run4/QueuePostRZF_Ent02:queuepostrzf_ent02:Run4/_wrap_queuepostrzf_ent02.sh"
 )
 for spec in "${RECOVER_RUNS[@]}"; do
   IFS=: read -r run sess wrap <<< "$spec"
