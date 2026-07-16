@@ -1,0 +1,14 @@
+{
+  "run_name": "QueuePostRZF_Ent03",
+  "purpose": "entropy 0.03 fork of the post-RZF pilot (exploration dose-response; user decision 2026-07-16)",
+  "forked_from": "Run4/QueuePostRZF (0.01 arm) ckpt at update 289 (best 5122.1 inherited; ckpt stamp 0bf5e27, root-py == pin 9ed28d0)",
+  "delta_vs_original": "ppo_entropy_coef 0.01 -> 0.03 (CLI); everything else identical",
+  "alignment_caveat": "Ent02 forked at update 189, Ent03 at 289 -- the three arms are NOT update-aligned; compare trajectories vs updates-since-fork, not absolute update index",
+  "fresh_start": false,
+  "resume_checkpoint": "copied latest.pt (optimizer/RNG continued)",
+  "launch_time": "2026-07-16 01:32:28 KST",
+  "launch_head": "bb28118",
+  "root_python_baseline": "9ed28d0",
+  "gpu": 3,
+  "sibling_runs": "original 0.01 on GPU5, Ent02 (0.02, fork@189) on GPU4"
+}
