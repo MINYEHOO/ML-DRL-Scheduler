@@ -1,20 +1,22 @@
 {
   "run_name": "MixedSpeed_L2c",
-  "purpose": "L2b-lineage universal-donor policy retrained FROM SCRATCH in the corrected (post-RZF) world; intended as the warm-start ancestor for subsequent runs (owner decision 2026-07-16)",
+  "purpose": "L2b-lineage universal-donor policy retrained FROM SCRATCH in the corrected post-RZF world -- NO-BETA VARIANT (owner decision 2026-07-16): la_beta=1.0, no la_beta_by_depth. The 'no-OLLA' honest world: prediction unbiased (post-RZF, group-aware) but unmargined; first transmissions NACK stochastically (~25-60% by depth, CSI-error-driven) and recover via ideal-IR; no per-world beta calibration procedure exists or is needed.",
   "lineage": "MixedSpeed_L2 -> L2b (legacy world, best 10030@859, beat per-seed oracle envelope +6.88%) -> L2c (this run)",
   "env_delta_vs_L2b": [
     "world: legacy LA -> post_rzf + rbg_major",
-    "speed U(5,30) -> U(5,40) km/h (owner-requested widening)",
-    "beta_m recalibrated for this world: (0.9721, 0.7168, 0.6322, 0.5841), holdout m1 90.1% cluster95 [88.6,91.5]"
+    "speed U(5,30) -> U(5,40) km/h",
+    "beta: NONE (la_beta=1.0) -- the earlier beta_m attempt (0.9721,...) ran ~20 updates and is archived at Run4/MixedSpeed_L2c.betam.stale.1784184035/"
   ],
   "recipe_kept_from_L2b": "hetero K=32, n_active U{16..32}, one-packet traffic, p_csi 0.6, type2 56-bit, entropy 0.02, KL guard v2, critic v2, seed 2024",
   "fresh_start": true,
-  "launch_time": "2026-07-16 03:12:21 KST (attempt 3; attempts 1-2 correctly refused by the fresh-dirty guard until stray analysis .py were committed)",
+  "launch_time": "2026-07-16 06:40:35 KST",
   "root_python_baseline": "9ed28d0",
   "gpu": 2,
   "caveats": [
-    "SUS threshold 0.8 = L2b-era tuning, NOT re-swept for this world (exploratory run; paper-gen re-sweep pending)",
-    "absolute rewards NOT comparable to legacy L2b's 10030 (different world)",
-    "8-seed baseline table for this world to be run separately"
-  ]
+    "results NOT comparable to beta_m-world numbers (different world)",
+    "SUS threshold 0.8 = L2b-era tuning, not re-swept",
+    "8-seed baseline table for THIS (no-beta) world pending",
+    "expect first_ack_rate ~0.4-0.7 and attempts_per_acked ~1.3-1.6 in env_metrics -- that is the intended physics, not a regression"
+  ],
+  "launch_head": "89efa50"
 }

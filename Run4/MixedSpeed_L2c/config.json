@@ -60,12 +60,7 @@
   "eta_data": 1.0,
   "beta_rate": 1.0,
   "la_beta": 1.0,
-  "la_beta_by_depth": [
-    0.9721,
-    0.7168,
-    0.6322,
-    0.5841
-  ],
+  "la_beta_by_depth": [],
   "b_tx_epsilon": 1.0,
   "mu_aware_la": false,
   "la_mode": "post_rzf",
@@ -122,6 +117,6 @@
   "episode_len_main": 1000,
   "episode_len_debug": 200,
   "debug": false,
-  "git_hash": "4b555e6d39cf1f1766f5d44c660de79bc3ded23f",
+  "git_hash": "89efa502d824e96eae5bb0e3fd24e129d44dbd53",
   "git_dirty_py": false
 }

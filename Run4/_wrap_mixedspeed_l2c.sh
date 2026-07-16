@@ -1,9 +1,11 @@
 #!/bin/bash
 # MixedSpeed_L2c -- L2b-lineage universal-donor retrain in the corrected
 # post-RZF world (user decision 2026-07-16). Env = MixedSpeed_L2b (hetero
-# K=32, n_active U{16..32}) with speed widened to U(5,40) km/h; beta_m
-# RECALIBRATED for this world = (0.9721, 0.7168, 0.6322, 0.5841)
-# (Run4/_analysis/round9_results/beta_m_l2c_calibration.out). GPU2.
+# K=32, n_active U{16..32}) with speed widened to U(5,40) km/h.
+# NO-BETA WORLD (owner decision 2026-07-16): la_beta stays at default 1.0,
+# no la_beta_by_depth -- the 'no-OLLA' honest world. Prediction is unbiased
+# (post-RZF) but unmargined: expect stochastic first-NACKs (~25-60% by
+# depth) recovered by IR; no per-world calibration procedure exists. GPU2.
 #
 # CODE PINNING (audit round 7): every launch AND resume verifies that the
 # EXECUTABLE TRAINING CODE (root-level *.py) is identical to the pinned
@@ -71,7 +73,6 @@ for i in $(seq 1 1000); do
     --n_active_min 16 --n_active_max 32 \
     --ue_speed_min 5 --ue_speed_max 40 \
     --la_mode post_rzf --decode_order rbg_major \
-    --la_beta_by_depth 0.9721,0.7168,0.6322,0.5841 \
     --entropy_coef 0.02 --patience_evals 100000 --seed 2024 $ARGS >> "$LOG" 2>&1
   grep -q "^Done\. " "$LOG" && { echo "===== [wrap] DONE =====" >> "$LOG"; break; }
   echo "===== [wrap] exit -> relaunch 20s =====" >> "$LOG"; sleep 20
