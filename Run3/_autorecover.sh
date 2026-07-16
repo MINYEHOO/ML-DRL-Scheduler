@@ -40,6 +40,7 @@ RECOVER_RUNS=(
   "Run4/QueuePostRZF:queuepostrzf:Run4/_wrap_queuepostrzf.sh"
   "Run4/QueuePostRZF_Ent02:queuepostrzf_ent02:Run4/_wrap_queuepostrzf_ent02.sh"
   "Run4/QueuePostRZF_Ent03:queuepostrzf_ent03:Run4/_wrap_queuepostrzf_ent03.sh"
+  "Run4/MixedSpeed_L2c:mixedspeed_l2c:Run4/_wrap_mixedspeed_l2c.sh"
 )
 for spec in "${RECOVER_RUNS[@]}"; do
   IFS=: read -r run sess wrap <<< "$spec"

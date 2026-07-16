@@ -1,0 +1,8 @@
+compile OK
+world: K=32 speed U(5.0,40.0) p_csi=0.6 pmi=type2_sparse_56bit
+beta_raw: 0.972058 0.716779 0.632197 0.584077
+DEPLOYED beta_m(L2c): (0.9721, 0.7168, 0.6322, 0.5841)
+m=1 beta=0.9721 n=3432 first-ACK=0.9006 cluster95 [0.8861,0.9146]
+m=2 beta=0.7168 n=6864 first-ACK=0.9340 cluster95 [0.9119,0.9490]
+m=3 beta=0.6322 n=10296 first-ACK=0.9369 cluster95 [0.9172,0.9510]
+m=4 beta=0.5841 n=13728 first-ACK=0.9417 cluster95 [0.9240,0.9556]
