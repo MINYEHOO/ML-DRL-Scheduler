@@ -1,0 +1,35 @@
+best.pt update 729; SUS thr 0.7
+seed 10000: PPO 8534 margin +227
+seed 10001: PPO 11370 margin +794
+seed 10002: PPO 12648 margin +805
+seed 10003: PPO 10244 margin +727
+seed 10004: PPO 14366 margin +208
+seed 10005: PPO 9634 margin +196
+seed 10006: PPO 7502 margin -591
+seed 10007: PPO 8410 margin +159
+seed 10008: PPO 8348 margin +747
+seed 10009: PPO 13091 margin +853
+seed 10010: PPO 5211 margin -707
+seed 10011: PPO 10420 margin +910
+seed 10012: PPO 6475 margin -520
+seed 10013: PPO 12676 margin +865
+seed 10014: PPO 11250 margin +1476
+seed 10015: PPO 11841 margin +824
+seed 10016: PPO 12334 margin +795
+seed 10017: PPO 9027 margin +491
+seed 10018: PPO 9976 margin +648
+seed 10019: PPO 13092 margin +967
+showcase seed 10014 -> Run4/GenieFineTune/GenieFineTune_metrics_seed10014_thr07.png
+
+20-seed means:
+PPO      rew   10322  thr  87.7  good  86.8  comp 0.881  miss 0.118  depth 2.50
+SUS+CQI  rew    9417  thr  82.0  good  79.3  comp 0.858  miss 0.123  depth 3.94
+SUS+DPF  rew    8699  thr  77.6  good  74.3  comp 0.838  miss 0.134  depth 3.94
+SUS+PF   rew    8626  thr  78.1  good  74.5  comp 0.833  miss 0.137  depth 3.94
+SUS+Rnd  rew    7161  thr  68.3  good  64.2  comp 0.796  miss 0.173  depth 3.96
+SU+CQI   rew    8595  thr  82.3  good  80.7  comp 0.816  miss 0.183  depth 1.00
+SU+DPF   rew    7282  thr  67.7  good  64.2  comp 0.820  miss 0.178  depth 1.00
+SU+PF    rew    6603  thr  70.2  good  64.2  comp 0.765  miss 0.233  depth 1.00
+SU+Rnd   rew    4002  thr  52.5  good  45.0  comp 0.680  miss 0.317  depth 1.00
+
+PPO 10322 vs best baseline 9417 = +9.6%
