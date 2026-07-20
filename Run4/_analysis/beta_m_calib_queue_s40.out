@@ -1,0 +1,7 @@
+world: K=32 n_active U(16,32) speed U(5.0,40.0) p_csi=0.6 pmi=type2_sparse_56bit
+beta_raw: 0.975691 0.717983 0.635506 0.583687
+DEPLOYED beta_m(queue S40): (0.9757, 0.718, 0.6355, 0.5837)
+m=1 beta=0.9757 n=3432 first-ACK=0.8928 cluster95 [0.8811,0.9050]
+m=2 beta=0.7180 n=6864 first-ACK=0.9346 cluster95 [0.9122,0.9499]
+m=3 beta=0.6355 n=10296 first-ACK=0.9415 cluster95 [0.9190,0.9573]
+m=4 beta=0.5837 n=13728 first-ACK=0.9458 cluster95 [0.9292,0.9589]

@@ -157,6 +157,10 @@ def parse_args():
                    choices=["type2_sparse_56bit", "random_unit_norm", "genie"],
                    help="CSI codebook: 'genie' = perfect CSI (h_hat==h_true, no "
                         "quantization; pair with --p_csi 1.0 for zero staleness)")
+    p.add_argument("--ppo_save_every", type=int, default=None,
+                   help="checkpoint cadence in updates; new official runs "
+                        "pass 1 (every update; ~1.2MB overwrite, negligible "
+                        "cost) so kills never redo work")
     p.add_argument("--target_kl", type=float, default=None,
                    help="override ppo_target_kl (>0 enables KL early-stop: "
                         "stop an update's remaining passes when minibatch "
@@ -297,7 +301,8 @@ def run_eval(env, ac, cfg: Config, update: int,
         schedulers += all_baselines(cfg)
     summary = {}
     for sched in schedulers:
-        rewards, throughputs, comps, drops = [], [], [], []
+        rewards, throughputs, goodputs, comps = [], [], [], []
+        misses, totfails, depths = [], [], []
         for ep_idx in range(cfg.ppo_eval_episodes):
             env.reset(ep_idx + 10000)  # held-out seed range
             done = False
@@ -320,19 +325,29 @@ def run_eval(env, ac, cfg: Config, update: int,
             m = env_episode_metrics(env, cfg)
             rewards.append(m["reward"])
             throughputs.append(m["throughput_mbps"])
+            goodputs.append(m.get("goodput_mbps", float("nan")))  # post_rzf only
             comps.append(m["completion_rate"])
-            drops.append(m["retx_drop_rate"])
+            misses.append(m["deadline_miss_rate"])
+            totfails.append(m["deadline_miss_rate"] + m["retx_drop_rate"])
+            depths.append(m["mu_depth"])
         rew = float(np.mean(rewards))
         thr = float(np.mean(throughputs))
+        good = float(np.mean(goodputs))
         comp = float(np.mean(comps))
-        drop = float(np.mean(drops))
+        miss = float(np.mean(misses))
+        totfail = float(np.mean(totfails))
+        depth = float(np.mean(depths))
         print(f"    {sched.name:12s}  reward {rew:8.2f}  thrpt {thr:6.2f}Mbps  "
-              f"comp {comp:.3f}  drop {drop:.3f}")
-        csv_w.writerow([update, sched.name, rew, thr, comp, drop])
+              f"comp {comp:.3f}  totfail {totfail:.3f}  depth {depth:.2f}")
+        csv_w.writerow([update, sched.name, rew, thr, good, comp,
+                        miss, totfail, depth])
         writer.add_scalar(f"eval/{sched.name}/reward", rew, update)
         writer.add_scalar(f"eval/{sched.name}/throughput_mbps", thr, update)
+        writer.add_scalar(f"eval/{sched.name}/goodput_mbps", good, update)
         writer.add_scalar(f"eval/{sched.name}/completion_rate", comp, update)
-        writer.add_scalar(f"eval/{sched.name}/retx_drop_rate", drop, update)
+        writer.add_scalar(f"eval/{sched.name}/deadline_miss_rate", miss, update)
+        writer.add_scalar(f"eval/{sched.name}/total_failure_rate", totfail, update)
+        writer.add_scalar(f"eval/{sched.name}/mu_depth", depth, update)
         summary[sched.name] = rew
     return summary["PPO"]
 
@@ -371,6 +386,8 @@ def main():
         cfg.ue_speed_kmh = args.ue_speed_kmh
     if args.entropy_coef is not None:                # exploration override
         cfg.ppo_entropy_coef = args.entropy_coef
+    if args.ppo_save_every is not None:              # ckpt cadence (2026-07-15
+        cfg.ppo_save_every = args.ppo_save_every     # decision: new runs use 1)
     if args.num_ue is not None:                      # scarcity: more UEs (K)
         cfg.num_ue = args.num_ue
     if args.p_arrival is not None:                   # load axis (Run4 HighLoad)
@@ -576,7 +593,9 @@ def main():
                            "entropy_mean", "approx_KL", "clip_fraction",
                            "grad_norm", "explained_variance"])
         eval_csv.writerow(["update", "scheduler", "reward", "throughput_mbps",
-                            "completion_rate", "retx_drop_rate"])
+                            "goodput_mbps", "completion_rate",
+                            "deadline_miss_rate", "total_failure_rate",
+                            "mu_depth"])
 
     def ckpt_payload(update_idx: int) -> dict:
         """Checkpoint contents; enough state for a faithful --resume.
