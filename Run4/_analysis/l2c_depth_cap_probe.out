@@ -1,0 +1,5 @@
+cap 1: rew  8052.1  depth 1.000  miss 0.1914  1ACK 0.918  goodput 76.89
+cap 2: rew  8372.1  depth 2.000  miss 0.1671  1ACK 0.536  goodput 75.68
+cap 3: rew  8697.8  depth 2.997  miss 0.1528  1ACK 0.455  goodput 76.21
+cap 4: rew  8586.8  depth 3.988  miss 0.1539  1ACK 0.419  goodput 74.84
+saved -> /home/MYH/ML_DRL_Scheduler/Run4/_analysis/l2c_depth_cap_probe.csv
