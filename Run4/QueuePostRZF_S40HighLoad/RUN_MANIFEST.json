@@ -1,0 +1,14 @@
+{
+  "run": "QueuePostRZF_S40HighLoad",
+  "launched": "2026-07-20 05:00 KST",
+  "gpu": 5,
+  "pin": "71c0bd4085f6ae0ce7ee7460cffe958046a63543",
+  "seed": 2024,
+  "lineage": "identical to QueuePostRZF_S40Ent02 (same pin, same seed, same world knobs)",
+  "delta_vs_S40Ent02": "p_arrival per-episode U(0.15, 0.50) instead of U(0.15, 0.40) (min kept, max raised -- user choice 2026-07-20)",
+  "purpose": "load-response axis: load-headroom probe showed scheduler spread grows 2697->7311 over p 0.3->0.5; tests whether PPO's learned advantage grows with congestion",
+  "caveats": [
+    "compare against S40Ent02 only via each run's own in-eval baselines (different traffic distribution = different world)",
+    "beta_m unchanged from S40 calibration -- beta is channel/CSI statistics, traffic-independent"
+  ]
+}

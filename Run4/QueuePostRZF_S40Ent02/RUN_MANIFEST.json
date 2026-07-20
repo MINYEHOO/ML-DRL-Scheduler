@@ -1,0 +1,20 @@
+{
+  "run": "QueuePostRZF_S40Ent02",
+  "launched": "2026-07-20 05:00 KST",
+  "gpu": 4,
+  "pin": "71c0bd4085f6ae0ce7ee7460cffe958046a63543",
+  "seed": 2024,
+  "lineage": "QueuePostRZF world (QueueMixedArrival base + post_rzf + rbg_major + beta_m), FRESH init",
+  "deltas_vs_QueuePostRZF": [
+    "entropy 0.02 from scratch (pilot was 0.01; 0.02 was only ever a fork) -- clean-pipeline test of the dose-response recipe",
+    "speed U(5,40) (was U(5,30))",
+    "beta_m recalibrated for S40: (0.9757, 0.7180, 0.6355, 0.5837) via frozen recipe (beta_m_calib_queue_s40.py; holdout first-ACK m1 0.893, m2-4 0.935-0.946)",
+    "ppo_save_every=1 (2026-07-15 decision) + extended eval CSV (goodput/miss/total_failure/mu_depth; retx dropped)"
+  ],
+  "caveats": [
+    "ABSOLUTE rewards not comparable to U(5,30)-world runs (speed + beta changed the world); compare only against this run's in-eval baselines",
+    "fresh-0.02 depth risk: L2c (no-beta) got stuck at depth-4 from scratch, but the beta_m world prices depth immediately (Ent02-fork walked 3.87->2.53), so the gradient exists -- watch mu_depth in eval CSV",
+    "beta_m applied = 'static OLLA surrogate' framing (user-confirmed 2026-07-20); online OLLA is future work"
+  ],
+  "sibling": "QueuePostRZF_S40HighLoad (GPU5): identical except p_arrival U(0.15,0.50)"
+}
