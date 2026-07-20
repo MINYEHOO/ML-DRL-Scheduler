@@ -1,0 +1,34 @@
+seed 10000 SUS@0.7 done
+seed 10001 SUS@0.7 done
+seed 10002 SUS@0.7 done
+seed 10003 SUS@0.7 done
+seed 10004 SUS@0.7 done
+seed 10005 SUS@0.7 done
+seed 10006 SUS@0.7 done
+seed 10007 SUS@0.7 done
+seed 10008 SUS@0.7 done
+seed 10009 SUS@0.7 done
+seed 10010 SUS@0.7 done
+seed 10011 SUS@0.7 done
+seed 10012 SUS@0.7 done
+seed 10013 SUS@0.7 done
+seed 10014 SUS@0.7 done
+seed 10015 SUS@0.7 done
+seed 10016 SUS@0.7 done
+seed 10017 SUS@0.7 done
+seed 10018 SUS@0.7 done
+seed 10019 SUS@0.7 done
+showcase seed 10014 -> /home/MYH/ML_DRL_Scheduler/Run4/_analysis/GenieFineTune_metrics_seed10014_thr07.png
+
+20-seed means (SUS@0.7):
+PPO      rew   10322  depth 2.50  miss 0.118  retx 0.0001
+SUS+CQI  rew    9417  depth 3.94  miss 0.123  retx 0.0176
+SUS+DPF  rew    8699  depth 3.94  miss 0.134  retx 0.0256
+SUS+PF   rew    8626  depth 3.94  miss 0.137  retx 0.0277
+SUS+Rnd  rew    7161  depth 3.96  miss 0.173  retx 0.0293
+SU+CQI   rew    8595  depth 1.00  miss 0.183  retx 0.0000
+SU+DPF   rew    7282  depth 1.00  miss 0.178  retx 0.0000
+SU+PF    rew    6603  depth 1.00  miss 0.233  retx 0.0000
+SU+Rnd   rew    4002  depth 1.00  miss 0.317  retx 0.0000
+
+PPO 10322 vs best baseline 9417 = +9.6%
