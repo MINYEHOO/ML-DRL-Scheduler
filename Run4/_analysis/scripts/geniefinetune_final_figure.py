@@ -96,7 +96,7 @@ def bars(ax, title, vals, fmt, ymax=None):
 fig, axes = plt.subplots(2, 4, figsize=(13.66, 6.6))
 g = lambda n, k: data[(show, n)][k]
 bars(axes[0, 0], "Episode reward", [g(n, "reward") for n in ORDER], "{:.0f}")
-bars(axes[0, 1], "Throughput (Mbps)", [g(n, "throughput_mbps") for n in ORDER], "{:.0f}")
+bars(axes[0, 1], "Throughput (Mbps)", [g(n, "throughput_mbps") for n in ORDER], "{:.1f}")
 bars(axes[0, 2], "Mean SINR (dB)", [g(n, "mean_sinr_db") for n in ORDER], "{:.1f}")
 bars(axes[0, 3], "Completion rate", [g(n, "completion_rate") for n in ORDER], "{:.2f}", 1.0)
 bars(axes[1, 0], "MU depth (UEs / active RBG)", [g(n, "mu_depth") for n in ORDER], "{:.2f}")
@@ -125,7 +125,7 @@ fig.text(0.5, 0.945,
          f"episode (km/h, sorted): " + " ".join(f"{s:.1f}" for s in spd),
          ha="center", fontsize=6.5)
 fig.tight_layout(rect=(0, 0, 1, 0.93))
-png = f"{OUTDIR}/GenieFineTune_metrics_seed{show}.png"
+png = f"Run4/GenieFineTune/GenieFineTune_metrics_seed{show}.png"
 fig.savefig(png, dpi=140)
 print("showcase seed", show, "->", png, flush=True)
 
