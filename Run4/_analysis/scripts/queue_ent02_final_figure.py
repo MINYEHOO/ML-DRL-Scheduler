@@ -54,8 +54,9 @@ scheds = [("PPO", PPOScheduler(ac, deterministic=True))] + \
           if SHORT.get(s.name, s.name) in ORDER]
 assert sorted(n for n, _ in scheds) == sorted(ORDER)
 
-KEYS = ["reward", "throughput_mbps", "mean_sinr_db", "completion_rate",
-        "deadline_miss_rate", "retx_drop_rate", "mu_depth", "jain"]
+KEYS = ["reward", "throughput_mbps", "goodput_mbps", "mean_sinr_db",
+        "completion_rate", "deadline_miss_rate", "retx_drop_rate",
+        "mu_depth", "jain"]
 data, ctx = {}, {}
 for seed in SEEDS:
     for name, sch in scheds:
@@ -93,26 +94,28 @@ def bars(ax, title, vals, fmt, ymax=None):
         ax.text(r.get_x() + r.get_width() / 2, r.get_height(), fmt.format(v),
                 ha="center", va="bottom", fontsize=6)
 
+# panel order (user 2026-07-20): reward, throughput, goodput, SINR,
+# MU depth, completion, failure modes, JFI. TOTAL failure dropped --
+# the stacked failure-modes bar already shows the total.
 fig, axes = plt.subplots(2, 4, figsize=(13.66, 6.6))
 g = lambda n, k: data[(show, n)][k]
 bars(axes[0, 0], "Episode reward", [g(n, "reward") for n in ORDER], "{:.0f}")
 bars(axes[0, 1], "Throughput (Mbps)", [g(n, "throughput_mbps") for n in ORDER], "{:.1f}")
-bars(axes[0, 2], "Mean SINR (dB)", [g(n, "mean_sinr_db") for n in ORDER], "{:.1f}")
-bars(axes[0, 3], "Completion rate", [g(n, "completion_rate") for n in ORDER], "{:.2f}", 1.0)
+bars(axes[0, 2], "Goodput (Mbps)", [g(n, "goodput_mbps") for n in ORDER], "{:.1f}")
+bars(axes[0, 3], "Mean SINR (dB)", [g(n, "mean_sinr_db") for n in ORDER], "{:.1f}")
 bars(axes[1, 0], "MU depth (UEs / active RBG)", [g(n, "mu_depth") for n in ORDER], "{:.2f}")
-ax = axes[1, 1]
+bars(axes[1, 1], "Completion rate", [g(n, "completion_rate") for n in ORDER], "{:.2f}", 1.0)
+ax = axes[1, 2]
 miss = [g(n, "deadline_miss_rate") for n in ORDER]
 retx = [g(n, "retx_drop_rate") for n in ORDER]
 ax.bar(range(len(ORDER)), miss, color="tab:orange", label="deadline-miss")
 ax.bar(range(len(ORDER)), retx, bottom=miss, color="tab:purple", label="retx drop")
 for i, (a, b) in enumerate(zip(miss, retx)):
     ax.text(i, a + b, f"{a + b:.2f}", ha="center", va="bottom", fontsize=6)
-ax.set_title("Failure modes")
+ax.set_title("Failure modes (total = stack height)")
 ax.set_xticks(range(len(ORDER)))
 ax.set_xticklabels(ORDER, rotation=45, ha="right", fontsize=7)
 ax.legend(fontsize=7)
-bars(axes[1, 2], "TOTAL failure",
-     [g(n, "deadline_miss_rate") + g(n, "retx_drop_rate") for n in ORDER], "{:.2f}")
 bars(axes[1, 3], "Jain fairness (JFI, active UEs)", [g(n, "jain") for n in ORDER], "{:.2f}")
 
 fig.suptitle(f"QueuePostRZF_Ent02 — PPO vs baselines  (seed {show} best-margin;  "

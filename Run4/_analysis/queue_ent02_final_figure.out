@@ -19,7 +19,7 @@ seed 10016: PPO 7826 margin +530
 seed 10017: PPO 6193 margin +941
 seed 10018: PPO 4011 margin +458
 seed 10019: PPO 6462 margin +346
-showcase seed 10017 -> /home/MYH/ML_DRL_Scheduler/Run4/_analysis/QueueEnt02_metrics_seed10017.png
+showcase seed 10017 -> Run4/QueuePostRZF_Ent02/QueueEnt02_metrics_seed10017.png
 
 20-seed means:
 PPO      rew    5422  depth 2.91  miss 0.319  retx 0.0000
