@@ -1,0 +1,35 @@
+Ent02 best.pt update 769 run-eval 5742.7; SUS thr 0.7
+seed 10000: PPO 3268 margin +492
+seed 10001: PPO 7096 margin +781
+seed 10002: PPO 6861 margin +539
+seed 10003: PPO 4295 margin +568
+seed 10004: PPO 6510 margin -86
+seed 10005: PPO 4525 margin -21
+seed 10006: PPO 3394 margin -50
+seed 10007: PPO 6845 margin +557
+seed 10008: PPO 3587 margin +794
+seed 10009: PPO 7172 margin -100
+seed 10010: PPO 1962 margin +332
+seed 10011: PPO 8037 margin +686
+seed 10012: PPO 2875 margin +60
+seed 10013: PPO 5630 margin +507
+seed 10014: PPO 6632 margin +830
+seed 10015: PPO 5252 margin +344
+seed 10016: PPO 7826 margin +530
+seed 10017: PPO 6193 margin +941
+seed 10018: PPO 4011 margin +458
+seed 10019: PPO 6462 margin +346
+showcase seed 10017 -> /home/MYH/ML_DRL_Scheduler/Run4/_analysis/QueueEnt02_metrics_seed10017.png
+
+20-seed means:
+PPO      rew    5422  depth 2.91  miss 0.319  retx 0.0000
+SUS+CQI  rew    4879  depth 3.97  miss 0.348  retx 0.0000
+SUS+DPF  rew    2855  depth 3.98  miss 0.422  retx 0.0000
+SUS+PF   rew    2871  depth 3.98  miss 0.419  retx 0.0000
+SUS+Rnd  rew    1883  depth 3.98  miss 0.455  retx 0.0000
+SU+CQI   rew    3608  depth 1.00  miss 0.376  retx 0.0000
+SU+DPF   rew    1356  depth 1.00  miss 0.469  retx 0.0000
+SU+PF    rew    1250  depth 1.00  miss 0.465  retx 0.0000
+SU+Rnd   rew   -2532  depth 1.00  miss 0.608  retx 0.0000
+
+PPO 5422 vs best baseline 4879 = +11.1%
