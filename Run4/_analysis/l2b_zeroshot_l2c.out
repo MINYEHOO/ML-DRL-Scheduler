@@ -1,0 +1,32 @@
+L2b donor: update 859 eval 10030.2 loaded 26/27 tensors from Run3/MixedSpeed_L2b/ckpt/best.pt (fresh: ['value_head.net.0.weight'])
+L2c best: update 479 eval 9107.4 loaded 27/27 tensors from Run4/MixedSpeed_L2c/ckpt/best.pt (fresh: [])
+  PPO-L2b-zeroshot seed 10000: rew 6859 miss 0.203
+  PPO-L2b-zeroshot seed 10001: rew 10115 miss 0.137
+  PPO-L2b-zeroshot seed 10002: rew 10303 miss 0.152
+  PPO-L2b-zeroshot seed 10003: rew 8450 miss 0.182
+  PPO-L2b-zeroshot seed 10004: rew 11627 miss 0.143
+  PPO-L2b-zeroshot seed 10005: rew 8523 miss 0.098
+  PPO-L2b-zeroshot seed 10006: rew 6631 miss 0.151
+  PPO-L2b-zeroshot seed 10007: rew 7307 miss 0.099
+PPO-L2b-zeroshot   rew   8727.0  thr   78.06  miss 0.1456  retx 0.0002  depth 2.735
+  PPO-L2c-trained seed 10000: rew 6567 miss 0.221
+  PPO-L2c-trained seed 10001: rew 10021 miss 0.140
+  PPO-L2c-trained seed 10002: rew 10689 miss 0.142
+  PPO-L2c-trained seed 10003: rew 8419 miss 0.177
+  PPO-L2c-trained seed 10004: rew 12013 miss 0.131
+  PPO-L2c-trained seed 10005: rew 8221 miss 0.109
+  PPO-L2c-trained seed 10006: rew 6064 miss 0.186
+  PPO-L2c-trained seed 10007: rew 7066 miss 0.103
+PPO-L2c-trained    rew   8632.5  thr   77.67  miss 0.1512  retx 0.0003  depth 3.991
+
+=== L2c no-beta world, 8 paired seeds (10000-10007) ===
+scheduler            reward     thr    miss    retx  depth
+SUS+CQI                8587   78.13  0.1539  0.0002  3.988
+SU+CQI                 8052   78.52  0.1914  0.0000  1.000
+SUS+Deadline-PF        7754   72.26  0.1714  0.0004  3.994
+SUS+PF                 7608   73.04  0.1834  0.0005  3.994
+SU+Deadline-PF         6670   63.47  0.1950  0.0001  1.000
+SUS+Random             6421   65.38  0.2167  0.0003  3.993
+SU+PF                  6105   66.43  0.2441  0.0000  1.000
+SU+Random              3264   47.85  0.3485  0.0001  1.000
+saved -> /home/MYH/ML_DRL_Scheduler/Run4/_analysis/l2b_zeroshot_l2c.csv
