@@ -16,7 +16,7 @@
 # does not zombie-churn) until a human intervenes or sets
 # ALLOW_HASH_MISMATCH=1 for one deliberate override.
 cd /home/MYH/ML_DRL_Scheduler || exit 1
-export CUDA_VISIBLE_DEVICES=2 \
+export CUDA_VISIBLE_DEVICES=5 \
        OMP_NUM_THREADS=8 MKL_NUM_THREADS=8 OPENBLAS_NUM_THREADS=8 \
        NUMEXPR_NUM_THREADS=8 VECLIB_MAXIMUM_THREADS=8 \
        TF_NUM_INTRAOP_THREADS=8 TF_NUM_INTEROP_THREADS=2

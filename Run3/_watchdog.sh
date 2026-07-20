@@ -33,10 +33,10 @@ LOG=Run3/_watchdog.log
 # stale hardcoded bashrc list).
 RUNS=(
   # Run3 training phase CLOSED 2026-07-02/06 (all best.pt preserved).
-  "Run4/QueuePostRZF:queuepostrzf:Run4/_wrap_queuepostrzf.sh"  # GPU0, post-RZF pilot, hash-pinned 2026-07-13
-  "Run4/QueuePostRZF_Ent02:queuepostrzf_ent02:Run4/_wrap_queuepostrzf_ent02.sh"  # GPU4, entropy 0.02 A/B fork 2026-07-15
-  "Run4/QueuePostRZF_Ent03:queuepostrzf_ent03:Run4/_wrap_queuepostrzf_ent03.sh"  # GPU3, entropy 0.03 fork 2026-07-16
-  "Run4/MixedSpeed_L2c:mixedspeed_l2c:Run4/_wrap_mixedspeed_l2c.sh"  # GPU2, L2b-lineage donor retrain, U(5,40)+L2c beta_m 2026-07-16
+  # 2026-07-20 retirements (user directive): QueuePostRZF (best 5380@889),
+  # Ent02 (best 5743@769, dose-response winner), Ent03 (best 5276@809) --
+  # all peaked+declined, bests banked. L2c moved GPU2 -> GPU5 same day.
+  "Run4/MixedSpeed_L2c:mixedspeed_l2c:Run4/_wrap_mixedspeed_l2c.sh"  # GPU5 (was GPU2), L2b-lineage no-beta retrain, U(5,40) 2026-07-16
 )
 
 say(){ echo "[$(date '+%F %T')] $*" >> "$LOG"; }

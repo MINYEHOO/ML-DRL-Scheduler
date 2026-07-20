@@ -37,9 +37,7 @@ sudo -n apt-get install -y -qq tmux gh >>"$LOG" 2>&1
 command -v tmux >/dev/null 2>&1 || { say "tmux install FAILED (network?)"; exit 1; }
 
 RECOVER_RUNS=(
-  "Run4/QueuePostRZF:queuepostrzf:Run4/_wrap_queuepostrzf.sh"
-  "Run4/QueuePostRZF_Ent02:queuepostrzf_ent02:Run4/_wrap_queuepostrzf_ent02.sh"
-  "Run4/QueuePostRZF_Ent03:queuepostrzf_ent03:Run4/_wrap_queuepostrzf_ent03.sh"
+  # 2026-07-20: queue 3-arm retired (user directive); L2c moved to GPU5.
   "Run4/MixedSpeed_L2c:mixedspeed_l2c:Run4/_wrap_mixedspeed_l2c.sh"
 )
 for spec in "${RECOVER_RUNS[@]}"; do
