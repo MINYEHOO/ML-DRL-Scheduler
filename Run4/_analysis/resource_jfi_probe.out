@@ -1,0 +1,16 @@
+seed 10000 done
+seed 10001 done
+seed 10002 done
+seed 10003 done
+seed 10004 done
+
+scheduler     자원-JFI    배달-JFI
+PPO            0.664     0.702
+SUS+CQI        0.657     0.713
+SUS+DPF        0.883     0.727
+SUS+PF         0.887     0.725
+SUS+Rnd        0.894     0.692
+SU+CQI         0.640     0.631
+SU+DPF         0.985     0.714
+SU+PF          0.980     0.708
+SU+Rnd         0.966     0.733
