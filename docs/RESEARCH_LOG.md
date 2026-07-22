@@ -137,3 +137,24 @@ SU+PF 0.99 vs SUS+PF 0.83의 원인.
 
 **대기 중 결정**: 시드 복제 2025/2026 (GPU0/2 제안), fresh-vs-fork 대조군
 U(5,30) (GPU3, 선택), 용량-하한 프로브, SNR 분위별 완성률 표.
+
+## 2026-07-22 (2) — reward-goodput 딜레마: 실측으로 종결
+
+**고민** (사용자 제기): dense 항(ΔI_useful)은 최종 실패할 패킷의 bits에도
+지급된다 → goodput과 misalign. 그러나 goodput을 직접 reward로 쓰면 신호가
+희소해짐 (조밀함 ↔ 정렬의 딜레마). GPT가 packet-goodput 기반 PBRS
+(잠정 진척 보상 + 실패 시 회수)를 제안 — 이론 검증 결과 건전했으나
+(telescoping·파밍불가·부기 정확), 목적함수의 조용한 변경 3건(miss 벌점
+삭제, per-packet→per-bit, 긴급도 가중 소멸)과 truncation-bootstrap 충돌이
+있어 채택 보류.
+
+**누수율 프로브** (reward_leak_probe.py — process_slot monkey-patch로
+지급-귀속 계측, root py 무접촉): 실패-운명 패킷에 지급된 dense 보상 비중 =
+**PPO 3.16% vs SUS+CQI 6.28%** (bits·urgency-가중 동일; goodput/throughput
+낭비율과 교차검증 정합). deadline 3–12슬롯이 누수 창을 구조적으로 상계.
+
+**결정**: 현행 reward 유지. 근거 — misalignment 실측 3.2%뿐이고, 학습된
+정책의 누수가 최강 휴리스틱의 절반 (희소 정산 항이 이미 회피를 가르침).
+재구성의 이득(≤3.2%) 대비 비용(전면 재학습+비교 재앵커) 불균형. 논문에는
+"이층 reward(결정-품질 dense + 결과-정산 sparse), misalignment 실측 3.2%"
+로 서술. reward 개편(PBRS류)은 Run5/OLLA 세대 후보로만 보존.
