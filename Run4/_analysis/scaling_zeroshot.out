@@ -1,0 +1,21 @@
+K=16: strict load OK (파라미터가 K-독립임을 확인)
+  K=16 PPO-zs   reward   3671.5  depth 2.22  miss 0.230
+  K=16 SUS+CQI  reward   3169.5  depth 3.48  miss 0.269
+  K=16 SU+CQI   reward   3500.7  depth 1.00  miss 0.240
+  K=16: PPO-zs vs 최강 baseline = +4.9%
+K=24: strict load OK (파라미터가 K-독립임을 확인)
+  K=24 PPO-zs   reward   5103.9  depth 2.66  miss 0.266
+  K=24 SUS+CQI  reward   4234.9  depth 3.90  miss 0.324
+  K=24 SU+CQI   reward   4230.9  depth 1.00  miss 0.304
+  K=24: PPO-zs vs 최강 baseline = +20.5%
+K=32: strict load OK (파라미터가 K-독립임을 확인)
+  K=32 PPO-zs   reward   5349.4  depth 2.91  miss 0.309
+  K=32 SUS+CQI  reward   4833.0  depth 3.96  miss 0.340
+  K=32 SU+CQI   reward   3571.2  depth 1.00  miss 0.365
+  K=32: PPO-zs vs 최강 baseline = +10.7%
+K=48: strict load OK (파라미터가 K-독립임을 확인)
+  K=48 PPO-zs   reward   4812.2  depth 3.19  miss 0.377
+  K=48 SUS+CQI  reward   4780.0  depth 3.99  miss 0.388
+  K=48 SU+CQI   reward    907.1  depth 1.00  miss 0.460
+  K=48: PPO-zs vs 최강 baseline = +0.7%
+saved -> Run4/_analysis/scaling_zeroshot.csv
