@@ -1,0 +1,17 @@
+{
+  "run": "QueuePostRZF_S40HighLoad_Ent01",
+  "launched": "2026-07-26 KST",
+  "gpu": 4,
+  "pin": "71c0bd4085f6ae0ce7ee7460cffe958046a63543",
+  "seed": 2024,
+  "lineage": "fork of QueuePostRZF_S40HighLoad at best.pt (update 639, eval 5597.5)",
+  "world": "HighLoad world unchanged: p_arrival U(0.15,0.50), speed U(5,40), beta_m S40",
+  "delta": "entropy_coef 0.02 -> 0.01 from update 640 onward (anneal-to-commit)",
+  "purpose": "user directive 2026-07-26: start from the HighLoad BEST policy and continue training identically but with reduced exploration, to sharpen convergence around the found basin. The ORIGINAL S40HighLoad keeps running at 0.02 on GPU5 -- clean A/B: same ckpt ancestry, only entropy differs from upd 640.",
+  "fork_mechanics": "cp -a HighLoad dir; latest.pt := best.pt(@639); CSVs trimmed to <=639 (resume starts 640, no dup); tb_logs cleared.",
+  "note_on_predecessor": "first Ent01 attempt (fork of S40Ent02 best@519, ran upd 520-559 at 0.01, touched 5529) archived as QueuePostRZF_S40Ent01.stale.* -- superseded by this HighLoad-based fork per user clarification.",
+  "caveats": [
+    "best_eval_reward loaded as 5597.5 -- new best.pt only on exceeding the 0.02 peak",
+    "run-eval = fixed 3 seeds of the HighLoad world; final verdict on common held-out seeds"
+  ]
+}
