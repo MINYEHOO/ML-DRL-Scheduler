@@ -1,0 +1,16 @@
+{
+  "run": "QueuePostRZF_S40Ent01",
+  "launched": "2026-07-26 KST",
+  "gpu": 4,
+  "pin": "71c0bd4085f6ae0ce7ee7460cffe958046a63543",
+  "seed": 2024,
+  "lineage": "fork of QueuePostRZF_S40Ent02 at best.pt (update 519, eval 5527.3)",
+  "delta_vs_S40Ent02": "entropy_coef 0.02 -> 0.01 from update 520 onward (anneal-to-commit)",
+  "purpose": "S40Ent02 (entropy 0.02) peaked at 5527@519 then over-cooled to depth ~1.8 / ~4700 by upd 1129. Hypothesis (user 2026-07-26): the 0.02 exploration found a good basin; lowering to 0.01 from the PEAK sharpens convergence around it rather than letting it drift shallow. Classic hot-explore / cold-commit anneal.",
+  "fork_mechanics": "cp -a S40Ent02 dir; latest.pt := best.pt(@519); CSV logs trimmed to update<=519 (resume starts at 520, no dup rows); tb_logs cleared. Pre-519 history (entropy 0.02) retained as shared prefix; 520+ runs at 0.01.",
+  "caveats": [
+    "best_eval_reward loaded as 5527.3 -- Ent01 only writes a new best.pt if it EXCEEDS the 0.02 peak",
+    "same fixed 3-seed run-eval as S40Ent02; final verdict on held-out 20-seed + untouched 20000+",
+    "sibling S40HighLoad (GPU5) kept running (user directive)"
+  ]
+}

@@ -38,7 +38,7 @@ command -v tmux >/dev/null 2>&1 || { say "tmux install FAILED (network?)"; exit 
 
 RECOVER_RUNS=(
   # 2026-07-20: queue 3-arm + L2c retired; S40 generation (pin 71c0bd4).
-  "Run4/QueuePostRZF_S40Ent02:queuepostrzf_s40ent02:Run4/_wrap_queuepostrzf_s40ent02.sh"
+  "Run4/QueuePostRZF_S40Ent01:queuepostrzf_s40ent01:Run4/_wrap_queuepostrzf_s40ent01.sh"
   "Run4/QueuePostRZF_S40HighLoad:queuepostrzf_s40highload:Run4/_wrap_queuepostrzf_s40highload.sh"
 )
 for spec in "${RECOVER_RUNS[@]}"; do

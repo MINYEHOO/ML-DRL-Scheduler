@@ -36,7 +36,7 @@ RUNS=(
   # 2026-07-20 retirements (user directive): queue 3-arm (bests 5380/5743/5276)
   # and MixedSpeed_L2c (9107@479, depth-4 diagnosis). S40 generation starts
   # same day on the new pin 71c0bd4 (eval CSV v2, save_every=1).
-  "Run4/QueuePostRZF_S40Ent02:queuepostrzf_s40ent02:Run4/_wrap_queuepostrzf_s40ent02.sh"  # GPU4, S40 main (fresh ent 0.02, beta S40) 2026-07-20
+  "Run4/QueuePostRZF_S40Ent01:queuepostrzf_s40ent01:Run4/_wrap_queuepostrzf_s40ent01.sh"  # GPU4, S40Ent01 = Ent02 fork @519, entropy 0.01 anneal 2026-07-26 (Ent02 retired best 5527@519)
   "Run4/QueuePostRZF_S40HighLoad:queuepostrzf_s40highload:Run4/_wrap_queuepostrzf_s40highload.sh"  # GPU5, S40 high-load p U(0.15,0.50) 2026-07-20
 )
 
