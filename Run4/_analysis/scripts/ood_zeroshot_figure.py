@@ -58,6 +58,8 @@ ax.bar(x + 0.19, sm, 0.38, color="tab:blue")
 for i in range(len(ORDER)):
     ax.text(x[i] - 0.19, pm[i], f"{pm[i]:.3f}", ha="center", va="bottom", fontsize=8)
     ax.text(x[i] + 0.19, sm[i], f"{sm[i]:.3f}", ha="center", va="bottom", fontsize=8)
+    ax.text(x[i], 0.015, f"{(pm[i]-sm[i])*100:+.1f}%p",
+            ha="center", fontsize=8, fontweight="bold", color="white")
 ax.set_title("Deadline-miss rate (lower is better)")
 
 ax = axes[2]
