@@ -1,0 +1,72 @@
+
+=== [P065] {'p_arrival_min': 0.65, 'p_arrival_max': 0.65} ===
+  SUS thr 0.60:    -300
+  SUS thr 0.65:    -196
+  SUS thr 0.70:    -158
+  SUS thr 0.75:    -189
+  SUS thr 0.80:    -286
+  SU+CQI      :   -7659
+  PPO-HL:     285 vs SUS+CQI@0.70    -158  마진 +280.5%  승 6/8  depth 3.31  miss 0.508
+  PPO-Ent02:   -1108 vs SUS+CQI@0.70    -158  마진 -602.8%  승 4/8  depth 3.39  miss 0.531
+  [P065] 14.7 min
+
+=== [V50] {'ue_speed_min': 50.0, 'ue_speed_max': 50.0} ===
+  SUS thr 0.60:    3740
+  SUS thr 0.65:    3776
+  SUS thr 0.70:    3791
+  SUS thr 0.75:    3781
+  SUS thr 0.80:    3727
+  SU+CQI      :    1529
+  PPO-HL:    4397 vs SUS+CQI@0.70    3791  마진 +16.0%  승 8/8  depth 2.90  miss 0.364
+  [V50] 10.2 min
+
+=== [V60] {'ue_speed_min': 60.0, 'ue_speed_max': 60.0} ===
+  SUS thr 0.60:    3656
+  SUS thr 0.65:    3685
+  SUS thr 0.70:    3715
+  SUS thr 0.75:    3701
+  SUS thr 0.80:    3626
+  SU+CQI      :    1451
+  PPO-HL:    4277 vs SUS+CQI@0.70    3715  마진 +15.1%  승 8/8  depth 2.94  miss 0.368
+  [V60] 9.3 min
+
+=== [P055] {'p_arrival_min': 0.55, 'p_arrival_max': 0.55} ===
+  SUS thr 0.60:    1699
+  SUS thr 0.65:    1762
+  SUS thr 0.70:    1814
+  SUS thr 0.75:    1792
+  SUS thr 0.80:    1697
+  SU+CQI      :   -4015
+  PPO-HL:    2411 vs SUS+CQI@0.70    1814  마진 +33.0%  승 8/8  depth 3.21  miss 0.467
+  [P055] 10.3 min
+
+=== [CSI04] {'p_csi': 0.4} ===
+  SUS thr 0.60:    3719
+  SUS thr 0.65:    3767
+  SUS thr 0.70:    3774
+  SUS thr 0.75:    3746
+  SUS thr 0.80:    3697
+  SU+CQI      :    1444
+  PPO-HL:    4333 vs SUS+CQI@0.70    3774  마진 +14.8%  승 8/8  depth 2.87  miss 0.365
+  [CSI04] 8.4 min
+
+=== [STORM] {'ue_speed_min': 40.0, 'ue_speed_max': 60.0, 'p_arrival_min': 0.55, 'p_arrival_max': 0.55, 'p_csi': 0.5} ===
+  SUS thr 0.60:    1120
+  SUS thr 0.65:    1205
+  SUS thr 0.70:    1226
+  SUS thr 0.75:    1239
+  SUS thr 0.80:    1137
+  SU+CQI      :   -4661
+  PPO-HL:    1749 vs SUS+CQI@0.75    1239  마진 +41.2%  승 7/8  depth 3.27  miss 0.481
+  [STORM] 11.1 min
+
+=== OOD zero-shot 요약 (HighLoad best@639 동결, seeds 30000-30007) ===
+  P065  : PPO    285 vs SUS+CQI@0.70    -158  마진 +280.5%  승 6/8  depth 3.31  miss 0.508
+  V50   : PPO   4397 vs SUS+CQI@0.70    3791  마진  +16.0%  승 8/8  depth 2.90  miss 0.364
+  V60   : PPO   4277 vs SUS+CQI@0.70    3715  마진  +15.1%  승 8/8  depth 2.94  miss 0.368
+  P055  : PPO   2411 vs SUS+CQI@0.70    1814  마진  +33.0%  승 8/8  depth 3.21  miss 0.467
+  CSI04 : PPO   4333 vs SUS+CQI@0.70    3774  마진  +14.8%  승 8/8  depth 2.87  miss 0.365
+  STORM : PPO   1749 vs SUS+CQI@0.75    1239  마진  +41.2%  승 7/8  depth 3.27  miss 0.481
+
+판독: 8-seed라 한 자릿수 초반 마진은 '지지 않는다'로 읽을 것 (K48 규칙).
+saved -> Run4/_analysis/ood_zeroshot.csv

@@ -224,3 +224,33 @@ perfect CSI (pmi_mode=genie, p_csi=1.0, β=1). GenieS40HL_FineTune (GPU5,
 발사 중 fresh-dirty guard가 미커밋 분석 .py에 걸려 26초 crash-loop ×8
 (빈 .stale 껍데기 정리) → 스크립트 커밋(1d67fde)으로 해소. watchdog/
 autorecover 명단 동호흡 갱신 (Ent01 + genie 페어 = 3 runs).
+
+## 2026-07-27 (2) — OOD zero-shot 프로브: 동결 HighLoad 정책, 6-config 전 구간 생존
+
+**질문**: 학습 분포 밖 세계에서 재학습 없이 얼마나 버티는가 (사용자 승인
+그리드, 우선순위 P065→V50→V60→P055→CSI04→STORM, seeds 30000–30007
+8개, config별 SUS thr 재스윕, paired 비교. 이후 보고는 사용자 지정대로
+goodput%·miss%p 기준).
+
+**결과** (Δgood% = vs 그 세계 최강 baseline, 승수 = goodput paired):
+P055 +2.7% (7/8·1무) / P065 +1.6% (6/8) / V50 +3.9% (8/8) / V60 +3.6%
+(8/8) / CSI04 +3.7% (8/8) / STORM +2.5% (7/8). miss는 전 config에서
+−1.1~−3.1%p 동반 우위. 종합 48판 44승 1무 3패 — 정책은 어느 축에서도
+붕괴하지 않음. 그림 OOD_zeroshot_probe.png (run 폴더).
+
+**축별 발견**: (a) 부하: 분포안 +4.0% → 0.55 +2.7% → 0.65 +1.6% 매끄러운
+감쇠, 절벽 없음. 패배는 P065 만석 seed(30002/30006) 뿐 — 용량초과
+포화에서 최적이 greedy로 퇴화, PPO도 depth 3.93으로 SUS 모사에 수렴하나
+모사 정밀도에서 −2%. (b) 속도: 50/60 km/h(결맞음 5.2/4.4슬롯)에서 마진
+유지 — Doppler 외삽 열화 평평. (c) CSI 기근(0.4): β_m 미재보정
+핸디캡에도 +3.7% — V50/V60/CSI04가 모두 +3.6~3.9%로 수렴 = 우위의
+공통 원천은 "낡은 CSI에 대한 강건성". (d) STORM(3축 동시): +2.5%,
+단일축 합보다 나쁘지 않음 — 상호작용 붕괴 없음. STORM에서만 SUS 최적
+thr 0.75로 이동 (유일한 예외).
+
+**적응-갭 직접 쌍** (P065, 같은 seeds): PPO-HL +285 vs PPO-Ent02 −1108
+vs SUS −158 — 고부하 학습 정책만 물 위, 저부하 학습 정책은 baseline
+아래로 침몰. 갭은 지옥 seed에 집중 (30002 −3380, 30006 −3440). 각주:
+Ent02는 속도축(U(5,30) 학습)도 동시 OOD — 순수 부하 귀속은 S40Ent02로
+재평가해야 깨끗함. **보강**: P065에서 SUS/SU 동반 음수 → 12종 전체
+baseline 재확인 규칙 발동 (ood_p065_fullbase.py, MW/PF류 검증).
