@@ -1,0 +1,11 @@
+{
+  "run": "GenieS40HL_Fresh",
+  "launched": "2026-07-27 00:57 KST",
+  "gpu": 3,
+  "pin": "71c0bd4085f6ae0ce7ee7460cffe958046a63543",
+  "seed": 2024,
+  "world": "S40HighLoad base (queue, p_arrival U(0.15,0.50), speed U(5,40), K=32) with PERFECT CSI: pmi_mode=genie + p_csi=1.0; NO beta (=1, genie prediction exact)",
+  "init": "fresh (A/B control for GenieS40HL_FineTune)",
+  "ab_sibling": "GenieS40HL_FineTune (GPU5): identical world, warm-start from HighLoad best@639",
+  "question": "in the perfect-CSI queue world, can fresh training match the transferred policy? (L2b-era answer: fresh merely tied SUS+CQI while warm won +9.9%)"
+}

@@ -38,6 +38,8 @@ RUNS=(
   # same day on the new pin 71c0bd4 (eval CSV v2, save_every=1).
   "Run4/QueuePostRZF_S40HighLoad_Ent01:queuepostrzf_s40hl_ent01:Run4/_wrap_queuepostrzf_s40hl_ent01.sh"  # GPU4, HighLoad-best(@639) fork, entropy 0.01 anneal 2026-07-26 (첫 Ent01 시도는 .stale 보관)
   # 2026-07-27: S40HighLoad 은퇴 (best 5597.5@639, 이후 500+ upd 무갱신)
+  "Run4/GenieS40HL_FineTune:genies40hl_finetune:Run4/_wrap_genies40hl_finetune.sh"  # GPU5, genie-CSI HighLoad, warm-start(HighLoad best@639) 2026-07-27
+  "Run4/GenieS40HL_Fresh:genies40hl_fresh:Run4/_wrap_genies40hl_fresh.sh"  # GPU3, genie-CSI HighLoad, fresh A/B 2026-07-27
 )
 
 say(){ echo "[$(date '+%F %T')] $*" >> "$LOG"; }

@@ -177,3 +177,50 @@ K32 +10.7% (기준 재현 ✓) / **K48 +0.7% (1.5× 외삽에서도 무패배)**
 잡음 내 동률로 읽는 게 정직 ("이긴다"보다 "지지 않는다"). β_m은 K=32
 보정값 고정(zero-shot 전제) — K48 재보정 시 더 나을 여지. R/L 축은
 아키텍처 확인 안 됨 (차후).
+
+## 2026-07-24 — 부하-응답 곡선: "혼잡할수록 우위↑" 가설 기각
+
+**질문**: Ent02 동결 정책의 baseline 대비 마진이 부하(p_arrival)와 함께
+커지는가? (HighLoad 논문 주제 타당성 판단용)
+
+**결과** (load_response_probe.py, 동결 Ent02 best, p ∈ {0.25, 0.45, 0.65},
+5 seeds): 마진 +11.2% → +7.4% → +5.4% — **평탄~하강**. 예측("고부하
+헤드룸") 공개 기각. 진짜 이야기는 **적응 갭**: 같은 p0.5에서 동결 정책
++8.3% vs 그 부하로 학습한 정책 +12.9% — "부하가 우위를 주는 게 아니라,
+그 부하에서 학습하는 것이 우위를 준다". HighLoad는 '더 쉬운 세계 자랑'이
+아니라 부하-축 적응력의 증거로 서술.
+
+## 2026-07-26 — S40Ent02 은퇴·held-out 확정 + anneal fork (한 번의 오발)
+
+**S40Ent02 held-out** (seeds 10000–10019, in-world SUS 재스윕 thr 0.7):
+**PPO 5185 vs SUS+CQI 4696 = +10.4%, 19/20승, t=7.83**. fresh-0.02 청정
+파이프라인 (fork 없음, genie 접촉 없음) 재확인. 쇼케이스 10017, 8-패널
+그림 run 폴더 저장. SUS 재스윕에서 4세계 공통 thr 0.7 최강 (32-antenna
+E[|corr|²]≈1/32 → 0.7이 ~10% 쌍만 차단, SUS는 사실상 항상 depth 4 충전).
+
+**anneal fork 오발→정정**: "Ent01로 이어서"를 S40Ent02@519 fork로
+구성했으나 사용자 의도는 **HighLoad best@639에서 fork**. 잘못 돌린 run은
+사용자 지시로 완전 삭제 (cfa3091), QueuePostRZF_S40HighLoad_Ent01로 재발사
+(6534f2a, GPU4, entropy 0.01, 그 외 동일). 판정 데드라인 upd 939 (fork
++300): 신기록(>5598) 없으면 "0.02 유지 우세"로 종결. 공유 창 조기 판독:
+0.01이 평균 +57 우위, 5597 터치 — 아직 신기록은 없음.
+
+## 2026-07-27 — HighLoad 은퇴: held-out **+14.7%, 20/20 전승** + genie 페어 발사
+
+**HighLoad 은퇴** (d0e1a15): best 5597.5@639, 이후 500+ upd 무갱신.
+
+**held-out 20-seed** (10000–10019, in-world 스윕 thr 0.7 = 4565 확인):
+**PPO 5352 vs SUS+CQI 4668 = +14.7%, 20/20승** — 전 run 통틀어 최초의
+전승이자 최대 마진. run-eval +13.4%가 held-out에서 오히려 +14.7%로 상회.
+depth 2.90 vs 3.97, miss 0.345 vs 0.375, goodput 82.4 vs 79.2 Mbps.
+부하-응답 결론과 정합: 학습-부하 지점별 마진 p0.4 +10.4% → p0.5 +14.7%
+(적응 갭의 held-out 실증 2점). 쇼케이스 10017 (reward +21.9%, goodput
+81.3 vs 76.0), 그림 run 폴더 저장.
+
+**genie-CSI 페어 발사** (00:57, pin 71c0bd4): HighLoad 세계 그대로 +
+perfect CSI (pmi_mode=genie, p_csi=1.0, β=1). GenieS40HL_FineTune (GPU5,
+--init_from HighLoad best@639) vs GenieS40HL_Fresh (GPU3, 처음부터).
+질문 = 교정-LA 세대에서 GenieFineTune 재연 — imperfect→perfect 전이 가치.
+발사 중 fresh-dirty guard가 미커밋 분석 .py에 걸려 26초 crash-loop ×8
+(빈 .stale 껍데기 정리) → 스크립트 커밋(1d67fde)으로 해소. watchdog/
+autorecover 명단 동호흡 갱신 (Ent01 + genie 페어 = 3 runs).

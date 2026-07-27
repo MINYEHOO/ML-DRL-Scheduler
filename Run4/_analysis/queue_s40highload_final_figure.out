@@ -1,0 +1,44 @@
+=== SUS+CQI threshold sweep (S40Ent02 world, 8 seeds) ===
+  thr 0.5: SUS+CQI 4486.8
+  thr 0.6: SUS+CQI 4553.9
+  thr 0.7: SUS+CQI 4564.7
+  thr 0.75: SUS+CQI 4541.3
+  thr 0.8: SUS+CQI 4476.7
+  thr 0.9: SUS+CQI 4239.0
+strongest threshold: 0.7
+
+PPO best.pt update 639 run-eval 5597.5; SUS thr 0.7
+seed 10000: PPO 3109 margin +469
+seed 10001: PPO 6766 margin +818
+seed 10002: PPO 6908 margin +573
+seed 10003: PPO 3440 margin +786
+seed 10004: PPO 6460 margin +647
+seed 10005: PPO 4742 margin +150
+seed 10006: PPO 3739 margin +109
+seed 10007: PPO 6682 margin +634
+seed 10008: PPO 3183 margin +736
+seed 10009: PPO 6594 margin +453
+seed 10010: PPO 1309 margin +628
+seed 10011: PPO 8349 margin +896
+seed 10012: PPO 3792 margin +146
+seed 10013: PPO 5968 margin +582
+seed 10014: PPO 6907 margin +948
+seed 10015: PPO 5233 margin +381
+seed 10016: PPO 8256 margin +650
+seed 10017: PPO 6000 margin +1080
+seed 10018: PPO 2955 margin +672
+seed 10019: PPO 6643 margin +390
+showcase seed 10017 -> Run4/QueuePostRZF_S40HighLoad/QueueS40HighLoad_metrics_seed10017.png
+
+20-seed means:
+PPO      rew    5352  depth 2.90  miss 0.345  good 82.4
+SUS+CQI  rew    4668  depth 3.97  miss 0.375  good 79.2
+SUS+DPF  rew    1459  depth 3.98  miss 0.471  good 64.2
+SUS+PF   rew    1516  depth 3.98  miss 0.467  good 64.9
+SUS+Rnd  rew     531  depth 3.98  miss 0.498  good 60.4
+SU+CQI   rew    2575  depth 1.00  miss 0.417  good 72.1
+SU+DPF   rew    -625  depth 1.00  miss 0.525  good 55.7
+SU+PF    rew    -689  depth 1.00  miss 0.519  good 56.4
+SU+Rnd   rew   -4841  depth 1.00  miss 0.652  good 38.8
+
+PPO 5352 vs best baseline 4668 = +14.7%; vs seed-best 20/20 wins

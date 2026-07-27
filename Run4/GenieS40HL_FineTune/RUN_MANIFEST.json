@@ -1,0 +1,12 @@
+{
+  "run": "GenieS40HL_FineTune",
+  "launched": "2026-07-27 00:57 KST",
+  "gpu": 5,
+  "pin": "71c0bd4085f6ae0ce7ee7460cffe958046a63543",
+  "seed": 2024,
+  "world": "S40HighLoad base (queue, p_arrival U(0.15,0.50), speed U(5,40), K=32) with PERFECT CSI: pmi_mode=genie + p_csi=1.0; NO beta (=1, genie prediction exact)",
+  "init": "warm-start --init_from Run4/QueuePostRZF_S40HighLoad/ckpt/best.pt (@639, 5597.5): matching tensors inherited, value_head/ret-normalizer/optimizer fresh",
+  "ab_sibling": "GenieS40HL_Fresh (GPU3): identical world, fresh init",
+  "question": "GenieFineTune reprise in the corrected-LA queue generation: does the imperfect-CSI HighLoad policy transfer to perfect CSI, and what does fine-tuning add over the transplant? warm-vs-fresh gap = value of transfer.",
+  "note": "first 3 wrapper attempts crashed on the fresh-dirty guard (untracked analysis .py); fixed by commit 1d67fde; empty crash shells deleted"
+}

@@ -39,7 +39,9 @@ command -v tmux >/dev/null 2>&1 || { say "tmux install FAILED (network?)"; exit 
 RECOVER_RUNS=(
   # 2026-07-20: queue 3-arm + L2c retired; S40 generation (pin 71c0bd4).
   "Run4/QueuePostRZF_S40HighLoad_Ent01:queuepostrzf_s40hl_ent01:Run4/_wrap_queuepostrzf_s40hl_ent01.sh"
-  # 2026-07-27: S40HighLoad 은퇴
+  # 2026-07-27: S40HighLoad 은퇴; genie 페어 추가
+  "Run4/GenieS40HL_FineTune:genies40hl_finetune:Run4/_wrap_genies40hl_finetune.sh"
+  "Run4/GenieS40HL_Fresh:genies40hl_fresh:Run4/_wrap_genies40hl_fresh.sh"
 )
 for spec in "${RECOVER_RUNS[@]}"; do
   IFS=: read -r run sess wrap <<< "$spec"
