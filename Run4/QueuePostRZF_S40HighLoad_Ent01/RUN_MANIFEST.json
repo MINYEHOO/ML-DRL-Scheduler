@@ -13,5 +13,8 @@
   "caveats": [
     "best_eval_reward loaded as 5597.5 -- new best.pt only on exceeding the 0.02 peak",
     "run-eval = fixed 3 seeds of the HighLoad world; final verdict on common held-out seeds"
-  ]
+  ],
+  "retired": "2026-07-29 00:10 KST (deadline upd 939 + 300 초과 관찰 후, user order)",
+  "verdict": "NO GAIN from anneal: fork후 60 evals(649-1241) 신기록 0 (best는 여전히 5597.5@639). 공유 창 50회 paired: Ent01 평균 5089 vs 부모(0.02) 5283 = -86, Ent01승 12/50 -- 조기 판독 +57은 표본 확대로 역전. 기록 5597.5는 궤도(mean~5100-5300, std 213-348)의 +1.5sigma 꼬리 추첨으로 판명: 어느 팔도 평균으로는 재도달 불가. 플래토 원인은 탐색 부족이 아니라 정보 천장 (genie FineTune이 같은 세계+perfect CSI로 즉시 7995 달성 = 갭은 CSI 물리). kl-stop 348 vs 350회로 양팔 동일하게 신뢰영역 포화. 결론: entropy 0.02 유지 우세, anneal 무이득 -- dose-response의 0.02 최적 재확인.",
+  "footnote": "예상과 달리 0.01 팔의 정책 엔트로피가 더 천천히 냉각 (end 16.2 vs 부모 5.3, ppo_metrics 합계 기준) -- 어느 쪽이든 신기록으로 이어지지 않음"
 }
