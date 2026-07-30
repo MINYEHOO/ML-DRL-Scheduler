@@ -83,8 +83,11 @@ class Config:
     # CQI quantization at the UE report ('continuous' | 'nr4bit').
     # 'nr4bit': floor-snap the SE to the 3GPP TS 38.214 Table 5.2.2.1-3
     # (4-bit, 256QAM) ladder; below the lowest entry -> 0 ("out of range",
-    # UE unschedulable on that RBG). Forbidden with pmi_mode='genie'
-    # (genie = perfect CSI; quantizing its CQI would be a third world).
+    # standard semantics: not schedulable there; a fixed HARQ retx bypasses
+    # the gate and cleanly outages -- see csi.NR_CQI_TABLE_256QAM note).
+    # Ladder cap 7.4063 -> at most 1344*7.4063 ~ 9954 bits promised per
+    # RBG-slot. Forbidden with pmi_mode='genie' (genie = perfect CSI;
+    # quantizing its CQI would be a third world).
     cqi_mode: str = "continuous"
 
     # ---- traffic (random arrivals, one HOL packet per UE) ----

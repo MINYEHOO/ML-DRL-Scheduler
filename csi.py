@@ -30,9 +30,13 @@ from phy import sigma2_from_gain
 
 
 # 3GPP TS 38.214 Table 5.2.2.1-3 (4-bit CQI, 256QAM): the 15 spectral-
-# efficiency entries plus index 0 = "out of range" (SE 0 -> the UE reports
-# the RBG as unusable; reconstruct_h_hat then yields h_hat = 0 and the
-# candidate gate excludes the UE there). Used when cfg.cqi_mode == 'nr4bit'.
+# efficiency entries plus index 0 = "out of range". Index-0 SEMANTICS split:
+#   * standard: "out of range" = do not schedule -- that part is 3GPP.
+#   * this simulator's abstraction: q=0 -> reconstruct_h_hat yields h_hat=0,
+#     so NEW placements are excluded by the candidate gate, while a fixed
+#     HARQ retx (gate bypass) gets a zero RZF beam = zero-power attempt ->
+#     SINR 0 -> NACK, no NaN (regression: cqi0_retx_regression.py).
+# Used when cfg.cqi_mode == 'nr4bit'.
 NR_CQI_TABLE_256QAM = np.array([
     0.0,
     0.1523, 0.3770, 0.8770, 1.4766, 1.9141, 2.4063, 2.7305, 3.3223,
