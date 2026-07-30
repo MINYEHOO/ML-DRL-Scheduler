@@ -1,0 +1,44 @@
+GenieFT@329 seed 10000: rew    3017 depth 3.15
+GenieFT@329 seed 10001: rew    6393 depth 3.75
+GenieFT@329 seed 10002: rew    6630 depth 3.77
+GenieFT@329 seed 10003: rew    2870 depth 3.92
+GenieFT@329 seed 10004: rew    5955 depth 3.98
+GenieFT@329 seed 10005: rew    4571 depth 3.23
+GenieFT@329 seed 10006: rew    3372 depth 3.25
+GenieFT@329 seed 10007: rew    6495 depth 3.60
+GenieFT@329 seed 10008: rew    2667 depth 3.66
+GenieFT@329 seed 10009: rew    6219 depth 3.92
+GenieFT@329 seed 10010: rew     909 depth 3.23
+GenieFT@329 seed 10011: rew    8107 depth 3.59
+GenieFT@329 seed 10012: rew    3766 depth 2.75
+GenieFT@329 seed 10013: rew    5823 depth 3.49
+GenieFT@329 seed 10014: rew    6640 depth 3.52
+GenieFT@329 seed 10015: rew    5189 depth 3.32
+GenieFT@329 seed 10016: rew    7871 depth 3.83
+GenieFT@329 seed 10017: rew    5300 depth 3.79
+GenieFT@329 seed 10018: rew    2620 depth 3.74
+GenieFT@329 seed 10019: rew    6464 depth 3.73
+== GenieFT@329: mean reward 5044 good 81.0 miss 0.358 depth 3.56
+GenieFresh@409 seed 10000: rew    2619 depth 3.97
+GenieFresh@409 seed 10001: rew    6043 depth 4.00
+GenieFresh@409 seed 10002: rew    6382 depth 4.00
+GenieFresh@409 seed 10003: rew    2727 depth 4.00
+GenieFresh@409 seed 10004: rew    4136 depth 4.00
+GenieFresh@409 seed 10005: rew    4083 depth 3.92
+GenieFresh@409 seed 10006: rew    2817 depth 4.00
+GenieFresh@409 seed 10007: rew    6128 depth 4.00
+GenieFresh@409 seed 10008: rew    2351 depth 3.98
+GenieFresh@409 seed 10009: rew    4776 depth 4.00
+GenieFresh@409 seed 10010: rew     -13 depth 4.00
+GenieFresh@409 seed 10011: rew    7833 depth 4.00
+GenieFresh@409 seed 10012: rew    3716 depth 3.98
+GenieFresh@409 seed 10013: rew    5283 depth 3.99
+GenieFresh@409 seed 10014: rew    6381 depth 4.00
+GenieFresh@409 seed 10015: rew    4665 depth 3.95
+GenieFresh@409 seed 10016: rew    7682 depth 4.00
+GenieFresh@409 seed 10017: rew    5267 depth 4.00
+GenieFresh@409 seed 10018: rew    1853 depth 4.00
+GenieFresh@409 seed 10019: rew    5967 depth 4.00
+== GenieFresh@409: mean reward 4535 good 78.3 miss 0.376 depth 3.99
+anchors (same seeds, final20 csv): PPO-HL 5352 / SUS+CQI@0.7 4668
+saved -> Run4/_analysis/genie_reverse_transfer.csv
