@@ -73,8 +73,24 @@ actor(+shared encoder) 68,930 |  critic 29,825 |  전체 98,755
 - **인코더는 actor와 critic이 공유**한다. 단, PPO 업데이트에서 그래디언트 클리핑은
   actor 그룹(인코더 포함)과 value_head를 **분리**해서 건다 (`ppo.py:151-154`,
   `ppo.py:259-271`). 논문에 "shared encoder"라고 쓸 때 이 분리를 함께 적어야 정확하다.
-- 실시간성: actor 68,930 파라미터, 슬롯당 ~5–10 MFLOPs → 0.5 ms 슬롯 예산 대비
-  실배치 가능. (평가가 느린 것은 Python 루프 오버헤드이지 모델 크기가 아님.)
+- **실시간성 — 수치 정정 (RESEARCH_LOG.md:100의 "~5–10 MFLOPs/슬롯"은 틀렸다)**.
+  인코더는 매 슬롯 K·R개 행 전부에, ScoreNet은 자유 위치마다 K개 행 전부에 돈다.
+  실측 결정 수는 슬롯당 **19–21개**(=`entropy_sum/entropy_mean`, `ppo.py:211`로 복원;
+  고정 retx·폐쇄 RBG 위치는 비용 0):
+
+  ```
+  encoder    256 rows × 33,920 MAC =  8.7 MMAC
+  score_net   20 pos × 32 UE × 17,344 = 11.1 MMAC
+  no_user     20 pos × 16,960         =  0.3 MMAC
+  ────────────────────────────────────────────
+  합계 ≈ 20 MMAC ≈ 40 MFLOPs/slot  (K=32)      |  K=16: ≈10 MMAC ≈ 20 MFLOPs
+  ```
+
+  즉 **파라미터 수는 K-무관이지만 연산량은 O(K · n_positions)** 다. 논문 복잡도 절에는
+  이 수치와 스케일링을 쓰고, `n_positions`는 데이터 의존(RBG 폐쇄·고정 retx)이므로
+  R·L=32이 아니라 **실측 결정 수**를 보고할 것. 40 MFLOPs면 gNB가 이미 수행하는 RZF
+  역행렬보다 가볍다는 결론 자체는 유지된다. (평가가 느린 것은 Python 루프 오버헤드이지
+  모델 크기가 아님.)
 
 ---
 
@@ -164,6 +180,43 @@ if actor_frozen:  p.grad = None for actor params     # ppo.py:262-264
 롤아웃(=에피소드) 전체에서 한 번 정규화하고 (`ppo.py:136-140`), 그 값을 4 epoch
 동안 재사용한다. 미니배치별 재정규화 아님.
 
+### 3.7 비대칭 actor-critic (critic 전용 특징) — 논문에 쓰면 좋은 포인트
+
+`policy.py:92-160` (`build_value_feats_v2`, `ppo_critic_v2=True`)이 critic에만 27(+6)개
+구조 특징을 준다. 여기에 **에피소드 진행도 `slot/episode_len`**(`policy.py:148`)이
+포함되는데, actor의 입력(`build_encoder_input`, `policy.py:56-83`)에는 **시간 인덱스가
+전혀 없다**.
+
+> "We use an asymmetric actor-critic: the critic receives additional structured state
+> features (deadline histogram, backlog, fairness, queue pressure, episode phase) that
+> the actor does not. The learned scheduler is therefore time-homogeneous and
+> independent of the episode length used in training."
+
+이건 방어가 아니라 **장점**이다 — 정책이 에피소드 길이에 의존하지 않으므로 임의 길이
+운용에 그대로 쓸 수 있고, critic은 학습 시에만 쓰이므로 배치에 privileged 정보가
+필요 없다.
+
+### 3.8 actor가 보는 rate 특징은 SU 상한이지 실현 rate가 아니다
+
+`policy.py:207-211` `predict_btx_torch`는 **단일 유저 full-power 상한**(depth 1에서만
+정확)이고, 실제 커밋되는 rate는 RBG 마감 시 `SlotAllocationPlanner`가 계산한다
+(`policy.py:547`, `env.py:481-531`). 정직하게 쓸 것:
+
+> "The candidate-scoring network observes the single-user full-power transmission-size
+> bound (exact at multiplexing depth 1), together with the current group depth and an
+> orthogonality score against the already-selected set; the realized post-RZF size is
+> computed by the link-adaptation planner at group closure. **All comparator schedulers
+> use the identical bound for candidate generation.**"
+
+마지막 문장이 중요하다 — 낙관적 상한을 PPO만 쓰는 게 아니라 baseline도 동일하게
+쓰므로 공정성이 유지된다.
+
+### 3.9 value clipping은 없다 (있다고 쓰지 말 것)
+
+`ppo.py:208`은 정규화 공간의 **평범한 MSE**다. reference 구현(SB3 등)의 value clipping은
+논문 알고리즘이 아니라 구현 디테일이므로 없는 게 정상이지만, **"separate value
+clipping"이라고 쓰면 거짓**이 된다. 분리된 것은 **gradient norm clipping**이다.
+
 ---
 
 ## 4. 하이퍼파라미터 (실행값, `QueuePostRZF_S40HighLoad`)
@@ -195,17 +248,50 @@ if actor_frozen:  p.grad = None for actor params     # ppo.py:262-264
   최강 baseline과 paired 비교.
 - **미사용 예비 시드**: 20000+ (최종 확정용으로 보존).
 
-### ⚠ 서술 시 주의 — best 체크포인트 선택과 보고 시드의 부분 중복
+### best 체크포인트 선택과 보고 시드의 부분 중복 — **측정으로 해소됨**
 
-`best.pt`는 run-eval 시드(10000–10002)의 reward로 선택되는데, 최종 보고가
-10000–10019이므로 **3/20 시드가 모델 선택에 쓰인 시드**다. 결론을 바꿀 규모는
-아니지만(나머지 17개 시드에서도 전승) 리뷰어가 짚을 수 있다. 선택지:
+`best.pt`는 run-eval 시드(10000–10002)의 reward로 선택되는데 최종 보고가
+10000–10019이므로 3/20이 선택에 쓰인 시드다. **실제로 계산해 본 결과 선택 편향과
+정반대 부호**다 (S40HighLoad held-out):
 
-1. 최종 표를 **10003–10019(17개)** 또는 **미사용 20000+ 20개**로 다시 뽑아 보고 — 가장 깨끗.
-2. 그대로 쓰되 "model selection used seeds 10000–10002; the held-out table includes
-   them, and excluding them changes the margin by <X%" 문장을 넣고 실제로 계산해 첨부.
+| 시드 집합 | reward 마진 | goodput 마진 | miss | 승수 |
+|---|---|---|---|---|
+| 전체 20 | +14.66% | +4.14% | −3.0%p | 20/20 |
+| 선택 3 (10000–02) | **+12.46%** | +3.48% | −2.4%p | 3/3 |
+| **비선택 17 (10003–19)** | **+15.07%** | +4.26% | −3.1%p | **17/17** |
 
-권장: (1). 남은 GPU 시간에 여유가 있으면 20000번대로 최종 표 한 번 더.
+즉 PPO는 자기가 선택된 시드에서 **오히려 가장 못한다**. 선택 편향이 있었다면 반대여야
+한다. 서술 방식 두 가지:
+
+1. **최종 표를 10003–10019(17개)로 보고** — 가장 깨끗하고 숫자도 좋아진다(+15.07%).
+2. 20개 그대로 쓰고 각주: *"Model selection used seeds 10000–10002. Excluding the
+   three selection seeds, the margin increases from +14.66% to +15.07% (17/17 seeds),
+   i.e. the opposite sign from selection bias."*
+
+권장: (2) — 20 시드 전승이라는 진술을 유지하면서 각주로 방어하는 편이 강하다.
+여유가 있으면 미사용 20000번대로 최종 표를 한 번 더 뽑는 것이 최선.
+
+### ⚠ 단일 학습 시드 — 정밀 감사에서 살아남은 유일한 major
+
+저장소의 **모든 런이 학습 시드 2024**다 (`train_phase2.py:78` 기본값, config.json
+36개 전부, best.pt 29개 전부 동일). 반면 비교 대상인 SUS+CQI/SU+CQI는 결정론적이라
+사실상 분산이 0이다. 즉 PPO는 학습-시드 차원에서 **n=1**이다.
+
+- held-out 20 시드의 CI는 **환경 잡음만** 정량화한다. 학습-런 간 분산은 어디에도 없다.
+- Henderson et al.(2018)류 지적("≥5 시드, mean±std")에 답할 재료가 아티팩트에 없다.
+- 다만 `--seed`는 eval 채널 추첨에도 들어가므로(`env.py:87-91`), 복제 런은 held-out
+  에피소드 자체가 바뀌어 baseline도 다시 돌려야 한다. 기존 20-seed 스크립트가
+  config.json에서 전부 재실행하므로 **비용은 학습 런 1개**.
+
+대응 (택1):
+1. `--seed 2025`로 대표 런 1개 복제 → "2 seeds, both directions consistent" 서술. **권장**.
+2. 명시적 한계 서술: *"We report a single training seed per configuration. The result
+   is corroborated by N independent runs across different environments and
+   hyperparameters, all with the same sign; we do not claim recipe reproducibility
+   across training seeds."*
+
+margin이 큰 주장(+14.7%, 20/20)은 단일 시드로도 방어 가능하지만, **마진이 한 자릿수
+초반인 주장은 복제 없이는 지지되지 않는다**.
 
 ---
 
@@ -240,13 +326,50 @@ if actor_frozen:  p.grad = None for actor params     # ppo.py:262-264
 
 ---
 
-## 8. 아직 검증 중 / 미결
+## 8. 정밀 감사 결과 (2026-08-01)
 
-- [ ] **6-관점 정밀 감사 결과 반영** (GAE·목적함수·아키텍처·롤아웃 인터페이스·학습루프·수치안정성,
-      각 발견을 독립 검증자가 반박 시도). 살아남은 지적은 이 문서 §3/§5에 병합할 것.
-- [ ] best-checkpoint 선택 시드 중복 처리 방침 결정 (§5).
+6개 관점(GAE·목적함수·아키텍처·롤아웃 인터페이스·학습루프·수치안정성)으로 감사하고,
+각 지적을 독립 검증자가 **반박 시도**했다. 총 43건 중 **41건이 반박되어 탈락**,
+2건 생존.
+
+**결론: 학습 알고리즘 자체에 결함 0건.** 반박된 41건에는 "value clipping 없음"(→ 표준
+목적함수가 맞음), "critic에 episode phase 누출"(→ actor는 시간 비의존, 오히려 장점),
+"GAE terminal 분기 버그"(→ 해당 분기는 실행되지 않음), "리턴 정규화가 PopArt 아님"
+(→ PopArt라 부른 적 없음) 등이 포함된다.
+
+생존 2건:
+
+| # | 지적 | 판정 | 조치 |
+|---|---|---|---|
+| 1 | 모든 런이 학습 시드 2024 (n=1) | **major** | §5 — 복제 1개 또는 한계 명시 |
+| 2 | RESEARCH_LOG의 FLOP 수치 5배 과소 | nit(문서) | §2 — ~40 MFLOPs로 정정 완료 |
+
+특히 중요한 **반박된** 지적: "rollout/replay 분포 불일치"는 구조적으로 불가능하다.
+`decode()`와 `replay()`가 **동일한 `_rbg_major_pass` 코드 경로**를 타고
+(`policy.py:484-562`), 결정 마스크 일치를 assert로 강제한다(`policy.py:516-522`).
+구조적 행동 공간 PPO에서 가장 흔한 치명적 버그가 설계로 차단되어 있다.
+
+---
+
+## 9. 아직 검증 중 / 미결
+
+- [ ] **학습 시드 복제** (`--seed 2025`) 또는 단일 시드 한계 명시 — §5, 유일한 major.
+- [ ] `docs/RESEARCH_LOG.md:100` FLOP 수치 실제로 고치기 (이 문서 §2에는 정정본 있음).
+- [ ] 최종 표를 17 시드로 갈지 20 시드+각주로 갈지 결정 (§5).
 - [ ] `beta_rate` 제거(항상 1.0, β_m이 대체) — paper-gen 배치에서.
 - [ ] 병렬 롤아웃 도입 여부 (EV·학습속도, Run5 후보).
+
+### 로깅 관련 사소한 주의 (결과에는 영향 없음)
+
+- `grad_norm`은 `gn_actor + gn_critic`, 즉 **두 L2 노름의 L1 합이며 clip 이전 값**이고
+  actor 동결 패스(0)도 포함한다 (`ppo.py:265-271`). 그림으로 쓸 거면 각주 필수.
+- `clip_fraction`은 advantage 부호와 무관하게 `|ratio−1| > ε`를 센다(SB3 관례).
+  실제로 clip이 구속하는 비율은 로그값보다 낮다.
+- `config.py`의 `share_critic_encoder`는 **어디서도 읽지 않는 죽은 플래그**다.
+  인코더는 "공유"라고만 쓰고, 설정 가능한 것처럼 쓰거나 비공유 ablation이 있는 것처럼
+  암시하지 말 것.
+- Run3의 일부 `env_metrics.csv`는 resume 이후 헤더(11열)와 행(14열)이 어긋나 있다.
+  supplementary로 원본 그대로 배포하지 말 것.
 
 ---
 
