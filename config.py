@@ -80,6 +80,12 @@ class Config:
     # ---- CSI feedback (UE-level Bernoulli) ----
     p_csi: float = 0.2
     p_csi_ablation: tuple = (1.0, 0.5, 0.2, 0.1)
+    # CQI quantization at the UE report ('continuous' | 'nr4bit').
+    # 'nr4bit': floor-snap the SE to the 3GPP TS 38.214 Table 5.2.2.1-3
+    # (4-bit, 256QAM) ladder; below the lowest entry -> 0 ("out of range",
+    # UE unschedulable on that RBG). Forbidden with pmi_mode='genie'
+    # (genie = perfect CSI; quantizing its CQI would be a third world).
+    cqi_mode: str = "continuous"
 
     # ---- traffic (random arrivals, one HOL packet per UE) ----
     p_arrival: float = 0.2
@@ -157,6 +163,11 @@ class Config:
             raise ValueError(f"unknown la_mode {m!r}")
         if self.decode_order not in ("layer_major", "rbg_major"):
             raise ValueError(f"unknown decode_order {self.decode_order!r}")
+        if self.cqi_mode not in ("continuous", "nr4bit"):
+            raise ValueError(f"unknown cqi_mode {self.cqi_mode!r}")
+        if self.pmi_mode == "genie" and self.cqi_mode != "continuous":
+            raise ValueError("pmi_mode='genie' requires cqi_mode='continuous' "
+                             "(genie is the perfect-CSI world)")
         if m == "post_rzf" and self.decode_order != "rbg_major":
             raise ValueError(
                 "la_mode='post_rzf' requires decode_order='rbg_major': under "
@@ -335,7 +346,7 @@ class Config:
                if self.pmi_mode == "random_unit_norm" else
                f", L={self.type2_L}, atoms={self.type2_n_atoms}, "
                f"payload={self.type2_payload_bits} bit/(UE,RBG)"),
-            f"  feedback    : p_csi={self.p_csi}",
+            f"  feedback    : p_csi={self.p_csi}, cqi={self.cqi_mode}",
             f"  traffic     : p_arrival={self.p_arrival}, "
             f"size U[{self.packet_size_min},{self.packet_size_max}] bits, "
             f"deadline U[{self.deadline_min},{self.deadline_max}] slots",

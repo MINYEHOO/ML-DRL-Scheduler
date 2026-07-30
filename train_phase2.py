@@ -157,6 +157,12 @@ def parse_args():
                    choices=["type2_sparse_56bit", "random_unit_norm", "genie"],
                    help="CSI codebook: 'genie' = perfect CSI (h_hat==h_true, no "
                         "quantization; pair with --p_csi 1.0 for zero staleness)")
+    p.add_argument("--cqi_mode", type=str, default=None,
+                   choices=["continuous", "nr4bit"],
+                   help="CQI report quantization: 'nr4bit' floor-snaps the SE "
+                        "to the 3GPP 4-bit 256QAM ladder (TS 38.214 Table "
+                        "5.2.2.1-3); index 0 = out of range. Incompatible "
+                        "with --pmi_mode genie.")
     p.add_argument("--ppo_save_every", type=int, default=None,
                    help="checkpoint cadence in updates; new official runs "
                         "pass 1 (every update; ~1.2MB overwrite, negligible "
@@ -379,6 +385,8 @@ def main():
         cfg.p_csi = args.p_csi
     if args.pmi_mode is not None:                     # CSI codebook (genie etc.)
         cfg.pmi_mode = args.pmi_mode
+    if args.cqi_mode is not None:                    # CQI report quantization
+        cfg.cqi_mode = args.cqi_mode
     if args.eval_every is not None:                  # fine-grained eval cadence
         cfg.ppo_eval_every = args.eval_every
     if args.ue_speed_kmh is not None:                # uniform-speed override
@@ -536,7 +544,7 @@ def main():
         if "cuda_rng_state" in ckpt and torch.cuda.is_available():
             torch.cuda.set_rng_state_all(
                 [s.cpu() for s in ckpt["cuda_rng_state"]])
-        for k in ("num_ue", "episode_len", "pmi_mode", "seed",
+        for k in ("num_ue", "episode_len", "pmi_mode", "cqi_mode", "seed",
                   "queue_size", "p_arrival", "p_arrival_min", "p_arrival_max",
                   "deadline_min", "deadline_max",
                   "n_active_min", "n_active_max",

@@ -29,17 +29,42 @@ from config import Config
 from phy import sigma2_from_gain
 
 
+# 3GPP TS 38.214 Table 5.2.2.1-3 (4-bit CQI, 256QAM): the 15 spectral-
+# efficiency entries plus index 0 = "out of range" (SE 0 -> the UE reports
+# the RBG as unusable; reconstruct_h_hat then yields h_hat = 0 and the
+# candidate gate excludes the UE there). Used when cfg.cqi_mode == 'nr4bit'.
+NR_CQI_TABLE_256QAM = np.array([
+    0.0,
+    0.1523, 0.3770, 0.8770, 1.4766, 1.9141, 2.4063, 2.7305, 3.3223,
+    3.9023, 4.5234, 5.1152, 5.5547, 6.2266, 6.9141, 7.4063])
+
+
+def quantize_cqi(cqi: np.ndarray, cqi_mode: str) -> np.ndarray:
+    """Quantize the continuous SE report per cfg.cqi_mode.
+
+    'nr4bit' floor-snaps to the NR 256QAM ladder -- the UE reports the
+    highest index whose SE it can support (the BLER<=10% selection rule's
+    Shannon-abstraction analog). Values below entry 1 collapse to 0.
+    """
+    if cqi_mode == "continuous":
+        return cqi
+    if cqi_mode == "nr4bit":
+        idx = np.searchsorted(NR_CQI_TABLE_256QAM, cqi, side="right") - 1
+        return NR_CQI_TABLE_256QAM[np.clip(idx, 0, len(NR_CQI_TABLE_256QAM) - 1)]
+    raise ValueError(f"unknown cqi_mode {cqi_mode!r}")
+
+
 def generate_true_csi(h_true: np.ndarray, codebook, p_rbg: float,
-                      noise_var: float):
+                      noise_var: float, cqi_mode: str = "continuous"):
     """Returns (raw_pmi, direction, cqi).
 
     direction : [K, R, num_bs_ant] unit-norm complex
-    cqi       : [K, R] continuous SE = log2(1 + SNR_SU)
+    cqi       : [K, R] SE = log2(1 + SNR_SU), quantized per ``cqi_mode``
     """
     raw_pmi, direction = codebook.quantize(h_true)
     bf_gain = np.abs(np.einsum("...t,...t->...",
                                np.conj(h_true), direction)) ** 2
-    cqi = np.log2(1.0 + p_rbg * bf_gain / noise_var)
+    cqi = quantize_cqi(np.log2(1.0 + p_rbg * bf_gain / noise_var), cqi_mode)
     return raw_pmi, direction, cqi
 
 
@@ -99,7 +124,7 @@ def precompute_episode_csi(h_true_episode: np.ndarray, codebook,
 
     g = cfg.p_rbg * np.stack(gains)                  # [T, K, R]
     sigma2 = sigma2_from_gain(g, cfg)
-    cqi = np.log2(1.0 + g / sigma2)
+    cqi = quantize_cqi(np.log2(1.0 + g / sigma2), cfg.cqi_mode)
 
     if isinstance(pmis[0], Type2PMI):
         raw_pmi_ep = Type2PMI(
