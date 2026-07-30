@@ -280,3 +280,39 @@ SUS+CQI(7473) **+7.0%** 고원 — warm 전이 가치 확정 단계. Fresh는 70
 격차 +984. 참고: update-0 재현 평가로 fresh의 진짜 출발선 실측 —
 결정론 6990 / 확률 4471 / SUS+Random 5173 (argmax 일관성 하나로 +2500;
 구조 바닥이 SUS+CQI의 94%).
+
+## 2026-08-01 — CQI4 세대 발사 + genie 역방향 전이
+
+**CQI 4-bit 양자화** (사용자 지시): UE 보고 SE를 3GPP TS 38.214 Table
+5.2.2.1-3 (4-bit 256QAM) 사다리에 floor 스냅 — "BLER≤10% 최고 인덱스"
+규칙의 Shannon-추상화 대응. index 0 = out of range(표준 의미)이고,
+q=0→ĥ=0(신규 배제 + 고정 HARQ retx는 zero-beam 무해 outage)는 본
+시뮬레이터의 추상화 (cqi0_retx_regression으로 고정, NaN 없음 검증).
+MCS/OLLA 부재와 정합: 정보(CQI)만 양자화, 행동은 연속 약속 + β_m.
+사다리 상한 7.4063 → RBG-slot당 최대 ~9954 bits 약속.
+
+**개발 위생**: 본선 pin(71c0bd4, genie 페어 가동 중) 무접촉 원칙으로
+git worktree `_cqi4dev` + 브랜치 cqi4에서 구현(49550e2)·검증·테스트
+(d3efef9). 게이트: 유닛(floor/표/경계/genie가드) + 3-seed 동결 평가
+(PPO 5594→5029, SUS 4937→4354 — 동등 부담) + smoke 12 upd (NaN 0,
+upd9 eval 13종 정상, 564s/upd).
+
+**β_m 재보정** (frozen 10-pct recipe, nr4bit 세계): (1.0018, 0.7499,
+0.6592, 0.6058) — 전 depth +2.7~4.4% 상승 (floor가 이미 보수적이라
+이중 보수화 제거). β₁>1이므로 명칭은 back-off가 아니라 **depth-wise
+calibration factor**. holdout first-ACK 0.869/0.886/0.890/0.884.
+
+**발사**: QueuePostRZF_S40HL_CQI4 (GPU4, fresh 0.02, seed 2024, pin
+d3efef9, worktree 실행). smoke 12 update를 폐기하지 않고 승격(동일
+CLI·seed) — wrapper가 upd 12부터 resume. 첫 resume만 ALLOW_HASH_
+MISMATCH=1 일회 사용 (smoke 코드 49550e2→pin diff는 주석+테스트뿐,
+검증됨; 첫 저장 후 엄격 pin 자동 복원). genie 종결 후 main merge 예정.
+
+**genie 역방향 전이** (사용자 아이디어 "hindsight 학습→실전 투입" 검증):
+imperfect HighLoad × held-out 20 seeds에서 **HL 5352 > FT 5044 >
+SUS 4668 > Fresh 4535**. FT는 실전에서도 SUS 20/20 전승(무너지지 않음)
+이나 HL에 20전 전패(−5.8%) — genie 왕복은 순손실. 메커니즘 = depth
+침식 (HL 2.90 → FT 3.56 → Fresh 3.99≈SUS): perfect CSI가 낡은-CSI
+에누리 습관을 지움. Fresh(genie만)는 SUS 동률로 추락 → FT의 생존은
+imperfect 유산의 공. 실용 레시피: hindsight pre-train → 실전 fine-tune
+(정방향 warm-start +6.8%과 대칭); privileged distillation은 Run5 후보.

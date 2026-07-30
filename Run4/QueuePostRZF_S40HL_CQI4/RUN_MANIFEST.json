@@ -1,0 +1,13 @@
+{
+  "run": "QueuePostRZF_S40HL_CQI4",
+  "launched": "2026-08-01 (smoke updates 0-11 promoted; wrapper resume from update 12)",
+  "gpu": 4,
+  "pin": "d3efef9cf39643baaf72fb3620ee7c23cc1fbfd6 (branch cqi4, executed from _cqi4dev worktree)",
+  "seed": 2024,
+  "world": "S40HighLoad base (queue, p_arrival U(0.15,0.50), speed U(5,40), K=32, p_csi 0.6, type2 56-bit PMI) + cqi_mode=nr4bit: UE CQI floor-snapped to the 3GPP TS 38.214 Table 5.2.2.1-3 4-bit 256QAM ladder (index 0 = out of range)",
+  "beta_m": "depth-wise calibration factors (1.0018, 0.7499, 0.6592, 0.6058) -- 10th-pct frozen recipe on the nr4bit world, holdout first-ACK 0.869/0.886/0.890/0.884; beta_1>1 is expected (floor quantization already under-promises at depth 1)",
+  "init": "fresh (updates 0-11 = promoted smoke run smoke_cqi4, identical CLI, executed on 49550e2; root-py diff 49550e2->pin is comments+test only, verified -- first wrapper resume used ALLOW_HASH_MISMATCH=1 once; after the first checkpoint save the ckpt records the pin and strict pin_check resumes)",
+  "gates": "unit floor/table/boundary + genie-guard; 3-seed frozen eval sane (PPO 5594->5029, SUS 4937->4354, equal burden); cqi0-retx regression (zero beam = clean outage, no NaN); smoke 12 upd, 0 NaN rows, upd-9 eval all 13 schedulers OK",
+  "question": "does the learned-scheduling margin survive (or grow) when the CQI report is quantized to the standard 4-bit ladder? (V50/V60/CSI04 pattern predicts coarser info -> relative advantage holds)",
+  "merge_plan": "after the genie pair retires, merge branch cqi4 into main (new pin), retarget wrapper cd/pin to the main tree, remove the worktree"
+}

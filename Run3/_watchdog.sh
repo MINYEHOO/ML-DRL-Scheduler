@@ -40,6 +40,8 @@ RUNS=(
   # 2026-07-29: HighLoad_Ent01 anneal 은퇴 (fork@639 이후 600+ upd 무갱신 -- 0.01 초과이득 없음)
   "Run4/GenieS40HL_FineTune:genies40hl_finetune:Run4/_wrap_genies40hl_finetune.sh"  # GPU5, genie-CSI HighLoad, warm-start(HighLoad best@639) 2026-07-27
   "Run4/GenieS40HL_Fresh:genies40hl_fresh:Run4/_wrap_genies40hl_fresh.sh"  # GPU3, genie-CSI HighLoad, fresh A/B 2026-07-27
+  # 2026-08-01: CQI4 세대 시작 (4-bit NR CQI, cqi4 브랜치 worktree에서 실행)
+  "Run4/QueuePostRZF_S40HL_CQI4:queuepostrzf_s40hl_cqi4:Run4/_wrap_queuepostrzf_s40hl_cqi4.sh"  # GPU4, nr4bit + beta 재보정, smoke 승격(upd0-11) 2026-08-01
 )
 
 say(){ echo "[$(date '+%F %T')] $*" >> "$LOG"; }
