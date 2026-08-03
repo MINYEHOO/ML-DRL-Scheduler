@@ -38,7 +38,8 @@ RUNS=(
   # same day on the new pin 71c0bd4 (eval CSV v2, save_every=1).
   # 2026-07-27: S40HighLoad 은퇴 (best 5597.5@639, 이후 500+ upd 무갱신)
   # 2026-07-29: HighLoad_Ent01 anneal 은퇴 (fork@639 이후 600+ upd 무갱신 -- 0.01 초과이득 없음)
-  "Run4/GenieS40HL_FineTune:genies40hl_finetune:Run4/_wrap_genies40hl_finetune.sh"  # GPU5, genie-CSI HighLoad, warm-start(HighLoad best@639) 2026-07-27
+  # 2026-08-03: GenieS40HL_FineTune 은퇴 (사용자 지시; best 8014@329, 이후 800+ upd 무갱신 --
+  #   warm 이득은 초기 가속뿐, depth 4 포화로 Fresh 수준 수렴. 20-seed 최종분석으로 이관)
   "Run4/GenieS40HL_Fresh:genies40hl_fresh:Run4/_wrap_genies40hl_fresh.sh"  # GPU3, genie-CSI HighLoad, fresh A/B 2026-07-27
   # 2026-08-01: CQI4 세대 시작 (4-bit NR CQI, cqi4 브랜치 worktree에서 실행)
   "Run4/QueuePostRZF_S40HL_CQI4:queuepostrzf_s40hl_cqi4:Run4/_wrap_queuepostrzf_s40hl_cqi4.sh"  # GPU4, nr4bit + beta 재보정, smoke 승격(upd0-11) 2026-08-01
