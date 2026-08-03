@@ -316,3 +316,35 @@ SUS 4668 > Fresh 4535**. FT는 실전에서도 SUS 20/20 전승(무너지지 않
 에누리 습관을 지움. Fresh(genie만)는 SUS 동률로 추락 → FT의 생존은
 imperfect 유산의 공. 실용 레시피: hindsight pre-train → 실전 fine-tune
 (정방향 warm-start +6.8%과 대칭); privileged distillation은 Run5 후보.
+
+## 2026-08-03 — GenieS40HL_FineTune 은퇴 + held-out 최종판정 (+4.3%, 20/20)
+
+**은퇴** (사용자 지시 "fine tuning은 학습 의미 거의 없음"): best 8014@329
+이후 800+ upd 무갱신, depth 2.96→4.00 단조 침식으로 Fresh 수준 수렴 —
+warm 이득은 초기 가속뿐, genie 세계 계속-학습이 imperfect 유산(얕은 depth)
+을 지움. 로스터 동시 제거(runs=2: Fresh+CQI4), wrapper STOP 동결 후
+SIGTERM 우아종료(latest@1144 저장, redo 0), watchdog 재기동, GPU5 반환.
+
+**In-world SUS 재스윕** (8 seeds): **thr 0.6 최강** 7600 (0.5: 7582 /
+0.7: 7591 / 0.75(config): 7541 / 0.8: 7467 / 0.9: 7097). genie-S40HL
+세계의 최적은 0.6 — L2b-genie 0.7, imperfect-S40 0.7과 또 다름 (세계별
+재스윕 규약의 3번째 실증; 0.5–0.7은 사실상 평탄).
+
+**Held-out 20-seed (10000–10019, SUS@0.6)**: **PPO-FT(best@329) 7993 vs
+SUS+CQI 7661 = +4.3%, 20/20 전승** (per-seed 마진 +6~+611); depth 3.48
+vs 3.97; miss 0.274 vs 0.288; goodput 92.9 vs 91.1 Mbps. run-eval 8014
+→ held-out 7993, 수축 없음. showcase seed 10011 (마진 +611), 8-panel
+그림 run 폴더. 스크립트 genies40hl_finetune_final_figure.py, CSV
+genies40hl_finetune_final20.csv.
+
+**의미 3건**: (1) **정보-구조 수축** — 같은 세계에서 imperfect-CSI 마진
++14.7% → perfect-CSI +4.3%: PPO 우위의 ~2/3가 불완전-CSI 대응(양자화/
+노후 에누리)에서 나온다는 직접 증거 (각 세계 내 상대 마진의 비교;
+cross-world 절대보상 비교 아님). (2) **interior-depth 최적 재확인** —
+β=1(깊이 무가격)·perfect CSI에서도 depth 3.48 정책이 depth-4 전원
+(SUS 7661, Fresh 7773)을 이김: depth-4 포화는 genie 세계에서도 최적이
+아님 (등전력 분할 + deadline triage가 여전히 interior를 만듦; L2c
+cap3>cap4와 정합). (3) **warm-vs-fresh** — FT 7993 vs Fresh(interim@869,
+학습 계속 중) 7773 = **+2.8% paired(+220), 19/20** (Fresh 승 1회: seed
+10001, +35); Fresh도 SUS 대비 +1.5%로 튜닝 baseline은 넘음. L2b-시대
+결론(warm>fresh) 재현 — 단 이번엔 fresh도 양수 마진.

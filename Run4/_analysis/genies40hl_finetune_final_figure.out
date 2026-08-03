@@ -1,0 +1,46 @@
+=== SUS+CQI threshold sweep (GenieS40HL world, 8 seeds) ===
+  thr 0.5: SUS+CQI 7582.1
+  thr 0.6: SUS+CQI 7599.6
+  thr 0.7: SUS+CQI 7590.8
+  thr 0.75: SUS+CQI 7540.9
+  thr 0.8: SUS+CQI 7466.5
+  thr 0.9: SUS+CQI 7096.9
+strongest threshold: 0.6
+
+PPO-FT best.pt update 329 run-eval 8014.0; Fresh(interim) best.pt update 869 run-eval 7761.6; SUS thr 0.6
+seed 10000: PPO-FT 4465 margin +596  Fresh 3859
+seed 10001: PPO-FT 9983 margin +349  Fresh 10018
+seed 10002: PPO-FT 9601 margin +303  Fresh 9427
+seed 10003: PPO-FT 7904 margin +304  Fresh 7823
+seed 10004: PPO-FT 12760 margin +294  Fresh 12138
+seed 10005: PPO-FT 5243 margin +190  Fresh 5029
+seed 10006: PPO-FT 4498 margin +401  Fresh 4108
+seed 10007: PPO-FT 9079 margin +299  Fresh 8920
+seed 10008: PPO-FT 5524 margin +116  Fresh 5305
+seed 10009: PPO-FT 12760 margin +474  Fresh 12641
+seed 10010: PPO-FT 2781 margin +597  Fresh 2191
+seed 10011: PPO-FT 11397 margin +611  Fresh 11332
+seed 10012: PPO-FT 3936 margin +6  Fresh 3869
+seed 10013: PPO-FT 6924 margin +178  Fresh 6725
+seed 10014: PPO-FT 9425 margin +522  Fresh 9182
+seed 10015: PPO-FT 5950 margin +236  Fresh 5709
+seed 10016: PPO-FT 11467 margin +375  Fresh 11171
+seed 10017: PPO-FT 9746 margin +367  Fresh 9735
+seed 10018: PPO-FT 7256 margin +257  Fresh 7244
+seed 10019: PPO-FT 9164 margin +160  Fresh 9045
+showcase seed 10011 -> Run4/GenieS40HL_FineTune/GenieS40HLFineTune_metrics_seed10011.png
+
+20-seed means:
+PPO             rew    7993  depth 3.48  miss 0.274  good 92.9
+SUS+CQI         rew    7661  depth 3.97  miss 0.288  good 91.1
+SUS+DPF         rew    6106  depth 3.98  miss 0.336  good 83.7
+SUS+PF          rew    6109  depth 3.98  miss 0.334  good 83.9
+SUS+Rnd         rew    4814  depth 3.98  miss 0.373  good 78.1
+SU+CQI          rew    3059  depth 1.00  miss 0.402  good 74.0
+SU+DPF          rew      39  depth 1.00  miss 0.503  good 58.8
+SU+PF           rew    -142  depth 1.00  miss 0.502  good 58.6
+SU+Rnd          rew   -3881  depth 1.00  miss 0.622  good 42.4
+Fresh(interim)  rew    7773  depth 3.98  miss 0.284  good 91.6
+
+PPO-FT 7993 vs best baseline 7661 = +4.3%; vs seed-best 20/20 wins
+warm-vs-fresh (Fresh INTERIM @upd 869, still training): FT 7993 vs Fresh 7773 = +2.8%; paired +220, FT wins 19/20
