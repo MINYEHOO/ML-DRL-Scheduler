@@ -348,3 +348,50 @@ cap3>cap4와 정합). (3) **warm-vs-fresh** — FT 7993 vs Fresh(interim@869,
 학습 계속 중) 7773 = **+2.8% paired(+220), 19/20** (Fresh 승 1회: seed
 10001, +35); Fresh도 SUS 대비 +1.5%로 튜닝 baseline은 넘음. L2b-시대
 결론(warm>fresh) 재현 — 단 이번엔 fresh도 양수 마진.
+
+## 2026-08-04 — 전 런 은퇴 + CQI4 held-out 최종판정 (+13.9%, 20/20): 정보-축 3점 완성
+
+**전 런 은퇴** (사용자 지시 "두 실험 다 종료"): ①GenieS40HL_Fresh —
+best 7761.6@869 이후 430+ upd 무갱신, depth-4 분지 고착(최근 300 upd
+p05 3.83, depth<3.3 미방문). **FineTune final20의 Fresh(interim) 행이
+그대로 최종값** (best 불변, 동일 시드·동일 스윕 thr 0.6): 7773 vs
+SUS+CQI 7661 = +1.5%, FT에 19/20 패배. ②QueuePostRZF_S40HL_CQI4 —
+best 5038.9@409, upd ~650 이후 과냉각 하강(창평균 4943→4595→4141,
+depth 2.66→1.95, entropy 0.597 — S40Ent02 병리 재현). 로스터 양쪽
+비움, SIGTERM 우아종료(redo 0), **라이브 런 0 / watchdog 정지 /
+GPU 0–5 전부 반환**.
+
+**CQI4 in-world SUS 재스윕** (8 seeds, 이 세계 첫 스윕): **thr 0.7 최강**
+4072 (0.5: 3999 / 0.6: 4058 / 0.75(config 상속값): 4031 / 0.8: 3975 /
+0.9: 3780). 상속값 0.75를 그대로 썼다면 baseline이 ~42 손해 — 재스윕
+규약 4번째 실증.
+
+**Held-out 20-seed (10000–10019, SUS@0.7)**: **PPO(best@409) 4755 vs
+SUS+CQI 4174 = +13.9%, 20/20 전승** (per-seed +89~+1143); depth 2.74
+vs 3.92; miss 0.362 vs 0.388; goodput 80.0 vs 77.4. showcase 10017
+(마진 +1143), 8-panel run 폴더. 스크립트 queue_s40hl_cqi4_final_figure.py
+(⚠️ _cqi4dev worktree 코드 import — main Config는 cqi_mode 모름), CSV
+queue_s40hl_cqi4_final20.csv.
+
+**⭐정보-축 3점 세트 완성** (동일 세계 계열·동일 프로토콜, 세계 내
+스윕된 SUS+CQI 대비):
+- perfect CSI (genie): **+4.3%** (20/20)
+- continuous CQI (56-bit PMI + 실수 CQI): **+14.7%** (20/20)
+- 4-bit CQI (56-bit PMI + 16-단계 CQI): **+13.9%** (20/20)
+
+판독: (1) CQI4 런의 창설 질문("리포트가 거칠어지면 학습 마진이
+살아남는가")에 YES — 14.7→13.9%는 사실상 보존 (V50/V60/CSI04 패턴의
+예측 적중). (2) 양자화 비용은 전원 부담: PPO 5352→4755(−11.2%),
+SUS+CQI 4668→4174(−10.6%) — 절대 성능은 다 같이 내려가고 상대 마진
+유지. (3) 정보가 완벽해질 때만 마진이 수축(+4.3%) — "PPO 우위는 CSI
+불완전성이 만드는 결정 문제에서 나온다" 축의 세 번째 직접 증거.
+PPO 전략도 일관: depth 2.74(CQI4)/2.90(연속)/3.48(genie FT).
+
+**캐비앳**: CQI4 판정은 과냉각 국면에서 조기 은퇴한 팔의 best@409
+기준 — entropy 스케줄이 더 좋았다면 상한이 더 높았을 수 있음(보수적
+방향, 판정에는 무해). 학습은 866/1500 upd에서 중단. run-eval 5039 →
+held-out 4755 수축은 3-seed run-eval 노이즈 범위.
+
+**후속 결정 대기**: ①cqi4 브랜치 main merge (genie 종결 조건 충족 —
+launch 시 "genie 종결 후 merge 예정"이라 명기했음) ②논문세대 배치
+(root-py 일괄 수정 + 다중 시드 + 최종 시드 20000+ — GPU 6대 전부 가용).
