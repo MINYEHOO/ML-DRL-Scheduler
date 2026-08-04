@@ -1,0 +1,15 @@
+PPO(Fresh) best.pt update 869 run-eval 7761.6; SUS thr 0.6 (in-world swept, from the FineTune final); no episodes re-run
+showcase seed 10011 -> Run4/GenieS40HL_Fresh/GenieS40HLFresh_metrics_seed10011.png
+
+20-seed means:
+PPO      rew    7773  depth 3.98  miss 0.284  good 91.6
+SUS+CQI  rew    7661  depth 3.97  miss 0.288  good 91.1
+SUS+DPF  rew    6106  depth 3.98  miss 0.336  good 83.7
+SUS+PF   rew    6109  depth 3.98  miss 0.334  good 83.9
+SUS+Rnd  rew    4814  depth 3.98  miss 0.373  good 78.1
+SU+CQI   rew    3059  depth 1.00  miss 0.402  good 74.0
+SU+DPF   rew      39  depth 1.00  miss 0.503  good 58.8
+SU+PF    rew    -142  depth 1.00  miss 0.502  good 58.6
+SU+Rnd   rew   -3881  depth 1.00  miss 0.622  good 42.4
+
+PPO(Fresh) 7773 vs best baseline 7661 = +1.5%; vs seed-best 13/20 wins
