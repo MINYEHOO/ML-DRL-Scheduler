@@ -5,9 +5,9 @@ empty-allocation episodes; beta_m = per-depth 10th pct of MI_actual/cap_pred;
 holdout on disjoint episodes with the DEPLOYED 4-decimal values.
 
 World = QueuePostRZF_S40HighLoad config.json with cqi_mode='nr4bit' and beta
-cleared (raw-prediction ratios). Runs on the _cqi4dev WORKTREE code (branch
-cqi4, 49550e2) -- cqi_mode does not exist on the pinned main tree yet; the
-sys.path order below makes config/env/la_planner/phy resolve to the worktree.
+cleared (raw-prediction ratios). Originally run from the cqi4 worktree, which
+carried cqi_mode before it existed on main; that branch is merged (1d85999) and
+the worktree removed, so the import below now resolves to the main tree.
 For the fresh CQI4 run (user directive 2026-08-01).
 """
 import os, sys, json
@@ -15,7 +15,7 @@ os.environ["CUDA_VISIBLE_DEVICES"] = ""
 for v in ("OMP", "MKL", "OPENBLAS", "NUMEXPR"):
     os.environ[f"{v}_NUM_THREADS"] = "8"
 sys.path.insert(0, "/home/MYH/ML_DRL_Scheduler/Run4/_analysis/scripts/audit_probes")
-sys.path.insert(0, "/home/MYH/ML_DRL_Scheduler/_cqi4dev")   # FIRST: cqi4 code
+sys.path.insert(0, "/home/MYH/ML_DRL_Scheduler")   # cqi4 merged into main (1d85999)
 import numpy as np
 from config import Config
 from env import SchedulerEnv

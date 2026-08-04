@@ -13,13 +13,13 @@ TS 38.214 Table 5.2.2.1-3 floor-snap, beta_m = (1.0018, 0.7499, 0.6592,
 throughput labels at 1 decimal, PNG saved INSIDE the run folder.
 
 NOTE: cqi_mode exists only on branch cqi4 -- code is imported from the
-_cqi4dev worktree (pin d3efef9); data paths point at the main tree.
+the cqi4 branch, now merged into main (1d85999); imports resolve to main.
 """
 import os, sys, csv, json
 os.environ["CUDA_VISIBLE_DEVICES"] = ""
 for v in ("OMP", "MKL", "OPENBLAS", "NUMEXPR"):
     os.environ[f"{v}_NUM_THREADS"] = "8"
-sys.path.insert(0, "/home/MYH/ML_DRL_Scheduler/_cqi4dev")
+sys.path.insert(0, "/home/MYH/ML_DRL_Scheduler")
 import numpy as np, torch
 torch.set_num_threads(8)
 import matplotlib

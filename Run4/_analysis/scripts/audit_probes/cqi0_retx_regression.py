@@ -18,7 +18,7 @@ import os, sys, json
 os.environ["CUDA_VISIBLE_DEVICES"] = ""
 for v in ("OMP", "MKL", "OPENBLAS", "NUMEXPR"):
     os.environ[f"{v}_NUM_THREADS"] = "8"
-sys.path.insert(0, "/home/MYH/ML_DRL_Scheduler/_cqi4dev")
+sys.path.insert(0, "/home/MYH/ML_DRL_Scheduler")
 import numpy as np
 from config import Config
 from env import SchedulerEnv
