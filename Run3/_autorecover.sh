@@ -40,9 +40,7 @@ RECOVER_RUNS=(
   # 2026-07-20: queue 3-arm + L2c retired; S40 generation (pin 71c0bd4).
   # 2026-07-29: HighLoad_Ent01 anneal 은퇴; 2026-07-27: S40HighLoad 은퇴; genie 페어 추가
   # 2026-08-03: GenieS40HL_FineTune 은퇴 (best 8014@329 보존, 20-seed 최종분석 이관)
-  "Run4/GenieS40HL_Fresh:genies40hl_fresh:Run4/_wrap_genies40hl_fresh.sh"
-  # 2026-08-01: CQI4 세대 (worktree 실행; 첫 ckpt 저장 후에는 엄격 pin 자동 복원)
-  "Run4/QueuePostRZF_S40HL_CQI4:queuepostrzf_s40hl_cqi4:Run4/_wrap_queuepostrzf_s40hl_cqi4.sh"
+  # 2026-08-04: GenieS40HL_Fresh + QueuePostRZF_S40HL_CQI4 은퇴 -- 라이브 런 0, 복구 대상 없음.
 )
 for spec in "${RECOVER_RUNS[@]}"; do
   IFS=: read -r run sess wrap <<< "$spec"
