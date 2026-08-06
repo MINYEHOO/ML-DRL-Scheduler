@@ -1,0 +1,27 @@
+policy device: cuda; policy best.pt@409 run-eval 5038.9; n=40 pre-declared
+worker TAG=b, configs: ['V60max', 'CSI02']
+
+=== [V60max] {'ue_speed_max': 60.0} ===
+  pilot sweep: 0.60:3392  0.65:3436  0.70:3439  0.75:3430  0.80:3411  -> T*=0.70
+  ..10/40 seeds
+  ..20/40 seeds
+  ..30/40 seeds
+  ..40/40 seeds
+  PPO    4399 vs SUS+CQI@0.70    3842  마진 +14.5%  paired +556 CI±106 t=10.65  승 37/40
+  load-strata(n_active 하/중/상): +758 / +607 / +300
+  [V60max] 42.6 min
+
+=== [CSI02] {'p_csi': 0.2} ===
+  pilot sweep: 0.60:2692  0.65:2714  0.70:2749  0.75:2751  0.80:2727  -> T*=0.75
+  ..10/40 seeds
+  ..20/40 seeds
+  ..30/40 seeds
+  ..40/40 seeds
+  PPO    3589 vs SUS+CQI@0.75    3145  마진 +14.1%  paired +444 CI±99 t=9.10  승 37/40
+  load-strata(n_active 하/중/상): +603 / +489 / +238
+  [CSI02] 41.6 min
+
+=== PAPER OOD GRID 요약 (CQI4 best@409 동결, n=40, seeds 30000-30039) ===
+  V60max : PPO   4399 vs SUS+CQI@0.70    3842  paired   +556±106 [CI>0 확정]  승 37/40  strata +758/+607/+300
+  CSI02  : PPO   3589 vs SUS+CQI@0.75    3145  paired   +444±99 [CI>0 확정]  승 37/40  strata +603/+489/+238
+saved -> Run4/_analysis/ood_paper_grid_cqi4_b.csv

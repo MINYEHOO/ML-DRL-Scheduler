@@ -1,0 +1,29 @@
+policy device: cuda; policy best.pt@409 run-eval 5038.9; n=40 pre-declared
+worker TAG=a, configs: ['P055', 'P010']
+
+=== [P055] {'p_arrival_min': 0.55, 'p_arrival_max': 0.55} ===
+  pilot sweep: 0.60:1026  0.65:1087  0.70:1122  0.75:1106  0.80:1025  -> T*=0.70
+  ..10/40 seeds
+  ..20/40 seeds
+  ..30/40 seeds
+  ..40/40 seeds
+  PPO    2448 vs SUS+CQI@0.70    1877  마진 +30.4%  paired +571 CI±157 t=7.37  승 35/40
+  load-strata(n_active 하/중/상): +809 / +653 / +244
+  [P055] 47.9 min
+
+=== [P010] {'p_arrival_min': 0.1, 'p_arrival_max': 0.1} ===
+/home/MYH/ML_DRL_Scheduler/env.py:363: RuntimeWarning: divide by zero encountered in log10
+  slot_sinr_db = (float(10.0 * np.log10(sinr_map[occ].mean()))
+  pilot sweep: 0.60:2371  0.65:2384  0.70:2401  0.75:2433  0.80:2466  -> T*=0.80
+  ..10/40 seeds
+  ..20/40 seeds
+  ..30/40 seeds
+  ..40/40 seeds
+  PPO    2971 vs SU+CQI    2963  마진 +0.3%  paired +9 CI±16 t=1.07  승 28/40
+  load-strata(n_active 하/중/상): +12 / +4 / +11
+  [P010] 32.3 min
+
+=== PAPER OOD GRID 요약 (CQI4 best@409 동결, n=40, seeds 30000-30039) ===
+  P055   : PPO   2448 vs SUS+CQI@0.70    1877  paired   +571±157 [CI>0 확정]  승 35/40  strata +809/+653/+244
+  P010   : PPO   2971 vs SU+CQI          2963  paired     +9±16 [tie]  승 28/40  strata +12/+4/+11
+saved -> Run4/_analysis/ood_paper_grid_cqi4_a.csv

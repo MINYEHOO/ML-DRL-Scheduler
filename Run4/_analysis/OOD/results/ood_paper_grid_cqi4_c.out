@@ -1,0 +1,27 @@
+policy device: cuda; policy best.pt@409 run-eval 5038.9; n=40 pre-declared
+worker TAG=c, configs: ['D26', 'STORM2']
+
+=== [D26] {'deadline_min': 2, 'deadline_max': 6} ===
+  pilot sweep: 0.60:3215  0.65:3246  0.70:3269  0.75:3277  0.80:3248  -> T*=0.75
+  ..10/40 seeds
+  ..20/40 seeds
+  ..30/40 seeds
+  ..40/40 seeds
+  PPO    4407 vs SUS+CQI@0.75    3691  마진 +19.4%  paired +716 CI±116 t=12.52  승 39/40
+  load-strata(n_active 하/중/상): +859 / +719 / +570
+  [D26] 40.3 min
+
+=== [STORM2] {'p_arrival_min': 0.55, 'p_arrival_max': 0.55, 'ue_speed_max': 60.0, 'p_csi': 0.2} ===
+  pilot sweep: 0.60:-568  0.65:-472  0.70:-420  0.75:-419  0.80:-500  -> T*=0.75
+  ..10/40 seeds
+  ..20/40 seeds
+  ..30/40 seeds
+  ..40/40 seeds
+  PPO     884 vs SUS+CQI@0.75     386  마진 +128.9%  paired +498 CI±158 t=6.38  승 35/40
+  load-strata(n_active 하/중/상): +710 / +624 / +148
+  [STORM2] 43.9 min
+
+=== PAPER OOD GRID 요약 (CQI4 best@409 동결, n=40, seeds 30000-30039) ===
+  D26    : PPO   4407 vs SUS+CQI@0.75    3691  paired   +716±116 [CI>0 확정]  승 39/40  strata +859/+719/+570
+  STORM2 : PPO    884 vs SUS+CQI@0.75     386  paired   +498±158 [CI>0 확정]  승 35/40  strata +710/+624/+148
+saved -> Run4/_analysis/ood_paper_grid_cqi4_c.csv

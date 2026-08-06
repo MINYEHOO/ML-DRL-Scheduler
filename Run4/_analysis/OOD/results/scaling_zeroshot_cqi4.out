@@ -1,0 +1,26 @@
+policy device: cuda; CQI4 best.pt@409
+
+=== [K=16] n_active U(8,16) ===
+/home/MYH/ML_DRL_Scheduler/env.py:363: RuntimeWarning: divide by zero encountered in log10
+  slot_sinr_db = (float(10.0 * np.log10(sinr_map[occ].mean()))
+  PPO    3398 vs SUS+CQI@0.80    3172  마진 +7.1%  승 7/8
+  [K=16] 7.1 min
+
+=== [K=24] n_active U(12,24) ===
+  PPO    4829 vs SUS+CQI@0.65    4260  마진 +13.4%  승 8/8
+  [K=24] 7.9 min
+
+=== [K=32] n_active U(16,32) ===
+  PPO    3876 vs SUS+CQI@0.70    3481  마진 +11.4%  승 7/8
+  [K=32] 8.7 min
+
+=== [K=48] n_active U(24,48) ===
+  PPO    3130 vs SUS+CQI@0.70    2591  마진 +20.8%  승 8/8
+  [K=48] 9.5 min
+
+=== K-scaling 요약 (CQI4 best@409 동결, nr4bit, seeds 30000-30007) ===
+  K=16: PPO   3398 vs SUS+CQI@0.80    3172  마진   +7.1%  승 7/8
+  K=24: PPO   4829 vs SUS+CQI@0.65    4260  마진  +13.4%  승 8/8
+  K=32: PPO   3876 vs SUS+CQI@0.70    3481  마진  +11.4%  승 7/8
+  K=48: PPO   3130 vs SUS+CQI@0.70    2591  마진  +20.8%  승 8/8
+saved -> Run4/_analysis/scaling_zeroshot_cqi4.csv
