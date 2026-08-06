@@ -1,0 +1,29 @@
+policy device: cuda (CUDA_VISIBLE_DEVICES='5')
+
+=== [CSI01-cont] base Run4/QueuePostRZF_S40HighLoad, p_csi 0.1, policy best.pt@639 ===
+  SUS thr 0.60:    2063
+  SUS thr 0.65:    2104
+  SUS thr 0.70:    2130
+  SUS thr 0.75:    2121
+  SUS thr 0.80:    2082
+  SU+CQI      :      76
+  PPO:    2614 vs SUS+CQI@0.70    2130  마진 +22.7%  승 8/8  depth 2.96  miss 0.416  first-ACK 0.818
+  [CSI01-cont] 8.4 min
+
+=== [CSI01-cqi4] base Run4/QueuePostRZF_S40HL_CQI4, p_csi 0.1, policy best.pt@409 ===
+  SUS thr 0.60:    1817
+  SUS thr 0.65:    1862
+  SUS thr 0.70:    1880
+  SUS thr 0.75:    1886
+  SUS thr 0.80:    1861
+  SU+CQI      :      34
+  PPO:    2121 vs SUS+CQI@0.75    1886  마진 +12.5%  승 6/8  depth 2.83  miss 0.431  first-ACK 0.849
+  [CSI01-cqi4] 8.6 min
+
+=== CSI01 (p_csi 0.1) zero-shot 요약, seeds 30000-30007 ===
+  CSI01-cont : PPO   2614 vs SUS+CQI@0.70    2130  마진  +22.7%  승 8/8  depth 2.96  miss 0.416
+  CSI01-cqi4 : PPO   2121 vs SUS+CQI@0.75    1886  마진  +12.5%  승 6/8  depth 2.83  miss 0.431
+
+판독: 8-seed 규칙 적용. 비교점: CSI04(p_csi 0.4)는 continuous +14.8%, cqi4 +10.6%;
+       학습분포(p_csi 0.6) in-dist는 continuous +14.7%, cqi4 +13.9% (20-seed).
+saved -> Run4/_analysis/ood_csi01.csv
