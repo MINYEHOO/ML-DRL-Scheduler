@@ -1,0 +1,9 @@
+[P055] SUS+MW sweep: 0.60:3405  0.65:3487  0.70:3527  0.75:3565  0.80:3576
+  own-best 3576@0.80 vs SUS+CQI champion 3827 -> CQI 챔피언 유지 (격차 +251)  (6.4 min)
+[V60max] SUS+MW sweep: 0.60:4002  0.65:4034  0.70:4072  0.75:4100  0.80:4142
+  own-best 4142@0.80 vs SUS+CQI champion 4354 -> CQI 챔피언 유지 (격차 +212)  (5.8 min)
+[CSI02] SUS+MW sweep: 0.60:3356  0.65:3402  0.70:3440  0.75:3447  0.80:3478
+  own-best 3478@0.80 vs SUS+CQI champion 3731 -> CQI 챔피언 유지 (격차 +253)  (5.5 min)
+[D26] SUS+MW sweep: 0.60:3796  0.65:3837  0.70:3871  0.75:3911  0.80:3922
+  own-best 3922@0.80 vs SUS+CQI champion 4206 -> CQI 챔피언 유지 (격차 +284)  (5.0 min)
+saved -> Run4/_analysis/OOD/results/ood_pilot40k_musweep.csv

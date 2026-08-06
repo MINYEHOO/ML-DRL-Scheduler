@@ -1,0 +1,14 @@
+pilot40k worker TAG=c, worlds: ['D26', 'STORM2']
+
+=== [D26] pilot seeds 40000-40007 ===
+  sweep: 0.60:4138  0.65:4157  0.70:4190  0.75:4187  0.80:4206  -> T*=0.80 (구 30k-pilot T*=0.75, 변경!)
+  champion: SUS+CQI@0.80 4206  (2위 SUS+MW 3922)
+  ⚠️ FLAG: 챔피언 10% 이내 비-CQI baseline: ['SUS+MW'] -> 전용 스윕 검토
+  [D26] 10.7 min
+
+=== [STORM2] pilot seeds 40000-40007 ===
+  sweep: 0.60:2135  0.65:2190  0.70:2239  0.75:2244  0.80:2142  -> T*=0.75 (구 30k-pilot T*=0.75, 동일)
+  champion: SUS+CQI@0.75 2244  (2위 SUS+MW 1820)
+  [STORM2] 10.4 min
+
+saved -> Run4/_analysis/OOD/results/ood_pilot40k_c.csv

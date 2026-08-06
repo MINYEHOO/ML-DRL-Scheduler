@@ -1,0 +1,7 @@
+device cuda; env deadline U[2,6], policy norm /12; best.pt@409
+  ..10/40 (12.2 min)
+  ..20/40 (24.1 min)
+  ..30/40 (32.4 min)
+  ..40/40 (40.8 min)
+PPO-strict D26: mean 4403.2  depth 2.74  miss 0.373
+saved -> Run4/_analysis/OOD/results/ood_d26_strict.csv

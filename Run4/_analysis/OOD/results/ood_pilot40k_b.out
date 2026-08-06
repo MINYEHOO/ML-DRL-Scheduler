@@ -1,0 +1,15 @@
+pilot40k worker TAG=b, worlds: ['V60max', 'CSI02']
+
+=== [V60max] pilot seeds 40000-40007 ===
+  sweep: 0.60:4315  0.65:4338  0.70:4354  0.75:4354  0.80:4351  -> T*=0.75 (구 30k-pilot T*=0.70, 변경!)
+  champion: SUS+CQI@0.75 4354  (2위 SUS+MW 4100)
+  ⚠️ FLAG: 챔피언 10% 이내 비-CQI baseline: ['SUS+MW'] -> 전용 스윕 검토
+  [V60max] 11.0 min
+
+=== [CSI02] pilot seeds 40000-40007 ===
+  sweep: 0.60:3695  0.65:3719  0.70:3731  0.75:3727  0.80:3713  -> T*=0.70 (구 30k-pilot T*=0.75, 변경!)
+  champion: SUS+CQI@0.70 3731  (2위 SUS+MW 3440)
+  ⚠️ FLAG: 챔피언 10% 이내 비-CQI baseline: ['SUS+MW'] -> 전용 스윕 검토
+  [CSI02] 10.0 min
+
+saved -> Run4/_analysis/OOD/results/ood_pilot40k_b.csv
