@@ -1,0 +1,74 @@
+policy device: cuda (CUDA_VISIBLE_DEVICES='5')
+
+=== [P065] {'p_arrival_min': 0.65, 'p_arrival_max': 0.65} ===
+  SUS thr 0.60:   -1096
+  SUS thr 0.65:   -1007
+  SUS thr 0.70:    -941
+  SUS thr 0.75:    -998
+  SUS thr 0.80:   -1149
+  SU+CQI      :   -8405
+  PPO-CQI4:    -901 vs SUS+CQI@0.70    -941  마진 +4.3%  승 4/8  depth 3.35  miss 0.526
+  PPO-HL(cont):    -409 vs SUS+CQI@0.70    -941  마진 +56.6%  승 7/8  depth 3.29  miss 0.518
+  [P065] 16.8 min
+
+=== [V50] {'ue_speed_min': 50.0, 'ue_speed_max': 50.0} ===
+  SUS thr 0.60:    3303
+  SUS thr 0.65:    3326
+  SUS thr 0.70:    3353
+  SUS thr 0.75:    3356
+  SUS thr 0.80:    3340
+  SU+CQI      :    1240
+  PPO-CQI4:    3733 vs SUS+CQI@0.75    3356  마진 +11.2%  승 6/8  depth 2.72  miss 0.383
+  [V50] 9.0 min
+
+=== [V60] {'ue_speed_min': 60.0, 'ue_speed_max': 60.0} ===
+  SUS thr 0.60:    3223
+  SUS thr 0.65:    3273
+  SUS thr 0.70:    3285
+  SUS thr 0.75:    3277
+  SUS thr 0.80:    3261
+  SU+CQI      :    1181
+  PPO-CQI4:    3661 vs SUS+CQI@0.70    3285  마진 +11.4%  승 6/8  depth 2.75  miss 0.386
+  [V60] 10.4 min
+
+=== [P055] {'p_arrival_min': 0.55, 'p_arrival_max': 0.55} ===
+  SUS thr 0.60:    1026
+  SUS thr 0.65:    1087
+  SUS thr 0.70:    1122
+  SUS thr 0.75:    1106
+  SUS thr 0.80:    1025
+  SU+CQI      :   -4639
+  PPO-CQI4:    1357 vs SUS+CQI@0.70    1122  마진 +21.0%  승 5/8  depth 3.21  miss 0.486
+  [P055] 10.5 min
+
+=== [CSI04] {'p_csi': 0.4} ===
+  SUS thr 0.60:    3281
+  SUS thr 0.65:    3312
+  SUS thr 0.70:    3335
+  SUS thr 0.75:    3332
+  SUS thr 0.80:    3291
+  SU+CQI      :    1210
+  PPO-CQI4:    3688 vs SUS+CQI@0.70    3335  마진 +10.6%  승 6/8  depth 2.77  miss 0.384
+  [CSI04] 9.1 min
+
+=== [STORM] {'ue_speed_min': 40.0, 'ue_speed_max': 60.0, 'p_arrival_min': 0.55, 'p_arrival_max': 0.55, 'p_csi': 0.5} ===
+  SUS thr 0.60:     553
+  SUS thr 0.65:     635
+  SUS thr 0.70:     669
+  SUS thr 0.75:     688
+  SUS thr 0.80:     584
+  SU+CQI      :   -5120
+  PPO-CQI4:     821 vs SUS+CQI@0.75     688  마진 +19.4%  승 5/8  depth 3.25  miss 0.498
+  [STORM] 9.7 min
+
+=== OOD zero-shot 요약 (CQI4 best@409 동결, nr4bit 세계, seeds 30000-30007) ===
+  P065  : PPO   -901 vs SUS+CQI@0.70    -941  마진   +4.3%  승 4/8  depth 3.35  miss 0.526
+  V50   : PPO   3733 vs SUS+CQI@0.75    3356  마진  +11.2%  승 6/8  depth 2.72  miss 0.383
+  V60   : PPO   3661 vs SUS+CQI@0.70    3285  마진  +11.4%  승 6/8  depth 2.75  miss 0.386
+  P055  : PPO   1357 vs SUS+CQI@0.70    1122  마진  +21.0%  승 5/8  depth 3.21  miss 0.486
+  CSI04 : PPO   3688 vs SUS+CQI@0.70    3335  마진  +10.6%  승 6/8  depth 2.77  miss 0.384
+  STORM : PPO    821 vs SUS+CQI@0.75     688  마진  +19.4%  승 5/8  depth 3.25  miss 0.498
+
+판독: 8-seed라 한 자릿수 초반 마진은 '지지 않는다'로 읽을 것 (K48 규칙).
+참고: 원본(continuous) 6-세계 결과는 ood_zeroshot.out — 마진 축 비교용.
+saved -> Run4/_analysis/ood_zeroshot_cqi4.csv
