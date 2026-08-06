@@ -537,3 +537,19 @@ baseline에 유리했음(= 우리 마진 과소평가)이 실증됨.
 **부수 결정**: 논문 본문 baseline 표시 세트 = **6개 {SUS,SU}×{CQI,PF,Random}**
 (사용자 확정). DPF/MW/EDF는 부록·각주로. 12-grid 검증은 "wider grid에서도
 챔피언 불변" 근거로 유지. GPU는 타 사용자 선점으로 CPU 병행 실행.
+
+## 2026-08-06 (6) — OOD 그리드에 표시 baseline 6종 완비 (n=40)
+
+지적 반영: 그리드에 챔피언 2종만 있어 논문 표(확정 세트 6종)를 채울 수
+없었음. SUS+PF/SUS+Random/SU+PF/SU+Random을 **동일 테스트 시드
+30000–30039·동일 fresh-pilot T\***로 추가 실행(960 에피소드, CPU 3-way,
+`ood_grid_fill_baselines.py`).
+
+**결과(6세계 × 6 baseline 완성표는 OOD/README §2)**: PPO가 6/6 세계에서
+전 baseline 대비 1위(P010만 SU+CQI와 동급). 판정 불변(5 CI>0 + 1 tie).
+새로 드러난 것: **rate-blind 계열(PF/Random)이 과부하·기근 세계에서 대규모
+음수로 붕괴** — P055 SUS+PF −5552, STORM2 SU+Rnd −14631, CSI02 SUS+PF
+−155. 채널-인지 선택이 이 세계들에서 생존 조건임을 보여주는 자료이며,
+동시에 "PPO vs 챔피언" 마진이 전체 스펙트럼의 어디에 위치하는지(맨 위)
+독자가 볼 수 있게 됨. P010에서만 6개가 2419~2963으로 압축 — 결정 여지가
+사라지는 regime의 서명.

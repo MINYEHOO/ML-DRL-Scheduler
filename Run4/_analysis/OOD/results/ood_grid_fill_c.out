@@ -1,0 +1,23 @@
+fill worker TAG=c, worlds: ['D26', 'STORM2']
+
+=== [D26] SUS thr 0.80, n=40 ===
+  ..10/40 (4.4 min)
+  ..20/40 (8.8 min)
+  ..30/40 (13.2 min)
+  ..40/40 (17.5 min)
+  SUS+PF         951.4
+  SUS+Random     415.7
+  SU+PF         -961.7
+  SU+Random    -3842.0
+
+=== [STORM2] SUS thr 0.75, n=40 ===
+  ..10/40 (4.4 min)
+  ..20/40 (8.7 min)
+  ..30/40 (13.2 min)
+  ..40/40 (17.4 min)
+  SUS+PF       -8231.8
+  SUS+Random   -7432.2
+  SU+PF       -12428.7
+  SU+Random   -14631.2
+
+saved -> Run4/_analysis/OOD/results/ood_grid_fill_c.csv

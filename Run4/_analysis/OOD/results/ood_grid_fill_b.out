@@ -1,0 +1,23 @@
+fill worker TAG=b, worlds: ['V60max', 'CSI02']
+
+=== [V60max] SUS thr 0.75, n=40 ===
+  ..10/40 (4.3 min)
+  ..20/40 (8.9 min)
+  ..30/40 (13.0 min)
+  ..40/40 (17.0 min)
+  SUS+PF        1065.4
+  SUS+Random     541.5
+  SU+PF        -1045.1
+  SU+Random    -3728.1
+
+=== [CSI02] SUS thr 0.70, n=40 ===
+  ..10/40 (3.9 min)
+  ..20/40 (8.2 min)
+  ..30/40 (12.2 min)
+  ..40/40 (16.5 min)
+  SUS+PF        -154.5
+  SUS+Random    -434.2
+  SU+PF        -2572.1
+  SU+Random    -4825.9
+
+saved -> Run4/_analysis/OOD/results/ood_grid_fill_b.csv
