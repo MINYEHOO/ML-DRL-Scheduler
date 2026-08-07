@@ -1,0 +1,15 @@
+userscale worker TAG=k60, K=[60]; device cpu; policy best.pt@409
+
+=== [K=60] fixed population, training world otherwise ===
+  pilot sweep: 0.60:-2666  0.65:-2521  0.70:-2449  0.75:-2346  0.80:-2316  -> T*=0.80
+  ..10/40 (23.1 min)
+  ..20/40 (39.8 min)
+  ..30/40 (52.3 min)
+  ..40/40 (64.0 min)
+  PPO:-2118  SUS+CQI@0.80:-2263  SU+CQI:-14357  SUS+Random:-17804  SUS+PF:-19382  SU+PF:-22879  SU+Random:-26022
+  PPO -2118 vs SUS+CQI@0.80 -2263  paired +144±148 [tie]  승 26/40  depth 3.71
+  [K=60] 64.0 min
+
+=== USER-SCALE 요약 (CQI4 best@409 동결, 학습세계+인원고정, n=40) ===
+  K=60 (T*=0.80): PPO  -2118 vs SUS+CQI@0.80    -2263  paired   +144±148 [tie]  승 26/40  depth 3.71
+saved -> Run4/_analysis/OOD/results/ood_userscale_k60.csv

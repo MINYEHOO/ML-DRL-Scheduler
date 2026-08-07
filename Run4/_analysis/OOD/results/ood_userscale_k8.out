@@ -1,0 +1,17 @@
+userscale worker TAG=k8, K=[8]; device cpu; policy best.pt@409
+
+=== [K=8] fixed population, training world otherwise ===
+  pilot sweep: 0.60:2920  0.65:2943  0.70:2971  0.75:2999  0.80:3034  -> T*=0.80
+  ..10/40 (13.8 min)
+/home/MYH/ML_DRL_Scheduler/env.py:363: RuntimeWarning: divide by zero encountered in log10
+  slot_sinr_db = (float(10.0 * np.log10(sinr_map[occ].mean()))
+  ..20/40 (22.9 min)
+  ..30/40 (32.5 min)
+  ..40/40 (40.8 min)
+  PPO:3415  SU+CQI:3311  SUS+CQI@0.80:3220  SU+PF:3216  SUS+PF:3173  SUS+Random:3100  SU+Random:2906
+  PPO 3415 vs SU+CQI 3311  paired +104±34 [CI>0]  승 37/40  depth 1.91
+  [K=8] 40.8 min
+
+=== USER-SCALE 요약 (CQI4 best@409 동결, 학습세계+인원고정, n=40) ===
+  K= 8 (T*=0.80): PPO   3415 vs SU+CQI           3311  paired   +104±34 [CI>0]  승 37/40  depth 1.91
+saved -> Run4/_analysis/OOD/results/ood_userscale_k8.csv
