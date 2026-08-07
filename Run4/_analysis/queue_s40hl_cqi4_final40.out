@@ -1,0 +1,66 @@
+device cuda; policy best.pt@409 run-eval 5038.9
+=== SUS+CQI threshold sweep on pilot seeds 40000-40007 (in-dist world) ===
+  thr 0.5: SUS+CQI 4331.4
+  thr 0.6: SUS+CQI 4377.3
+  thr 0.7: SUS+CQI 4410.8
+  thr 0.75: SUS+CQI 4418.1
+  thr 0.8: SUS+CQI 4394.5
+  thr 0.9: SUS+CQI 4314.2
+T* = 0.75 (구 final20은 10000-10007에서 0.7 선택)  [7.5 min]
+
+seed 10000: PPO    2735 margin    +283
+seed 10001: PPO    6217 margin    +862
+seed 10002: PPO    6164 margin    +418
+seed 10003: PPO    2954 margin   +1061
+seed 10004: PPO    5314 margin    +524
+seed 10005: PPO    4346 margin     +94
+seed 10006: PPO    3320 margin    +193
+seed 10007: PPO    6012 margin    +511
+seed 10008: PPO    2531 margin    +665
+seed 10009: PPO    5319 margin     +86   [10/40, 20 min]
+seed 10010: PPO     780 margin    +465
+seed 10011: PPO    7525 margin    +741
+seed 10012: PPO    3805 margin    +118
+seed 10013: PPO    5443 margin    +386
+seed 10014: PPO    6345 margin   +1016
+seed 10015: PPO    5053 margin    +293
+seed 10016: PPO    7600 margin    +665
+seed 10017: PPO    5560 margin   +1130
+seed 10018: PPO    2221 margin    +715
+seed 10019: PPO    5861 margin    +367   [20/40, 34 min]
+seed 10020: PPO    6015 margin    +859
+seed 10021: PPO    4802 margin    +510
+seed 10022: PPO    4946 margin    +339
+seed 10023: PPO    5181 margin    +895
+seed 10024: PPO    3355 margin    +544
+seed 10025: PPO    5071 margin    +760
+seed 10026: PPO    4773 margin    +348
+seed 10027: PPO    5424 margin    +807
+seed 10028: PPO    3735 margin    +322
+seed 10029: PPO    5266 margin    +344   [30/40, 46 min]
+seed 10030: PPO    4820 margin    +693
+seed 10031: PPO    4990 margin    +517
+seed 10032: PPO    6596 margin    +620
+seed 10033: PPO    3096 margin     -66
+seed 10034: PPO    4120 margin    +984
+seed 10035: PPO    5008 margin    +752
+seed 10036: PPO    5844 margin    +669
+seed 10037: PPO    3458 margin    +616
+seed 10038: PPO    3345 margin    +417
+seed 10039: PPO    5006 margin    +179   [40/40, 59 min]
+
+=== n=40 held-out means (SUS thr 0.75, pilot-separated) ===
+PPO      rew    4749  depth 2.72  miss 0.356  good 78.3  jain 0.689
+SUS+CQI  rew    4124  depth 3.92  miss 0.386  good 75.4  jain 0.697
+SUS+DPF  rew    1324  depth 3.94  miss 0.467  good 62.2  jain 0.720
+SUS+PF   rew    1332  depth 3.94  miss 0.465  good 62.5  jain 0.717
+SUS+Rnd  rew     563  depth 3.96  miss 0.492  good 59.1  jain 0.685
+SU+CQI   rew    2061  depth 1.00  miss 0.426  good 68.4  jain 0.628
+SU+DPF   rew    -784  depth 1.00  miss 0.522  good 53.6  jain 0.730
+SU+PF    rew    -948  depth 1.00  miss 0.519  good 53.8  jain 0.725
+SU+Rnd   rew   -4054  depth 1.00  miss 0.626  good 40.0  jain 0.730
+
+PPO 4749 vs SUS+CQI 4124 = +15.2%  paired +625±82 [CI>0] t=15.33  vs champion 40/40, vs seed-best 39/40
+  10000-10019 (구 final20 구간): paired +612, 승 20/20
+  10020-10039 (신규): paired +638, 승 20/20
+saved -> Run4/_analysis/queue_s40hl_cqi4_final40.csv
