@@ -1,0 +1,12 @@
+worker g5b: seeds 20090-20099, device cuda, T*=0.75, best.pt@409
+seed 20090: PPO    4519 margin    +783   [1/10, 2.0 min]
+seed 20091: PPO    5738 margin    +855   [2/10, 3.9 min]
+seed 20092: PPO    6777 margin    +659   [3/10, 5.6 min]
+seed 20093: PPO    6917 margin    +288   [4/10, 7.3 min]
+seed 20094: PPO    4933 margin    +545   [5/10, 9.0 min]
+seed 20095: PPO    2318 margin    +766   [6/10, 11.0 min]
+seed 20096: PPO    4764 margin    +280   [7/10, 12.6 min]
+seed 20097: PPO    5410 margin    +640   [8/10, 14.5 min]
+seed 20098: PPO    3845 margin    +799   [9/10, 16.3 min]
+seed 20099: PPO    4209 margin    +502   [10/10, 18.4 min]
+worker g5b done -> Run4/_analysis/queue_s40hl_cqi4_final50_g5b.csv

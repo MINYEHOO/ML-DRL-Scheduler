@@ -593,3 +593,25 @@ JFI 0.689 vs 0.697.
 SUS+DPF 1324 > SUS+Rnd 563 > SU+DPF −784 > SU+PF −948 > SU+Rnd −4054.
 스크립트 `queue_s40hl_cqi4_final40.py`, 데이터 `..._final40.csv`.
 남은 과제: 8-패널 그림 40시드 재생성, 다중 학습시드, 최종 20000+ 재확정.
+
+## 2026-08-10 — ⭐⭐최종 논문 숫자 확정: 예약 시드 100개 (20000–20099)
+
+**설계** (사용자 지시): 예약 대역을 n=50→100으로 확장, GPU 1–5 × 20시드
+(2-wave 체인, 겹침 없음). T*=0.75는 40k pilot 값 재사용 — 20000대에는
+어떤 튜닝 결정도 무접촉. 9 스케줄러 전부 평가(본문 7 + 부록용 DPF쌍).
+
+**최종 결과 (n=100)**: **PPO 4836 vs SUS+CQI@0.75 4194 = +15.3%,
+paired +643±46, t=27.59, 챔피언 대비 99/100, seed-best 대비 96/100.**
+depth 2.78 vs 3.93 / goodput 81.8 vs 78.7 / miss 0.36 vs 0.39.
+반부 분할: 20000–49 +663(50/50) / 20050–99 +622(49/50) — 완전 일관.
+전 서열: PPO > SUS+CQI > SU+CQI 1837 > SUS+PF 1087 ≈ SUS+DPF 1086 >
+SUS+Rnd 326 > SU+DPF −1271 > SU+PF −1450 > SU+Rnd −4666.
+검증 대역과의 정합: final40(10000대) +15.2% ↔ final100(20000대) +15.3%.
+
+**논문 그림 확정**: `paper_fig_main_result.py` — 2×2 4패널(reward/
+goodput/miss/depth), 95% CI(t_99) 오차막대, 3.5in, PNG+PDF(fonttype 42).
+본문 7종 = PPO+{SUS,SU}×{CQI,PF,Random} (DPF안은 PF≈DPF 중복으로 기각,
+사용자 확정 2026-08-10); 부록 9종판 `--appendix`. 캡션 규칙: 막대 CI =
+절대 성능 산포 / 승패 판정 = 표의 paired 통계 (역할 분리 명시).
+산출물: `queue_s40hl_cqi4_final100.csv`(900행),
+`paper_main_result{,_appendix9}.{png,pdf}` (run 폴더).
