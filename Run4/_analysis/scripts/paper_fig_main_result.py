@@ -1,7 +1,7 @@
 """PAPER figure: main-result bars with 95% CI, IEEE 1-column 2x2 grid.
 
 Spec (user, 2026-08-10):
-  * panels: (a) Episode reward, (b) Goodput [Mbps], (c) Deadline miss
+  * panels: (a) Episode return, (b) Goodput [Mbit/s], (c) Deadline miss
     rate, (d) MU depth -- no SINR/throughput/JFI/completion (redundant
     with the main table), no stacked failure panel (retx-drop ~1e-4).
   * bars = mean over seeds; error bars = 95% CI across seeds
@@ -50,8 +50,8 @@ def stat(name, key):
     assert len(v) == n, (name, key, len(v))
     return v.mean(), tcrit * v.std(ddof=1) / np.sqrt(n)
 
-PANELS = [("(a) Episode reward", "reward", "{:.0f}", 1.0),
-          ("(b) Goodput [Mbps]", "goodput_mbps", "{:.1f}", 1.0),
+PANELS = [("(a) Episode return", "reward", "{:.0f}", 1.0),
+          ("(b) Goodput [Mbit/s]", "goodput_mbps", "{:.1f}", 1.0),
           ("(c) Deadline miss rate", "deadline_miss_rate", "{:.2f}", 1.0),
           ("(d) MU depth", "mu_depth", "{:.2f}", 1.0)]
 
