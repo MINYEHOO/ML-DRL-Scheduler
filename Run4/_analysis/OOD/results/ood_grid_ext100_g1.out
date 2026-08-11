@@ -1,0 +1,23 @@
+ext100 worker TAG=g1, worlds ['P010', 'P055'], device cuda, seeds 30040-30099, best.pt@409
+
+=== [P010] T*=0.80, +60 seeds ===
+/home/MYH/ML_DRL_Scheduler/env.py:363: RuntimeWarning: divide by zero encountered in log10
+  slot_sinr_db = (float(10.0 * np.log10(sinr_map[occ].mean()))
+  ..10/60 (12.8 min)
+  ..20/60 (25.6 min)
+  ..30/60 (38.2 min)
+  ..40/60 (50.7 min)
+  ..50/60 (63.6 min)
+  ..60/60 (76.8 min)
+  [P010] done 76.8 min
+
+=== [P055] T*=0.75, +60 seeds ===
+  ..10/60 (17.2 min)
+  ..20/60 (31.8 min)
+  ..30/60 (43.8 min)
+  ..40/60 (56.1 min)
+  ..50/60 (68.7 min)
+  ..60/60 (84.2 min)
+  [P055] done 84.2 min
+
+saved -> Run4/_analysis/OOD/results/ood_grid_ext100_g1.csv

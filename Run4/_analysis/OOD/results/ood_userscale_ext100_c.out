@@ -1,0 +1,33 @@
+userscale worker TAG=c, K=[8, 48, 60]; device cuda; policy best.pt@409
+
+=== [K=8] fixed population, training world otherwise ===
+  T*=0.80 (40k pilot, fixed)
+/home/MYH/ML_DRL_Scheduler/env.py:363: RuntimeWarning: divide by zero encountered in log10
+  slot_sinr_db = (float(10.0 * np.log10(sinr_map[occ].mean()))
+  ..10/40 (10.2 min)
+  ..20/40 (19.2 min)
+  PPO:2748  SU+CQI:2666  SU+PF:2570  SUS+CQI@0.80:2512  SUS+PF:2472  SUS+Random:2399  SU+Random:2280
+  PPO 2748 vs SU+CQI 2666  paired +83±25 [CI>0]  승 20/40  depth 1.77
+  [K=8] 19.2 min
+
+=== [K=48] fixed population, training world otherwise ===
+  T*=0.75 (40k pilot, fixed)
+  ..10/40 (15.5 min)
+  ..20/40 (32.2 min)
+  PPO:1833  SUS+CQI@0.75:1536  SU+CQI:-6262  SUS+PF:-9682  SUS+Random:-9832  SU+PF:-13138  SU+Random:-16743
+  PPO 1833 vs SUS+CQI@0.75 1536  paired +298±87 [CI>0]  승 16/40  depth 3.38
+  [K=48] 32.2 min
+
+=== [K=60] fixed population, training world otherwise ===
+  T*=0.80 (40k pilot, fixed)
+  ..10/40 (17.0 min)
+  ..20/40 (33.6 min)
+  PPO:-306  SUS+CQI@0.80:-690  SU+CQI:-11684  SUS+Random:-15606  SUS+PF:-15707  SU+PF:-19765  SU+Random:-23576
+  PPO -306 vs SUS+CQI@0.80 -690  paired +384±71 [CI>0]  승 19/40  depth 3.65
+  [K=60] 33.6 min
+
+=== USER-SCALE 요약 (CQI4 best@409 동결, 학습세계+인원고정, n=40) ===
+  K= 8 (T*=0.80): PPO   2748 vs SU+CQI           2666  paired    +83±25 [CI>0]  승 20/40  depth 1.77
+  K=48 (T*=0.75): PPO   1833 vs SUS+CQI@0.75     1536  paired   +298±87 [CI>0]  승 16/40  depth 3.38
+  K=60 (T*=0.80): PPO   -306 vs SUS+CQI@0.80     -690  paired   +384±71 [CI>0]  승 19/40  depth 3.65
+saved -> Run4/_analysis/OOD/results/ood_userscale_ext100_c.csv

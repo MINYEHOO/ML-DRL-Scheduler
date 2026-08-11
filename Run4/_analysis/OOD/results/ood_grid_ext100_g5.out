@@ -1,0 +1,12 @@
+ext100 worker TAG=g5, worlds ['STORM2'], device cuda, seeds 30040-30099, best.pt@409
+
+=== [STORM2] T*=0.75, +60 seeds ===
+  ..10/60 (18.5 min)
+  ..20/60 (36.5 min)
+  ..30/60 (53.7 min)
+  ..40/60 (70.6 min)
+  ..50/60 (88.7 min)
+  ..60/60 (104.0 min)
+  [STORM2] done 104.0 min
+
+saved -> Run4/_analysis/OOD/results/ood_grid_ext100_g5.csv

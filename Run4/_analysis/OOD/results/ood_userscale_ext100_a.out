@@ -1,0 +1,31 @@
+userscale worker TAG=a, K=[8, 48, 60]; device cuda; policy best.pt@409
+
+=== [K=8] fixed population, training world otherwise ===
+  T*=0.80 (40k pilot, fixed)
+  ..10/40 (10.1 min)
+  ..20/40 (20.8 min)
+  PPO:3921  SUS+CQI@0.80:3736  SU+CQI:3735  SUS+PF:3683  SU+PF:3636  SUS+Random:3606  SU+Random:3237
+  PPO 3921 vs SUS+CQI@0.80 3736  paired +185±64 [CI>0]  승 18/40  depth 2.06
+  [K=8] 20.8 min
+
+=== [K=48] fixed population, training world otherwise ===
+  T*=0.75 (40k pilot, fixed)
+  ..10/40 (16.4 min)
+  ..20/40 (32.9 min)
+  PPO:162  SUS+CQI@0.75:-111  SU+CQI:-10635  SUS+PF:-15009  SUS+Random:-15024  SU+PF:-18825  SU+Random:-22524
+  PPO 162 vs SUS+CQI@0.75 -111  paired +273±84 [CI>0]  승 18/40  depth 3.70
+  [K=48] 32.9 min
+
+=== [K=60] fixed population, training world otherwise ===
+  T*=0.80 (40k pilot, fixed)
+  ..10/40 (16.7 min)
+  ..20/40 (33.3 min)
+  PPO:-4099  SUS+CQI@0.80:-4190  SU+CQI:-18835  SUS+Random:-22587  SUS+PF:-24188  SU+PF:-27924  SU+Random:-31262
+  PPO -4099 vs SUS+CQI@0.80 -4190  paired +91±122 [tie]  승 14/40  depth 3.82
+  [K=60] 33.3 min
+
+=== USER-SCALE 요약 (CQI4 best@409 동결, 학습세계+인원고정, n=40) ===
+  K= 8 (T*=0.80): PPO   3921 vs SUS+CQI@0.80     3736  paired   +185±64 [CI>0]  승 18/40  depth 2.06
+  K=48 (T*=0.75): PPO    162 vs SUS+CQI@0.75     -111  paired   +273±84 [CI>0]  승 18/40  depth 3.70
+  K=60 (T*=0.80): PPO  -4099 vs SUS+CQI@0.80    -4190  paired    +91±122 [tie]  승 14/40  depth 3.82
+saved -> Run4/_analysis/OOD/results/ood_userscale_ext100_a.csv

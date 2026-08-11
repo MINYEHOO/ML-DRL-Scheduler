@@ -1,0 +1,12 @@
+ext100 worker TAG=g3, worlds ['CSI02'], device cuda, seeds 30040-30099, best.pt@409
+
+=== [CSI02] T*=0.70, +60 seeds ===
+  ..10/60 (16.9 min)
+  ..20/60 (33.8 min)
+  ..30/60 (49.7 min)
+  ..40/60 (66.8 min)
+  ..50/60 (84.0 min)
+  ..60/60 (99.2 min)
+  [CSI02] done 99.2 min
+
+saved -> Run4/_analysis/OOD/results/ood_grid_ext100_g3.csv
