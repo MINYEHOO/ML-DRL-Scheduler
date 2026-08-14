@@ -1,0 +1,60 @@
+========================================================================
+STRUCTURAL VERIFICATION
+========================================================================
+rows read: 200 (expect 200)
+  200 unique (seed, scheduler) rows, all 100 seeds x 2 schedulers present
+  no NaN/inf; n_offered identity holds in all 200 episodes
+  buffer_overflow_rate == n_rejected / max(n_offered,1) in all 200 episodes
+  merged -> /home/MYH/ML_DRL_Scheduler/Run4/_analysis/queue_s40hl_cqi4_final100_rejection.csv
+
+========================================================================
+REPRODUCIBILITY vs OFFICIAL final100
+========================================================================
+The official file stores round(x, 4). The exact criterion is therefore
+round(new, 4) == official, not a raw absolute tolerance: a value sitting
+on the rounding half-boundary (e.g. 62.22175 -> 62.2218) differs by
+exactly 5e-5, which a naive |d| < 5e-5 test would flag as a mismatch.
+Both half-even and half-up rounding are accepted, since the writer's
+tie-breaking convention is not recoverable from the stored file.
+official rows for the two schedulers: 200 (expect 200)
+  max raw |diff| reward               = 4.979e-05   at (20013, 'PPO')   (<= 5e-5 = the 4-dp rounding half-width)
+  max raw |diff| throughput_mbps      = 4.980e-05   at (20048, 'SUS+CQI')   (<= 5e-5 = the 4-dp rounding half-width)
+  max raw |diff| goodput_mbps         = 5.000e-05   at (20009, 'PPO')   (<= 5e-5 = the 4-dp rounding half-width)
+  max raw |diff| completion_rate      = 4.879e-05   at (20058, 'SUS+CQI')   (<= 5e-5 = the 4-dp rounding half-width)
+  max raw |diff| deadline_miss_rate   = 4.932e-05   at (20001, 'PPO')   (<= 5e-5 = the 4-dp rounding half-width)
+  max raw |diff| retx_drop_rate       = 4.885e-05   at (20037, 'SUS+CQI')   (<= 5e-5 = the 4-dp rounding half-width)
+  values compared: 1200   exact-rounding mismatches: 0
+  ALL 200 episodes x 6 metrics reproduce the official final100 EXACTLY
+  under the file's own 4-dp rounding -> the re-run is protocol-identical,
+  so the rejection counters below come from the same evaluation.
+
+========================================================================
+FULL-BUFFER REJECTION STATISTICS  (seeds 20000-20099, n=100)
+========================================================================
+[PPO]
+  across-episode MEAN rejection rate (MANUSCRIPT VALUE)
+      = 0.0117519904 %   (95% CI [0.0082899117, 0.0152140691] %)
+  totals: accepted 838,150  rejected 128  offered 838,278
+  episodes with >=1 rejection: 46/100
+  POOLED rate (reference only, NOT the manuscript value) = 0.0152693975 %
+
+[SUS+CQI]
+  across-episode MEAN rejection rate (MANUSCRIPT VALUE)
+      = 0.0118984849 %   (95% CI [0.0083869341, 0.0154100357] %)
+  totals: accepted 838,150  rejected 129  offered 838,279
+  episodes with >=1 rejection: 45/100
+  POOLED rate (reference only, NOT the manuscript value) = 0.0153886713 %
+
+[paired per-episode difference, percentage points]
+  100*(r_PPO,s - r_SUS+CQI,s):  mean -0.0001464946 pp   95% CI [-0.0009776116, +0.0006846225] pp
+  episodes PPO strictly lower: 6/100; equal: 89/100; higher: 5/100
+
+========================================================================
+MANUSCRIPT SENTENCE
+========================================================================
+  full precision : X = 0.0117519904 %, Y = 0.0118984849 %
+  rounded to 2dp: X = 0.01 %, Y = 0.01 %
+  rounded to 3dp: X = 0.012 %, Y = 0.012 %
+  rounded to 4dp: X = 0.0118 %, Y = 0.0119 %
+
+  "The across-episode mean full-buffer rejection rates are 0.012% for PPO and 0.012% for SUS+CQI, respectively."

@@ -1,0 +1,18 @@
+worker w5: seeds 20084-20099, device cuda, T*=0.75, best.pt@409
+seed 20084 done  [1/16, 1.5 min]
+seed 20085 done  [2/16, 3.1 min]
+seed 20086 done  [3/16, 4.7 min]
+seed 20087 done  [4/16, 6.3 min]
+seed 20088 done  [5/16, 7.6 min]
+seed 20089 done  [6/16, 8.6 min]
+seed 20090 done  [7/16, 10.1 min]
+seed 20091 done  [8/16, 11.5 min]
+seed 20092 done  [9/16, 12.8 min]
+seed 20093 done  [10/16, 14.2 min]
+seed 20094 done  [11/16, 15.4 min]
+seed 20095 done  [12/16, 17.0 min]
+seed 20096 done  [13/16, 18.4 min]
+seed 20097 done  [14/16, 19.9 min]
+seed 20098 done  [15/16, 21.2 min]
+seed 20099 done  [16/16, 22.7 min]
+worker w5 done -> Run4/_analysis/queue_s40hl_cqi4_final100_rejection_w5.csv
