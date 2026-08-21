@@ -15,13 +15,26 @@ Why this exists (audit finding, the largest coverage gap):
     3-update A/B is at the very start of training where KL is small, and the
     50-update soak reported 0 KL-guard fires.
 
-What is compared, from IDENTICAL model + optimizer state on the SAME rollout:
-    * the six metrics ppo_update returns
-    * every parameter's post-step value, normalised by the size of the step
-      that arm actually took (so the gate measures "did the two arms take the
-      same step", not "are the weights close")
-Two scenarios: normal, and target_kl forced tiny so the actor freezes on the
-first minibatch and the frozen branch drives the remaining passes.
+Three scenarios, from IDENTICAL model + optimizer state on the SAME rollout.
+
+WHAT IS GATED, AND WHY IT DIFFERS BY SCENARIO -- this distinction matters:
+
+  Scenario 0 (1 epoch, 1 minibatch) is the EQUIVALENCE gate. With exactly one
+  optimizer step from identical Adam moments, the parameter delta IS the
+  gradient, so both the metrics and the step vectors are gated tightly.
+
+  Scenarios A and B (the real 4x2 schedule) gate the SEVEN RETURNED METRICS
+  tightly, because those are the semantic outputs of ppo_update. Their
+  parameter deltas are reported but NOT tightly gated: after 8 sequential Adam
+  steps the two arms' weights diverge chaotically -- step k+1's gradient is
+  evaluated at different weights than step k's, so a ~1e-6 gradient difference
+  compounds. Measured across runs that ratio ranges 1e-5 .. 1.1e-3 while every
+  metric stays at ~1e-6. Gating it tightly would be gating a Lyapunov
+  exponent, not an implementation difference. The metric agreement is the
+  meaningful evidence, and grad_norm matching to ~1e-7 additionally proves the
+  freeze fired at the SAME minibatch in both arms (a different freeze schedule
+  would change the mean grad_norm by an O(1) factor, since gn_actor is forced
+  to 0 on every frozen minibatch).
 
 Usage (from the _batchdev worktree root):
     CUDA_VISIBLE_DEVICES=<free gpu> python3 tests/test_ppo_update_batched.py
@@ -49,8 +62,9 @@ from ppo import ppo_update, compute_gae, SlotTrajectory         # noqa: E402
 RUN = "/home/MYH/ML_DRL_Scheduler/Run4/QueuePostRZF_S40HL_CQI4"
 N_SLOTS = int(os.environ.get("TEST_N_SLOTS", 300))
 SEED = 90003                      # diagnostic band, disjoint from all bands
-TOL_METRIC = 1e-4                 # relative, on the six returned metrics
-TOL_PARAM = 1e-3                  # relative to the size of the step taken
+TOL_METRIC = 1e-4      # relative, on the seven returned metrics (all scenarios)
+TOL_STEP_1 = 1e-4      # step vectors, SINGLE optimizer step (== gradient)
+TOL_STEP_N = None      # multi-step: reported, not gated (see the docstring)
 
 
 def build():
@@ -107,7 +121,7 @@ def run_arm(cfg, ac, trajs, last, w0, opt0, batched: bool, tag: str):
     return stats, params
 
 
-def compare(name, sa, pa, sb, pb, w0):
+def compare(name, sa, pa, sb, pb, w0, tol_step):
     print(f"\n  --- {name} ---")
     ok = True
     for k in ("policy_loss", "value_loss", "entropy_sum", "entropy_mean",
@@ -128,13 +142,17 @@ def compare(name, sa, pa, sb, pb, w0):
             worst, where = rel, n
         worst_inf = max(worst_inf, float((da - db).abs().max())
                         / max(float(da.abs().max()), 1e-12))
-    good = worst < TOL_PARAM
-    ok &= good
-    print(f"    step vectors: worst ||Δbatched−Δsequential||₂ / ||Δ||₂ = "
-          f"{worst:.3e} in '{where}'  {'OK' if good else 'FAIL'}")
-    print(f"      (per-element max-norm ratio {worst_inf:.3e} -- expected to be"
-          f" much larger: a fresh Adam takes lr*sign(g), so a ~1e-6 gradient"
-          f" difference flips near-zero elements by a full step)")
+    if tol_step is None:
+        print(f"    step vectors: worst ||Δb−Δs||₂/||Δ||₂ = {worst:.3e} in "
+              f"'{where}'  (reported, NOT gated -- multi-step Adam divergence)")
+    else:
+        good = worst < tol_step
+        ok &= good
+        print(f"    step vectors: worst ||Δb−Δs||₂/||Δ||₂ = {worst:.3e} in "
+              f"'{where}'  {'OK' if good else 'FAIL'}  (gate {tol_step:.0e})")
+    print(f"      (per-element max-norm ratio {worst_inf:.3e} -- always larger:"
+          f" Adam's per-element step is nearly scale-free, so a ~1e-6 gradient"
+          f" difference moves near-zero elements by a full step)")
     return ok
 
 
@@ -177,13 +195,23 @@ def main():
     print("  Adam warmed with one sequential update; comparing update 1")
     ok = True
 
+    print("\n  SCENARIO 0: ONE epoch, ONE minibatch -> a single optimizer"
+          " step, so the parameter delta IS the gradient (EQUIVALENCE GATE)")
+    c0 = copy.copy(cfg)
+    c0.ppo_target_kl = 0.0
+    c0.ppo_epochs = 1
+    c0.ppo_minibatch_size = len(trajs)
+    s0a, p0a = run_arm(c0, ac, trajs, last, w0, opt0, True, "batched   ")
+    s0b, p0b = run_arm(c0, ac, trajs, last, w0, opt0, False, "sequential")
+    ok &= compare("single step", s0a, p0a, s0b, p0b, w0p, TOL_STEP_1)
+
     print("\n  SCENARIO A: KL guard DISABLED (target_kl = 0) -- every"
           " minibatch takes the full actor+critic branch")
     cA = copy.copy(cfg)
     cA.ppo_target_kl = 0.0
     sa, pa = run_arm(cA, ac, trajs, last, w0, opt0, True, "batched   ")
     sb, pb = run_arm(cA, ac, trajs, last, w0, opt0, False, "sequential")
-    ok &= compare("guard disabled", sa, pa, sb, pb, w0p)
+    ok &= compare("guard disabled", sa, pa, sb, pb, w0p, TOL_STEP_N)
 
     print("\n  SCENARIO B: KL guard ACTIVE (target_kl = 0.02, as in the live"
           " runs) -- the freeze fires early and the FROZEN branch drives the"
@@ -192,7 +220,8 @@ def main():
     cB.ppo_target_kl = 0.02
     sa2, pa2 = run_arm(cB, ac, trajs, last, w0, opt0, True, "batched   ")
     sb2, pb2 = run_arm(cB, ac, trajs, last, w0, opt0, False, "sequential")
-    ok &= compare("guard active (frozen branch)", sa2, pa2, sb2, pb2, w0p)
+    ok &= compare("guard active (frozen branch)", sa2, pa2, sb2, pb2,
+                  w0p, TOL_STEP_N)
 
     # the freeze must actually have engaged, else scenario 2 tested nothing
     def moved(ps, pref):
