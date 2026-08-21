@@ -1,0 +1,46 @@
+==============================================================================
+ppo_update EQUIVALENCE GATE (batched vs sequential, incl. freeze)
+==============================================================================
+  device cuda   slots 300   minibatch 256   epochs 4
+  collected 300 slots -> 2 minibatches/epoch (sizes [256, 44])
+    [kl-stop] update 0: minibatch KL 0.0863 > 0.0300 (epoch 1/4) -- actor frozen, value-only for remaining passes
+  Adam warmed with one sequential update; comparing update 1
+
+  SCENARIO A: KL guard DISABLED (target_kl = 0) -- every minibatch takes the full actor+critic branch
+    [batched   ] -0.014256 pl  0.640047 vl  0.06130280 kl  0.524148 clip
+    [sequential] -0.014256 pl  0.640047 vl  0.06130277 kl  0.524148 clip
+
+  --- guard disabled ---
+    policy_loss      batched -0.01425576  sequential -0.01425578  rel 1.33e-06  OK
+    value_loss       batched +0.64004686  sequential +0.64004687  rel 1.25e-08  OK
+    entropy_sum      batched +30.27643036  sequential +30.27642992  rel 1.46e-08  OK
+    entropy_mean     batched +1.11763134  sequential +1.11763134  rel 3.33e-09  OK
+    approx_KL        batched +0.06130280  sequential +0.06130277  rel 5.03e-07  OK
+    clip_fraction    batched +0.52414773  sequential +0.52414773  rel 0.00e+00  OK
+    grad_norm        batched +13.27413130  sequential +13.27414280  rel 8.67e-07  OK
+    step vectors: worst ||Δbatched−Δsequential||₂ / ||Δ||₂ = 1.116e-03 in 'encoder.net.4.weight'  FAIL
+      (per-element max-norm ratio 2.266e-02 -- expected to be much larger: a fresh Adam takes lr*sign(g), so a ~1e-6 gradient difference flips near-zero elements by a full step)
+
+  SCENARIO B: KL guard ACTIVE (target_kl = 0.02, as in the live runs) -- the freeze fires early and the FROZEN branch drives the remaining minibatches
+    [kl-stop] update 1: minibatch KL 0.0896 > 0.0300 (epoch 1/4) -- actor frozen, value-only for remaining passes
+    [batched   ] +0.038183 pl  0.606792 vl  0.08982564 kl  0.600542 clip
+    [kl-stop] update 1: minibatch KL 0.0896 > 0.0300 (epoch 1/4) -- actor frozen, value-only for remaining passes
+    [sequential] +0.038183 pl  0.606792 vl  0.08982543 kl  0.600542 clip
+
+  --- guard active (frozen branch) ---
+    policy_loss      batched +0.03818305  sequential +0.03818308  rel 7.09e-07  OK
+    value_loss       batched +0.60679222  sequential +0.60679222  rel 1.23e-08  OK
+    entropy_sum      batched +30.44306164  sequential +30.44306187  rel 7.49e-09  OK
+    entropy_mean     batched +1.12377774  sequential +1.12377776  rel 1.94e-08  OK
+    approx_KL        batched +0.08982564  sequential +0.08982543  rel 2.30e-06  OK
+    clip_fraction    batched +0.60054155  sequential +0.60054155  rel 0.00e+00  OK
+    grad_norm        batched +3.25606408  sequential +3.25606333  rel 2.30e-07  OK
+    step vectors: worst ||Δbatched−Δsequential||₂ / ||Δ||₂ = 1.205e-06 in 'value_head.net.0.bias'  OK
+      (per-element max-norm ratio 7.754e-06 -- expected to be much larger: a fresh Adam takes lr*sign(g), so a ~1e-6 gradient difference flips near-zero elements by a full step)
+
+    freeze actually engaged? encoder ||Δ||: guard-off 9.9999e-02 -> guard-on 0.0000e+00   (must SHRINK: the actor stops stepping)
+                              value_head ||Δ||: guard-off 8.5594e-02 -> guard-on 7.8787e-02   (must NOT collapse: the critic keeps training)
+
+==============================================================================
+RESULT: *** FAIL ***
+==============================================================================

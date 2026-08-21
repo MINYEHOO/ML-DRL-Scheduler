@@ -1,0 +1,28 @@
+==========================================================================
+replay_batch EQUIVALENCE GATE
+==========================================================================
+  run     : /home/MYH/ML_DRL_Scheduler/Run4/QueuePostRZF_S40HL_CQI4
+  weights : best.pt@409   device cuda
+  world   : K=32 R=8 L=4 queue=8 cqi=nr4bit order=rbg_major
+  collected 48 slots in 17.1s
+  decisions/slot: mean 30.54 min 27 max 32
+
+  forward, per slot (max |diff| over all slots):
+    log_prob_sum     max |diff| = 1.526e-05   OK
+    entropy_sum      max |diff| = 1.526e-05   OK
+    value            max |diff| = 3.052e-05   OK
+    n_decisions      mismatches = 0   OK
+    vs decode lp     max |diff| = 0.000e+00   (sequential replay vs the decode that produced the actions)
+
+  gradients (random per-slot weights, one backward per head):
+    log_prob_sum     loss seq    -542.6045 vs bat    -542.6042   worst rel grad 6.346e-06 in 'score_net.net.4.weight'   OK
+    entropy_sum      loss seq    +545.1192 vs bat    +545.1192   worst rel grad 4.980e-06 in 'score_net.net.4.bias'   OK
+    value            loss seq   +4914.3984 vs bat   +4914.3975   worst rel grad 8.930e-07 in 'encoder.net.4.weight'   OK
+    WORST OVERALL = 6.346e-06  (log_prob_sum / score_net.net.4.weight)   OK
+
+  timing on 48 slots: sequential 2.90s   batched 0.01s   speedup 427.6x
+    (indicative: one forward pass, no backward, small batch)
+
+==========================================================================
+RESULT: PASS
+==========================================================================

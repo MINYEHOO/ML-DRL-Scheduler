@@ -151,20 +151,22 @@ def build_value_feats_v2(obs_t: dict, cfg: Config, fixed_mask: np.ndarray,
                                    dtype=torch.float32)])           # [27]
 
 
-def build_value_input(e: torch.Tensor, obs_t: dict, cfg: Config,
-                      fixed_mask: np.ndarray, slot: int = 0) -> torch.Tensor:
-    """Build the value head input vector.
+def build_value_tail(obs_t: dict, cfg: Config, fixed_mask: np.ndarray,
+                     slot: int = 0) -> torch.Tensor:
+    """The WEIGHT-INDEPENDENT part of the value-head input.
 
-    = mean_pool e [64] + max_pool e [64] + 6 global scalars  (134 dims)
-    + 27 structured features when cfg.ppo_critic_v2 (161 dims total)
+    = 6 global scalars, + 27 structured v2 features when cfg.ppo_critic_v2
+      (33 in queue mode: the queue block adds 6).
+
+    Split out of build_value_input so a once-per-rollout pre-pass can cache it
+    per slot: only the two pooled projections of ``e`` depend on the network
+    weights, so everything here is fixed for the whole PPO update.
     """
-    mean_pool = e.mean(dim=(0, 1))    # [64]
-    max_pool = e.amax(dim=(0, 1))     # [64]
-
+    device = obs_t["cqi_fb"].device
     active = obs_t["active"].to(torch.float32)         # [K]
     n_active = active.sum()
     pending_retx = torch.tensor(float(fixed_mask.sum()) / cfg.num_positions,
-                                device=e.device, dtype=torch.float32)
+                                device=device, dtype=torch.float32)
 
     age_clipped = torch.clamp(obs_t["age"], max=cfg.age_norm_max)
     mean_age = age_clipped.mean() / cfg.age_norm_max
@@ -175,20 +177,31 @@ def build_value_input(e: torch.Tensor, obs_t: dict, cfg: Config,
         mean_backlog = ((obs_t["backlog"] * active).sum() / n_active
                         / cfg.b_norm)
     else:
-        mean_deadline = torch.zeros((), device=e.device, dtype=torch.float32)
-        mean_backlog = torch.zeros((), device=e.device, dtype=torch.float32)
+        mean_deadline = torch.zeros((), device=device, dtype=torch.float32)
+        mean_backlog = torch.zeros((), device=device, dtype=torch.float32)
 
     has_data = active.bool() & (obs_t["uncommitted"] > cfg.b_tx_epsilon)
     valid_count = has_data.to(torch.float32).sum() / cfg.num_ue
     active_count = n_active / cfg.num_ue
 
-    global_scalars = torch.stack([active_count, pending_retx, mean_age,
-                                  mean_deadline, mean_backlog, valid_count])
-    out = torch.cat([mean_pool, max_pool, global_scalars], dim=0)         # [134]
+    out = torch.stack([active_count, pending_retx, mean_age,
+                       mean_deadline, mean_backlog, valid_count])       # [6]
     if cfg.ppo_critic_v2:
         out = torch.cat([out, build_value_feats_v2(obs_t, cfg, fixed_mask,
-                                                   slot)])                # [161]
+                                                   slot)])              # [33]
     return out
+
+
+def build_value_input(e: torch.Tensor, obs_t: dict, cfg: Config,
+                      fixed_mask: np.ndarray, slot: int = 0) -> torch.Tensor:
+    """Build the value head input vector.
+
+    = mean_pool e [64] + max_pool e [64] + 6 global scalars  (134 dims)
+    + 27 structured features when cfg.ppo_critic_v2 (161 dims; 167 in queue
+      mode, where build_value_feats_v2 appends 6 queue-pressure features).
+    """
+    return torch.cat([e.mean(dim=(0, 1)), e.amax(dim=(0, 1)),
+                      build_value_tail(obs_t, cfg, fixed_mask, slot)], dim=0)
 
 
 def ortho_score_torch(direction_fb: torch.Tensor, rbg: int,
@@ -375,10 +388,22 @@ class ActorCritic(nn.Module):
         S_r_r: set,
         in_slot_count: np.ndarray,
         temp_uncommit: torch.Tensor,
+        return_ctx: bool = False,
     ):
         """Build logits [K+1] and valid_mask [K+1] for one free position.
 
-        Returns: (logits, valid_mask, pred_btx_per_ue)
+        Returns (logits, valid_mask, pred_btx_per_ue) by default, so every
+        existing caller -- including the external audit probes that unpack a
+        3-tuple (Run1/scripts/numeric_scout.py, Run4 probe_ppo_mdp.py,
+        probe_e4_nouser.py) -- is unaffected.
+
+        With ``return_ctx=True`` two more elements follow: ``aux`` [K, 7] and
+        ``no_user_aux`` [4], the head input contexts.
+        They are returned so the rbg-major pass can CACHE them during decode
+        (see ``emit_context``): under teacher forcing they are deterministic
+        functions of (obs, stored actions), so the cached copies let
+        ``replay_batch`` evaluate a whole minibatch of slots with one batched
+        forward per head instead of ~28 sequential ones per slot.
         """
         cfg = self.cfg
         K, R, L = cfg.num_ue, cfg.num_rbg, cfg.l_max
@@ -441,6 +466,8 @@ class ActorCritic(nn.Module):
             torch.tensor([no_user_valid], device=device, dtype=torch.bool),
             u_valid,
         ])                                                                 # [K+1]
+        if return_ctx:
+            return logits, valid_mask, pred_btx, aux, no_user_aux
         return logits, valid_mask, pred_btx
 
     # ---------- rbg-major pass (decode AND replay share this one code path,
@@ -448,14 +475,25 @@ class ActorCritic(nn.Module):
     # trajectory-consistency asserts mirror the layer-major replay) ----------
     def _rbg_major_pass(self, obs: dict, deterministic: bool = False,
                         stored_actions: np.ndarray | None = None,
-                        stored_mask: np.ndarray | None = None) -> dict:
+                        stored_mask: np.ndarray | None = None,
+                        emit_context: bool = False) -> dict:
+        """One slot's macro action.
+
+        ``emit_context=True`` additionally returns, under key ``context``, the
+        per-position head inputs this pass built anyway (see ``replay_batch``).
+        Caching them during DECODE is exact rather than merely equivalent: the
+        loop state (S_r, in_slot_count, planner._remaining) evolves purely from
+        the actions taken, and replay teacher-forces those same actions, so the
+        contexts a replay would rebuild are identical to the ones decode used.
+        """
         cfg = self.cfg
         K, R, L = cfg.num_ue, cfg.num_rbg, cfg.l_max
         device = self.device
         teacher = stored_actions is not None
 
         obs_t = obs_to_tensors(obs, device)
-        e = self.encode(obs_t)
+        enc_in = build_encoder_input(obs_t, cfg)      # weight-independent
+        e = self.encoder(enc_in)                      # == self.encode(obs_t)
 
         # exact same h_hat the env reconstructs for this slot's precoding
         # (obs carries copies of the very buffers env used + noise_var)
@@ -480,6 +518,11 @@ class ActorCritic(nn.Module):
         per_logprobs: list[float] = []
         n_decisions = 0
         budget_trace = np.zeros((R, K))       # remaining after each closure
+        ctx_r: list[int] = []                 # emit_context accumulators
+        ctx_aux: list[torch.Tensor] = []
+        ctx_nu: list[torch.Tensor] = []
+        ctx_valid: list[torch.Tensor] = []
+        ctx_act: list[int] = []
 
         for r in range(R):
             fixed_ues = sorted(S_r[r])        # retx members of this RBG
@@ -505,10 +548,17 @@ class ActorCritic(nn.Module):
                 # remaining (float64, debited only at group closure)
                 temp_uncommit = torch.from_numpy(
                     planner._remaining.astype(np.float32)).to(device)
-                logits, valid_mask, _ = self._position_logits_and_mask(
-                    obs_t, e, r, l, S_r[r], in_slot_count, temp_uncommit)
+                logits, valid_mask, _, aux, nu_aux = \
+                    self._position_logits_and_mask(
+                        obs_t, e, r, l, S_r[r], in_slot_count, temp_uncommit,
+                        return_ctx=True)
                 assert bool(valid_mask.any().item()), \
                     f"No valid action at (r={r}, l={l})"
+                if emit_context:
+                    ctx_r.append(r)
+                    ctx_aux.append(aux)
+                    ctx_nu.append(nu_aux)
+                    ctx_valid.append(valid_mask)
 
                 masked_logits = logits.masked_fill(~valid_mask, -1e9)
                 dist = torch.distributions.Categorical(logits=masked_logits)
@@ -531,6 +581,8 @@ class ActorCritic(nn.Module):
                 action_seq[r, l] = action
                 policy_mask[r, l] = True
                 n_decisions += 1
+                if emit_context:
+                    ctx_act.append(action)
                 log_prob_sum = log_prob_sum + log_prob
                 entropy_sum = entropy_sum + dist.entropy()
                 per_logprobs.append(float(log_prob.item()))
@@ -547,7 +599,31 @@ class ActorCritic(nn.Module):
             planner.close_rbg(r, fixed_ues, entries)
             budget_trace[r] = planner._remaining
 
-        value = self.value(e, obs_t, fixed_mask, obs["slot"])
+        # identical to self.value(e, obs_t, fixed_mask, obs["slot"]), but the
+        # weight-independent tail is kept so emit_context can cache it
+        v_tail = build_value_tail(obs_t, cfg, fixed_mask, obs["slot"])
+        vi = torch.cat([e.mean(dim=(0, 1)), e.amax(dim=(0, 1)), v_tail],
+                       dim=0).unsqueeze(0)
+        value = self.value_head(vi).squeeze(0) * self.ret_std + self.ret_mean
+
+        context = None
+        if emit_context:
+            assert len(ctx_act) == n_decisions == len(ctx_aux)
+            context = dict(
+                pos_rbg=np.asarray(ctx_r, dtype=np.int64),           # [P]
+                action=np.asarray(ctx_act, dtype=np.int64),          # [P]
+                aux=(torch.stack(ctx_aux).detach().cpu().numpy()
+                     .astype(np.float32) if ctx_aux
+                     else np.zeros((0, K, 7), np.float32)),          # [P,K,7]
+                nu_aux=(torch.stack(ctx_nu).detach().cpu().numpy()
+                        .astype(np.float32) if ctx_nu
+                        else np.zeros((0, 4), np.float32)),          # [P,4]
+                valid=(torch.stack(ctx_valid).detach().cpu().numpy()
+                       if ctx_valid
+                       else np.zeros((0, K + 1), bool)),             # [P,K+1]
+                v_tail=v_tail.detach().cpu().numpy().astype(np.float32),
+                enc_in=enc_in.detach().cpu().numpy().astype(np.float32),
+            )                                                        # [K,R,73]
 
         return dict(
             action_sequence=action_seq,
@@ -559,13 +635,18 @@ class ActorCritic(nn.Module):
             value=value,
             planned_btx=planner.planned_btx_map(),     # Gate 2
             budget_trace=budget_trace,                 # Gate 3
+            context=context,
         )
 
     # ---------- decode (rollout, sampling, no grad) ----------
     @torch.no_grad()
-    def decode(self, obs: dict, deterministic: bool = False) -> dict:
+    def decode(self, obs: dict, deterministic: bool = False,
+               emit_context: bool = False) -> dict:
+        """Rollout decode. ``emit_context`` caches this slot's head inputs for
+        the batched replay (rbg-major only; costs nothing when False)."""
         if self.cfg.decode_order == "rbg_major":
-            out = self._rbg_major_pass(obs, deterministic=deterministic)
+            out = self._rbg_major_pass(obs, deterministic=deterministic,
+                                       emit_context=emit_context)
             return dict(
                 action_sequence=out["action_sequence"],
                 policy_decision_mask=out["policy_decision_mask"],
@@ -576,6 +657,7 @@ class ActorCritic(nn.Module):
                 value=float(out["value"].item()),
                 planned_btx=out["planned_btx"],
                 budget_trace=out["budget_trace"],
+                context=out["context"],
             )
         cfg = self.cfg
         K, R, L = cfg.num_ue, cfg.num_rbg, cfg.l_max
@@ -660,6 +742,114 @@ class ActorCritic(nn.Module):
         )
 
     # ---------- replay (PPO update, teacher forcing, with grad) ----------
+    # ---------- batched replay (PPO update fast path) ----------
+    def replay_batch(self, contexts: list[dict]) -> dict:
+        """Teacher-forced replay of a whole minibatch of slots at once.
+
+        ``contexts`` are the per-slot dicts cached by ``decode(..., emit_
+        context=True)``. Because every head input is a deterministic function
+        of (obs, stored actions) -- neither depends on the network output --
+        replaying N slots needs only FOUR batched forwards (encoder, ScoreNet,
+        NoUserHead, ValueHead) instead of N x (1 + 2 x ~28) sequential ones.
+
+        Returns the same four quantities ``replay`` does, stacked over the
+        minibatch: log_prob_sum [B], entropy_sum [B], num_policy_decisions [B]
+        (long), value [B].
+
+        Numerically this differs from the sequential path only in float32
+        reduction ORDER (a padded row-sum instead of a running scalar add over
+        ~28 terms). Measured drift is ~1e-6 relative; the equivalence test
+        gates it at 1e-4.
+        """
+        cfg = self.cfg
+        K, R = cfg.num_ue, cfg.num_rbg
+        device = self.device
+        B = len(contexts)
+
+        # --- encoder: one batched pass -----------------------------------
+        enc_in = torch.from_numpy(
+            np.stack([c["enc_in"] for c in contexts])).to(device)   # [B,K,R,73]
+        e = self.encoder(enc_in)                                    # [B,K,R,64]
+
+        # --- value head: one batched pass --------------------------------
+        v_tail = torch.from_numpy(
+            np.stack([c["v_tail"] for c in contexts])).to(device)   # [B, 39]
+        vi = torch.cat([e.mean(dim=(1, 2)), e.amax(dim=(1, 2)), v_tail],
+                       dim=1)                                       # [B, 167]
+        value = self.value_head(vi) * self.ret_std + self.ret_mean  # [B]
+
+        counts = np.array([len(c["action"]) for c in contexts], dtype=np.int64)
+        n_dec = torch.from_numpy(counts).to(device)
+        if counts.sum() == 0:                       # degenerate: no decisions
+            z = value.new_zeros(B)
+            return dict(log_prob_sum=z, entropy_sum=z.clone(),
+                        num_policy_decisions=n_dec, value=value)
+
+        # --- flatten the ragged positions --------------------------------
+        p_max = int(counts.max())
+        slot_of = np.repeat(np.arange(B, dtype=np.int64), counts)
+        within = np.concatenate([np.arange(c, dtype=np.int64) for c in counts])
+        slot_t = torch.from_numpy(slot_of).to(device)
+        within_t = torch.from_numpy(within).to(device)
+        r_t = torch.from_numpy(
+            np.concatenate([c["pos_rbg"] for c in contexts])).to(device)
+        act_t = torch.from_numpy(
+            np.concatenate([c["action"] for c in contexts])).to(device)
+        aux_t = torch.from_numpy(
+            np.concatenate([c["aux"] for c in contexts])).to(device)   # [P,K,7]
+        nu_t = torch.from_numpy(
+            np.concatenate([c["nu_aux"] for c in contexts])).to(device)  # [P,4]
+        val_t = torch.from_numpy(
+            np.concatenate([c["valid"] for c in contexts])).to(device)  # [P,K+1]
+
+        # e_pos[p] = e[slot_of[p], :, pos_rbg[p], :]; permute first so the two
+        # advanced indices are adjacent (unambiguous result shape [P, K, 64])
+        e_pos = e.permute(0, 2, 1, 3)[slot_t, r_t]                    # [P,K,64]
+
+        # --- the two actor heads: one batched pass each -------------------
+        # reshape to rank-2 so nn.Linear takes the same ATen path the
+        # sequential [K, 71] / [1, 68] calls take (H10: rank-4 input can pick
+        # an unfused addmm and round the bias twice)
+        score_in = torch.cat([e_pos, aux_t], dim=-1)                  # [P,K,71]
+        n_pos = score_in.shape[0]
+        ue_logits = self.score_net(
+            score_in.reshape(-1, score_in.shape[-1])).view(n_pos, K)  # [P, K]
+        no_user_logit = self.no_user_head(
+            torch.cat([e_pos.mean(dim=1), nu_t], dim=-1))             # [P]
+
+        logits = torch.cat([no_user_logit.unsqueeze(-1), ue_logits], dim=-1)
+        masked = logits.masked_fill(~val_t, -1e9)                     # [P,K+1]
+        # Three guards, folded into ONE device sync per minibatch.
+        #  (1) Categorical validates its logits and raises on NaN; the manual
+        #      log_softmax below would silently propagate it into every gradient.
+        #  (2)+(3) restore the sequential path's trajectory-consistency asserts,
+        #      which the cached-context path would otherwise retire. Without them
+        #      a ctx/traj desync stays silent: the +-20 log-ratio clamp in
+        #      ppo_update turns a -1e9 log-prob into a finite, plausible loss.
+        _finite = torch.isfinite(masked).all()
+        _any_valid = val_t.any(dim=-1).all()
+        _act_valid = val_t.gather(-1, act_t.unsqueeze(-1)).all()
+        assert bool((_finite & _any_valid & _act_valid).item()), (
+            "replay_batch consistency: "
+            f"finite={bool(_finite)} any_valid={bool(_any_valid)} "
+            f"stored_action_valid={bool(_act_valid)}")
+        # torch.distributions.Categorical(logits=masked) normalizes with
+        # log_softmax and defines log_prob/entropy off the normalized logits;
+        # reproduce exactly, including the (logits * probs) product order.
+        logp = torch.log_softmax(masked, dim=-1)
+        log_prob = logp.gather(-1, act_t.unsqueeze(-1)).squeeze(-1)   # [P]
+        entropy = -(logp * logp.exp()).sum(dim=-1)                    # [P]
+
+        # --- deterministic segment sum (unique scatter, then row sum) -----
+        lp_pad = log_prob.new_zeros(B, p_max)
+        lp_pad[slot_t, within_t] = log_prob
+        en_pad = entropy.new_zeros(B, p_max)
+        en_pad[slot_t, within_t] = entropy
+        return dict(log_prob_sum=lp_pad.sum(dim=1),
+                    entropy_sum=en_pad.sum(dim=1),
+                    num_policy_decisions=n_dec,
+                    value=value)
+
     def replay(self, obs: dict, action_sequence: np.ndarray,
                policy_decision_mask: np.ndarray) -> dict:
         if self.cfg.decode_order == "rbg_major":

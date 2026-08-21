@@ -48,6 +48,9 @@ class SlotTrajectory:
     value: float
     reward: float
     done: bool
+    # head inputs cached by decode(emit_context=True); consumed by
+    # ActorCritic.replay_batch. None when cfg.ppo_batched_replay is off.
+    ctx: dict | None = None
 
 
 # ---------------------------------------------------------------------------
@@ -91,11 +94,12 @@ def collect_rollout(env, ac, episode_idx: int):
     (env returns its last prepared observation at done -- one _prepare_slot
     short of a true s_T, an accepted approximation for the boundary value.)
     """
+    emit = bool(getattr(ac.cfg, "ppo_batched_replay", False))
     obs = env.reset(episode_idx)
     trajs: List[SlotTrajectory] = []
     done = False
     while not done:
-        out = ac.decode(obs, deterministic=False)
+        out = ac.decode(obs, deterministic=False, emit_context=emit)
         action = out["action_sequence"]
         # store BEFORE stepping (obs at decision time)
         traj_obs = obs                            # env.get_observation returns
@@ -113,6 +117,7 @@ def collect_rollout(env, ac, episode_idx: int):
             value=float(out["value"]),
             reward=float(reward),
             done=bool(done),
+            ctx=out.get("context"),
         ))
         obs = next_obs
     last_value = float(ac.state_value(obs))
@@ -122,6 +127,121 @@ def collect_rollout(env, ac, episode_idx: int):
 # ---------------------------------------------------------------------------
 # PPO update
 # ---------------------------------------------------------------------------
+def _minibatch_batched(ac, trajs, mb_idx, adv_norm, returns, cfg,
+                       ret_sigma: float, actor_frozen: bool, n_mb: int):
+    """One minibatch through the batched replay path.
+
+    Produces exactly the six accumulators the sequential loop produces and
+    performs the identical backward. Two deliberate deviations, both required:
+
+      * the six logging sums are accumulated in FLOAT64 (``.double()`` before
+        the reduction), because the sequential loop accumulates them in Python
+        floats. sum_k3_kl feeds the latching actor-freeze test against a hard
+        0.03 threshold, and the live KL sits near it -- a float32 tree
+        reduction there could flip the freeze schedule, an O(1) behavioural
+        change from an O(1e-7) numeric one.
+      * ``(ratio - 1) - log_ratio`` is widened BEFORE the subtraction, matching
+        the sequential ``float(ratio.item()) - 1.0`` ordering.
+
+    No padding is used at the sample dimension: replay_batch is called with
+    exactly len(mb_idx) slots, so the short final minibatch stays short.
+    """
+    dev = ac.device
+    rep = ac.replay_batch([trajs[i].ctx for i in mb_idx])
+
+    old_lp = torch.tensor([trajs[i].old_logprob_sum for i in mb_idx],
+                          dtype=torch.float32, device=dev)
+    adv = torch.tensor(adv_norm[mb_idx], dtype=torch.float32, device=dev)
+    ret = torch.tensor(returns[mb_idx], dtype=torch.float32, device=dev)
+
+    # same clamp as the sequential path: the ~30-subaction log-ratio sum can
+    # drift past float32 exp overflow (~88)
+    log_ratio = torch.clamp(rep["log_prob_sum"] - old_lp, -20.0, 20.0)
+    ratio = torch.exp(log_ratio)
+
+    clip_eps = cfg.ppo_clip_eps
+    policy_loss = -torch.minimum(ratio * adv,
+                                 torch.clamp(ratio, 1.0 - clip_eps,
+                                             1.0 + clip_eps) * adv)
+    value_loss = ((rep["value"] - ret) / ret_sigma).pow(2)
+    n_dec = rep["num_policy_decisions"].clamp(min=1).to(value_loss.dtype)
+    entropy_mean = rep["entropy_sum"] / n_dec
+
+    # sum_i(loss_i)/n_mb == mean, i.e. the same scaled gradient the sequential
+    # loop accumulates one .backward() at a time
+    if actor_frozen:
+        (cfg.ppo_value_coef * value_loss).mean().backward()
+    else:
+        (policy_loss + cfg.ppo_value_coef * value_loss
+         - cfg.ppo_entropy_coef * entropy_mean).mean().backward()
+
+    with torch.no_grad():
+        d = lambda t: float(t.double().sum().item())
+        return (d(policy_loss), d(value_loss), d(rep["entropy_sum"]),
+                d(entropy_mean),
+                float(((ratio.double() - 1.0)
+                       - log_ratio.double()).sum().item()),
+                int(((ratio - 1.0).abs() > clip_eps).sum().item()),
+                rep)
+
+
+def _verify_batched(ac, trajs, mb_idx, cfg, update_idx: int, rep=None) -> bool:
+    """Cross-check the batched path against sequential replay on a few slots.
+
+    Caching decode's contexts means replay's trajectory-consistency asserts no
+    longer execute per sample during the update; replay_batch restores them in
+    batched form, and this restores the numeric check.
+
+    Three properties, each the result of an audit finding:
+
+    * It verifies the TENSOR THE OPTIMIZER ACTUALLY CONSUMED. ``rep`` is the
+      real minibatch output (256 slots); we slice its first k rows rather than
+      re-running replay_batch on k slots alone. A batch-size-dependent defect
+      (padding, a GEMM path that only engages above a row threshold) would slip
+      past a 4-slot re-run that reported OK.
+    * The tolerance is SCALE-FREE. ``value`` is de-normalized into raw return
+      units (v_norm * ret_std + ret_mean), so its float32 noise floor grows with
+      ret_std; an absolute 1e-3 gate has only ~30x headroom at this reward scale
+      and none at a larger one. log_prob_sum / entropy_sum are compared
+      absolutely (they are O(10) by construction); value is compared in the
+      NORMALIZED units the loss actually uses.
+    * A failure DOES NOT raise. An AssertionError here escapes ppo_update, is
+      not a KeyboardInterrupt, and kills the process; auto-resume then restores
+      the torch RNG from the checkpoint, reproduces the same rollout, re-fires
+      the same check and trips again -- a deterministic crash loop that burns
+      the rest of a multi-day run. Instead we log loudly and return False; the
+      caller disables the batched path for the remainder of the process and
+      falls back to sequential replay, which is slower but certainly correct.
+    """
+    k = min(int(cfg.ppo_batch_verify_slots), len(mb_idx))
+    idxs = list(mb_idx[:k])
+    sigma = max(float(ac.ret_std), 1e-6)
+    tol = float(cfg.ppo_batch_verify_tol)
+    worst, where = 0.0, ""
+    for j, i in enumerate(idxs):
+        seq = ac.replay(trajs[i].obs, trajs[i].action_sequence,
+                        trajs[i].policy_decision_mask)
+        if int(seq["num_policy_decisions"]) != int(rep["num_policy_decisions"][j]):
+            print(f"    [batch-verify] update {update_idx}: n_decisions "
+                  f"mismatch at slot {i} -- DISABLING batched replay",
+                  flush=True)
+            return False
+        for key, scale in (("log_prob_sum", 1.0), ("entropy_sum", 1.0),
+                           ("value", sigma)):
+            d = abs(float(seq[key]) - float(rep[key][j])) / scale
+            if d > worst:
+                worst, where = d, f"slot {i} {key}"
+    if worst >= tol:
+        print(f"    [batch-verify] update {update_idx}: FAILED, max scaled "
+              f"|diff| {worst:.3e} >= {tol} at {where} -- DISABLING batched "
+              f"replay for the rest of this process (falling back to "
+              f"sequential; the run continues, slower but exact)", flush=True)
+        return False
+    print(f"    [batch-verify] update {update_idx}: {k} slots, max scaled "
+          f"|diff| {worst:.2e} OK", flush=True)
+    return True
+
+
 def ppo_update(ac, trajs: List[SlotTrajectory], optimizer, cfg: Config,
                update_idx: int = 0, last_value: float = 0.0):
     """One PPO update: ppo_epochs × minibatch passes over the rollout.
@@ -163,6 +283,12 @@ def ppo_update(ac, trajs: List[SlotTrajectory], optimizer, cfg: Config,
 
     rng = np.random.default_rng(cfg.seed + 31337 + update_idx)
     actor_frozen = False        # set by KL early-stop; persists to update end
+    # batched replay: only when enabled AND every slot carries a cached
+    # context (a resumed rollout collected with the flag off would not)
+    batched = (bool(getattr(cfg, "ppo_batched_replay", False))
+               and cfg.decode_order == "rbg_major"
+               and all(t.ctx is not None for t in trajs))
+    verify_every = int(getattr(cfg, "ppo_batch_verify_every", 0)) if batched else 0
     for epoch in range(cfg.ppo_epochs):
         rng.shuffle(indices)
         for start in range(0, T, mb_size):
@@ -178,7 +304,25 @@ def ppo_update(ac, trajs: List[SlotTrajectory], optimizer, cfg: Config,
             sum_k3_kl = 0.0       # KL = mean((ratio - 1) - log_ratio)  [k3, unbiased]
             n_clipped = 0
 
-            for idx in mb_idx:
+            if batched:
+                (sum_policy, sum_value, sum_ent_sum, sum_ent_mean,
+                 sum_k3_kl, n_clipped, _rep) = _minibatch_batched(
+                    ac, trajs, mb_idx, adv_norm, returns, cfg,
+                    ret_sigma, actor_frozen, n_mb)
+                if (verify_every and epoch == 0 and start == 0
+                        and update_idx % verify_every == 0):
+                    # checks the very tensor the backward above consumed; a
+                    # failure disables batching instead of killing the run
+                    with torch.no_grad():
+                        if not _verify_batched(ac, trajs, mb_idx, cfg,
+                                               update_idx, rep=_rep):
+                            batched = False
+                            verify_every = 0
+                mb_iter = ()          # sequential body below is skipped
+            else:
+                mb_iter = mb_idx
+
+            for idx in mb_iter:
                 traj = trajs[idx]
                 rep = ac.replay(traj.obs, traj.action_sequence,
                                 traj.policy_decision_mask)
