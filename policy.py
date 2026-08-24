@@ -54,7 +54,13 @@ def obs_to_tensors(obs: dict, device: torch.device) -> dict:
 
 
 def build_encoder_input(obs_t: dict, cfg: Config) -> torch.Tensor:
-    """Build per-(UE, RBG) encoder input tensor of shape [K, R, 70]."""
+    """Build the per-(UE, RBG) encoder input, [K, R, 70] or [K, R, 73].
+
+    70 base channels; queue mode (cfg.queue_size > 1) appends three per-UE
+    fields -- queue_len, queue_bits, next_deadline -- broadcast over RBG, for
+    73. ActorCritic sizes the encoder to match:
+    ``enc_in = 70 + (3 if cfg.queue_size > 1 else 0)``.
+    """
     K, R = cfg.num_ue, cfg.num_rbg
     pmi_re = obs_t["direction_fb"].real
     pmi_im = obs_t["direction_fb"].imag
@@ -91,7 +97,8 @@ _V2_DEADLINE_BINS = ((0.0, 1.5), (1.5, 2.5), (2.5, 4.5), (4.5, 8.5),
 
 def build_value_feats_v2(obs_t: dict, cfg: Config, fixed_mask: np.ndarray,
                          slot: int) -> torch.Tensor:
-    """27 structured value features (critic v2, cfg.ppo_critic_v2).
+    """Structured value features (critic v2, cfg.ppo_critic_v2): 27, or 33 in
+    queue mode where a 6-feature queue-pressure block is appended.
 
     Same observation content the encoder already receives, re-expressed so
     the return's drivers survive pooling: imminent-deadline structure (miss
@@ -148,7 +155,7 @@ def build_value_feats_v2(obs_t: dict, cfg: Config, fixed_mask: np.ndarray,
     tail.append(float(slot) / cfg.episode_len)
     return torch.cat([t_feats,
                       torch.tensor(tail, device=device,
-                                   dtype=torch.float32)])           # [27]
+                                   dtype=torch.float32)])     # [27] or [33]
 
 
 def build_value_tail(obs_t: dict, cfg: Config, fixed_mask: np.ndarray,
@@ -239,7 +246,10 @@ def _mlp(dims: list[int]) -> nn.Sequential:
 
 
 class SharedEncoder(nn.Module):
-    """Per-(UE, RBG) encoder: 70 -> 128 -> 128 -> 64 (no final activation)."""
+    """Per-(UE, RBG) encoder: in -> 128 -> 128 -> 64 (no final activation).
+
+    ``input_dim`` is 70, or 73 in queue mode; ActorCritic passes the right one.
+    """
 
     def __init__(self, input_dim: int = 70, hidden: int = 128,
                  out_dim: int = 64):
@@ -273,7 +283,12 @@ class NoUserHead(nn.Module):
 
 
 class ValueHead(nn.Module):
-    """Per-slot value head: 2*64 pooled + 6 scalars -> V(s_t)."""
+    """Per-slot value head: pooled encoder + scalars -> V(s_t).
+
+    ``input_dim`` = 2*64 pooled + 6 global scalars = 134, plus the v2
+    structured features when cfg.ppo_critic_v2 (+27, or +33 in queue mode):
+    161 or, for the Run4 queue runs, 167.
+    """
 
     def __init__(self, input_dim: int = 134, hidden: tuple = (128, 64)):
         super().__init__()
@@ -313,6 +328,7 @@ class ActorCritic(nn.Module):
         self.no_user_head = NoUserHead(input_dim=eo + 4,
                                        hidden=cfg.no_user_head_hidden)
         # value input: 2*eo pooled + 6 scalars (+27 v2 features when enabled,
+        # 33 in queue mode -- see build_value_feats_v2,
         # +6 more queue-pressure features in queue mode)
         v2_dim = 27 + (6 if cfg.queue_size > 1 else 0)
         v_in = 2 * eo + 6 + (v2_dim if cfg.ppo_critic_v2 else 0)
