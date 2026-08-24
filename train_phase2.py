@@ -180,6 +180,14 @@ def parse_args():
                         "matching-shape tensors EXCEPT value_head and the "
                         "return normalizer (actor warm-start, fresh critic + "
                         "fresh optimizer). Mutually exclusive with --resume")
+    p.add_argument("--batched_replay", action="store_true",
+                   help="batch the PPO-update replay (decode caches each "
+                        "slot's head inputs; ~1e-6 equivalent, NOT "
+                        "bit-identical -- do not use to reproduce a run)")
+    p.add_argument("--batch_verify_every", type=int, default=None,
+                   help="cadence of the batched-replay cross-check against "
+                        "sequential replay (default 25; 0 disables). A failure "
+                        "does not raise: it logs and falls back to sequential")
     return p.parse_args()
 
 
@@ -433,6 +441,10 @@ def main():
         cfg.ppo_target_kl = args.target_kl
     if args.critic_v2:                               # value-input v2 features
         cfg.ppo_critic_v2 = True
+    if args.batched_replay:                          # batched PPO update
+        cfg.ppo_batched_replay = True
+    if args.batch_verify_every is not None:
+        cfg.ppo_batch_verify_every = args.batch_verify_every
     num_updates = args.num_updates or default_updates
     # early stopping: stop after `patience` eval rounds with no best improvement
     # (Run4 lesson from MixedLoad's entropy-exhaustion decay: auto-harvest ON)
@@ -549,7 +561,11 @@ def main():
                   "deadline_min", "deadline_max",
                   "n_active_min", "n_active_max",
                   "ue_speed_min", "ue_speed_max", "mu_aware_la",
-                  "la_mode", "decode_order", "la_beta", "la_beta_by_depth"):
+                  "la_mode", "decode_order", "la_beta", "la_beta_by_depth",
+                  # flipping either of these across a resume changes the
+                  # update math (batched vs sequential replay; critic input
+                  # width) with no other trace in the run's artifacts
+                  "ppo_batched_replay", "ppo_critic_v2"):
             ck_v = ckpt.get("cfg", {}).get(k)
             if ck_v is not None and str(ck_v) != str(getattr(cfg, k)):
                 print(f"WARNING: cfg mismatch vs checkpoint: {k}: "

@@ -1,0 +1,17 @@
+==========================================================================
+CROSS-TREE IDENTITY GATE  (sequential path, main vs _batchdev)
+==========================================================================
+  weights : /home/MYH/ML_DRL_Scheduler/Run4/QueuePostRZF_S40HL_CQI4/ckpt/best.pt      slots: 24  seed 90002
+  running worker on /home/MYH/ML_DRL_Scheduler ...
+  running worker on /home/MYH/ML_DRL_Scheduler/_batchdev ...
+
+  action_sequence      differing entries: 0   OK
+  policy_decision_mask differing entries: 0   OK
+  log_prob_sum     max |diff| = 0.000e+00   bit-identical 24/24   OK
+  entropy_sum      max |diff| = 0.000e+00   bit-identical 24/24   OK
+  value            max |diff| = 0.000e+00   bit-identical 24/24   OK
+  state_value      max |diff| = 0.000e+00   bit-identical 24/24   OK
+
+==========================================================================
+RESULT: PASS - the sequential path is unchanged
+==========================================================================

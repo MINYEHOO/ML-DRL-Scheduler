@@ -240,6 +240,24 @@ class Config:
                                    # aggregates, slot phase) -> ValueHead
                                    # input 134 -> 161
 
+    # ---- batched PPO replay (2026-08-21) ----
+    # The update is ~89% of wall clock and calls replay() once PER SAMPLE
+    # (4 epochs x 4 minibatches x 256 = 4000 sequential ~30-position loops
+    # per update), leaving the GPU at 7-8%. With this ON, decode caches each
+    # slot's head inputs and the whole minibatch is replayed in four batched
+    # forwards. Numerically equivalent to ~1e-6 relative in value AND in every
+    # gradient (tests/test_replay_batch.py), but NOT bit-identical, so an
+    # existing run's trajectory cannot be reproduced with it -- default OFF,
+    # same convention as the two flags above.
+    ppo_batched_replay: bool = False
+    ppo_batch_verify_every: int = 25   # 0 = never; else cross-check the
+                                       # batched path against sequential
+                                       # replay on a few slots every N updates
+                                       # (the cached-context design otherwise
+                                       # retires replay's consistency asserts)
+    ppo_batch_verify_slots: int = 4
+    ppo_batch_verify_tol: float = 1e-3
+
     # ---- PPO model architecture (Phase 2) ----
     encoder_hidden: int = 128
     encoder_out_dim: int = 64
