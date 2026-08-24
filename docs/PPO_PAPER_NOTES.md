@@ -193,8 +193,18 @@ if actor_frozen:  p.grad = None for actor params     # ppo.py:262-264
 > independent of the episode length used in training."
 
 이건 방어가 아니라 **장점**이다 — 정책이 에피소드 길이에 의존하지 않으므로 임의 길이
-운용에 그대로 쓸 수 있고, critic은 학습 시에만 쓰이므로 배치에 privileged 정보가
-필요 없다.
+운용에 그대로 쓸 수 있고, critic의 출력은 행동에 전혀 관여하지 않으므로 배치에
+privileged 정보가 필요 없다.
+
+> ⚠️ **표현 주의 (2026-08-21 외부 리뷰에서 지적, 사실 확인됨).**
+> "the critic is not evaluated at deployment" 류로 쓰면 **틀린다**. `value_head`는
+> 배포 시 **모든 슬롯에서 실행된다** (`policy.py`의 `_rbg_major_pass` 끝, decode가
+> 그 경로를 탄다). 출력이 `PPOScheduler.schedule`에서 **버려질 뿐**이다
+> (`train_phase2.py:209`, `eval_phase2.py:33`). 정확한 서술은
+> *"the critic's output is discarded at deployment and never influences an action"*.
+> 실무적 함의도 있다: critic 전용 특징을 추가하려면 반드시 `env.get_observation()`
+> 을 거쳐야 한다. `obs_to_tensors`가 11개 키 화이트리스트 하드코딩이고 value 호출
+> **이전에** 무조건 실행되므로, decode의 value 호출만 가드해서는 소용없다.
 
 ### 3.8 actor가 보는 rate 특징은 SU 상한이지 실현 rate가 아니다
 
@@ -271,44 +281,128 @@ clipping"이라고 쓰면 거짓**이 된다. 분리된 것은 **gradient norm c
 권장: (2) — 20 시드 전승이라는 진술을 유지하면서 각주로 방어하는 편이 강하다.
 여유가 있으면 미사용 20000번대로 최종 표를 한 번 더 뽑는 것이 최선.
 
-### ⚠ 단일 학습 시드 — 정밀 감사에서 살아남은 유일한 major
+### ✅ 단일 학습 시드 — **해소됨** (2026-08-24)
 
-저장소의 **모든 런이 학습 시드 2024**다 (`train_phase2.py:78` 기본값, config.json
-36개 전부, best.pt 29개 전부 동일). 반면 비교 대상인 SUS+CQI/SU+CQI는 결정론적이라
-사실상 분산이 0이다. 즉 PPO는 학습-시드 차원에서 **n=1**이다.
+정밀 감사에서 살아남은 유일한 major였다. 시드 3024/4024/5024로 **독립 복제 런 3개**를
+동일 절차·동일 예산(866 update)으로 완주했고, 네 정책 전부를 **같은 예약 100
+에피소드**에서 평가했다.
 
-- held-out 20 시드의 CI는 **환경 잡음만** 정량화한다. 학습-런 간 분산은 어디에도 없다.
-- Henderson et al.(2018)류 지적("≥5 시드, mean±std")에 답할 재료가 아티팩트에 없다.
-- 다만 `--seed`는 eval 채널 추첨에도 들어가므로(`env.py:87-91`), 복제 런은 held-out
-  에피소드 자체가 바뀌어 baseline도 다시 돌려야 한다. 기존 20-seed 스크립트가
-  config.json에서 전부 재실행하므로 **비용은 학습 런 1개**.
+> ⚠️ 함정: `env.reset(k)`는 `cfg.seed + <계수>·k`로 뽑으므로 **평가 에피소드가
+> cfg.seed에 의존한다**(`env.py:87/90/114/124`). 각 복제런의 자기 config를 쓰면 네
+> 정책이 서로 다른 100개 에피소드에서 평가되어 비교가 무의미해진다. 세계 정의는
+> 항상 seed-2024 config에서 만들고 체크포인트만 바꿨다
+> (`Run4/_analysis/scripts/seedreplicate_final100.py`, assert로 강제).
 
-대응 (택1):
-1. `--seed 2025`로 대표 런 1개 복제 → "2 seeds, both directions consistent" 서술. **권장**.
-2. 명시적 한계 서술: *"We report a single training seed per configuration. The result
-   is corroborated by N independent runs across different environments and
-   hyperparameters, all with the same sign; we do not claim recipe reproducibility
-   across training seeds."*
+| train seed | best@ | reward | goodput% | miss% | depth | vs SUS+CQI | 승 | paired 95% CI |
+|---|---|---|---|---|---|---|---|---|
+| 2024 | 409 | 4836 | 97.71 | 36.27 | 2.78 | **+15.32%** | 99/100 | [+596, +689] |
+| 3024 | 489 | 4665 | 97.92 | 36.69 | 2.77 | **+11.24%** | 92/100 | [+416, +527] |
+| 4024 | 849 | 4726 | 97.83 | 36.56 | 2.77 | **+12.68%** | 96/100 | [+485, +579] |
+| 5024 | 389 | 4729 | 98.06 | 36.49 | 2.71 | **+12.76%** | 95/100 | [+480, +590] |
+| SUS+CQI | — | 4194 | — | — | — | — | — | — |
 
-margin이 큰 주장(+14.7%, 20/20)은 단일 시드로도 방어 가능하지만, **마진이 한 자릿수
-초반인 주장은 복제 없이는 지지되지 않는다**.
+```
+PPO reward  4739 ± 71      범위 [4665, 4836]    변동계수 1.5%
+마진(%)     +13.00 ± 1.70  범위 [+11.24, +15.32]
+최저 승률   92/100
+```
+
+**§V-F 문장 (최악 시드 기준 — 평균±표준편차보다 강하고 n=4에 덜 민감하다):**
+
+> *"Across four independent training seeds (2024/3024/4024/5024), identical procedure
+> and budget, evaluated on the same reserved 100 episodes: mean reward 4739 ± 71,
+> margin over the strongest baseline +13.00% ± 1.70%. The worst seed still exceeds
+> SUS+CQI by +11.24% with a paired 95% CI of [+416, +527], and the lowest per-seed
+> win rate is 92/100."*
+
+**학습 로그의 best eval reward를 시드 비교에 쓰면 안 된다.** 그 값은 2786~5144로 1.8배
+벌어져 있지만, 검증 3 에피소드가 **cfg.seed마다 다른 draw**이기 때문이다. 동일
+에피소드에서 재면 4665~4836, **3.7% 이내**다. 시드 3024가 낮았던 건 정책이 나빠서가
+아니라 그 시드가 뽑은 3개가 모두에게 어려웠기 때문이다(같은 에피소드에서 SUS+PF가
+−3227까지 내려간다). s4024의 `best@849`(거의 끝)도 held-out에서는 중간값이다.
+
+무결성 3종 통과: 800행 누락 없음 / SUS+CQI 행이 네 정책에서 완전 동일(2100건 대조,
+불일치 0) / 2024 정책이 기존 `queue_s40hl_cqi4_final100.csv`를 정확히 재현(1400건,
+불일치 0).
 
 ---
 
-## 6. explained variance가 낮은 이유 (리뷰어 예상 질문)
+## 6. explained variance — **지표 자체가 부적합하다** (2026-08-21 측정)
 
-실측: HighLoad는 초반 +0.07 → 종반 **+0.26** (최대 0.48), genie 런들은 0 근방.
+실측: HighLoad는 초반 +0.07 → 종반 **+0.26**, CQI4 본 런은 평균 0.1785 / 마지막 100
+update 0.3105. 낮아 보이는 이 값을 **critic 품질의 척도로 논문에 인용하면 안 된다.**
+전용 진단(`Run4/_analysis/scripts/audit_probes/critic_ev_decomposition.py`, 동결
+best.pt@409, 시드 60000–60039, n=40)이 이유를 정량화했다.
 
-- 리턴 분산의 대부분이 **원리적으로 예측 불가능한 몫**이다: 에피소드마다 부하
-  p~U(0.15,0.5)·활성 인구 U(16,32)·지형이 통째로 재추첨되고, 슬롯마다 Bernoulli
-  도착·CSI 소실·페이딩이 굴린다. 에피소드 보상이 −7000~+8000을 오간다.
-- PPO에서 critic은 정확도 목표가 아니라 **분산 감소용 baseline**이다. 부정확해도
-  정책 그래디언트의 방향은 편향되지 않는다.
-- 판정은 레벨이 아니라 **추세**로 한다: 0에서 상승 = critic이 세계를 붙잡는 중(건강),
-  지속적 강한 음수 + value_loss 발산 + KL/clip 폭주 동반 = 문제.
-- **개선 여지(정직하게 적을 것)**: update당 에피소드 1개 설계가 에피소드 추첨 잡음을
-  advantage에 그대로 싣는다. 병렬 롤아웃(num_envs>1)이면 EV와 학습 속도가 함께
-  올라갈 여지가 있다. 현 세대에서는 목표(휴리스틱 초과)가 일관되게 달성되어 미적용.
+**(a) EV는 return 분산의 2.7%만 잰다.**
+
+```
+Var_between (에피소드 평균)  26068.8   97.3 %
+Var_within                     730.9    2.7 %
+```
+
+한 PPO update의 배치가 **에피소드 하나**이므로(`train_phase2.py:659`), 로깅되는 EV는
+within-episode 양이다. 그리고 `ppo.py:79`가 `returns = advantages + values`,
+`ppo.py:284`가 같은 `values`를 다시 쓰므로 **EV의 잔차는 GAE advantage 그 자체**다:
+
+```
+explained_variance = 1 − Var(Â)/Var(Â + V)
+```
+
+즉 V의 레벨(DC 성분)에는 구조적으로 눈이 멀어 있다.
+
+**(b) 그 2.7% 안에서도 critic은 시간 추세만큼도 못 잡는다.**
+
+| 예측기 | within-episode EV |
+|---|---|
+| episode phase `t/T` 단독 (3차식) | **+0.4388** |
+| 학습된 critic | **+0.0556** |
+| 학습된 critic, pooled | +0.0913 |
+
+pooled > within 이므로 critic의 강점은 within-episode 형태가 아니라 **레벨 추적**이다.
+
+**(c) 레벨 오차는 실재하고, 그게 value_loss가 보는 것이다.**
+
+`ppo.py:208`이 회귀하는 **GAE return** 기준으로 에피소드별 bias `|평균| 22.75`
+(정규화 단위 1.61 σ), **value MSE의 85.4%가 레벨 성분**이다. MC return 기준으로는
+97.7%. EV는 못 보지만 value_loss와 (detach 없는 단일 backward를 통해) 공유 encoder는
+본다.
+
+**논문 서술 권장**: EV 수치를 critic 품질 근거로 쓰지 말고, 대신
+*"the logged explained variance is a within-episode quantity and accounts for only
+2.7% of the return variance in this setting; we therefore do not use it as a measure
+of critic quality"* 라고 명시한다. 이건 방어가 아니라 정직한 계측 서술이다.
+
+---
+
+## 6b. privileged critic 제안 — **측정으로 영구 종결** (2026-08-21)
+
+외부 리뷰가 critic 입력에 에피소드 latent(`K_act`, `p_a`, per-UE 속도)를 추가하면
+EV가 0.5 → 0.7이 될 것이라고 제안했다. **held-out 측정으로 기각되었다.**
+
+에피소드 단위 held-out ridge (fit 24 / alpha-select 6 / **test 10** 에피소드):
+
+| 특징 집합 | pooled EV | pooled R² |
+|---|---|---|
+| 관측 특징만 (167차원) | **+0.2647** | +0.2633 |
+| 관측 + latent 4차원 | **+0.1895** | +0.1832 |
+| **한계 기여 (c2 − c1)** | **−0.0751** | **−0.0801** |
+
+**latent를 넣으면 일반화가 나빠진다.** 이미 관측 특징이 그 정보를 더 잘 나른다 —
+`policy.py`의 `active_count`와 `actf.sum()/K`가 `K_act`의 거의 무잡음 대리변수이고,
+`p_a`의 효과는 큐 상태 전체가 매개한다.
+
+부수적으로, "약한 critic이 clip 포화를 유발한다"는 가설도 기각됐다. 867 update 전수에서
+`corr(EV, clip_fraction) = **+0.459**`, `corr(EV, approx_KL) = +0.423` — 가설이 예측하는
+음의 상관과 **부호가 반대**다 (초반 추세를 제거한 update 400 이후에도 +0.290).
+
+§V-F 한 문장 후보:
+> *"Privileged per-episode latents were measured offline on held-out episodes and
+> reduced generalization (ΔEV = −0.075), so the critic's observation set was left
+> unchanged."*
+
+슬롯별 원자료는 `Run4/_analysis/critic_ev_decomposition_raw.npz`에 보존되어 있어
+후속 질문에 재실행이 필요 없다.
 
 ---
 
@@ -353,11 +447,62 @@ margin이 큰 주장(+14.7%, 20/20)은 단일 시드로도 방어 가능하지�
 
 ## 9. 아직 검증 중 / 미결
 
-- [ ] **학습 시드 복제** (`--seed 2025`) 또는 단일 시드 한계 명시 — §5, 유일한 major.
-- [ ] `docs/RESEARCH_LOG.md:100` FLOP 수치 실제로 고치기 (이 문서 §2에는 정정본 있음).
-- [ ] 최종 표를 17 시드로 갈지 20 시드+각주로 갈지 결정 (§5).
+- [x] ~~학습 시드 복제~~ → **완료** (시드 3×, §5). 유일한 major 해소.
+- [x] ~~privileged critic 제안~~ → **측정으로 종결** (§6b).
+- [x] ~~docstring 차원 수치 4건~~ → 정정 (`23bc8aa` 이래 stale, Run4 queue mode 때문).
+- [ ] `docs/RESEARCH_LOG.md:100` FLOP 수치 실제로 고치기 (이 문서 §2에 정정본 있음).
 - [ ] `beta_rate` 제거(항상 1.0, β_m이 대체) — paper-gen 배치에서.
-- [ ] 병렬 롤아웃 도입 여부 (EV·학습속도, Run5 후보).
+- [ ] Table III 각주: deadline bin은 half-open `(·,·]`이고 decision epoch에서 `d ≥ 1`
+      (`_V2_DEADLINE_BINS` 첫 bin이 `(0.0,1.5]`라 `dl==0`이 어느 bin에도 안 들어가지만,
+      `env.py`가 만료 패킷을 관측 생성 전에 제거하므로 도달 불가).
+- [ ] 배치 replay의 **다지점 ON/OFF 등가성** — 현재 등가성은 가중치 한 지점에서만
+      측정됐다. 서로 다른 학습 단계의 체크포인트 4개(389/409/489/849)에서 재확인 필요.
+- [ ] 배치 replay의 **자기 재현성** — `replay_batch`의 `e.permute(...)[slot_t, r_t]`는
+      한 RBG의 4개 레이어가 같은 `(slot,r)`을 가리키는 many-to-one 인덱싱이라, 역전파가
+      CUDA `atomicAdd`를 쓰면 같은 시드로 두 번 돌려도 결과가 다를 수 있다. 미측정.
+
+## 9b. 배치 PPO update replay (2026-08-24 병합, 기본 OFF)
+
+`--batched_replay`. update가 벽시계의 89%였고 `replay()`를 **샘플마다** 불러
+update당 약 4000회의 순차 ~30위치 루프를 돌아 GPU가 7~8%에 머물렀다. teacher
+forcing 하에서는 모든 head 입력과 valid_mask가 (obs, 저장된 action)의 결정론적
+함수이므로, decode가 이미 만들고 버리던 텐서를 캐싱해 minibatch 전체를 **4회의
+batched forward**로 처리한다.
+
+| | |
+|---|---|
+| 속도 | 551.9 → **70.9 s/update** (동일 조건). 866 update: 4~5.5일 → **약 17시간** |
+| 플래그 OFF | 원본 866-update 런의 update 0/1/2를 **로그 소수점까지 재현**(18건, 불일치 0). 순차 decode/replay/state_value는 병합 전 트리와 **비트 단위 동일**(24슬롯) |
+| 등가성 | forward ≤3.1e-05 / gradient(랜덤 가중치, head별) ≤5.9e-06 / `ppo_update` 7개 지표 ≤1.5e-06 (**KL-frozen 분기 포함**, 그 분기에서 encoder 스텝은 양쪽 모두 정확히 0) |
+| 플래그 ON | **비트 재현 불가.** float32 축약 순서가 달라 gradient가 ~1e-6 다르고, 에피소드당 약 3만 회의 categorical 샘플링 중 하나가 경계를 넘으면 궤적이 갈린다(실측: update 0·1 동일, update 2 분기) |
+
+**용도**: 앞으로의 실험(§V-F가 약속한 architectural ablation, 추가 시드). **기존 런
+재현용이 아니다** — 논문 재현 지시에는 플래그를 붙이지 않는다는 점이 명시돼야 한다.
+
+17-에이전트 적대적 감사(BLOCKER 0, MAJOR 11, cleared 224) 후 보강:
+`_position_logits_and_mask`는 원래 3-튜플 반환을 유지(외부 프로브 3개 무영향);
+`replay_batch`가 순차 경로의 정합성 assert를 이미 지불 중인 device sync에 접어 복원;
+런타임 교차검사는 **옵티마이저가 실제 소비한 텐서**를 검사하고 value를 정규화 단위로
+비교하며 실패 시 **raise 대신 순차로 폴백**(assert였다면 프로세스가 죽고, auto-resume이
+torch RNG를 복원해 같은 롤아웃·같은 검사를 재현하며 무한 크래시 루프가 된다);
+`ppo_batched_replay`/`ppo_critic_v2`를 resume cfg-mismatch 경고 목록에 추가.
+
+테스트: `tests/test_cross_tree_identity.py`, `tests/test_replay_batch.py`,
+`tests/test_ppo_update_batched.py` (원 출력 `tests/results/*.log`).
+
+## 9c. `env.py:124` 중복 시드 — 알려진 아티팩트, 의도적 미수정
+
+`_rp = default_rng(cfg.seed + 7919 * episode_idx)` (env.py:124)가 `self.rng`
+(env.py:87)와 **계수까지 동일**하다. `n_active`는 `4441 *`로 분리했는데 `p_arrival`만
+누락됐다. 결과적으로 `p_arrival_ep = 0.15 + 0.35·u₀`이고 `u₀`가 `self.rng`의 첫 draw와
+같아, **UE 0의 슬롯 0 도착 여부가 p_a와 결정론적으로 묶인다**(u₀ < 0.2308일 때만 도착).
+
+바로 위 주석의 *"dedicated RNG stream ... zero impact on all other draws"* 는 절반만
+참이다 — 스트림을 교란하지는 않지만 **완벽히 중복**된다.
+
+영향: 에피소드당 약 32,000회 도착 판정 중 **정확히 1회**. 어떤 지표에도 측정 가능한
+영향이 없다. 고치면 모든 에피소드의 난수열이 바뀌어 전 결과가 무효가 되므로
+**수정하지 않는다.** 논문 본문이 아니라 README/재현성 부록에 기록할 것.
 
 ### 로깅 관련 사소한 주의 (결과에는 영향 없음)
 
