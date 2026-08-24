@@ -1,0 +1,4 @@
+batched-replay self-reproducibility: same seed 2024, --batched_replay, 3 updates, twice
+RUN1: Done. 3 updates in 197s  (65.7s/update). Best eval reward: -inf
+RUN2: Done. 3 updates in 206s  (68.7s/update). Best eval reward: -inf
+env_metrics 18 comparisons, ppo_metrics 21 comparisons -> 0 mismatches (bit-identical)

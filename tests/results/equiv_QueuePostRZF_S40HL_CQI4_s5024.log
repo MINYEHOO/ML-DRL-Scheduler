@@ -1,0 +1,61 @@
+==============================================================================
+ppo_update EQUIVALENCE GATE (batched vs sequential, incl. freeze)
+==============================================================================
+  device cuda   slots 300   minibatch 256   epochs 4
+  collected 300 slots -> 2 minibatches/epoch (sizes [256, 44])
+    [kl-stop] update 0: minibatch KL 0.0311 > 0.0300 (epoch 1/4) -- actor frozen, value-only for remaining passes
+  Adam warmed with one sequential update; comparing update 1
+
+  SCENARIO 0: ONE epoch, ONE minibatch -> a single optimizer step, so the parameter delta IS the gradient (EQUIVALENCE GATE)
+    [batched   ] +0.000520 pl  0.582489 vl  0.02933502 kl  0.350000 clip
+    [sequential] +0.000520 pl  0.582489 vl  0.02933497 kl  0.350000 clip
+
+  --- single step ---
+    policy_loss      batched +0.00051958  sequential +0.00051958  rel 5.25e-06  OK
+    value_loss       batched +0.58248937  sequential +0.58248939  rel 3.10e-08  OK
+    entropy_sum      batched +23.26143756  sequential +23.26143764  rel 3.48e-09  OK
+    entropy_mean     batched +0.96196188  sequential +0.96196191  rel 2.16e-08  OK
+    approx_KL        batched +0.02933502  sequential +0.02933497  rel 1.79e-06  OK
+    clip_fraction    batched +0.35000000  sequential +0.35000000  rel 0.00e+00  OK
+    grad_norm        batched +7.70696259  sequential +7.70696163  rel 1.24e-07  OK
+    step vectors: worst ||Δb−Δs||₂/||Δ||₂ = 6.572e-06 in 'encoder.net.2.weight'  OK  (gate 1e-04)
+      (per-element max-norm ratio 3.775e-04 -- always larger: Adam's per-element step is nearly scale-free, so a ~1e-6 gradient difference moves near-zero elements by a full step)
+
+  SCENARIO A: KL guard DISABLED (target_kl = 0) -- every minibatch takes the full actor+critic branch
+    [batched   ] -0.037497 pl  0.559192 vl  0.02741719 kl  0.356179 clip
+    [sequential] -0.037497 pl  0.559192 vl  0.02741722 kl  0.356179 clip
+
+  --- guard disabled ---
+    policy_loss      batched -0.03749675  sequential -0.03749675  rel 1.21e-08  OK
+    value_loss       batched +0.55919160  sequential +0.55919156  rel 7.56e-08  OK
+    entropy_sum      batched +22.72576486  sequential +22.72576384  rel 4.48e-08  OK
+    entropy_mean     batched +0.94323391  sequential +0.94323388  rel 3.06e-08  OK
+    approx_KL        batched +0.02741719  sequential +0.02741722  rel 1.18e-06  OK
+    clip_fraction    batched +0.35617898  sequential +0.35617898  rel 0.00e+00  OK
+    grad_norm        batched +5.76947892  sequential +5.76947513  rel 6.56e-07  OK
+    step vectors: worst ||Δb−Δs||₂/||Δ||₂ = 1.135e-05 in 'score_net.net.4.weight'  (reported, NOT gated -- multi-step Adam divergence)
+      (per-element max-norm ratio 1.330e-04 -- always larger: Adam's per-element step is nearly scale-free, so a ~1e-6 gradient difference moves near-zero elements by a full step)
+
+  SCENARIO B: KL guard ACTIVE (target_kl = 0.02, as in the live runs) -- the freeze fires early and the FROZEN branch drives the remaining minibatches
+    [kl-stop] update 1: minibatch KL 0.0312 > 0.0300 (epoch 1/4) -- actor frozen, value-only for remaining passes
+    [batched   ] +0.009547 pl  0.559927 vl  0.02873163 kl  0.320357 clip
+    [kl-stop] update 1: minibatch KL 0.0312 > 0.0300 (epoch 1/4) -- actor frozen, value-only for remaining passes
+    [sequential] +0.009547 pl  0.559927 vl  0.02873158 kl  0.320357 clip
+
+  --- guard active (frozen branch) ---
+    policy_loss      batched +0.00954721  sequential +0.00954714  rel 7.29e-06  OK
+    value_loss       batched +0.55992701  sequential +0.55992696  rel 8.10e-08  OK
+    entropy_sum      batched +23.02415848  sequential +23.02415859  rel 4.87e-09  OK
+    entropy_mean     batched +0.95586337  sequential +0.95586339  rel 2.19e-08  OK
+    approx_KL        batched +0.02873163  sequential +0.02873158  rel 1.54e-06  OK
+    clip_fraction    batched +0.32035689  sequential +0.32035689  rel 0.00e+00  OK
+    grad_norm        batched +0.35607909  sequential +0.35607902  rel 1.96e-07  OK
+    step vectors: worst ||Δb−Δs||₂/||Δ||₂ = 4.607e-07 in 'value_head.net.2.bias'  (reported, NOT gated -- multi-step Adam divergence)
+      (per-element max-norm ratio 1.207e-05 -- always larger: Adam's per-element step is nearly scale-free, so a ~1e-6 gradient difference moves near-zero elements by a full step)
+
+    freeze actually engaged? encoder ||Δ||: guard-off 1.2866e-01 -> guard-on 0.0000e+00   (must SHRINK: the actor stops stepping)
+                              value_head ||Δ||: guard-off 1.6695e-01 -> guard-on 1.7896e-01   (must NOT collapse: the critic keeps training)
+
+==============================================================================
+RESULT: PASS
+==============================================================================
