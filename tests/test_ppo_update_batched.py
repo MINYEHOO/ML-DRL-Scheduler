@@ -59,7 +59,8 @@ from env import SchedulerEnv                                    # noqa: E402
 from policy import ActorCritic                                  # noqa: E402
 from ppo import ppo_update, compute_gae, SlotTrajectory         # noqa: E402
 
-RUN = "/home/MYH/ML_DRL_Scheduler/Run4/QueuePostRZF_S40HL_CQI4"
+RUN = os.environ.get("TEST_RUN",
+                     "/home/MYH/ML_DRL_Scheduler/Run4/QueuePostRZF_S40HL_CQI4")
 N_SLOTS = int(os.environ.get("TEST_N_SLOTS", 300))
 SEED = 90003                      # diagnostic band, disjoint from all bands
 TOL_METRIC = 1e-4      # relative, on the seven returned metrics (all scenarios)
