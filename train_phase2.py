@@ -189,6 +189,10 @@ def parse_args():
                         "every free position with a valid candidate must be "
                         "filled; adaptive rank comes only from budget/epsilon "
                         "exhaustion. NoUserHead is kept but masked")
+    p.add_argument("--no_user_scale", type=float, default=None,
+                   help="ablation: multiply the NoUserHead logit by this "
+                        "factor (forward AND gradient). 0.0 = head inert, "
+                        "stop option kept at a constant logit 0")
     p.add_argument("--batch_verify_every", type=int, default=None,
                    help="cadence of the batched-replay cross-check against "
                         "sequential replay (default 25; 0 disables). A failure "
@@ -452,6 +456,8 @@ def main():
         cfg.ppo_batch_verify_every = args.batch_verify_every
     if args.force_full_rank:                         # full-rank ablation
         cfg.ppo_force_full_rank = True
+    if args.no_user_scale is not None:               # no-user down-weighting
+        cfg.ppo_no_user_scale = args.no_user_scale
     num_updates = args.num_updates or default_updates
     # early stopping: stop after `patience` eval rounds with no best improvement
     # (Run4 lesson from MixedLoad's entropy-exhaustion decay: auto-harvest ON)
@@ -573,7 +579,7 @@ def main():
                   # update math (batched vs sequential replay; critic input
                   # width) with no other trace in the run's artifacts
                   "ppo_batched_replay", "ppo_critic_v2",
-                  "ppo_force_full_rank"):
+                  "ppo_force_full_rank", "ppo_no_user_scale"):
             ck_v = ckpt.get("cfg", {}).get(k)
             if ck_v is not None and str(ck_v) != str(getattr(cfg, k)):
                 print(f"WARNING: cfg mismatch vs checkpoint: {k}: "

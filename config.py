@@ -259,6 +259,21 @@ class Config:
     # NoUserHead is necessary. The head itself is kept (masked out) so the
     # architecture and checkpoints stay comparable. Default OFF.
     ppo_force_full_rank: bool = False
+
+    # ---- no-user head down-weighting ablation (2026-08-25) ----
+    # Multiplies the NoUserHead logit by this factor BEFORE the softmax, in
+    # decode, sequential replay and batched replay alike. Both the forward
+    # influence and the gradient into the head scale by alpha, so alpha < 1
+    # genuinely weakens the head rather than just shifting its bias.
+    #   1.0 = unchanged;  0.0 = head fully inert: the stop option remains
+    #   selectable but with a CONSTANT logit 0 (state-independent stopping),
+    #   the intermediate point between full PPO and --force_full_rank.
+    # NOTE a fixed scale can be partially re-learned away (the last linear
+    # layer may grow by 1/alpha), so alpha in (0,1) biases the optimization
+    # path rather than restricting the reachable policy class; alpha = 0 is
+    # the only value that removes the head's state-dependent judgment
+    # outright. Guarded by != 1.0 so the default stays bit-identical.
+    ppo_no_user_scale: float = 1.0
     ppo_batch_verify_every: int = 25   # 0 = never; else cross-check the
                                        # batched path against sequential
                                        # replay on a few slots every N updates

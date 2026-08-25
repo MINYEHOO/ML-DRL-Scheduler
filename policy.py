@@ -478,6 +478,8 @@ class ActorCritic(nn.Module):
         ])
         no_user_in = torch.cat([g_r, no_user_aux], dim=0).unsqueeze(0)    # [1, 68]
         no_user_logit = self.no_user_head(no_user_in).squeeze(0)          # scalar
+        if cfg.ppo_no_user_scale != 1.0:      # down-weighting ablation
+            no_user_logit = no_user_logit * cfg.ppo_no_user_scale
 
         logits = torch.cat([no_user_logit.unsqueeze(0), ue_logits])       # [K+1]
         valid_mask = torch.cat([
@@ -834,6 +836,8 @@ class ActorCritic(nn.Module):
             score_in.reshape(-1, score_in.shape[-1])).view(n_pos, K)  # [P, K]
         no_user_logit = self.no_user_head(
             torch.cat([e_pos.mean(dim=1), nu_t], dim=-1))             # [P]
+        if cfg.ppo_no_user_scale != 1.0:      # must mirror the decode path
+            no_user_logit = no_user_logit * cfg.ppo_no_user_scale
 
         logits = torch.cat([no_user_logit.unsqueeze(-1), ue_logits], dim=-1)
         masked = logits.masked_fill(~val_t, -1e9)                     # [P,K+1]
