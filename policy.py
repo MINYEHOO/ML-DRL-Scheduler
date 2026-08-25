@@ -440,10 +440,12 @@ class ActorCritic(nn.Module):
             u_valid[sel_idx] = False
         any_valid = bool(u_valid.any().item())
 
-        # no-user validity per Section 4
+        # no-user validity per Section 4; under the forced full-rank
+        # ablation (cfg.ppo_force_full_rank) the early-close option is
+        # removed entirely: no-user is legal ONLY when nothing else is
         if not any_valid:
             no_user_valid = True
-        elif len(S_r_r) == 0:
+        elif cfg.ppo_force_full_rank or len(S_r_r) == 0:
             no_user_valid = False
         else:
             no_user_valid = True

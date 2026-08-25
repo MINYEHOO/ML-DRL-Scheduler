@@ -184,6 +184,11 @@ def parse_args():
                    help="batch the PPO-update replay (decode caches each "
                         "slot's head inputs; ~1e-6 equivalent, NOT "
                         "bit-identical -- do not use to reproduce a run)")
+    p.add_argument("--force_full_rank", action="store_true",
+                   help="ablation: remove the early-close (no-user) option -- "
+                        "every free position with a valid candidate must be "
+                        "filled; adaptive rank comes only from budget/epsilon "
+                        "exhaustion. NoUserHead is kept but masked")
     p.add_argument("--batch_verify_every", type=int, default=None,
                    help="cadence of the batched-replay cross-check against "
                         "sequential replay (default 25; 0 disables). A failure "
@@ -445,6 +450,8 @@ def main():
         cfg.ppo_batched_replay = True
     if args.batch_verify_every is not None:
         cfg.ppo_batch_verify_every = args.batch_verify_every
+    if args.force_full_rank:                         # full-rank ablation
+        cfg.ppo_force_full_rank = True
     num_updates = args.num_updates or default_updates
     # early stopping: stop after `patience` eval rounds with no best improvement
     # (Run4 lesson from MixedLoad's entropy-exhaustion decay: auto-harvest ON)
@@ -565,7 +572,8 @@ def main():
                   # flipping either of these across a resume changes the
                   # update math (batched vs sequential replay; critic input
                   # width) with no other trace in the run's artifacts
-                  "ppo_batched_replay", "ppo_critic_v2"):
+                  "ppo_batched_replay", "ppo_critic_v2",
+                  "ppo_force_full_rank"):
             ck_v = ckpt.get("cfg", {}).get(k)
             if ck_v is not None and str(ck_v) != str(getattr(cfg, k)):
                 print(f"WARNING: cfg mismatch vs checkpoint: {k}: "

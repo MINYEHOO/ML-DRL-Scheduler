@@ -250,6 +250,15 @@ class Config:
     # existing run's trajectory cannot be reproduced with it -- default OFF,
     # same convention as the two flags above.
     ppo_batched_replay: bool = False
+
+    # ---- forced full-rank ablation (2026-08-25) ----
+    # Disables the EARLY-CLOSE choice: no-user stays valid only when the
+    # candidate set is empty, so the policy must fill every free position it
+    # can. Tests whether the learned selector alone (WHO to group) matches the
+    # full policy once the WHEN-to-stop lever is removed -- i.e. whether the
+    # NoUserHead is necessary. The head itself is kept (masked out) so the
+    # architecture and checkpoints stay comparable. Default OFF.
+    ppo_force_full_rank: bool = False
     ppo_batch_verify_every: int = 25   # 0 = never; else cross-check the
                                        # batched path against sequential
                                        # replay on a few slots every N updates
