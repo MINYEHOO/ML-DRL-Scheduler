@@ -88,21 +88,52 @@ class SlotAllocationPlanner:
     def remaining(self, ue: int) -> float:
         return float(self._remaining[ue])
 
-    def close_rbg(self, r: int, fixed_ues, new_ues):
-        """Finalize RBG r. Returns (kept_new_ues, {ue: b_tx})."""
+    def solve_closure(self, r: int, fixed_ues, new_ues,
+                      remaining=None) -> dict:
+        """SIDE-EFFECT-FREE closure of RBG r. Nothing is mutated.
+
+        Runs the FULL closure -- ghost filter, epsilon-drop of new members,
+        shrink-and-recompute until stable, sub-epsilon residual absorption --
+        and reports what ``close_rbg`` would produce. ``close_rbg`` is a thin
+        commit wrapper around this, so the two agree BY CONSTRUCTION rather
+        than by parallel implementations that could drift.
+
+        Added for the post-RZF marginal-utility greedy baseline, which must
+        score candidate groups with the same closure the env will actually
+        apply. Evaluating a candidate with a single
+        ``predict_group_link_adaptation`` call would silently ignore the drop
+        loop and the residual absorption.
+
+        ``remaining``: budget snapshot to score against (default: the live
+        one). Pass a copy to explore hypothetical prefixes.
+
+        Returns dict with
+            survivors     : list[int]  new members that survived, caller order
+            btx           : {ue: float} B_tx of the survivors
+            group         : list[int]  final member order (fixed + survivors)
+            sinr          : np.ndarray [len(group)] predicted post-RZF SINR
+            caps          : np.ndarray [len(group)] beta_|G| * eta * N_RE *
+                            log2(1+SINR) for EVERY member, retained included --
+                            this is the observable post-RZF service proxy the
+                            greedy uses to price the interference a candidate
+                            inflicts on retained streams. It uses no hidden
+                            HARQ state (target payload / accumulated MI /
+                            attempt count are never read here).
+            w             : np.ndarray | None  predicted precoder
+        """
         cfg = self.cfg
+        rem = self._remaining if remaining is None else remaining
         # canonical member order: SINR is permutation-invariant only up to
         # float rounding (~1e-12), so fixed members are sorted here to make
         # scheduler-side and env-side predictions BIT-identical (Gate 2);
         # new members keep caller order, which both sides share (layer scan).
         fixed = sorted(set(int(u) for u in fixed_ues))
-        new = [u for u in new_ues
-               if self._remaining[u] > 0.0]             # no budget -> ghost
+        new = [u for u in new_ues if rem[u] > 0.0]      # no budget -> ghost
         while True:
             group = fixed + new
             if not group:
-                self.w_pred[r] = None
-                return [], {}
+                return dict(survivors=[], btx={}, group=[],
+                            sinr=np.zeros(0), caps=np.zeros(0), w=None)
             h = self.h_hat_slot[group, r, :]
             w, sinr, caps = predict_group_link_adaptation(
                 h, self.noise_var, self.alpha, cfg.p_rbg, cfg)
@@ -110,22 +141,31 @@ class SlotAllocationPlanner:
             for i, u in enumerate(group):
                 if u in fixed:
                     continue                            # retx keeps old B_tx
-                b = min(self._remaining[u], float(caps[i]))
+                b = min(rem[u], float(caps[i]))
                 if b < cfg.b_tx_epsilon:
                     drop.append(u)
                     continue
-                if self._remaining[u] - b < cfg.b_tx_epsilon:
-                    b = self._remaining[u]              # swallow sub-eps tail
+                if rem[u] - b < cfg.b_tx_epsilon:
+                    b = rem[u]                          # swallow sub-eps tail
                 btx[u] = b
             if not drop:
-                self.w_pred[r] = w
-                for i, u in enumerate(group):
-                    self.sinr_pred[(r, u)] = float(sinr[i])
-                for u, b in btx.items():
-                    self._remaining[u] -= b
-                    self.planned_btx[(r, u)] = b
-                return [u for u in new], btx
+                return dict(survivors=list(new), btx=btx, group=group,
+                            sinr=sinr, caps=caps, w=w)
             new = [u for u in new if u not in drop]     # shrink & recompute
+
+    def close_rbg(self, r: int, fixed_ues, new_ues):
+        """Finalize RBG r and COMMIT. Returns (kept_new_ues, {ue: b_tx})."""
+        out = self.solve_closure(r, fixed_ues, new_ues)
+        if not out["group"]:
+            self.w_pred[r] = None
+            return [], {}
+        self.w_pred[r] = out["w"]
+        for i, u in enumerate(out["group"]):
+            self.sinr_pred[(r, u)] = float(out["sinr"][i])
+        for u, b in out["btx"].items():
+            self._remaining[u] -= b
+            self.planned_btx[(r, u)] = b
+        return out["survivors"], out["btx"]
 
     # ---- Gate-2 exports ----
     def planned_btx_map(self) -> dict:
