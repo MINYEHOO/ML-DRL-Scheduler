@@ -73,12 +73,28 @@ assert cfg.cqi_mode == "nr4bit" and cfg.la_beta_by_depth
 # the policy's own config must match the world in everything but its seed
 pol_cfg = json.load(open(f"{POL_RUN}/config.json"))
 IGN = {"seed", "run_name", "run_dir", "git_hash", "git_dirty_py",
-       "sus_ortho_threshold"}
+       "sus_ortho_threshold",
+       # POLICY-side decode flags: they shape the policy's action mask but the
+       # env never reads them, so they may differ from the world config -- and
+       # MUST be carried over to the ActorCritic below. Evaluating FullRank
+       # without its mask would hand an untrained NoUserHead a live vote.
+       "ppo_force_full_rank", "ppo_no_user_scale",
+       # training-procedure flags irrelevant at eval
+       "ppo_batched_replay", "ppo_batch_verify_every",
+       "ppo_batch_verify_slots", "ppo_batch_verify_tol"}
 # compare the RAW json of both runs: `raw` above has had its lists coerced to
 # tuples for Config(), which would spuriously differ from the on-disk lists
 diff = {k for k in set(cfg_json) | set(pol_cfg)
         if k not in IGN and str(cfg_json.get(k)) != str(pol_cfg.get(k))}
 assert not diff, f"policy world differs from the eval world: {diff}"
+
+# carry the policy's own decode flags into the cfg used for the ActorCritic
+cfg.ppo_force_full_rank = bool(pol_cfg.get("ppo_force_full_rank", False))
+cfg.ppo_no_user_scale = float(pol_cfg.get("ppo_no_user_scale", 1.0))
+if cfg.ppo_force_full_rank or cfg.ppo_no_user_scale != 1.0:
+    print(f"[{TAG}] policy decode flags: force_full_rank="
+          f"{cfg.ppo_force_full_rank}, no_user_scale={cfg.ppo_no_user_scale}",
+          flush=True)
 
 DEV = "cuda" if torch.cuda.is_available() else "cpu"
 ck = torch.load(f"{POL_RUN}/ckpt/best.pt", map_location="cpu")
