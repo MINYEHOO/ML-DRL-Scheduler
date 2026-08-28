@@ -189,6 +189,19 @@ def parse_args():
                         "every free position with a valid candidate must be "
                         "filled; adaptive rank comes only from budget/epsilon "
                         "exhaustion. NoUserHead is kept but masked")
+    p.add_argument("--lr_final", type=float, default=None,
+                   help="anneal the Adam learning rate linearly from "
+                        "cfg.ppo_learning_rate to this value over "
+                        "--lr_decay_updates, then hold. Standard PPO practice "
+                        "(Schulman et al., CleanRL) that this codebase has "
+                        "never used: lr has been 3e-4 with no schedule in all "
+                        "runs to date. Tests whether the measured late-training "
+                        "decline (holdout: best@409 4787 -> latest@866 4314, "
+                        "-473, losing 99/100 episodes) is a constant-step-size "
+                        "artifact")
+    p.add_argument("--lr_decay_updates", type=int, default=None,
+                   help="updates to reach --lr_final (then held); "
+                        "default = num_updates")
     p.add_argument("--no_user_scale", type=float, default=None,
                    help="ablation: multiply the NoUserHead logit by this "
                         "factor (forward AND gradient). 0.0 = head inert, "
@@ -672,6 +685,14 @@ def main():
     # entropy annealing: linear from the (possibly CLI-overridden) initial
     # coef to --entropy_coef_final over --entropy_decay_updates, then held.
     ent_coef0 = cfg.ppo_entropy_coef
+    # learning-rate annealing: linear to --lr_final over --lr_decay_updates,
+    # then held. Applied by writing param_groups[0]["lr"] at the top of each
+    # update, so it is resume-safe (derived from `update`, not accumulated).
+    lr0 = cfg.ppo_learning_rate
+    if args.lr_final is not None:
+        lr_horizon = args.lr_decay_updates or num_updates
+        print(f"lr anneal: {lr0} -> {args.lr_final} over {lr_horizon} "
+              f"updates (linear, resume-safe)")
     if args.entropy_coef_final is not None:
         ent_horizon = args.entropy_decay_updates or num_updates
         print(f"entropy anneal: {ent_coef0} -> {args.entropy_coef_final} "
@@ -700,6 +721,12 @@ def main():
                 cfg.ppo_entropy_coef = (ent_coef0 +
                                         (args.entropy_coef_final - ent_coef0)
                                         * frac)
+            if args.lr_final is not None:
+                frac = min(update / max(lr_horizon, 1), 1.0)
+                new_lr = lr0 + (args.lr_final - lr0) * frac
+                for gparam in optimizer.param_groups:
+                    gparam["lr"] = new_lr
+                writer.add_scalar("ppo/lr", new_lr, update)
             ac.train()
             ps = ppo_update(ac, trajs, optimizer, cfg, update_idx=update,
                             last_value=last_value)
