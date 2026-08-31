@@ -86,7 +86,21 @@ IGN = {"seed", "run_name", "run_dir", "git_hash", "git_dirty_py",
 # tuples for Config(), which would spuriously differ from the on-disk lists
 diff = {k for k in set(cfg_json) | set(pol_cfg)
         if k not in IGN and str(cfg_json.get(k)) != str(pol_cfg.get(k))}
-assert not diff, f"policy world differs from the eval world: {diff}"
+# The guard exists so a replicate is never accidentally scored in a world it
+# was not trained in. One experiment INTENDS that mismatch: the NARROW run is
+# trained on a collapsed world (speed 20 / p_arrival 0.30 / K_act 24 fixed --
+# the wide world's MEANS, so difficulty is held and only diversity is removed)
+# precisely to ask whether robustness comes from domain randomisation or from
+# learning. Scoring it in the WIDE world is the measurement, not a mistake.
+# Opt in explicitly per invocation; the diff is always printed.
+if diff and os.environ.get("XEVAL_ALLOW_WORLD_MISMATCH") == "1":
+    print(f"[{TAG}] INTENTIONAL train/eval world mismatch (opted in): "
+          f"{sorted(diff)}", flush=True)
+    for k in sorted(diff):
+        print(f"[{TAG}]    {k}: trained={pol_cfg.get(k)} evaluated={cfg_json.get(k)}",
+              flush=True)
+else:
+    assert not diff, f"policy world differs from the eval world: {diff}"
 
 # carry the policy's own decode flags into the cfg used for the ActorCritic
 cfg.ppo_force_full_rank = bool(pol_cfg.get("ppo_force_full_rank", False))
