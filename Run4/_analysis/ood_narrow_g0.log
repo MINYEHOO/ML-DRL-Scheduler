@@ -1,0 +1,19 @@
+[narrow_g0] Run4/QueuePostRZF_S40HL_CQI4_NARROW best.pt@739 (trained seed 2024, speed 20.0-20.0, p_arr 0.3-0.3, K_act 24-24)  worlds ['P055', 'P010', 'V60max']  dev cuda
+[narrow_g0] P055 25/100 [24.2m]
+[narrow_g0] P055 50/100 [47.9m]
+[narrow_g0] P055 75/100 [71.0m]
+[narrow_g0] P055 100/100 [93.9m]
+[narrow_g0] P055 done [93.9m]
+/home/MYH/ML_DRL_Scheduler/env.py:363: RuntimeWarning: divide by zero encountered in log10
+  slot_sinr_db = (float(10.0 * np.log10(sinr_map[occ].mean()))
+[narrow_g0] P010 25/100 [14.2m]
+[narrow_g0] P010 50/100 [27.8m]
+[narrow_g0] P010 75/100 [41.8m]
+[narrow_g0] P010 100/100 [55.5m]
+[narrow_g0] P010 done [55.5m]
+[narrow_g0] V60max 25/100 [18.7m]
+[narrow_g0] V60max 50/100 [37.5m]
+[narrow_g0] V60max 75/100 [56.9m]
+[narrow_g0] V60max 100/100 [75.8m]
+[narrow_g0] V60max done [75.8m]
+[narrow_g0] all done -> Run4/_analysis/ood_policy_narrow_g0.csv

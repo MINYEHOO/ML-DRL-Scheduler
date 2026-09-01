@@ -1,0 +1,112 @@
+==============================================================================
+CRITIC EV DECOMPOSITION
+==============================================================================
+policy   : /home/MYH/ML_DRL_Scheduler/Run4/QueuePostRZF_S40HL_CQI4/ckpt/best.pt @update 409
+device   : cuda   ret_mean=377.91 ret_std=14.13
+episodes : seeds 60000-60039 (n=40), stochastic decode
+gamma=0.99 lambda=0.95 episode_len=1000  MC tail dropped=300
+
+  ep  0 seed 60000  K_act=22 p_a=0.233  EV(gae)=+0.152 EV(mc)=-0.001 bias=   -42.7   [1.2 min]
+  ep  1 seed 60001  K_act=18 p_a=0.271  EV(gae)=+0.329 EV(mc)=+0.043 bias=  -345.7   [2.1 min]
+  ep  2 seed 60002  K_act=26 p_a=0.421  EV(gae)=+0.327 EV(mc)=+0.117 bias=   +18.2   [3.3 min]
+  ep  3 seed 60003  K_act=16 p_a=0.328  EV(gae)=+0.079 EV(mc)=+0.011 bias=  -214.3   [4.3 min]
+  ep  4 seed 60004  K_act=28 p_a=0.465  EV(gae)=+0.314 EV(mc)=+0.055 bias=  -307.6   [5.4 min]
+  ep  5 seed 60005  K_act=17 p_a=0.460  EV(gae)=+0.262 EV(mc)=+0.110 bias=   -27.9   [6.7 min]
+  ep  6 seed 60006  K_act=18 p_a=0.320  EV(gae)=+0.319 EV(mc)=+0.063 bias=  -282.4   [7.8 min]
+  ep  7 seed 60007  K_act=29 p_a=0.401  EV(gae)=+0.441 EV(mc)=+0.176 bias=   -42.1   [9.0 min]
+  ep  8 seed 60008  K_act=17 p_a=0.471  EV(gae)=+0.318 EV(mc)=+0.099 bias=  -136.4   [10.1 min]
+  ep  9 seed 60009  K_act=22 p_a=0.397  EV(gae)=+0.120 EV(mc)=+0.014 bias=   +86.3   [11.1 min]
+  ep 10 seed 60010  K_act=25 p_a=0.403  EV(gae)=+0.091 EV(mc)=-0.026 bias=   -71.6   [12.1 min]
+  ep 11 seed 60011  K_act=30 p_a=0.297  EV(gae)=+0.278 EV(mc)=+0.050 bias=   +51.6   [13.2 min]
+  ep 12 seed 60012  K_act=16 p_a=0.191  EV(gae)=-0.682 EV(mc)=-0.193 bias=   +99.2   [14.0 min]
+  ep 13 seed 60013  K_act=19 p_a=0.234  EV(gae)=+0.191 EV(mc)=+0.021 bias=  -273.8   [14.9 min]
+  ep 14 seed 60014  K_act=29 p_a=0.287  EV(gae)=+0.323 EV(mc)=+0.097 bias=    +2.7   [16.1 min]
+  ep 15 seed 60015  K_act=20 p_a=0.253  EV(gae)=+0.305 EV(mc)=+0.141 bias=  -145.6   [17.1 min]
+  ep 16 seed 60016  K_act=26 p_a=0.272  EV(gae)=+0.244 EV(mc)=+0.025 bias=   +44.6   [18.2 min]
+  ep 17 seed 60017  K_act=32 p_a=0.421  EV(gae)=+0.305 EV(mc)=+0.112 bias=  -205.9   [19.4 min]
+  ep 18 seed 60018  K_act=26 p_a=0.350  EV(gae)=+0.256 EV(mc)=-0.041 bias=   +10.9   [20.5 min]
+  ep 19 seed 60019  K_act=24 p_a=0.337  EV(gae)=+0.223 EV(mc)=+0.090 bias=   -54.0   [21.9 min]
+  ep 20 seed 60020  K_act=27 p_a=0.291  EV(gae)=+0.168 EV(mc)=-0.026 bias=   +52.5   [23.0 min]
+  ep 21 seed 60021  K_act=31 p_a=0.347  EV(gae)=+0.404 EV(mc)=+0.139 bias=   -97.9   [24.2 min]
+  ep 22 seed 60022  K_act=24 p_a=0.283  EV(gae)=+0.160 EV(mc)=-0.084 bias=   +69.2   [25.4 min]
+  ep 23 seed 60023  K_act=16 p_a=0.303  EV(gae)=+0.016 EV(mc)=-0.098 bias=   +73.3   [26.4 min]
+  ep 24 seed 60024  K_act=26 p_a=0.193  EV(gae)=+0.087 EV(mc)=-0.021 bias=  +133.1   [27.4 min]
+  ep 25 seed 60025  K_act=18 p_a=0.397  EV(gae)=+0.341 EV(mc)=+0.139 bias=   -70.9   [28.7 min]
+  ep 26 seed 60026  K_act=23 p_a=0.447  EV(gae)=+0.345 EV(mc)=+0.094 bias=  -183.7   [29.8 min]
+  ep 27 seed 60027  K_act=22 p_a=0.376  EV(gae)=+0.265 EV(mc)=+0.050 bias=   -85.2   [30.9 min]
+  ep 28 seed 60028  K_act=23 p_a=0.495  EV(gae)=+0.322 EV(mc)=+0.108 bias=  -185.4   [32.0 min]
+  ep 29 seed 60029  K_act=21 p_a=0.276  EV(gae)=+0.303 EV(mc)=+0.109 bias=  -127.3   [32.9 min]
+  ep 30 seed 60030  K_act=28 p_a=0.435  EV(gae)=+0.311 EV(mc)=+0.141 bias=   -36.7   [34.3 min]
+  ep 31 seed 60031  K_act=25 p_a=0.461  EV(gae)=+0.286 EV(mc)=+0.113 bias=   -48.2   [35.6 min]
+  ep 32 seed 60032  K_act=16 p_a=0.457  EV(gae)=+0.289 EV(mc)=+0.114 bias=   -72.8   [36.7 min]
+  ep 33 seed 60033  K_act=29 p_a=0.349  EV(gae)=+0.246 EV(mc)=+0.035 bias=  -194.3   [37.8 min]
+  ep 34 seed 60034  K_act=27 p_a=0.319  EV(gae)=+0.326 EV(mc)=+0.070 bias=  -235.4   [38.9 min]
+  ep 35 seed 60035  K_act=22 p_a=0.365  EV(gae)=+0.313 EV(mc)=+0.064 bias=  -299.5   [40.2 min]
+  ep 36 seed 60036  K_act=22 p_a=0.158  EV(gae)=+0.036 EV(mc)=-0.012 bias=   -81.2   [41.3 min]
+  ep 37 seed 60037  K_act=20 p_a=0.454  EV(gae)=+0.274 EV(mc)=+0.032 bias=  -195.7   [42.3 min]
+  ep 38 seed 60038  K_act=17 p_a=0.347  EV(gae)=+0.195 EV(mc)=-0.080 bias=  +189.0   [43.7 min]
+  ep 39 seed 60039  K_act=16 p_a=0.475  EV(gae)=+0.073 EV(mc)=-0.027 bias=  +447.2   [44.9 min]
+
+==============================================================================
+VARIANCE DECOMPOSITION of the MC return  (tail dropped)
+==============================================================================
+  Var_between (episode means) =      26068.8    97.3 %
+  Var_within  (mean of within) =        730.9     2.7 %
+  episode means: mean 419.0  sd 161.5  range [142.3, 949.9]
+  -> the logged EV is a WITHIN-episode quantity; it can only ever
+     speak to the 2.7% slice.
+
+==============================================================================
+a1/a2  TRAINED CRITIC
+==============================================================================
+  a1  logged definition (GAE lambda=0.95, all slots)
+        within-episode mean EV = +0.2239 (sd 0.1764)   [training log: mean 0.1785, last-100 0.3105]
+  a2  MC definition (lambda=1, tail dropped)
+        within-episode mean EV = +0.0556 (sd 0.0791)
+        pooled EV              = +0.0913
+        pooled R2 (MSE-based)  = -0.0897
+        (pooled EV >> within EV means the critic's strength is
+         tracking the episode LEVEL, not within-episode shape.)
+
+==============================================================================
+b*  EPISODE PHASE t/T ALONE  (cubic, per episode)
+==============================================================================
+  NOTE: the review proposed a constant baseline V = mean(G). That is
+  DEFINITIONALLY zero under either metric, so it is replaced here.
+  within-episode EV from phase alone = +0.4388 (sd 0.2126)
+  -> if this is near 0, within-episode return variation is mostly
+     unpredictable noise and EV is a poor critic-quality diagnostic.
+
+==============================================================================
+c1/c2  RIDGE CEILING, held out BY EPISODE  (** the Task-2 verdict **)
+==============================================================================
+  fit 24 ep / alpha-select 6 ep / test 10 ep   (features: 167 + 4 latent)
+  c1  observed features only     pooled EV +0.2647  pooled R2 +0.2633  within EV -2.3609   (alpha=10000)
+  c2  observed + LATENT          pooled EV +0.1895  pooled R2 +0.1832  within EV -2.0490   (alpha=10000)
+  ** c2 - c1  (marginal contribution of the latents) **
+       pooled EV -0.0751   pooled R2 -0.0801   within EV +0.3119
+
+==============================================================================
+d  PER-EPISODE VALUE BIAS  (the value_loss channel)
+==============================================================================
+  vs GAE return (lambda=0.95)  <- ppo.py:208 target
+      per-episode bias  mean    -11.86  sd     26.09  |bias| mean     22.75   range [-59.6, +74.4]
+      total MSE =       961.26
+        level (bias^2) =       821.34    85.4 %   <- what latents could remove
+        within-episode =       139.92    14.6 %
+      in NORMALIZED units (the loss divides by ret_sigma=14.13): |bias|/sigma mean = 1.61
+
+  vs MC  return (lambda=1)     <- true value target
+      per-episode bias  mean    -69.66  sd    153.86  |bias| mean    133.54   range [-345.7, +447.2]
+      total MSE =     29204.49
+        level (bias^2) =     28525.84    97.7 %   <- what latents could remove
+        within-episode =       678.66     2.3 %
+      in NORMALIZED units (the loss divides by ret_sigma=14.13): |bias|/sigma mean = 9.45
+
+  scale: sd(MC return)=163.7  sd(GAE return)=39.1  ret_mean=377.9  ret_std=14.13
+  NOTE ret_std tracks the WITHIN-episode spread of the GAE return, so a
+  per-episode LEVEL error is measured against that much smaller scale.
+
+raw per-slot    -> /home/MYH/ML_DRL_Scheduler/Run4/_analysis/critic_ev_decomposition_raw.npz
+per-episode CSV -> /home/MYH/ML_DRL_Scheduler/Run4/_analysis/critic_ev_decomposition_per_episode.csv
+summary         -> /home/MYH/ML_DRL_Scheduler/Run4/_analysis/critic_ev_decomposition.txt

@@ -1,0 +1,17 @@
+[narrow_g1] Run4/QueuePostRZF_S40HL_CQI4_NARROW best.pt@739 (trained seed 2024, speed 20.0-20.0, p_arr 0.3-0.3, K_act 24-24)  worlds ['CSI02', 'D26', 'STORM2']  dev cuda
+[narrow_g1] CSI02 25/100 [21.1m]
+[narrow_g1] CSI02 50/100 [41.6m]
+[narrow_g1] CSI02 75/100 [62.3m]
+[narrow_g1] CSI02 100/100 [82.1m]
+[narrow_g1] CSI02 done [82.1m]
+[narrow_g1] D26 25/100 [19.9m]
+[narrow_g1] D26 50/100 [39.1m]
+[narrow_g1] D26 75/100 [58.7m]
+[narrow_g1] D26 100/100 [77.1m]
+[narrow_g1] D26 done [77.1m]
+[narrow_g1] STORM2 25/100 [20.5m]
+[narrow_g1] STORM2 50/100 [40.4m]
+[narrow_g1] STORM2 75/100 [60.6m]
+[narrow_g1] STORM2 100/100 [80.3m]
+[narrow_g1] STORM2 done [80.3m]
+[narrow_g1] all done -> Run4/_analysis/ood_policy_narrow_g1.csv
