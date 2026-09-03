@@ -1,0 +1,19 @@
+[nl_g2] Run4/QueuePostRZF_S40HL_CQI4_NARROW_LRANN best.pt@809 (trained seed 2024, speed 20.0-20.0, p_arr 0.3-0.3, K_act 24-24)  worlds ['K8', 'K48', 'K60']  dev cuda
+/home/MYH/ML_DRL_Scheduler/env.py:363: RuntimeWarning: divide by zero encountered in log10
+  slot_sinr_db = (float(10.0 * np.log10(sinr_map[occ].mean()))
+[nl_g2] K8 25/100 [14.4m]
+[nl_g2] K8 50/100 [28.8m]
+[nl_g2] K8 75/100 [44.0m]
+[nl_g2] K8 100/100 [57.4m]
+[nl_g2] K8 done [57.4m]
+[nl_g2] K48 25/100 [25.0m]
+[nl_g2] K48 50/100 [49.4m]
+[nl_g2] K48 75/100 [73.3m]
+[nl_g2] K48 100/100 [96.6m]
+[nl_g2] K48 done [96.6m]
+[nl_g2] K60 25/100 [25.2m]
+[nl_g2] K60 50/100 [50.4m]
+[nl_g2] K60 75/100 [75.5m]
+[nl_g2] K60 100/100 [99.7m]
+[nl_g2] K60 done [99.7m]
+[nl_g2] all done -> Run4/_analysis/ood_policy_nl_g2.csv

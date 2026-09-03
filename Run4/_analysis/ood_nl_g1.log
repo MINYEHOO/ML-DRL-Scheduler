@@ -1,0 +1,17 @@
+[nl_g1] Run4/QueuePostRZF_S40HL_CQI4_NARROW_LRANN best.pt@809 (trained seed 2024, speed 20.0-20.0, p_arr 0.3-0.3, K_act 24-24)  worlds ['CSI02', 'D26', 'STORM2']  dev cuda
+[nl_g1] CSI02 25/100 [20.5m]
+[nl_g1] CSI02 50/100 [40.7m]
+[nl_g1] CSI02 75/100 [61.5m]
+[nl_g1] CSI02 100/100 [81.7m]
+[nl_g1] CSI02 done [81.7m]
+[nl_g1] D26 25/100 [20.4m]
+[nl_g1] D26 50/100 [39.9m]
+[nl_g1] D26 75/100 [59.5m]
+[nl_g1] D26 100/100 [78.3m]
+[nl_g1] D26 done [78.3m]
+[nl_g1] STORM2 25/100 [21.2m]
+[nl_g1] STORM2 50/100 [42.9m]
+[nl_g1] STORM2 75/100 [63.8m]
+[nl_g1] STORM2 100/100 [84.8m]
+[nl_g1] STORM2 done [84.8m]
+[nl_g1] all done -> Run4/_analysis/ood_policy_nl_g1.csv
