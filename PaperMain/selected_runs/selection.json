@@ -1,0 +1,93 @@
+{
+  "schema": "papermain-selected-runs-v1",
+  "created_at": "2026-09-16T03:01:57.333025+00:00",
+  "policy": "Only frozen checkpoints with a clear paper role and completed fixed-input evaluation are selected.",
+  "selected": [
+    {
+      "run_id": 16,
+      "source": "runs/16_base_cqi4_lrrestart2000_s2024_20260910_gpu5",
+      "slug": "16_main_bernoulli",
+      "role": "primary Bernoulli model",
+      "reason": "Best-supported broad OOD model; highest mean goodput among the three PPO policies in 7 of 10 evaluated worlds.",
+      "fixed_evidence": "evidence/bernoulli_ood/analysis_report.md",
+      "checkpoint": "16_main_bernoulli/ckpt/best.pt",
+      "checkpoint_sha256": "04ce34d239f4ac377b4fd27f40a39640d966094dc9d01fa0eb4d17e2c69dac45",
+      "checkpoint_update": 1989,
+      "training_eval_best_reward": 5692.628212994062,
+      "training_eval_last_update": 1999,
+      "training_eval_last_reward": 5692.628212994062,
+      "training_eval_last_goodput_mbps": 87.47543933333333,
+      "training_eval_last_completion_rate": 0.6470476481079849,
+      "training_eval_last_deadline_miss_rate": 0.3501920965995759
+    },
+    {
+      "run_id": 18,
+      "source": "runs/18_base_cqi4_ftp3_lr1000_s2024_20260910_gpu4",
+      "slug": "18_ftp3_extension",
+      "role": "FTP3 traffic extension",
+      "reason": "Has a completed 100-episode frozen-checkpoint FTP3 evaluation and clear gains over SUS+CQI and PF-Greedy-SDS.",
+      "fixed_evidence": "evidence/ftp3_run18/summary.md",
+      "checkpoint": "18_ftp3_extension/ckpt/best.pt",
+      "checkpoint_sha256": "9afca2081ee8a5db08fe40460528e253456974b2d53abd39ca1cf0ace30ce329",
+      "checkpoint_update": 639,
+      "training_eval_best_reward": 5630.271157120892,
+      "training_eval_last_update": 999,
+      "training_eval_last_reward": 5455.224417874449,
+      "training_eval_last_goodput_mbps": 85.72563066666667,
+      "training_eval_last_completion_rate": 0.6417765410687953,
+      "training_eval_last_deadline_miss_rate": 0.3551678557344578
+    },
+    {
+      "run_id": 21,
+      "source": "runs/21_base_hl_cqi4_bernoulli_lr2000_s2024_20260911_gpu3",
+      "slug": "21_high_load_bernoulli",
+      "role": "high-load complementary model",
+      "reason": "Improves deadline behavior under high offered load and leads PPO goodput in P055, STORM2, and K48.",
+      "fixed_evidence": "evidence/bernoulli_ood/analysis_report.md",
+      "checkpoint": "21_high_load_bernoulli/ckpt/best.pt",
+      "checkpoint_sha256": "d1980adc99ec4cd14ea332fc8fb2ac4a2a5ef0339043ff4a9d49f161555f91a2",
+      "checkpoint_update": 649,
+      "training_eval_best_reward": 5727.897214157149,
+      "training_eval_last_update": 1999,
+      "training_eval_last_reward": 5588.183760139163,
+      "training_eval_last_goodput_mbps": 86.88790533333334,
+      "training_eval_last_completion_rate": 0.6420832274755622,
+      "training_eval_last_deadline_miss_rate": 0.35533760133956066
+    },
+    {
+      "run_id": 22,
+      "source": "runs/22_narrow_mean_hl_cqi4_bernoulli_lr2000_s2024_20260911_gpu5",
+      "slug": "22_narrow_generalization",
+      "role": "training-range ablation model",
+      "reason": "NARROW training remains competitive across all evaluated OOD worlds and supports the training-range analysis.",
+      "fixed_evidence": "evidence/bernoulli_ood/analysis_report.md",
+      "checkpoint": "22_narrow_generalization/ckpt/best.pt",
+      "checkpoint_sha256": "539e72c35cd40699e17d1738b1a606d0a17c7d3b7239c71b41a91506967f9bda",
+      "checkpoint_update": 1469,
+      "training_eval_best_reward": 6447.679854716625,
+      "training_eval_last_update": 1999,
+      "training_eval_last_reward": 6411.354452566141,
+      "training_eval_last_goodput_mbps": 83.94036266666667,
+      "training_eval_last_completion_rate": 0.6748908643102854,
+      "training_eval_last_deadline_miss_rate": 0.3220373809490654
+    }
+  ],
+  "not_selected": [
+    {
+      "runs": "01-13, 15, 17, 20",
+      "reason": "audit, smoke, or superseded intermediate runs"
+    },
+    {
+      "runs": "14",
+      "reason": "superseded as a result by run 16; retained only as run 16 continuation lineage"
+    },
+    {
+      "runs": "19",
+      "reason": "FTP3 training peaked early and degraded strongly by update 1999; no matching fixed evaluation for its best checkpoint"
+    },
+    {
+      "runs": "23-28",
+      "reason": "independent-seed study is incomplete or lacks the shared fixed-input evaluation needed for selection"
+    }
+  ]
+}
