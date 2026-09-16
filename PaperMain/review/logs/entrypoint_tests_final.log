@@ -1,0 +1,22 @@
+test_d26_freezes_feature_normalization (test_paper_eval.PaperEvaluation.test_d26_freezes_feature_normalization) ... ok
+test_user_scaling_changes_shape_without_changing_feature_scales (test_paper_eval.PaperEvaluation.test_user_scaling_changes_shape_without_changing_feature_scales) ... ok
+test_world_is_shared_by_all_three_recipes (test_paper_eval.PaperEvaluation.test_world_is_shared_by_all_three_recipes) ... ok
+test_artifact_and_best_checkpoint_resume_are_rejected (test_paper_train.PaperTrainGuards.test_artifact_and_best_checkpoint_resume_are_rejected) ... ok
+test_cpu_preflight_never_touches_cuda (test_paper_train.PaperTrainGuards.test_cpu_preflight_never_touches_cuda) ... ok
+test_cuda_preflight_rejects_busy_gpu_without_run_writes (test_paper_train.PaperTrainGuards.test_cuda_preflight_rejects_busy_gpu_without_run_writes) ... ok
+test_cuda_preflight_synchronizes_real_allocation (test_paper_train.PaperTrainGuards.test_cuda_preflight_synchronizes_real_allocation) ... ok
+test_historical_base_stays_sequential_and_fixed_lr (test_paper_train.PaperTrainGuards.test_historical_base_stays_sequential_and_fixed_lr) ... ok
+test_lrann_short_test_does_not_change_866_update_horizon (test_paper_train.PaperTrainGuards.test_lrann_short_test_does_not_change_866_update_horizon) ... ok
+test_narrow_keeps_actual_training_world (test_paper_train.PaperTrainGuards.test_narrow_keeps_actual_training_world) ... ok
+test_path_escape_and_existing_run_are_rejected (test_paper_train.PaperTrainGuards.test_path_escape_and_existing_run_are_rejected) ... ok
+test_resume_extends_target_but_restores_schedule_and_config (test_paper_train.PaperTrainGuards.test_resume_extends_target_but_restores_schedule_and_config) ... ok
+test_resume_rejects_changed_run_config (test_paper_train.PaperTrainGuards.test_resume_rejects_changed_run_config) ... ok
+test_resume_rejects_changed_schedule (test_paper_train.PaperTrainGuards.test_resume_rejects_changed_schedule) ... ok
+test_resume_rejects_changed_seed_or_threads (test_paper_train.PaperTrainGuards.test_resume_rejects_changed_seed_or_threads) ... ok
+test_resume_rejects_changed_source (test_paper_train.PaperTrainGuards.test_resume_rejects_changed_source) ... ok
+test_thread_environment_set_before_config_import (test_paper_train.PaperTrainGuards.test_thread_environment_set_before_config_import) ... ok
+
+----------------------------------------------------------------------
+Ran 17 tests in 0.240s
+
+OK

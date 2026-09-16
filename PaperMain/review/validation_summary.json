@@ -1,0 +1,141 @@
+{
+  "status": "complete",
+  "date": "2026-09-09",
+  "guard_and_feature_tests": 17,
+  "analytic_wireless_tests": 4,
+  "fresh_training_recipes": [
+    "base",
+    "lrann",
+    "narrow"
+  ],
+  "training_gpu": 5,
+  "training_slots": 32,
+  "resume_exact_comparison": {
+    "update_a": 1,
+    "update_b": 1,
+    "model_exact_equal": true,
+    "optimizer_exact_equal": true,
+    "torch_rng_exact_equal": true,
+    "cuda_rng_exact_equal": true,
+    "config_equal": true,
+    "max_parameter_abs_diff": 0.0,
+    "learning_rate": 0.0002996535796766743,
+    "expected_lr": 0.0002996535796766743,
+    "passed": true
+  },
+  "isolation_and_checkpoints": {
+    "strict_checkpoint_loads": {
+      "base": 409,
+      "lrann": 539,
+      "narrow": 739,
+      "base_s3024": 489,
+      "base_s4024": 849,
+      "base_s5024": 389
+    },
+    "module_paths": {
+      "config": "/home/MYH/ML_DRL_Scheduler/PaperMain/config.py",
+      "env": "/home/MYH/ML_DRL_Scheduler/PaperMain/env.py",
+      "channel": "/home/MYH/ML_DRL_Scheduler/PaperMain/channel.py",
+      "csi": "/home/MYH/ML_DRL_Scheduler/PaperMain/csi.py",
+      "codebook": "/home/MYH/ML_DRL_Scheduler/PaperMain/codebook.py",
+      "phy": "/home/MYH/ML_DRL_Scheduler/PaperMain/phy.py",
+      "la_planner": "/home/MYH/ML_DRL_Scheduler/PaperMain/la_planner.py",
+      "traffic": "/home/MYH/ML_DRL_Scheduler/PaperMain/traffic.py",
+      "transmission": "/home/MYH/ML_DRL_Scheduler/PaperMain/transmission.py",
+      "policy": "/home/MYH/ML_DRL_Scheduler/PaperMain/policy.py",
+      "ppo": "/home/MYH/ML_DRL_Scheduler/PaperMain/ppo.py",
+      "baselines": "/home/MYH/ML_DRL_Scheduler/PaperMain/baselines.py",
+      "metrics": "/home/MYH/ML_DRL_Scheduler/PaperMain/metrics.py",
+      "train_phase2": "/home/MYH/ML_DRL_Scheduler/PaperMain/train_phase2.py"
+    },
+    "passed": true
+  },
+  "replay_equivalence": {
+    "slots": 48,
+    "result": "PASS"
+  },
+  "ppo_update_equivalence": {
+    "slots": 300,
+    "result": "PASS",
+    "includes": "short final minibatch and KL-frozen actor branch"
+  },
+  "known_batch_failure_reproduced": true,
+  "calibration": "historical sampler smoke, 1 calibration + 1 holdout episode of 32 slots; NOT corrected beta",
+  "evaluations": {
+    "audit_eval": {
+      "rows": 110,
+      "worlds": [
+        "ID",
+        "D26",
+        "K8",
+        "K48",
+        "K60"
+      ],
+      "slots": 32,
+      "episode_start": 90010,
+      "elapsed_seconds": 43.50631464086473,
+      "diagnostic": true
+    },
+    "audit_other_ood": {
+      "rows": 55,
+      "worlds": [
+        "P055",
+        "P010",
+        "V60max",
+        "CSI02",
+        "STORM2"
+      ],
+      "slots": 32,
+      "episode_start": 90011,
+      "elapsed_seconds": 35.89351370558143,
+      "diagnostic": true
+    },
+    "audit_full_episode": {
+      "rows": 11,
+      "worlds": [
+        "ID"
+      ],
+      "slots": 1000,
+      "episode_start": 90020,
+      "elapsed_seconds": 113.75110730528831,
+      "diagnostic": true
+    },
+    "audit_final_runner": {
+      "rows": 12,
+      "worlds": [
+        "P010"
+      ],
+      "slots": 32,
+      "episode_start": 90012,
+      "elapsed_seconds": 5.324928395450115,
+      "diagnostic": true
+    }
+  },
+  "scientific_validation_complete": false,
+  "not_performed": [
+    "long retraining",
+    "corrected 36+12 beta calibration",
+    "full 9x100 OOD reevaluation",
+    "new training-seed replicates",
+    "new blind test"
+  ],
+  "initial_gpu_access_failures": "GPU0/1 became occupied in Exclusive_Process mode; originals/jobs untouched; successful checks used GPU5",
+  "original_files_unchanged": true,
+  "copied_original_files": 137,
+  "original_core_identical": [
+    "ppo.py",
+    "transmission.py",
+    "metrics.py",
+    "codebook.py",
+    "phy.py",
+    "channel.py",
+    "la_planner.py",
+    "csi.py",
+    "env.py",
+    "policy.py",
+    "config.py",
+    "baselines.py",
+    "traffic.py"
+  ],
+  "python_files_parsed": 28
+}

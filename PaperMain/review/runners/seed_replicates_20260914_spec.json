@@ -1,0 +1,78 @@
+{
+  "root": "/home/MYH/ML_DRL_Scheduler/PaperMain",
+  "campaign_dir": "results/seed_replicates_20260914",
+  "jobs": [
+    {
+      "name": "23_base_stage1_lr1000_s1002024_20260914_gpu3",
+      "recipe": "base",
+      "entry": "paper_train.py",
+      "seed": 1002024,
+      "gpu": 3,
+      "target_updates": 1000,
+      "reference_run": "21_base_hl_cqi4_bernoulli_lr2000_s2024_20260911_gpu3",
+      "calibration_profile": "results/cqi4_hl_corrected_v2/summary.json",
+      "calibration_reference_root": "provenance/before_ftp3_sources",
+      "purpose": "Run16 reproduction stage1 only: fresh 1000 updates; later continue this seed's latest checkpoint for another 1000 with LR restart."
+    },
+    {
+      "name": "24_base_lr2000_s1002024_20260914_gpu4",
+      "recipe": "base",
+      "entry": "paper_train.py",
+      "seed": 1002024,
+      "gpu": 4,
+      "target_updates": 2000,
+      "reference_run": "21_base_hl_cqi4_bernoulli_lr2000_s2024_20260911_gpu3",
+      "calibration_profile": "results/cqi4_hl_corrected_v2/summary.json",
+      "calibration_reference_root": "provenance/before_ftp3_sources",
+      "purpose": "Run21 independent training replicate; fresh 2000 updates with LR annealed over the full horizon."
+    },
+    {
+      "name": "25_narrow_mean_lr2000_s1002024_20260914_gpu5",
+      "recipe": "narrow_mean",
+      "entry": "paper_train_variants.py",
+      "seed": 1002024,
+      "gpu": 5,
+      "target_updates": 2000,
+      "reference_run": "22_narrow_mean_hl_cqi4_bernoulli_lr2000_s2024_20260911_gpu5",
+      "calibration_profile": "results/cqi4_hl_corrected_v2/summary.json",
+      "calibration_reference_root": "provenance/before_ftp3_sources",
+      "purpose": "Run22 independent training replicate; mean-matched NARROW paired with the Base replicate using the same training seed."
+    },
+    {
+      "name": "26_base_stage1_lr1000_s2002024_20260914_gpu3",
+      "recipe": "base",
+      "entry": "paper_train.py",
+      "seed": 2002024,
+      "gpu": 3,
+      "target_updates": 1000,
+      "reference_run": "21_base_hl_cqi4_bernoulli_lr2000_s2024_20260911_gpu3",
+      "calibration_profile": "results/cqi4_hl_corrected_v2/summary.json",
+      "calibration_reference_root": "provenance/before_ftp3_sources",
+      "purpose": "Second independent Run16 reproduction stage1; not yet a complete 2000-update Run16 replicate."
+    },
+    {
+      "name": "27_base_lr2000_s2002024_20260914_gpu4",
+      "recipe": "base",
+      "entry": "paper_train.py",
+      "seed": 2002024,
+      "gpu": 4,
+      "target_updates": 2000,
+      "reference_run": "21_base_hl_cqi4_bernoulli_lr2000_s2024_20260911_gpu3",
+      "calibration_profile": "results/cqi4_hl_corrected_v2/summary.json",
+      "calibration_reference_root": "provenance/before_ftp3_sources",
+      "purpose": "Second independent Run21 training replicate."
+    },
+    {
+      "name": "28_narrow_mean_lr2000_s2002024_20260914_gpu5",
+      "recipe": "narrow_mean",
+      "entry": "paper_train_variants.py",
+      "seed": 2002024,
+      "gpu": 5,
+      "target_updates": 2000,
+      "reference_run": "22_narrow_mean_hl_cqi4_bernoulli_lr2000_s2024_20260911_gpu5",
+      "calibration_profile": "results/cqi4_hl_corrected_v2/summary.json",
+      "calibration_reference_root": "provenance/before_ftp3_sources",
+      "purpose": "Second independent Run22 training replicate, paired with Base at the same seed."
+    }
+  ]
+}

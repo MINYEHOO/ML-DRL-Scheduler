@@ -1,0 +1,130 @@
+{
+  "runs": 18,
+  "aliases_available": 88,
+  "warnings": [],
+  "organized_at": "2026-09-10T02:48:28.006986+00:00"
+}
+{
+  "original_artifacts_verified": 137,
+  "package_files_verified": 246,
+  "errors": []
+}
+{
+  "status": "passed",
+  "validated_at": "2026-09-10T02:48:28.007106+00:00",
+  "tests": 166,
+  "new_traffic_tests": 12,
+  "new_wrapper_tests": 19,
+  "traffic": {
+    "model": "ftp3",
+    "arrival_process": "per-UE Poisson counts conditional on sampled episode intensity; slot-boundary arrivals",
+    "mean_per_ue_per_slot": [
+      0.15,
+      0.5
+    ],
+    "mean_per_ue_per_second": [
+      300,
+      1000
+    ],
+    "same_mean_offered_load": true,
+    "packet_bits": [
+      4000,
+      12000
+    ],
+    "deadline_slots": [
+      3,
+      12
+    ],
+    "queue_capacity": 8,
+    "slot_seconds": 0.0005,
+    "legacy_bernoulli_rng_exact": true,
+    "shared_csi_rng_consumption_changes": true
+  },
+  "calibration": {
+    "application": "Bernoulli Base-calibrated beta transferred to FTP3 traffic; no FTP3 holdout validation",
+    "reference_root": "provenance/before_ftp3_sources",
+    "beta": [
+      1.0162,
+      0.8509,
+      0.7732,
+      0.728
+    ],
+    "original_profile_unmodified": true,
+    "ftp3_holdout_validated": false
+  },
+  "smoke": {
+    "name": "17_audit_ftp3_gpu4",
+    "status": "completed",
+    "phases": [
+      {
+        "target_updates": 1,
+        "checkpoint_update": 0,
+        "optimizer_lr": 0.0003,
+        "seconds": 18.981094827875495,
+        "finite_weights": true
+      },
+      {
+        "target_updates": 2,
+        "checkpoint_update": 1,
+        "optimizer_lr": 0.00029969999999999997,
+        "seconds": 19.162928964942694,
+        "finite_weights": true
+      }
+    ],
+    "resume_verified": true,
+    "actual_model_update_verified": true
+  },
+  "main": {
+    "name": "18_base_cqi4_ftp3_lr1000_s2024_20260910_gpu4",
+    "status": "running",
+    "physical_gpu": 4,
+    "seed": 2024,
+    "target_updates": 1000,
+    "initial_lr": 0.0003,
+    "schedule": {
+      "lr_final": 0.0,
+      "lr_decay_updates": 1000
+    },
+    "run_dir": "/home/MYH/ML_DRL_Scheduler/PaperMain/runs/18_base_cqi4_ftp3_lr1000_s2024_20260910_gpu4",
+    "training_pid": 151749,
+    "supervisor_pid": 151740,
+    "completed_training_updates": 1,
+    "checkpoint": {
+      "update": 0,
+      "optimizer_lr": 0.0003,
+      "finite": true
+    },
+    "config_diff_vs_run14": [
+      "traffic_model"
+    ],
+    "eval_csv": "/home/MYH/ML_DRL_Scheduler/PaperMain/runs/18_base_cqi4_ftp3_lr1000_s2024_20260910_gpu4/eval.csv",
+    "eval_every": 10,
+    "eval_episodes": 3
+  },
+  "bernoulli_run16": {
+    "status": "running",
+    "physical_gpu": 5,
+    "training_pid": 139182,
+    "source_snapshot_matches_manifest": true
+  },
+  "original_code_files_unchanged": 16,
+  "original_and_copied_artifacts_unchanged": 137,
+  "source_sha256": {
+    "paper_train.py": "3095c067ce9ed3cf0dea43bcac5263e839986b85599e53ef4df43b84be3f64cc",
+    "train_phase2.py": "2079a90c356a92d8cd591b378d6708b6b06d3185a84fc206d887d9bb9b3e4eca",
+    "config.py": "734936660c5ea80ad64c8b58b1d9f2e6942e5e52787f5df7d07370cb0e8845a8",
+    "env.py": "e91c83165b2717c3c021433c67fb6531ae20e6f714b934b936b6ff95aff5015d",
+    "channel.py": "b308c63d369a181ba08788bc0f52f6f620c1ac3ff65ad210ae5367cd0d47e755",
+    "csi.py": "e6084b6b514c1269e0a56c76637a07c2cffcf04cfa889683a38d23b10d71f356",
+    "codebook.py": "93234f7b2aae3d7f5b593deca8aa8c4aace3c0756e2a20abe577e1ffbe381abf",
+    "phy.py": "f18d9d7cf57a981c6e835a955eea0a0195e2efdf6aad675312566b61b0b66846",
+    "la_planner.py": "ddb6028d2fd138b6b4517ecc5a73ea109915f1029081350a42a152343bb3d39d",
+    "traffic.py": "3a4c341b240924110c82c296eec3b7bf67dfcf2d7d8e2043557462ae843cdf01",
+    "transmission.py": "317e0ece855e33de44445a7c4ecb90cddbad5dbcc70dd9357435864f5887276e",
+    "policy.py": "b668806d4604abe7f69683a4b78136dd4a811abe1597dadb640c22d4507af9f5",
+    "ppo.py": "dc3157aed774fe410f729b142db5f914fd095ba824d0366d8f619c50b27fd298",
+    "baselines.py": "c227fdc61c836969f1c8f7d7bf2cbccce0efd7e1a36b4940cc6b4dddd0e17e07",
+    "metrics.py": "cba7a47dd1de4c5487bf5ee91925f3b0a869436430496044ad5bf9bada9a8809",
+    "calibration/profile.py": "35e4c3ff438eaa29770b905229ad67d47fd4bd73acc298ac00e5708cc0a98d92"
+  }
+}

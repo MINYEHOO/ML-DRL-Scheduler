@@ -1,0 +1,226 @@
+{
+  "status": "passed",
+  "validated_at": "2026-09-13T07:58:36.470441+00:00",
+  "campaign": "/home/MYH/ML_DRL_Scheduler/PaperMain/results/bernoulli_ood_runs16_21_22_20260913",
+  "current_phase": "pilot",
+  "supervisor_pid": 246631,
+  "workers": [
+    {
+      "gpu": 3,
+      "model": 21,
+      "command": [
+        "/usr/bin/python",
+        "-u",
+        "paper_ood_eval.py",
+        "--run",
+        "runs/21_base_hl_cqi4_bernoulli_lr2000_s2024_20260911_gpu3",
+        "--base-run",
+        "runs/21_base_hl_cqi4_bernoulli_lr2000_s2024_20260911_gpu3",
+        "--mode",
+        "pilot",
+        "--gpu",
+        "3",
+        "--threads",
+        "4",
+        "--episode-start",
+        "139000",
+        "--episodes",
+        "8",
+        "--out",
+        "/home/MYH/ML_DRL_Scheduler/PaperMain/results/bernoulli_ood_runs16_21_22_20260913/pilot/gpu3",
+        "--history-audit",
+        "/home/MYH/ML_DRL_Scheduler/PaperMain/results/bernoulli_ood_runs16_21_22_20260913/inputs/episode_history_audit.json",
+        "--worlds",
+        "ID",
+        "P055",
+        "P010",
+        "K60",
+        "--schedulers",
+        "sus_cqi"
+      ],
+      "out": "/home/MYH/ML_DRL_Scheduler/PaperMain/results/bernoulli_ood_runs16_21_22_20260913/pilot/gpu3",
+      "pid": 246638,
+      "log": "/home/MYH/ML_DRL_Scheduler/PaperMain/results/bernoulli_ood_runs16_21_22_20260913/pilot_gpu3.log"
+    },
+    {
+      "gpu": 4,
+      "model": 21,
+      "command": [
+        "/usr/bin/python",
+        "-u",
+        "paper_ood_eval.py",
+        "--run",
+        "runs/21_base_hl_cqi4_bernoulli_lr2000_s2024_20260911_gpu3",
+        "--base-run",
+        "runs/21_base_hl_cqi4_bernoulli_lr2000_s2024_20260911_gpu3",
+        "--mode",
+        "pilot",
+        "--gpu",
+        "4",
+        "--threads",
+        "4",
+        "--episode-start",
+        "139000",
+        "--episodes",
+        "8",
+        "--out",
+        "/home/MYH/ML_DRL_Scheduler/PaperMain/results/bernoulli_ood_runs16_21_22_20260913/pilot/gpu4",
+        "--history-audit",
+        "/home/MYH/ML_DRL_Scheduler/PaperMain/results/bernoulli_ood_runs16_21_22_20260913/inputs/episode_history_audit.json",
+        "--worlds",
+        "V60max",
+        "CSI02",
+        "D26strict",
+        "--schedulers",
+        "sus_cqi"
+      ],
+      "out": "/home/MYH/ML_DRL_Scheduler/PaperMain/results/bernoulli_ood_runs16_21_22_20260913/pilot/gpu4",
+      "pid": 246639,
+      "log": "/home/MYH/ML_DRL_Scheduler/PaperMain/results/bernoulli_ood_runs16_21_22_20260913/pilot_gpu4.log"
+    },
+    {
+      "gpu": 5,
+      "model": 21,
+      "command": [
+        "/usr/bin/python",
+        "-u",
+        "paper_ood_eval.py",
+        "--run",
+        "runs/21_base_hl_cqi4_bernoulli_lr2000_s2024_20260911_gpu3",
+        "--base-run",
+        "runs/21_base_hl_cqi4_bernoulli_lr2000_s2024_20260911_gpu3",
+        "--mode",
+        "pilot",
+        "--gpu",
+        "5",
+        "--threads",
+        "4",
+        "--episode-start",
+        "139000",
+        "--episodes",
+        "8",
+        "--out",
+        "/home/MYH/ML_DRL_Scheduler/PaperMain/results/bernoulli_ood_runs16_21_22_20260913/pilot/gpu5",
+        "--history-audit",
+        "/home/MYH/ML_DRL_Scheduler/PaperMain/results/bernoulli_ood_runs16_21_22_20260913/inputs/episode_history_audit.json",
+        "--worlds",
+        "STORM2",
+        "K8",
+        "K48",
+        "--schedulers",
+        "sus_cqi"
+      ],
+      "out": "/home/MYH/ML_DRL_Scheduler/PaperMain/results/bernoulli_ood_runs16_21_22_20260913/pilot/gpu5",
+      "pid": 246640,
+      "log": "/home/MYH/ML_DRL_Scheduler/PaperMain/results/bernoulli_ood_runs16_21_22_20260913/pilot_gpu5.log"
+    }
+  ],
+  "tests": 273,
+  "smoke_rows": 90,
+  "smoke_worlds": 10,
+  "cross_gpu_equivalence": {
+    "status": "passed",
+    "rows": 30,
+    "physical_gpus": [
+      5,
+      3
+    ],
+    "reversed_scheduler_order": true,
+    "max_abs_difference": 0.0
+  },
+  "model_assignments": [
+    {
+      "run": 16,
+      "gpu": 3,
+      "directory": "/home/MYH/ML_DRL_Scheduler/PaperMain/runs/16_base_cqi4_lrrestart2000_s2024_20260910_gpu5/ood_20260913",
+      "eval_csv": "/home/MYH/ML_DRL_Scheduler/PaperMain/runs/16_base_cqi4_lrrestart2000_s2024_20260910_gpu5/ood_20260913/eval.csv"
+    },
+    {
+      "run": 21,
+      "gpu": 4,
+      "directory": "/home/MYH/ML_DRL_Scheduler/PaperMain/runs/21_base_hl_cqi4_bernoulli_lr2000_s2024_20260911_gpu3/ood_20260913",
+      "eval_csv": "/home/MYH/ML_DRL_Scheduler/PaperMain/runs/21_base_hl_cqi4_bernoulli_lr2000_s2024_20260911_gpu3/ood_20260913/eval.csv"
+    },
+    {
+      "run": 22,
+      "gpu": 5,
+      "directory": "/home/MYH/ML_DRL_Scheduler/PaperMain/runs/22_narrow_mean_hl_cqi4_bernoulli_lr2000_s2024_20260911_gpu5/ood_20260913",
+      "eval_csv": "/home/MYH/ML_DRL_Scheduler/PaperMain/runs/22_narrow_mean_hl_cqi4_bernoulli_lr2000_s2024_20260911_gpu5/ood_20260913/eval.csv"
+    }
+  ],
+  "main_episodes_per_world": 100,
+  "worlds": [
+    "ID",
+    "P055",
+    "P010",
+    "V60max",
+    "CSI02",
+    "D26strict",
+    "STORM2",
+    "K8",
+    "K48",
+    "K60"
+  ],
+  "expected_rows": 9000,
+  "checkpoint_preflight": {
+    "status": "passed",
+    "checks": [
+      {
+        "run": "16",
+        "update": 1989,
+        "source_mode": "reviewed-bernoulli-legacy-bridge",
+        "strict_model_shapes": [
+          8,
+          32,
+          48,
+          60
+        ],
+        "runtime": "matched"
+      },
+      {
+        "run": "21",
+        "update": 649,
+        "source_mode": "current-exact",
+        "strict_model_shapes": [
+          8,
+          32,
+          48,
+          60
+        ],
+        "runtime": "matched"
+      },
+      {
+        "run": "22",
+        "update": 1469,
+        "source_mode": "current-exact",
+        "strict_model_shapes": [
+          8,
+          32,
+          48,
+          60
+        ],
+        "runtime": "matched"
+      }
+    ]
+  },
+  "old_artifacts_unchanged": 137,
+  "science_sources_unchanged": true,
+  "source_sha256": {
+    "paper_train.py": "3095c067ce9ed3cf0dea43bcac5263e839986b85599e53ef4df43b84be3f64cc",
+    "train_phase2.py": "2079a90c356a92d8cd591b378d6708b6b06d3185a84fc206d887d9bb9b3e4eca",
+    "config.py": "734936660c5ea80ad64c8b58b1d9f2e6942e5e52787f5df7d07370cb0e8845a8",
+    "env.py": "e91c83165b2717c3c021433c67fb6531ae20e6f714b934b936b6ff95aff5015d",
+    "channel.py": "b308c63d369a181ba08788bc0f52f6f620c1ac3ff65ad210ae5367cd0d47e755",
+    "csi.py": "e6084b6b514c1269e0a56c76637a07c2cffcf04cfa889683a38d23b10d71f356",
+    "codebook.py": "93234f7b2aae3d7f5b593deca8aa8c4aace3c0756e2a20abe577e1ffbe381abf",
+    "phy.py": "f18d9d7cf57a981c6e835a955eea0a0195e2efdf6aad675312566b61b0b66846",
+    "la_planner.py": "ddb6028d2fd138b6b4517ecc5a73ea109915f1029081350a42a152343bb3d39d",
+    "traffic.py": "3a4c341b240924110c82c296eec3b7bf67dfcf2d7d8e2043557462ae843cdf01",
+    "transmission.py": "317e0ece855e33de44445a7c4ecb90cddbad5dbcc70dd9357435864f5887276e",
+    "policy.py": "b668806d4604abe7f69683a4b78136dd4a811abe1597dadb640c22d4507af9f5",
+    "ppo.py": "dc3157aed774fe410f729b142db5f914fd095ba824d0366d8f619c50b27fd298",
+    "baselines.py": "c227fdc61c836969f1c8f7d7bf2cbccce0efd7e1a36b4940cc6b4dddd0e17e07",
+    "metrics.py": "cba7a47dd1de4c5487bf5ee91925f3b0a869436430496044ad5bf9bada9a8809",
+    "calibration/profile.py": "35e4c3ff438eaa29770b905229ad67d47fd4bd73acc298ac00e5708cc0a98d92"
+  }
+}

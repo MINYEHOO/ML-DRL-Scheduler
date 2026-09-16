@@ -1,0 +1,72 @@
+{
+  "genie_groups": 200,
+  "max_pred_actual_sinr_error": 0.0,
+  "max_nonzero_group_power_error": 4.440892098500626e-16,
+  "calibration_zero_member": {
+    "sampled_nominal_depth": 2,
+    "sampled_ratios": [
+      1.0,
+      0.0
+    ],
+    "runtime_survivors": [
+      0
+    ],
+    "runtime_depth": 1,
+    "nominal_live_sinr": 5.000000000000001,
+    "runtime_live_sinr": 10.000000000000002
+  },
+  "controlled_overflow_rng": {
+    "overflow_A": 1,
+    "overflow_B": 0,
+    "admitted_A": [
+      2,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9,
+      14,
+      15,
+      16,
+      17,
+      18,
+      19,
+      20,
+      21,
+      24,
+      27,
+      30,
+      31
+    ],
+    "admitted_B": [
+      0,
+      1,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      13,
+      14,
+      15,
+      16,
+      17,
+      18,
+      19,
+      20,
+      23,
+      26,
+      29,
+      30
+    ],
+    "different_next_CSI_mask_entries": 13
+  },
+  "historical_main_training": {
+    "episodes": 868,
+    "episodes_with_buffer_overflow": 300,
+    "max_buffer_overflow_rate": 0.0012760241773002014
+  },
+  "notes": "Analytic/controller probes, not full training/evaluation. Overflow test deliberately starts two different queue states to expose RNG dependency; it is not an observed policy-vs-policy episode."
+}

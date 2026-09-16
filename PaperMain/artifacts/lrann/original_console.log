@@ -1,0 +1,151 @@
+===== [wrap] attempt 1 2026-08-31 02:15:14 :: --resume Run4/QueuePostRZF_S40HL_CQI4_LRANN/ckpt/latest.pt =====
+2026-08-31 02:15:16.365147: I tensorflow/core/util/port.cc:113] oneDNN custom operations are on. You may see slightly different numerical results due to floating-point round-off errors from different computation orders. To turn them off, set the environment variable `TF_ENABLE_ONEDNN_OPTS=0`.
+2026-08-31 02:15:16.421655: E external/local_xla/xla/stream_executor/cuda/cuda_dnn.cc:9261] Unable to register cuDNN factory: Attempting to register factory for plugin cuDNN when one has already been registered
+2026-08-31 02:15:16.421689: E external/local_xla/xla/stream_executor/cuda/cuda_fft.cc:607] Unable to register cuFFT factory: Attempting to register factory for plugin cuFFT when one has already been registered
+2026-08-31 02:15:16.423377: E external/local_xla/xla/stream_executor/cuda/cuda_blas.cc:1515] Unable to register cuBLAS factory: Attempting to register factory for plugin cuBLAS when one has already been registered
+2026-08-31 02:15:16.431779: I tensorflow/core/platform/cpu_feature_guard.cc:182] This TensorFlow binary is optimized to use available CPU instructions in performance-critical operations.
+To enable the following instructions: AVX2 AVX512F AVX512_VNNI FMA, in other operations, rebuild TensorFlow with the appropriate compiler flags.
+2026-08-31 02:15:18.995544: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1929] Created device /job:localhost/replica:0/task:0/device:GPU:0 with 22282 MB memory:  -> device: 0, name: NVIDIA GeForce RTX 4090, pci bus id: 0000:ca:00.0, compute capability: 8.9
+2026-08-31 02:15:24.686842: I tensorflow/core/util/cuda_solvers.cc:179] Creating GpuSolver handles for stream 0x49d155b0
+git: 6bfb3b5789ec  (clean py)
+=== ML DRL Scheduler -- Config ===
+  cell        : 1 BS (32 ant) x 32 UE (1 ant), DL
+  resource    : 8 RBG x 4 layers = 32 positions
+  RE per RBG  : 1344
+  bandwidth   : RBG 2.88 MHz, total 23.04 MHz
+  slot        : 0.500 ms
+  channel     : TR38.901 UMI, UE speed 3.0 km/h
+  codebook    : type2_sparse_56bit, L=4, atoms=512, payload=56 bit/(UE,RBG)
+  feedback    : p_csi=0.6, cqi=nr4bit
+  traffic     : p_arrival=0.22, size U[4000,12000] bits, deadline U[3,12] slots
+  power/noise : P_total=8.0, P_r=1.0, target SNR 10.0 dB (calibration)
+  retx        : max_retx=4 (5 attempts total)
+  reward      : lambda_s/c/m=1.0/1.0/2.0, eta_D=1.0, B_norm=8000.0
+  episode     : 1000 slots
+
+run_dir: /home/MYH/ML_DRL_Scheduler/Run4/QueuePostRZF_S40HL_CQI4_LRANN
+num_updates: 866
+device: cuda
+actor-critic params: 98,755
+
+resumed Run4/QueuePostRZF_S40HL_CQI4_LRANN/ckpt/latest.pt: start_update=614, best_eval_reward=5132.88
+lr anneal: 0.0003 -> 0.0 over 866 updates (linear, resume-safe)
+[ 615/866] rew= 6401.7  thr=62.64Mbps  comp=0.796  drop=0.000  SINR= 18.4dB  KL= 0.0041  ent=0.714  clip=0.049  ev=+0.11  t=103s
+  --- eval at update 619 ---
+    PPO           reward  5100.03  thrpt  86.76Mbps  comp 0.630  totfail 0.368  depth 2.83
+[ 620/866] rew= 3817.0  thr=99.44Mbps  comp=0.562  drop=0.000  SINR= 12.7dB  KL= 0.0073  ent=1.192  clip=0.098  ev=+0.35  t=539s
+    [kl-stop] update 623: minibatch KL 0.0351 > 0.0300 (epoch 4/4) -- actor frozen, value-only for remaining passes
+    [batch-verify] update 625: 4 slots, max scaled |diff| 3.81e-06 OK
+[ 625/866] rew= 5263.7  thr=77.46Mbps  comp=0.651  drop=0.000  SINR= 14.2dB  KL= 0.0076  ent=0.820  clip=0.097  ev=+0.26  t=800s
+  --- eval at update 629 ---
+    PPO           reward  5123.97  thrpt  86.91Mbps  comp 0.630  totfail 0.367  depth 2.82
+[ 630/866] rew= 5174.8  thr=91.20Mbps  comp=0.610  drop=0.000  SINR= 10.3dB  KL= 0.0081  ent=1.291  clip=0.123  ev=+0.32  t=1198s
+[ 635/866] rew= 5838.6  thr=65.38Mbps  comp=0.734  drop=0.000  SINR= 12.5dB  KL= 0.0113  ent=0.673  clip=0.144  ev=+0.25  t=1473s
+  --- eval at update 639 ---
+    PPO           reward  5096.08  thrpt  86.80Mbps  comp 0.629  totfail 0.368  depth 2.86
+[ 640/866] rew= 6253.0  thr=89.71Mbps  comp=0.654  drop=0.000  SINR= 12.0dB  KL= 0.0060  ent=1.124  clip=0.080  ev=+0.37  t=1884s
+    [kl-stop] update 641: minibatch KL 0.0302 > 0.0300 (epoch 4/4) -- actor frozen, value-only for remaining passes
+[ 645/866] rew= 5634.8  thr=96.14Mbps  comp=0.620  drop=0.000  SINR= 16.3dB  KL= 0.0068  ent=0.925  clip=0.089  ev=+0.36  t=2149s
+    [kl-stop] update 649: minibatch KL 0.0323 > 0.0300 (epoch 4/4) -- actor frozen, value-only for remaining passes
+  --- eval at update 649 ---
+    PPO           reward  5090.89  thrpt  86.80Mbps  comp 0.629  totfail 0.368  depth 2.75
+    [batch-verify] update 650: 4 slots, max scaled |diff| 7.63e-06 OK
+[ 650/866] rew= 6226.0  thr=108.37Mbps  comp=0.615  drop=0.000  SINR= 12.7dB  KL= 0.0064  ent=1.233  clip=0.089  ev=+0.38  t=2546s
+[ 655/866] rew= 5548.5  thr=80.00Mbps  comp=0.653  drop=0.000  SINR= 10.3dB  KL= 0.0108  ent=0.954  clip=0.154  ev=+0.33  t=2813s
+  --- eval at update 659 ---
+    PPO           reward  5093.61  thrpt  86.77Mbps  comp 0.629  totfail 0.368  depth 2.74
+[ 660/866] rew= 3860.6  thr=110.18Mbps  comp=0.549  drop=0.000  SINR= 13.2dB  KL= 0.0131  ent=1.616  clip=0.186  ev=+0.28  t=3228s
+[ 665/866] rew= 2555.9  thr=51.55Mbps  comp=0.589  drop=0.000  SINR= 17.1dB  KL= 0.0062  ent=0.628  clip=0.082  ev=+0.24  t=3500s
+  --- eval at update 669 ---
+    PPO           reward  5058.33  thrpt  86.61Mbps  comp 0.628  totfail 0.369  depth 2.68
+[ 670/866] rew= 6675.6  thr=80.75Mbps  comp=0.708  drop=0.000  SINR= 11.0dB  KL= 0.0059  ent=0.808  clip=0.075  ev=+0.20  t=3887s
+    [batch-verify] update 675: 4 slots, max scaled |diff| 7.63e-06 OK
+[ 675/866] rew= 4391.7  thr=94.50Mbps  comp=0.583  drop=0.000  SINR= 11.6dB  KL= 0.0083  ent=1.160  clip=0.119  ev=+0.36  t=4177s
+  --- eval at update 679 ---
+    PPO           reward  5073.93  thrpt  86.70Mbps  comp 0.629  totfail 0.369  depth 2.69
+[ 680/866] rew= 3081.6  thr=50.79Mbps  comp=0.626  drop=0.000  SINR= 12.3dB  KL= 0.0056  ent=0.563  clip=0.072  ev=+0.34  t=4551s
+[ 685/866] rew= 5054.8  thr=88.73Mbps  comp=0.615  drop=0.000  SINR= 14.9dB  KL= 0.0069  ent=0.935  clip=0.091  ev=+0.37  t=4827s
+  --- eval at update 689 ---
+    PPO           reward  5060.08  thrpt  86.61Mbps  comp 0.629  totfail 0.369  depth 2.65
+[ 690/866] rew= 2380.9  thr=94.88Mbps  comp=0.531  drop=0.000  SINR= 12.8dB  KL= 0.0148  ent=0.986  clip=0.205  ev=+0.40  t=5186s
+    [kl-stop] update 695: minibatch KL 0.0337 > 0.0300 (epoch 4/4) -- actor frozen, value-only for remaining passes
+[ 695/866] rew= 9754.5  thr=87.95Mbps  comp=0.844  drop=0.000  SINR= 13.5dB  KL= 0.0146  ent=0.832  clip=0.186  ev=+0.07  t=5435s
+  --- eval at update 699 ---
+    PPO           reward  5058.88  thrpt  86.71Mbps  comp 0.628  totfail 0.369  depth 2.65
+    [batch-verify] update 700: 4 slots, max scaled |diff| 1.91e-06 OK
+[ 700/866] rew= 2665.9  thr=42.15Mbps  comp=0.635  drop=0.001  SINR= 11.2dB  KL= 0.0058  ent=0.503  clip=0.072  ev=+0.06  t=5817s
+[ 705/866] rew= 2336.7  thr=80.80Mbps  comp=0.538  drop=0.000  SINR=  8.9dB  KL= 0.0055  ent=1.041  clip=0.069  ev=+0.14  t=6080s
+  --- eval at update 709 ---
+    PPO           reward  5098.32  thrpt  86.75Mbps  comp 0.630  totfail 0.368  depth 2.68
+[ 710/866] rew= 2935.8  thr=98.34Mbps  comp=0.541  drop=0.000  SINR= 10.5dB  KL= 0.0035  ent=1.108  clip=0.041  ev=+0.29  t=6486s
+[ 715/866] rew= 6374.7  thr=56.35Mbps  comp=0.858  drop=0.000  SINR= 18.2dB  KL= 0.0048  ent=0.500  clip=0.061  ev=-0.15  t=6754s
+  --- eval at update 719 ---
+    PPO           reward  5103.37  thrpt  86.89Mbps  comp 0.630  totfail 0.368  depth 2.70
+[ 720/866] rew= 4254.2  thr=48.85Mbps  comp=0.725  drop=0.000  SINR= 15.2dB  KL= 0.0042  ent=0.460  clip=0.048  ev=+0.09  t=7116s
+    [batch-verify] update 725: 4 slots, max scaled |diff| 7.63e-06 OK
+[ 725/866] rew= 3475.2  thr=110.72Mbps  comp=0.543  drop=0.000  SINR= 12.5dB  KL= 0.0058  ent=1.357  clip=0.076  ev=+0.30  t=7413s
+  --- eval at update 729 ---
+    PPO           reward  5113.92  thrpt  86.88Mbps  comp 0.630  totfail 0.367  depth 2.71
+[ 730/866] rew= 5054.8  thr=75.54Mbps  comp=0.648  drop=0.000  SINR= 10.4dB  KL= 0.0045  ent=0.709  clip=0.056  ev=+0.25  t=7802s
+[ 735/866] rew= 3326.5  thr=116.15Mbps  comp=0.537  drop=0.000  SINR= 10.6dB  KL= 0.0069  ent=1.270  clip=0.104  ev=+0.42  t=8093s
+  --- eval at update 739 ---
+    PPO           reward  5097.46  thrpt  86.81Mbps  comp 0.630  totfail 0.368  depth 2.69
+[ 740/866] rew= 3879.4  thr=90.34Mbps  comp=0.573  drop=0.000  SINR= 11.4dB  KL= 0.0059  ent=0.995  clip=0.066  ev=+0.33  t=8501s
+[ 745/866] rew= 1847.1  thr=124.23Mbps  comp=0.509  drop=0.000  SINR= 13.5dB  KL= 0.0018  ent=1.288  clip=0.013  ev=+0.22  t=8764s
+  --- eval at update 749 ---
+    PPO           reward  5094.73  thrpt  86.76Mbps  comp 0.630  totfail 0.368  depth 2.67
+    [batch-verify] update 750: 4 slots, max scaled |diff| 2.06e-06 OK
+[ 750/866] rew= 2767.5  thr=47.61Mbps  comp=0.619  drop=0.000  SINR= 17.3dB  KL= 0.0018  ent=0.442  clip=0.014  ev=+0.29  t=9137s
+[ 755/866] rew= 3394.8  thr=64.37Mbps  comp=0.602  drop=0.000  SINR= 19.7dB  KL= 0.0023  ent=0.539  clip=0.018  ev=-0.44  t=9387s
+  --- eval at update 759 ---
+    PPO           reward  5098.13  thrpt  86.81Mbps  comp 0.630  totfail 0.368  depth 2.68
+[ 760/866] rew= 5901.7  thr=72.20Mbps  comp=0.703  drop=0.000  SINR= 11.2dB  KL= 0.0027  ent=0.660  clip=0.028  ev=+0.35  t=9758s
+[ 765/866] rew= 7007.7  thr=77.41Mbps  comp=0.735  drop=0.000  SINR= 12.9dB  KL= 0.0067  ent=1.048  clip=0.099  ev=+0.36  t=10024s
+  --- eval at update 769 ---
+    PPO           reward  5111.24  thrpt  86.79Mbps  comp 0.630  totfail 0.367  depth 2.70
+[ 770/866] rew= 4339.9  thr=81.91Mbps  comp=0.603  drop=0.000  SINR= 14.9dB  KL= 0.0032  ent=0.841  clip=0.035  ev=+0.32  t=10419s
+    [batch-verify] update 775: 4 slots, max scaled |diff| 3.81e-06 OK
+[ 775/866] rew= 5629.4  thr=77.22Mbps  comp=0.670  drop=0.000  SINR= 12.3dB  KL= 0.0038  ent=0.815  clip=0.045  ev=+0.37  t=10693s
+  --- eval at update 779 ---
+    PPO           reward  5087.15  thrpt  86.69Mbps  comp 0.629  totfail 0.368  depth 2.68
+[ 780/866] rew= 3539.2  thr=107.83Mbps  comp=0.547  drop=0.000  SINR= 11.3dB  KL= 0.0053  ent=1.244  clip=0.080  ev=+0.46  t=11096s
+[ 785/866] rew= 4098.0  thr=55.90Mbps  comp=0.671  drop=0.000  SINR= 13.0dB  KL= 0.0016  ent=0.485  clip=0.009  ev=+0.23  t=11341s
+  --- eval at update 789 ---
+    PPO           reward  5098.79  thrpt  86.80Mbps  comp 0.630  totfail 0.368  depth 2.66
+[ 790/866] rew= 5624.4  thr=99.84Mbps  comp=0.609  drop=0.000  SINR= 13.0dB  KL= 0.0045  ent=1.402  clip=0.052  ev=+0.29  t=11729s
+[ 795/866] rew= 2512.6  thr=110.31Mbps  comp=0.524  drop=0.000  SINR= 15.5dB  KL= 0.0028  ent=1.340  clip=0.030  ev=+0.35  t=11991s
+  --- eval at update 799 ---
+    PPO           reward  5071.71  thrpt  86.70Mbps  comp 0.629  totfail 0.369  depth 2.64
+    [batch-verify] update 800: 4 slots, max scaled |diff| 9.54e-07 OK
+[ 800/866] rew= 7379.6  thr=60.59Mbps  comp=0.915  drop=0.000  SINR= 13.3dB  KL= 0.0028  ent=0.498  clip=0.028  ev=+0.08  t=12368s
+[ 805/866] rew= 3279.9  thr=54.80Mbps  comp=0.624  drop=0.000  SINR= 12.1dB  KL= 0.0003  ent=0.471  clip=0.000  ev=-0.02  t=12615s
+  --- eval at update 809 ---
+    PPO           reward  5042.81  thrpt  86.50Mbps  comp 0.628  totfail 0.369  depth 2.63
+[ 810/866] rew= 3948.2  thr=54.66Mbps  comp=0.667  drop=0.001  SINR= 12.5dB  KL= 0.0029  ent=0.506  clip=0.029  ev=-0.02  t=13011s
+[ 815/866] rew= 4975.0  thr=109.05Mbps  comp=0.582  drop=0.000  SINR= 16.3dB  KL= 0.0046  ent=1.006  clip=0.053  ev=+0.23  t=13281s
+  --- eval at update 819 ---
+    PPO           reward  5011.04  thrpt  86.40Mbps  comp 0.627  totfail 0.370  depth 2.61
+[ 820/866] rew= 4881.3  thr=95.05Mbps  comp=0.596  drop=0.000  SINR= 16.2dB  KL= 0.0041  ent=1.090  clip=0.044  ev=+0.24  t=13668s
+    [batch-verify] update 825: 4 slots, max scaled |diff| 1.91e-06 OK
+[ 825/866] rew= -489.4  thr=78.12Mbps  comp=0.465  drop=0.000  SINR=  9.7dB  KL= 0.0027  ent=0.697  clip=0.026  ev=+0.40  t=13934s
+  --- eval at update 829 ---
+    PPO           reward  4994.83  thrpt  86.38Mbps  comp 0.627  totfail 0.371  depth 2.58
+[ 830/866] rew=-1329.8  thr=101.98Mbps  comp=0.452  drop=0.000  SINR=  7.8dB  KL= 0.0007  ent=1.287  clip=0.000  ev=+0.38  t=14314s
+[ 835/866] rew= 3329.2  thr=91.38Mbps  comp=0.558  drop=0.000  SINR=  9.1dB  KL= 0.0009  ent=0.948  clip=0.002  ev=+0.24  t=14580s
+  --- eval at update 839 ---
+    PPO           reward  5006.14  thrpt  86.45Mbps  comp 0.627  totfail 0.371  depth 2.59
+[ 840/866] rew= 4909.2  thr=51.58Mbps  comp=0.762  drop=0.000  SINR= 17.1dB  KL= 0.0005  ent=0.383  clip=0.001  ev=+0.23  t=14939s
+[ 845/866] rew= 5113.3  thr=44.62Mbps  comp=0.868  drop=0.000  SINR= 16.8dB  KL= 0.0001  ent=0.303  clip=0.000  ev=-0.01  t=15188s
+  --- eval at update 849 ---
+    PPO           reward  5049.01  thrpt  86.62Mbps  comp 0.628  totfail 0.369  depth 2.64
+    [batch-verify] update 850: 4 slots, max scaled |diff| 2.01e-06 OK
+[ 850/866] rew= 5274.1  thr=68.42Mbps  comp=0.684  drop=0.000  SINR= 11.9dB  KL= 0.0008  ent=0.650  clip=0.002  ev=+0.34  t=15579s
+[ 855/866] rew= 5239.1  thr=85.82Mbps  comp=0.627  drop=0.000  SINR=  9.7dB  KL= 0.0002  ent=0.965  clip=0.000  ev=-0.01  t=15845s
+  --- eval at update 859 ---
+    PPO           reward  5046.70  thrpt  86.59Mbps  comp 0.628  totfail 0.369  depth 2.62
+[ 860/866] rew= 5787.6  thr=73.80Mbps  comp=0.687  drop=0.000  SINR= 10.4dB  KL= 0.0000  ent=0.834  clip=0.000  ev=+0.13  t=16245s
+[ 865/866] rew= 7410.8  thr=107.58Mbps  comp=0.652  drop=0.000  SINR= 12.7dB  KL= 0.0000  ent=1.158  clip=0.000  ev=+0.34  t=16499s
+latest.pt saved at update 865
+
+Done. 252 updates in 16499s  (65.5s/update). Best eval reward: 5132.88
+===== [wrap] DONE =====

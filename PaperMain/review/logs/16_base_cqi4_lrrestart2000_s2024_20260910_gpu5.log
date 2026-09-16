@@ -1,0 +1,3242 @@
+{
+  "run_dir": "/home/MYH/ML_DRL_Scheduler/PaperMain/runs/16_base_cqi4_lrrestart2000_s2024_20260910_gpu5",
+  "resume": "/home/MYH/ML_DRL_Scheduler/PaperMain/runs/16_base_cqi4_lrrestart2000_s2024_20260910_gpu5/ckpt/latest.pt",
+  "version": 1,
+  "recipe": "base",
+  "config": {
+    "age_norm_max": 50.0,
+    "b_norm": 8000.0,
+    "b_tx_epsilon": 1.0,
+    "beta_rate": 1.0,
+    "bs_ant_cols": 4,
+    "bs_ant_rows": 4,
+    "bs_polarization": "dual",
+    "carrier_frequency": 3500000000.0,
+    "codebook_size": 256,
+    "cqi_mode": "nr4bit",
+    "cqi_norm_const": 8.0,
+    "deadline_max": 12,
+    "deadline_min": 3,
+    "debug": false,
+    "decode_order": "rbg_major",
+    "enable_pathloss": true,
+    "enable_shadow_fading": true,
+    "encoder_hidden": 128,
+    "encoder_out_dim": 64,
+    "episode_len_debug": 200,
+    "episode_len_main": 1000,
+    "eta_d": 1.0,
+    "eta_data": 1.0,
+    "indoor_probability": 0.0,
+    "l_max": 4,
+    "la_beta": 1.0,
+    "la_beta_by_depth": [
+      1.0162,
+      0.8509,
+      0.7732,
+      0.728
+    ],
+    "la_mode": "post_rzf",
+    "lambda_c": 1.0,
+    "lambda_m": 2.0,
+    "lambda_s": 1.0,
+    "max_retx": 4,
+    "mu_aware_la": false,
+    "n_active_max": 32,
+    "n_active_min": 16,
+    "no_user_head_hidden": [
+      128,
+      64
+    ],
+    "noise_mode": "calibration",
+    "num_bs_ant": 32,
+    "num_rb_per_rbg": 8,
+    "num_rbg": 8,
+    "num_sc_per_rb": 12,
+    "num_sym_per_rb": 14,
+    "num_ue": 32,
+    "num_ue_ant": 1,
+    "o2i_model": "low",
+    "p_arrival": 0.22,
+    "p_arrival_ablation": [
+      0.1,
+      0.2,
+      0.4
+    ],
+    "p_arrival_max": 0.5,
+    "p_arrival_min": 0.15,
+    "p_csi": 0.6,
+    "p_csi_ablation": [
+      1.0,
+      0.5,
+      0.2,
+      0.1
+    ],
+    "p_total": 8.0,
+    "packet_size_max": 12000,
+    "packet_size_min": 4000,
+    "pf_epsilon": 1.0,
+    "pmi_mode": "type2_sparse_56bit",
+    "ppo_batch_verify_every": 25,
+    "ppo_batch_verify_slots": 4,
+    "ppo_batch_verify_tol": 0.001,
+    "ppo_batched_replay": true,
+    "ppo_clip_eps": 0.2,
+    "ppo_critic_v2": true,
+    "ppo_entropy_coef": 0.02,
+    "ppo_epochs": 4,
+    "ppo_eval_episodes": 3,
+    "ppo_eval_every": 10,
+    "ppo_force_full_rank": false,
+    "ppo_gae_lambda": 0.95,
+    "ppo_gamma": 0.99,
+    "ppo_learning_rate": 0.0003,
+    "ppo_max_grad_norm": 0.5,
+    "ppo_minibatch_size": 256,
+    "ppo_no_user_scale": 1.0,
+    "ppo_save_every": 1,
+    "ppo_target_kl": 0.02,
+    "ppo_value_coef": 0.25,
+    "queue_size": 8,
+    "rzf_alpha_mode": "noise",
+    "scenario": "umi",
+    "score_net_hidden": [
+      128,
+      64
+    ],
+    "seed": 2024,
+    "share_critic_encoder": true,
+    "speed_ablation_kmh": [
+      3.0,
+      10.0,
+      30.0,
+      60.0
+    ],
+    "subcarrier_spacing": 30000.0,
+    "sus_ortho_threshold": 0.75,
+    "t_c": 100,
+    "target_snr_ablation_db": [
+      5.0,
+      10.0,
+      15.0
+    ],
+    "target_snr_db": 10.0,
+    "type2_L": 4,
+    "type2_O1": 4,
+    "type2_O2": 4,
+    "type2_amp_bits": 3,
+    "type2_phase_bits": 2,
+    "ue_speed_kmh": 3.0,
+    "ue_speed_max": 40.0,
+    "ue_speed_min": 5.0,
+    "ue_speed_mix": [],
+    "value_head_hidden": [
+      128,
+      64
+    ]
+  },
+  "artifact_config_sha256": "8bbcd8e83195713cf9baefe96af8d4e6ed4035481d791ef7ccd63f2f043be81c",
+  "source_sha256": {
+    "paper_train.py": "0b4b0fe2f6359a015df21faad99cd2c4b8cd9b0898f8dcba087578efa6077531",
+    "train_phase2.py": "fa82f7a438def16c6405cb2c79b829b256b2843abcaf99f37f983488127731bb",
+    "config.py": "5ab93d0212e1a86449896252514ffd4ddb7666410117a720efc527bb7db47658",
+    "env.py": "e91c83165b2717c3c021433c67fb6531ae20e6f714b934b936b6ff95aff5015d",
+    "channel.py": "b308c63d369a181ba08788bc0f52f6f620c1ac3ff65ad210ae5367cd0d47e755",
+    "csi.py": "e6084b6b514c1269e0a56c76637a07c2cffcf04cfa889683a38d23b10d71f356",
+    "codebook.py": "93234f7b2aae3d7f5b593deca8aa8c4aace3c0756e2a20abe577e1ffbe381abf",
+    "phy.py": "f18d9d7cf57a981c6e835a955eea0a0195e2efdf6aad675312566b61b0b66846",
+    "la_planner.py": "ddb6028d2fd138b6b4517ecc5a73ea109915f1029081350a42a152343bb3d39d",
+    "traffic.py": "49f1822387d29c4b8333cc73ea22f64af9fa153800651dcf7c14cb139e3fd4aa",
+    "transmission.py": "317e0ece855e33de44445a7c4ecb90cddbad5dbcc70dd9357435864f5887276e",
+    "policy.py": "b668806d4604abe7f69683a4b78136dd4a811abe1597dadb640c22d4507af9f5",
+    "ppo.py": "dc3157aed774fe410f729b142db5f914fd095ba824d0366d8f619c50b27fd298",
+    "baselines.py": "c227fdc61c836969f1c8f7d7bf2cbccce0efd7e1a36b4940cc6b4dddd0e17e07",
+    "metrics.py": "cba7a47dd1de4c5487bf5ee91925f3b0a869436430496044ad5bf9bada9a8809",
+    "calibration/profile.py": "35e4c3ff438eaa29770b905229ad67d47fd4bd73acc298ac00e5708cc0a98d92"
+  },
+  "schedule": {
+    "lr_final": 0.0,
+    "lr_decay_updates": 1000,
+    "lr_initial": 1e-05,
+    "lr_start_update": 1000
+  },
+  "schedule_origin": "override",
+  "replay_origin": "override",
+  "target_updates": 2000,
+  "smoke_slots": null,
+  "purpose": "training",
+  "execution": {
+    "device": "cuda",
+    "gpu": "5",
+    "threads": 4
+  },
+  "runtime": {
+    "python": "3.11.0rc1",
+    "system": "Linux",
+    "machine": "x86_64",
+    "packages": {
+      "numpy": "1.26.4",
+      "torch": "2.7.1+cu118",
+      "tensorflow": "2.15.0",
+      "sionna": "1.2.1",
+      "tensorboard": "2.15.1",
+      "scipy": "1.17.0"
+    },
+    "torch_cuda": "11.8",
+    "gpu_name": "NVIDIA GeForce RTX 4090"
+  },
+  "calibration_profile": {
+    "path": "/home/MYH/ML_DRL_Scheduler/PaperMain/results/cqi4_hl_corrected_v2/summary.json",
+    "file_sha256": "258e90406be65d7621d0938bb7755034b35c6d4f1485f4a28e7da2c506009110",
+    "document_sha256": "0a8a6ff47855f24c33b8e348019ab30a4f73e05d7ef02e553eae18f5ee72e39e",
+    "document": {
+      "schema_version": 1,
+      "protocol": "cqi4-feasible-v1",
+      "status": "validated",
+      "config": {
+        "seed": 2024,
+        "num_bs_ant": 32,
+        "num_ue_ant": 1,
+        "bs_ant_rows": 4,
+        "bs_ant_cols": 4,
+        "bs_polarization": "dual",
+        "num_ue": 32,
+        "n_active_min": 16,
+        "n_active_max": 32,
+        "ue_speed_min": 5.0,
+        "ue_speed_max": 40.0,
+        "num_rbg": 8,
+        "num_rb_per_rbg": 8,
+        "num_sc_per_rb": 12,
+        "num_sym_per_rb": 14,
+        "subcarrier_spacing": 30000.0,
+        "carrier_frequency": 3500000000.0,
+        "l_max": 4,
+        "scenario": "umi",
+        "o2i_model": "low",
+        "enable_pathloss": true,
+        "enable_shadow_fading": true,
+        "indoor_probability": 0.0,
+        "ue_speed_kmh": 3.0,
+        "speed_ablation_kmh": [
+          3.0,
+          10.0,
+          30.0,
+          60.0
+        ],
+        "ue_speed_mix": [],
+        "pmi_mode": "type2_sparse_56bit",
+        "codebook_size": 256,
+        "type2_O1": 4,
+        "type2_O2": 4,
+        "type2_L": 4,
+        "type2_amp_bits": 3,
+        "type2_phase_bits": 2,
+        "p_csi": 0.6,
+        "p_csi_ablation": [
+          1.0,
+          0.5,
+          0.2,
+          0.1
+        ],
+        "cqi_mode": "nr4bit",
+        "p_arrival": 0.22,
+        "p_arrival_min": 0.15,
+        "p_arrival_max": 0.5,
+        "p_arrival_ablation": [
+          0.1,
+          0.2,
+          0.4
+        ],
+        "packet_size_min": 4000,
+        "packet_size_max": 12000,
+        "deadline_min": 3,
+        "deadline_max": 12,
+        "queue_size": 8,
+        "eta_data": 1.0,
+        "beta_rate": 1.0,
+        "la_beta": 1.0,
+        "la_beta_by_depth": [],
+        "b_tx_epsilon": 1.0,
+        "mu_aware_la": false,
+        "la_mode": "post_rzf",
+        "decode_order": "rbg_major",
+        "p_total": 8.0,
+        "target_snr_db": 10.0,
+        "target_snr_ablation_db": [
+          5.0,
+          10.0,
+          15.0
+        ],
+        "noise_mode": "calibration",
+        "rzf_alpha_mode": "noise",
+        "max_retx": 4,
+        "lambda_s": 1.0,
+        "lambda_c": 1.0,
+        "lambda_m": 2.0,
+        "eta_d": 1.0,
+        "b_norm": 8000.0,
+        "t_c": 100,
+        "sus_ortho_threshold": 0.75,
+        "pf_epsilon": 1.0,
+        "cqi_norm_const": 8.0,
+        "age_norm_max": 50.0,
+        "ppo_gamma": 0.99,
+        "ppo_gae_lambda": 0.95,
+        "ppo_clip_eps": 0.2,
+        "ppo_learning_rate": 0.0003,
+        "ppo_value_coef": 0.25,
+        "ppo_entropy_coef": 0.02,
+        "ppo_max_grad_norm": 0.5,
+        "ppo_epochs": 4,
+        "ppo_minibatch_size": 256,
+        "ppo_target_kl": 0.02,
+        "ppo_critic_v2": true,
+        "ppo_batched_replay": false,
+        "ppo_force_full_rank": false,
+        "ppo_no_user_scale": 1.0,
+        "ppo_batch_verify_every": 25,
+        "ppo_batch_verify_slots": 4,
+        "ppo_batch_verify_tol": 0.001,
+        "encoder_hidden": 128,
+        "encoder_out_dim": 64,
+        "score_net_hidden": [
+          128,
+          64
+        ],
+        "no_user_head_hidden": [
+          128,
+          64
+        ],
+        "value_head_hidden": [
+          128,
+          64
+        ],
+        "share_critic_encoder": true,
+        "ppo_eval_every": 10,
+        "ppo_eval_episodes": 3,
+        "ppo_save_every": 1,
+        "episode_len_main": 1000,
+        "episode_len_debug": 200,
+        "debug": false
+      },
+      "reference_config_sha256": "8bbcd8e83195713cf9baefe96af8d4e6ed4035481d791ef7ccd63f2f043be81c",
+      "source_sha256": {
+        "calibration/beta_m_calib_holdout.py": "f57ab3a07175f66504f9410e9cb560b298adbda0d22e431d36ebd61c81966987",
+        "calibration/cqi4.py": "be2aaeeee46cca8bd72fdd335ad06e86f0614d418414365c0462e2796f85fc20",
+        "calibration/profile.py": "35e4c3ff438eaa29770b905229ad67d47fd4bd73acc298ac00e5708cc0a98d92",
+        "channel.py": "b308c63d369a181ba08788bc0f52f6f620c1ac3ff65ad210ae5367cd0d47e755",
+        "codebook.py": "93234f7b2aae3d7f5b593deca8aa8c4aace3c0756e2a20abe577e1ffbe381abf",
+        "config.py": "5ab93d0212e1a86449896252514ffd4ddb7666410117a720efc527bb7db47658",
+        "csi.py": "e6084b6b514c1269e0a56c76637a07c2cffcf04cfa889683a38d23b10d71f356",
+        "env.py": "e91c83165b2717c3c021433c67fb6531ae20e6f714b934b936b6ff95aff5015d",
+        "la_planner.py": "ddb6028d2fd138b6b4517ecc5a73ea109915f1029081350a42a152343bb3d39d",
+        "paper_calibration.py": "4fa79689189ca4fd5135cc6a0865e36a4f34faf8e48d83c44902d7893d85c88d",
+        "phy.py": "f18d9d7cf57a981c6e835a955eea0a0195e2efdf6aad675312566b61b0b66846",
+        "traffic.py": "49f1822387d29c4b8333cc73ea22f64af9fa153800651dcf7c14cb139e3fd4aa",
+        "transmission.py": "317e0ece855e33de44445a7c4ecb90cddbad5dbcc70dd9357435864f5887276e"
+      },
+      "created_at": "2026-09-09T01:58:32.525402+00:00",
+      "threads": 4,
+      "sampling": {
+        "every_slots": 7,
+        "groups_per_depth_per_sample": 2,
+        "law": "uniform_without_replacement_over_feedback_eligible_UEs",
+        "traffic": "empty actions; all-new full-capacity reference groups",
+        "insufficient_population": "skip draw without redrawing RBG",
+        "membership": "frozen beta times every raw cap must pass runtime epsilon"
+      },
+      "target_coverage": {
+        "target_first_ack": 0.9,
+        "interpretation": "reference-group estimate; not a policy or BLER guarantee"
+      },
+      "calibration": {
+        "start": 50000,
+        "episodes": 36,
+        "sampler_seed": 777,
+        "slots": 1000,
+        "membership": {
+          "1": {
+            "member_count": 10296,
+            "below_epsilon_members": 0,
+            "minimum_raw_cap": 204.6911999999998,
+            "minimum_scaled_cap": 208.0071974399998,
+            "epsilon": 1.0
+          },
+          "2": {
+            "member_count": 20592,
+            "below_epsilon_members": 0,
+            "minimum_raw_cap": 24.751201510432686,
+            "minimum_scaled_cap": 21.060797365227174,
+            "epsilon": 1.0
+          },
+          "3": {
+            "member_count": 30888,
+            "below_epsilon_members": 0,
+            "minimum_raw_cap": 9.693088419334057,
+            "minimum_scaled_cap": 7.494695965829092,
+            "epsilon": 1.0
+          },
+          "4": {
+            "member_count": 41184,
+            "below_epsilon_members": 0,
+            "minimum_raw_cap": 5.406800226721885,
+            "minimum_scaled_cap": 3.9361505650535324,
+            "epsilon": 1.0
+          }
+        },
+        "diagnostics": {
+          "1": [
+            {
+              "draws": 286,
+              "groups": 286,
+              "members": 286,
+              "skipped_insufficient": 0,
+              "candidate_slots": 9152,
+              "excluded_candidates": 900,
+              "cqi_zero_candidates": 900,
+              "real_zero_mi_members": 0
+            },
+            {
+              "draws": 286,
+              "groups": 286,
+              "members": 286,
+              "skipped_insufficient": 0,
+              "candidate_slots": 9152,
+              "excluded_candidates": 274,
+              "cqi_zero_candidates": 274,
+              "real_zero_mi_members": 0
+            },
+            {
+              "draws": 286,
+              "groups": 286,
+              "members": 286,
+              "skipped_insufficient": 0,
+              "candidate_slots": 9152,
+              "excluded_candidates": 366,
+              "cqi_zero_candidates": 366,
+              "real_zero_mi_members": 0
+            },
+            {
+              "draws": 286,
+              "groups": 286,
+              "members": 286,
+              "skipped_insufficient": 0,
+              "candidate_slots": 9152,
+              "excluded_candidates": 1,
+              "cqi_zero_candidates": 1,
+              "real_zero_mi_members": 0
+            },
+            {
+              "draws": 286,
+              "groups": 286,
+              "members": 286,
+              "skipped_insufficient": 0,
+              "candidate_slots": 9152,
+              "excluded_candidates": 849,
+              "cqi_zero_candidates": 849,
+              "real_zero_mi_members": 0
+            },
+            {
+              "draws": 286,
+              "groups": 286,
+              "members": 286,
+              "skipped_insufficient": 0,
+              "candidate_slots": 9152,
+              "excluded_candidates": 166,
+              "cqi_zero_candidates": 166,
+              "real_zero_mi_members": 0
+            },
+            {
+              "draws": 286,
+              "groups": 286,
+              "members": 286,
+              "skipped_insufficient": 0,
+              "candidate_slots": 9152,
+              "excluded_candidates": 214,
+              "cqi_zero_candidates": 214,
+              "real_zero_mi_members": 0
+            },
+            {
+              "draws": 286,
+              "groups": 286,
+              "members": 286,
+              "skipped_insufficient": 0,
+              "candidate_slots": 9152,
+              "excluded_candidates": 984,
+              "cqi_zero_candidates": 984,
+              "real_zero_mi_members": 0
+            },
+            {
+              "draws": 286,
+              "groups": 286,
+              "members": 286,
+              "skipped_insufficient": 0,
+              "candidate_slots": 9152,
+              "excluded_candidates": 46,
+              "cqi_zero_candidates": 46,
+              "real_zero_mi_members": 0
+            },
+            {
+              "draws": 286,
+              "groups": 286,
+              "members": 286,
+              "skipped_insufficient": 0,
+              "candidate_slots": 9152,
+              "excluded_candidates": 151,
+              "cqi_zero_candidates": 151,
+              "real_zero_mi_members": 0
+            },
+            {
+              "draws": 286,
+              "groups": 286,
+              "members": 286,
+              "skipped_insufficient": 0,
+              "candidate_slots": 9152,
+              "excluded_candidates": 447,
+              "cqi_zero_candidates": 447,
+              "real_zero_mi_members": 0
+            },
+            {
+              "draws": 286,
+              "groups": 286,
+              "members": 286,
+              "skipped_insufficient": 0,
+              "candidate_slots": 9152,
+              "excluded_candidates": 96,
+              "cqi_zero_candidates": 96,
+              "real_zero_mi_members": 0
+            },
+            {
+              "draws": 286,
+              "groups": 286,
+              "members": 286,
+              "skipped_insufficient": 0,
+              "candidate_slots": 9152,
+              "excluded_candidates": 844,
+              "cqi_zero_candidates": 844,
+              "real_zero_mi_members": 0
+            },
+            {
+              "draws": 286,
+              "groups": 286,
+              "members": 286,
+              "skipped_insufficient": 0,
+              "candidate_slots": 9152,
+              "excluded_candidates": 133,
+              "cqi_zero_candidates": 133,
+              "real_zero_mi_members": 0
+            },
+            {
+              "draws": 286,
+              "groups": 286,
+              "members": 286,
+              "skipped_insufficient": 0,
+              "candidate_slots": 9152,
+              "excluded_candidates": 8,
+              "cqi_zero_candidates": 8,
+              "real_zero_mi_members": 0
+            },
+            {
+              "draws": 286,
+              "groups": 286,
+              "members": 286,
+              "skipped_insufficient": 0,
+              "candidate_slots": 9152,
+              "excluded_candidates": 622,
+              "cqi_zero_candidates": 622,
+              "real_zero_mi_members": 0
+            },
+            {
+              "draws": 286,
+              "groups": 286,
+              "members": 286,
+              "skipped_insufficient": 0,
+              "candidate_slots": 9152,
+              "excluded_candidates": 276,
+              "cqi_zero_candidates": 276,
+              "real_zero_mi_members": 0
+            },
+            {
+              "draws": 286,
+              "groups": 286,
+              "members": 286,
+              "skipped_insufficient": 0,
+              "candidate_slots": 9152,
+              "excluded_candidates": 21,
+              "cqi_zero_candidates": 21,
+              "real_zero_mi_members": 0
+            },
+            {
+              "draws": 286,
+              "groups": 286,
+              "members": 286,
+              "skipped_insufficient": 0,
+              "candidate_slots": 9152,
+              "excluded_candidates": 77,
+              "cqi_zero_candidates": 77,
+              "real_zero_mi_members": 0
+            },
+            {
+              "draws": 286,
+              "groups": 286,
+              "members": 286,
+              "skipped_insufficient": 0,
+              "candidate_slots": 9152,
+              "excluded_candidates": 384,
+              "cqi_zero_candidates": 384,
+              "real_zero_mi_members": 0
+            },
+            {
+              "draws": 286,
+              "groups": 286,
+              "members": 286,
+              "skipped_insufficient": 0,
+              "candidate_slots": 9152,
+              "excluded_candidates": 187,
+              "cqi_zero_candidates": 187,
+              "real_zero_mi_members": 0
+            },
+            {
+              "draws": 286,
+              "groups": 286,
+              "members": 286,
+              "skipped_insufficient": 0,
+              "candidate_slots": 9152,
+              "excluded_candidates": 1037,
+              "cqi_zero_candidates": 1037,
+              "real_zero_mi_members": 0
+            },
+            {
+              "draws": 286,
+              "groups": 286,
+              "members": 286,
+              "skipped_insufficient": 0,
+              "candidate_slots": 9152,
+              "excluded_candidates": 249,
+              "cqi_zero_candidates": 249,
+              "real_zero_mi_members": 0
+            },
+            {
+              "draws": 286,
+              "groups": 286,
+              "members": 286,
+              "skipped_insufficient": 0,
+              "candidate_slots": 9152,
+              "excluded_candidates": 1298,
+              "cqi_zero_candidates": 1298,
+              "real_zero_mi_members": 0
+            },
+            {
+              "draws": 286,
+              "groups": 286,
+              "members": 286,
+              "skipped_insufficient": 0,
+              "candidate_slots": 9152,
+              "excluded_candidates": 775,
+              "cqi_zero_candidates": 775,
+              "real_zero_mi_members": 0
+            },
+            {
+              "draws": 286,
+              "groups": 286,
+              "members": 286,
+              "skipped_insufficient": 0,
+              "candidate_slots": 9152,
+              "excluded_candidates": 992,
+              "cqi_zero_candidates": 992,
+              "real_zero_mi_members": 0
+            },
+            {
+              "draws": 286,
+              "groups": 286,
+              "members": 286,
+              "skipped_insufficient": 0,
+              "candidate_slots": 9152,
+              "excluded_candidates": 815,
+              "cqi_zero_candidates": 815,
+              "real_zero_mi_members": 0
+            },
+            {
+              "draws": 286,
+              "groups": 286,
+              "members": 286,
+              "skipped_insufficient": 0,
+              "candidate_slots": 9152,
+              "excluded_candidates": 115,
+              "cqi_zero_candidates": 115,
+              "real_zero_mi_members": 0
+            },
+            {
+              "draws": 286,
+              "groups": 286,
+              "members": 286,
+              "skipped_insufficient": 0,
+              "candidate_slots": 9152,
+              "excluded_candidates": 530,
+              "cqi_zero_candidates": 530,
+              "real_zero_mi_members": 0
+            },
+            {
+              "draws": 286,
+              "groups": 286,
+              "members": 286,
+              "skipped_insufficient": 0,
+              "candidate_slots": 9152,
+              "excluded_candidates": 938,
+              "cqi_zero_candidates": 938,
+              "real_zero_mi_members": 0
+            },
+            {
+              "draws": 286,
+              "groups": 286,
+              "members": 286,
+              "skipped_insufficient": 0,
+              "candidate_slots": 9152,
+              "excluded_candidates": 60,
+              "cqi_zero_candidates": 60,
+              "real_zero_mi_members": 0
+            },
+            {
+              "draws": 286,
+              "groups": 286,
+              "members": 286,
+              "skipped_insufficient": 0,
+              "candidate_slots": 9152,
+              "excluded_candidates": 916,
+              "cqi_zero_candidates": 916,
+              "real_zero_mi_members": 0
+            },
+            {
+              "draws": 286,
+              "groups": 286,
+              "members": 286,
+              "skipped_insufficient": 0,
+              "candidate_slots": 9152,
+              "excluded_candidates": 309,
+              "cqi_zero_candidates": 309,
+              "real_zero_mi_members": 0
+            },
+            {
+              "draws": 286,
+              "groups": 286,
+              "members": 286,
+              "skipped_insufficient": 0,
+              "candidate_slots": 9152,
+              "excluded_candidates": 505,
+              "cqi_zero_candidates": 505,
+              "real_zero_mi_members": 0
+            },
+            {
+              "draws": 286,
+              "groups": 286,
+              "members": 286,
+              "skipped_insufficient": 0,
+              "candidate_slots": 9152,
+              "excluded_candidates": 235,
+              "cqi_zero_candidates": 235,
+              "real_zero_mi_members": 0
+            },
+            {
+              "draws": 286,
+              "groups": 286,
+              "members": 286,
+              "skipped_insufficient": 0,
+              "candidate_slots": 9152,
+              "excluded_candidates": 1294,
+              "cqi_zero_candidates": 1294,
+              "real_zero_mi_members": 0
+            }
+          ],
+          "2": [
+            {
+              "draws": 286,
+              "groups": 286,
+              "members": 572,
+              "skipped_insufficient": 0,
+              "candidate_slots": 9152,
+              "excluded_candidates": 927,
+              "cqi_zero_candidates": 927,
+              "real_zero_mi_members": 0
+            },
+            {
+              "draws": 286,
+              "groups": 286,
+              "members": 572,
+              "skipped_insufficient": 0,
+              "candidate_slots": 9152,
+              "excluded_candidates": 300,
+              "cqi_zero_candidates": 300,
+              "real_zero_mi_members": 0
+            },
+            {
+              "draws": 286,
+              "groups": 286,
+              "members": 572,
+              "skipped_insufficient": 0,
+              "candidate_slots": 9152,
+              "excluded_candidates": 375,
+              "cqi_zero_candidates": 375,
+              "real_zero_mi_members": 0
+            },
+            {
+              "draws": 286,
+              "groups": 286,
+              "members": 572,
+              "skipped_insufficient": 0,
+              "candidate_slots": 9152,
+              "excluded_candidates": 1,
+              "cqi_zero_candidates": 1,
+              "real_zero_mi_members": 0
+            },
+            {
+              "draws": 286,
+              "groups": 286,
+              "members": 572,
+              "skipped_insufficient": 0,
+              "candidate_slots": 9152,
+              "excluded_candidates": 867,
+              "cqi_zero_candidates": 867,
+              "real_zero_mi_members": 0
+            },
+            {
+              "draws": 286,
+              "groups": 286,
+              "members": 572,
+              "skipped_insufficient": 0,
+              "candidate_slots": 9152,
+              "excluded_candidates": 192,
+              "cqi_zero_candidates": 192,
+              "real_zero_mi_members": 0
+            },
+            {
+              "draws": 286,
+              "groups": 286,
+              "members": 572,
+              "skipped_insufficient": 0,
+              "candidate_slots": 9152,
+              "excluded_candidates": 216,
+              "cqi_zero_candidates": 216,
+              "real_zero_mi_members": 0
+            },
+            {
+              "draws": 286,
+              "groups": 286,
+              "members": 572,
+              "skipped_insufficient": 0,
+              "candidate_slots": 9152,
+              "excluded_candidates": 998,
+              "cqi_zero_candidates": 998,
+              "real_zero_mi_members": 0
+            },
+            {
+              "draws": 286,
+              "groups": 286,
+              "members": 572,
+              "skipped_insufficient": 0,
+              "candidate_slots": 9152,
+              "excluded_candidates": 47,
+              "cqi_zero_candidates": 47,
+              "real_zero_mi_members": 0
+            },
+            {
+              "draws": 286,
+              "groups": 286,
+              "members": 572,
+              "skipped_insufficient": 0,
+              "candidate_slots": 9152,
+              "excluded_candidates": 152,
+              "cqi_zero_candidates": 152,
+              "real_zero_mi_members": 0
+            },
+            {
+              "draws": 286,
+              "groups": 286,
+              "members": 572,
+              "skipped_insufficient": 0,
+              "candidate_slots": 9152,
+              "excluded_candidates": 449,
+              "cqi_zero_candidates": 449,
+              "real_zero_mi_members": 0
+            },
+            {
+              "draws": 286,
+              "groups": 286,
+              "members": 572,
+              "skipped_insufficient": 0,
+              "candidate_slots": 9152,
+              "excluded_candidates": 98,
+              "cqi_zero_candidates": 98,
+              "real_zero_mi_members": 0
+            },
+            {
+              "draws": 286,
+              "groups": 286,
+              "members": 572,
+              "skipped_insufficient": 0,
+              "candidate_slots": 9152,
+              "excluded_candidates": 811,
+              "cqi_zero_candidates": 811,
+              "real_zero_mi_members": 0
+            },
+            {
+              "draws": 286,
+              "groups": 286,
+              "members": 572,
+              "skipped_insufficient": 0,
+              "candidate_slots": 9152,
+              "excluded_candidates": 139,
+              "cqi_zero_candidates": 139,
+              "real_zero_mi_members": 0
+            },
+            {
+              "draws": 286,
+              "groups": 286,
+              "members": 572,
+              "skipped_insufficient": 0,
+              "candidate_slots": 9152,
+              "excluded_candidates": 3,
+              "cqi_zero_candidates": 3,
+              "real_zero_mi_members": 0
+            },
+            {
+              "draws": 286,
+              "groups": 286,
+              "members": 572,
+              "skipped_insufficient": 0,
+              "candidate_slots": 9152,
+              "excluded_candidates": 623,
+              "cqi_zero_candidates": 623,
+              "real_zero_mi_members": 0
+            },
+            {
+              "draws": 286,
+              "groups": 286,
+              "members": 572,
+              "skipped_insufficient": 0,
+              "candidate_slots": 9152,
+              "excluded_candidates": 273,
+              "cqi_zero_candidates": 273,
+              "real_zero_mi_members": 0
+            },
+            {
+              "draws": 286,
+              "groups": 286,
+              "members": 572,
+              "skipped_insufficient": 0,
+              "candidate_slots": 9152,
+              "excluded_candidates": 20,
+              "cqi_zero_candidates": 20,
+              "real_zero_mi_members": 0
+            },
+            {
+              "draws": 286,
+              "groups": 286,
+              "members": 572,
+              "skipped_insufficient": 0,
+              "candidate_slots": 9152,
+              "excluded_candidates": 72,
+              "cqi_zero_candidates": 72,
+              "real_zero_mi_members": 0
+            },
+            {
+              "draws": 286,
+              "groups": 286,
+              "members": 572,
+              "skipped_insufficient": 0,
+              "candidate_slots": 9152,
+              "excluded_candidates": 398,
+              "cqi_zero_candidates": 398,
+              "real_zero_mi_members": 0
+            },
+            {
+              "draws": 286,
+              "groups": 286,
+              "members": 572,
+              "skipped_insufficient": 0,
+              "candidate_slots": 9152,
+              "excluded_candidates": 198,
+              "cqi_zero_candidates": 198,
+              "real_zero_mi_members": 0
+            },
+            {
+              "draws": 286,
+              "groups": 286,
+              "members": 572,
+              "skipped_insufficient": 0,
+              "candidate_slots": 9152,
+              "excluded_candidates": 1046,
+              "cqi_zero_candidates": 1046,
+              "real_zero_mi_members": 0
+            },
+            {
+              "draws": 286,
+              "groups": 286,
+              "members": 572,
+              "skipped_insufficient": 0,
+              "candidate_slots": 9152,
+              "excluded_candidates": 257,
+              "cqi_zero_candidates": 257,
+              "real_zero_mi_members": 0
+            },
+            {
+              "draws": 286,
+              "groups": 286,
+              "members": 572,
+              "skipped_insufficient": 0,
+              "candidate_slots": 9152,
+              "excluded_candidates": 1284,
+              "cqi_zero_candidates": 1284,
+              "real_zero_mi_members": 0
+            },
+            {
+              "draws": 286,
+              "groups": 286,
+              "members": 572,
+              "skipped_insufficient": 0,
+              "candidate_slots": 9152,
+              "excluded_candidates": 789,
+              "cqi_zero_candidates": 789,
+              "real_zero_mi_members": 0
+            },
+            {
+              "draws": 286,
+              "groups": 286,
+              "members": 572,
+              "skipped_insufficient": 0,
+              "candidate_slots": 9152,
+              "excluded_candidates": 977,
+              "cqi_zero_candidates": 977,
+              "real_zero_mi_members": 0
+            },
+            {
+              "draws": 286,
+              "groups": 286,
+              "members": 572,
+              "skipped_insufficient": 0,
+              "candidate_slots": 9152,
+              "excluded_candidates": 803,
+              "cqi_zero_candidates": 803,
+              "real_zero_mi_members": 0
+            },
+            {
+              "draws": 286,
+              "groups": 286,
+              "members": 572,
+              "skipped_insufficient": 0,
+              "candidate_slots": 9152,
+              "excluded_candidates": 120,
+              "cqi_zero_candidates": 120,
+              "real_zero_mi_members": 0
+            },
+            {
+              "draws": 286,
+              "groups": 286,
+              "members": 572,
+              "skipped_insufficient": 0,
+              "candidate_slots": 9152,
+              "excluded_candidates": 540,
+              "cqi_zero_candidates": 540,
+              "real_zero_mi_members": 0
+            },
+            {
+              "draws": 286,
+              "groups": 286,
+              "members": 572,
+              "skipped_insufficient": 0,
+              "candidate_slots": 9152,
+              "excluded_candidates": 941,
+              "cqi_zero_candidates": 941,
+              "real_zero_mi_members": 0
+            },
+            {
+              "draws": 286,
+              "groups": 286,
+              "members": 572,
+              "skipped_insufficient": 0,
+              "candidate_slots": 9152,
+              "excluded_candidates": 77,
+              "cqi_zero_candidates": 77,
+              "real_zero_mi_members": 0
+            },
+            {
+              "draws": 286,
+              "groups": 286,
+              "members": 572,
+              "skipped_insufficient": 0,
+              "candidate_slots": 9152,
+              "excluded_candidates": 907,
+              "cqi_zero_candidates": 907,
+              "real_zero_mi_members": 0
+            },
+            {
+              "draws": 286,
+              "groups": 286,
+              "members": 572,
+              "skipped_insufficient": 0,
+              "candidate_slots": 9152,
+              "excluded_candidates": 307,
+              "cqi_zero_candidates": 307,
+              "real_zero_mi_members": 0
+            },
+            {
+              "draws": 286,
+              "groups": 286,
+              "members": 572,
+              "skipped_insufficient": 0,
+              "candidate_slots": 9152,
+              "excluded_candidates": 495,
+              "cqi_zero_candidates": 495,
+              "real_zero_mi_members": 0
+            },
+            {
+              "draws": 286,
+              "groups": 286,
+              "members": 572,
+              "skipped_insufficient": 0,
+              "candidate_slots": 9152,
+              "excluded_candidates": 208,
+              "cqi_zero_candidates": 208,
+              "real_zero_mi_members": 0
+            },
+            {
+              "draws": 286,
+              "groups": 286,
+              "members": 572,
+              "skipped_insufficient": 0,
+              "candidate_slots": 9152,
+              "excluded_candidates": 1310,
+              "cqi_zero_candidates": 1310,
+              "real_zero_mi_members": 0
+            }
+          ],
+          "3": [
+            {
+              "draws": 286,
+              "groups": 286,
+              "members": 858,
+              "skipped_insufficient": 0,
+              "candidate_slots": 9152,
+              "excluded_candidates": 912,
+              "cqi_zero_candidates": 912,
+              "real_zero_mi_members": 0
+            },
+            {
+              "draws": 286,
+              "groups": 286,
+              "members": 858,
+              "skipped_insufficient": 0,
+              "candidate_slots": 9152,
+              "excluded_candidates": 278,
+              "cqi_zero_candidates": 278,
+              "real_zero_mi_members": 0
+            },
+            {
+              "draws": 286,
+              "groups": 286,
+              "members": 858,
+              "skipped_insufficient": 0,
+              "candidate_slots": 9152,
+              "excluded_candidates": 372,
+              "cqi_zero_candidates": 372,
+              "real_zero_mi_members": 0
+            },
+            {
+              "draws": 286,
+              "groups": 286,
+              "members": 858,
+              "skipped_insufficient": 0,
+              "candidate_slots": 9152,
+              "excluded_candidates": 0,
+              "cqi_zero_candidates": 0,
+              "real_zero_mi_members": 0
+            },
+            {
+              "draws": 286,
+              "groups": 286,
+              "members": 858,
+              "skipped_insufficient": 0,
+              "candidate_slots": 9152,
+              "excluded_candidates": 859,
+              "cqi_zero_candidates": 859,
+              "real_zero_mi_members": 0
+            },
+            {
+              "draws": 286,
+              "groups": 286,
+              "members": 858,
+              "skipped_insufficient": 0,
+              "candidate_slots": 9152,
+              "excluded_candidates": 176,
+              "cqi_zero_candidates": 176,
+              "real_zero_mi_members": 0
+            },
+            {
+              "draws": 286,
+              "groups": 286,
+              "members": 858,
+              "skipped_insufficient": 0,
+              "candidate_slots": 9152,
+              "excluded_candidates": 216,
+              "cqi_zero_candidates": 216,
+              "real_zero_mi_members": 0
+            },
+            {
+              "draws": 286,
+              "groups": 286,
+              "members": 858,
+              "skipped_insufficient": 0,
+              "candidate_slots": 9152,
+              "excluded_candidates": 992,
+              "cqi_zero_candidates": 992,
+              "real_zero_mi_members": 0
+            },
+            {
+              "draws": 286,
+              "groups": 286,
+              "members": 858,
+              "skipped_insufficient": 0,
+              "candidate_slots": 9152,
+              "excluded_candidates": 39,
+              "cqi_zero_candidates": 39,
+              "real_zero_mi_members": 0
+            },
+            {
+              "draws": 286,
+              "groups": 286,
+              "members": 858,
+              "skipped_insufficient": 0,
+              "candidate_slots": 9152,
+              "excluded_candidates": 139,
+              "cqi_zero_candidates": 139,
+              "real_zero_mi_members": 0
+            },
+            {
+              "draws": 286,
+              "groups": 286,
+              "members": 858,
+              "skipped_insufficient": 0,
+              "candidate_slots": 9152,
+              "excluded_candidates": 435,
+              "cqi_zero_candidates": 435,
+              "real_zero_mi_members": 0
+            },
+            {
+              "draws": 286,
+              "groups": 286,
+              "members": 858,
+              "skipped_insufficient": 0,
+              "candidate_slots": 9152,
+              "excluded_candidates": 108,
+              "cqi_zero_candidates": 108,
+              "real_zero_mi_members": 0
+            },
+            {
+              "draws": 286,
+              "groups": 286,
+              "members": 858,
+              "skipped_insufficient": 0,
+              "candidate_slots": 9152,
+              "excluded_candidates": 825,
+              "cqi_zero_candidates": 825,
+              "real_zero_mi_members": 0
+            },
+            {
+              "draws": 286,
+              "groups": 286,
+              "members": 858,
+              "skipped_insufficient": 0,
+              "candidate_slots": 9152,
+              "excluded_candidates": 136,
+              "cqi_zero_candidates": 136,
+              "real_zero_mi_members": 0
+            },
+            {
+              "draws": 286,
+              "groups": 286,
+              "members": 858,
+              "skipped_insufficient": 0,
+              "candidate_slots": 9152,
+              "excluded_candidates": 8,
+              "cqi_zero_candidates": 8,
+              "real_zero_mi_members": 0
+            },
+            {
+              "draws": 286,
+              "groups": 286,
+              "members": 858,
+              "skipped_insufficient": 0,
+              "candidate_slots": 9152,
+              "excluded_candidates": 621,
+              "cqi_zero_candidates": 621,
+              "real_zero_mi_members": 0
+            },
+            {
+              "draws": 286,
+              "groups": 286,
+              "members": 858,
+              "skipped_insufficient": 0,
+              "candidate_slots": 9152,
+              "excluded_candidates": 273,
+              "cqi_zero_candidates": 273,
+              "real_zero_mi_members": 0
+            },
+            {
+              "draws": 286,
+              "groups": 286,
+              "members": 858,
+              "skipped_insufficient": 0,
+              "candidate_slots": 9152,
+              "excluded_candidates": 10,
+              "cqi_zero_candidates": 10,
+              "real_zero_mi_members": 0
+            },
+            {
+              "draws": 286,
+              "groups": 286,
+              "members": 858,
+              "skipped_insufficient": 0,
+              "candidate_slots": 9152,
+              "excluded_candidates": 73,
+              "cqi_zero_candidates": 73,
+              "real_zero_mi_members": 0
+            },
+            {
+              "draws": 286,
+              "groups": 286,
+              "members": 858,
+              "skipped_insufficient": 0,
+              "candidate_slots": 9152,
+              "excluded_candidates": 400,
+              "cqi_zero_candidates": 400,
+              "real_zero_mi_members": 0
+            },
+            {
+              "draws": 286,
+              "groups": 286,
+              "members": 858,
+              "skipped_insufficient": 0,
+              "candidate_slots": 9152,
+              "excluded_candidates": 179,
+              "cqi_zero_candidates": 179,
+              "real_zero_mi_members": 0
+            },
+            {
+              "draws": 286,
+              "groups": 286,
+              "members": 858,
+              "skipped_insufficient": 0,
+              "candidate_slots": 9152,
+              "excluded_candidates": 1040,
+              "cqi_zero_candidates": 1040,
+              "real_zero_mi_members": 0
+            },
+            {
+              "draws": 286,
+              "groups": 286,
+              "members": 858,
+              "skipped_insufficient": 0,
+              "candidate_slots": 9152,
+              "excluded_candidates": 268,
+              "cqi_zero_candidates": 268,
+              "real_zero_mi_members": 0
+            },
+            {
+              "draws": 286,
+              "groups": 286,
+              "members": 858,
+              "skipped_insufficient": 0,
+              "candidate_slots": 9152,
+              "excluded_candidates": 1297,
+              "cqi_zero_candidates": 1297,
+              "real_zero_mi_members": 0
+            },
+            {
+              "draws": 286,
+              "groups": 286,
+              "members": 858,
+              "skipped_insufficient": 0,
+              "candidate_slots": 9152,
+              "excluded_candidates": 797,
+              "cqi_zero_candidates": 797,
+              "real_zero_mi_members": 0
+            },
+            {
+              "draws": 286,
+              "groups": 286,
+              "members": 858,
+              "skipped_insufficient": 0,
+              "candidate_slots": 9152,
+              "excluded_candidates": 1000,
+              "cqi_zero_candidates": 1000,
+              "real_zero_mi_members": 0
+            },
+            {
+              "draws": 286,
+              "groups": 286,
+              "members": 858,
+              "skipped_insufficient": 0,
+              "candidate_slots": 9152,
+              "excluded_candidates": 810,
+              "cqi_zero_candidates": 810,
+              "real_zero_mi_members": 0
+            },
+            {
+              "draws": 286,
+              "groups": 286,
+              "members": 858,
+              "skipped_insufficient": 0,
+              "candidate_slots": 9152,
+              "excluded_candidates": 120,
+              "cqi_zero_candidates": 120,
+              "real_zero_mi_members": 0
+            },
+            {
+              "draws": 286,
+              "groups": 286,
+              "members": 858,
+              "skipped_insufficient": 0,
+              "candidate_slots": 9152,
+              "excluded_candidates": 538,
+              "cqi_zero_candidates": 538,
+              "real_zero_mi_members": 0
+            },
+            {
+              "draws": 286,
+              "groups": 286,
+              "members": 858,
+              "skipped_insufficient": 0,
+              "candidate_slots": 9152,
+              "excluded_candidates": 936,
+              "cqi_zero_candidates": 936,
+              "real_zero_mi_members": 0
+            },
+            {
+              "draws": 286,
+              "groups": 286,
+              "members": 858,
+              "skipped_insufficient": 0,
+              "candidate_slots": 9152,
+              "excluded_candidates": 81,
+              "cqi_zero_candidates": 81,
+              "real_zero_mi_members": 0
+            },
+            {
+              "draws": 286,
+              "groups": 286,
+              "members": 858,
+              "skipped_insufficient": 0,
+              "candidate_slots": 9152,
+              "excluded_candidates": 880,
+              "cqi_zero_candidates": 880,
+              "real_zero_mi_members": 0
+            },
+            {
+              "draws": 286,
+              "groups": 286,
+              "members": 858,
+              "skipped_insufficient": 0,
+              "candidate_slots": 9152,
+              "excluded_candidates": 317,
+              "cqi_zero_candidates": 317,
+              "real_zero_mi_members": 0
+            },
+            {
+              "draws": 286,
+              "groups": 286,
+              "members": 858,
+              "skipped_insufficient": 0,
+              "candidate_slots": 9152,
+              "excluded_candidates": 486,
+              "cqi_zero_candidates": 486,
+              "real_zero_mi_members": 0
+            },
+            {
+              "draws": 286,
+              "groups": 286,
+              "members": 858,
+              "skipped_insufficient": 0,
+              "candidate_slots": 9152,
+              "excluded_candidates": 215,
+              "cqi_zero_candidates": 215,
+              "real_zero_mi_members": 0
+            },
+            {
+              "draws": 286,
+              "groups": 286,
+              "members": 858,
+              "skipped_insufficient": 0,
+              "candidate_slots": 9152,
+              "excluded_candidates": 1276,
+              "cqi_zero_candidates": 1276,
+              "real_zero_mi_members": 0
+            }
+          ],
+          "4": [
+            {
+              "draws": 286,
+              "groups": 286,
+              "members": 1144,
+              "skipped_insufficient": 0,
+              "candidate_slots": 9152,
+              "excluded_candidates": 899,
+              "cqi_zero_candidates": 899,
+              "real_zero_mi_members": 0
+            },
+            {
+              "draws": 286,
+              "groups": 286,
+              "members": 1144,
+              "skipped_insufficient": 0,
+              "candidate_slots": 9152,
+              "excluded_candidates": 262,
+              "cqi_zero_candidates": 262,
+              "real_zero_mi_members": 0
+            },
+            {
+              "draws": 286,
+              "groups": 286,
+              "members": 1144,
+              "skipped_insufficient": 0,
+              "candidate_slots": 9152,
+              "excluded_candidates": 374,
+              "cqi_zero_candidates": 374,
+              "real_zero_mi_members": 0
+            },
+            {
+              "draws": 286,
+              "groups": 286,
+              "members": 1144,
+              "skipped_insufficient": 0,
+              "candidate_slots": 9152,
+              "excluded_candidates": 0,
+              "cqi_zero_candidates": 0,
+              "real_zero_mi_members": 0
+            },
+            {
+              "draws": 286,
+              "groups": 286,
+              "members": 1144,
+              "skipped_insufficient": 0,
+              "candidate_slots": 9152,
+              "excluded_candidates": 844,
+              "cqi_zero_candidates": 844,
+              "real_zero_mi_members": 0
+            },
+            {
+              "draws": 286,
+              "groups": 286,
+              "members": 1144,
+              "skipped_insufficient": 0,
+              "candidate_slots": 9152,
+              "excluded_candidates": 182,
+              "cqi_zero_candidates": 182,
+              "real_zero_mi_members": 0
+            },
+            {
+              "draws": 286,
+              "groups": 286,
+              "members": 1144,
+              "skipped_insufficient": 0,
+              "candidate_slots": 9152,
+              "excluded_candidates": 198,
+              "cqi_zero_candidates": 198,
+              "real_zero_mi_members": 0
+            },
+            {
+              "draws": 286,
+              "groups": 286,
+              "members": 1144,
+              "skipped_insufficient": 0,
+              "candidate_slots": 9152,
+              "excluded_candidates": 968,
+              "cqi_zero_candidates": 968,
+              "real_zero_mi_members": 0
+            },
+            {
+              "draws": 286,
+              "groups": 286,
+              "members": 1144,
+              "skipped_insufficient": 0,
+              "candidate_slots": 9152,
+              "excluded_candidates": 50,
+              "cqi_zero_candidates": 50,
+              "real_zero_mi_members": 0
+            },
+            {
+              "draws": 286,
+              "groups": 286,
+              "members": 1144,
+              "skipped_insufficient": 0,
+              "candidate_slots": 9152,
+              "excluded_candidates": 145,
+              "cqi_zero_candidates": 145,
+              "real_zero_mi_members": 0
+            },
+            {
+              "draws": 286,
+              "groups": 286,
+              "members": 1144,
+              "skipped_insufficient": 0,
+              "candidate_slots": 9152,
+              "excluded_candidates": 434,
+              "cqi_zero_candidates": 434,
+              "real_zero_mi_members": 0
+            },
+            {
+              "draws": 286,
+              "groups": 286,
+              "members": 1144,
+              "skipped_insufficient": 0,
+              "candidate_slots": 9152,
+              "excluded_candidates": 115,
+              "cqi_zero_candidates": 115,
+              "real_zero_mi_members": 0
+            },
+            {
+              "draws": 286,
+              "groups": 286,
+              "members": 1144,
+              "skipped_insufficient": 0,
+              "candidate_slots": 9152,
+              "excluded_candidates": 832,
+              "cqi_zero_candidates": 832,
+              "real_zero_mi_members": 0
+            },
+            {
+              "draws": 286,
+              "groups": 286,
+              "members": 1144,
+              "skipped_insufficient": 0,
+              "candidate_slots": 9152,
+              "excluded_candidates": 124,
+              "cqi_zero_candidates": 124,
+              "real_zero_mi_members": 0
+            },
+            {
+              "draws": 286,
+              "groups": 286,
+              "members": 1144,
+              "skipped_insufficient": 0,
+              "candidate_slots": 9152,
+              "excluded_candidates": 5,
+              "cqi_zero_candidates": 5,
+              "real_zero_mi_members": 0
+            },
+            {
+              "draws": 286,
+              "groups": 286,
+              "members": 1144,
+              "skipped_insufficient": 0,
+              "candidate_slots": 9152,
+              "excluded_candidates": 621,
+              "cqi_zero_candidates": 621,
+              "real_zero_mi_members": 0
+            },
+            {
+              "draws": 286,
+              "groups": 286,
+              "members": 1144,
+              "skipped_insufficient": 0,
+              "candidate_slots": 9152,
+              "excluded_candidates": 273,
+              "cqi_zero_candidates": 273,
+              "real_zero_mi_members": 0
+            },
+            {
+              "draws": 286,
+              "groups": 286,
+              "members": 1144,
+              "skipped_insufficient": 0,
+              "candidate_slots": 9152,
+              "excluded_candidates": 21,
+              "cqi_zero_candidates": 21,
+              "real_zero_mi_members": 0
+            },
+            {
+              "draws": 286,
+              "groups": 286,
+              "members": 1144,
+              "skipped_insufficient": 0,
+              "candidate_slots": 9152,
+              "excluded_candidates": 70,
+              "cqi_zero_candidates": 70,
+              "real_zero_mi_members": 0
+            },
+            {
+              "draws": 286,
+              "groups": 286,
+              "members": 1144,
+              "skipped_insufficient": 0,
+              "candidate_slots": 9152,
+              "excluded_candidates": 391,
+              "cqi_zero_candidates": 391,
+              "real_zero_mi_members": 0
+            },
+            {
+              "draws": 286,
+              "groups": 286,
+              "members": 1144,
+              "skipped_insufficient": 0,
+              "candidate_slots": 9152,
+              "excluded_candidates": 176,
+              "cqi_zero_candidates": 176,
+              "real_zero_mi_members": 0
+            },
+            {
+              "draws": 286,
+              "groups": 286,
+              "members": 1144,
+              "skipped_insufficient": 0,
+              "candidate_slots": 9152,
+              "excluded_candidates": 1038,
+              "cqi_zero_candidates": 1038,
+              "real_zero_mi_members": 0
+            },
+            {
+              "draws": 286,
+              "groups": 286,
+              "members": 1144,
+              "skipped_insufficient": 0,
+              "candidate_slots": 9152,
+              "excluded_candidates": 247,
+              "cqi_zero_candidates": 247,
+              "real_zero_mi_members": 0
+            },
+            {
+              "draws": 286,
+              "groups": 286,
+              "members": 1144,
+              "skipped_insufficient": 0,
+              "candidate_slots": 9152,
+              "excluded_candidates": 1311,
+              "cqi_zero_candidates": 1311,
+              "real_zero_mi_members": 0
+            },
+            {
+              "draws": 286,
+              "groups": 286,
+              "members": 1144,
+              "skipped_insufficient": 0,
+              "candidate_slots": 9152,
+              "excluded_candidates": 772,
+              "cqi_zero_candidates": 772,
+              "real_zero_mi_members": 0
+            },
+            {
+              "draws": 286,
+              "groups": 286,
+              "members": 1144,
+              "skipped_insufficient": 0,
+              "candidate_slots": 9152,
+              "excluded_candidates": 991,
+              "cqi_zero_candidates": 991,
+              "real_zero_mi_members": 0
+            },
+            {
+              "draws": 286,
+              "groups": 286,
+              "members": 1144,
+              "skipped_insufficient": 0,
+              "candidate_slots": 9152,
+              "excluded_candidates": 803,
+              "cqi_zero_candidates": 803,
+              "real_zero_mi_members": 0
+            },
+            {
+              "draws": 286,
+              "groups": 286,
+              "members": 1144,
+              "skipped_insufficient": 0,
+              "candidate_slots": 9152,
+              "excluded_candidates": 128,
+              "cqi_zero_candidates": 128,
+              "real_zero_mi_members": 0
+            },
+            {
+              "draws": 286,
+              "groups": 286,
+              "members": 1144,
+              "skipped_insufficient": 0,
+              "candidate_slots": 9152,
+              "excluded_candidates": 532,
+              "cqi_zero_candidates": 532,
+              "real_zero_mi_members": 0
+            },
+            {
+              "draws": 286,
+              "groups": 286,
+              "members": 1144,
+              "skipped_insufficient": 0,
+              "candidate_slots": 9152,
+              "excluded_candidates": 933,
+              "cqi_zero_candidates": 933,
+              "real_zero_mi_members": 0
+            },
+            {
+              "draws": 286,
+              "groups": 286,
+              "members": 1144,
+              "skipped_insufficient": 0,
+              "candidate_slots": 9152,
+              "excluded_candidates": 79,
+              "cqi_zero_candidates": 79,
+              "real_zero_mi_members": 0
+            },
+            {
+              "draws": 286,
+              "groups": 286,
+              "members": 1144,
+              "skipped_insufficient": 0,
+              "candidate_slots": 9152,
+              "excluded_candidates": 867,
+              "cqi_zero_candidates": 867,
+              "real_zero_mi_members": 0
+            },
+            {
+              "draws": 286,
+              "groups": 286,
+              "members": 1144,
+              "skipped_insufficient": 0,
+              "candidate_slots": 9152,
+              "excluded_candidates": 308,
+              "cqi_zero_candidates": 308,
+              "real_zero_mi_members": 0
+            },
+            {
+              "draws": 286,
+              "groups": 286,
+              "members": 1144,
+              "skipped_insufficient": 0,
+              "candidate_slots": 9152,
+              "excluded_candidates": 492,
+              "cqi_zero_candidates": 492,
+              "real_zero_mi_members": 0
+            },
+            {
+              "draws": 286,
+              "groups": 286,
+              "members": 1144,
+              "skipped_insufficient": 0,
+              "candidate_slots": 9152,
+              "excluded_candidates": 211,
+              "cqi_zero_candidates": 211,
+              "real_zero_mi_members": 0
+            },
+            {
+              "draws": 286,
+              "groups": 286,
+              "members": 1144,
+              "skipped_insufficient": 0,
+              "candidate_slots": 9152,
+              "excluded_candidates": 1277,
+              "cqi_zero_candidates": 1277,
+              "real_zero_mi_members": 0
+            }
+          ]
+        }
+      },
+      "holdout": {
+        "start": 70000,
+        "episodes": 12,
+        "sampler_seed": 20250713,
+        "slots": 1000,
+        "beta_rounded": [
+          1.0162,
+          0.8509,
+          0.7732,
+          0.728
+        ],
+        "membership": {
+          "1": {
+            "member_count": 3432,
+            "below_epsilon_members": 0,
+            "minimum_raw_cap": 204.69120000000018,
+            "minimum_scaled_cap": 208.00719744000017,
+            "epsilon": 1.0
+          },
+          "2": {
+            "member_count": 6864,
+            "below_epsilon_members": 0,
+            "minimum_raw_cap": 24.83146334764119,
+            "minimum_scaled_cap": 21.129092162507888,
+            "epsilon": 1.0
+          },
+          "3": {
+            "member_count": 10296,
+            "below_epsilon_members": 0,
+            "minimum_raw_cap": 15.130924034278772,
+            "minimum_scaled_cap": 11.699230463304346,
+            "epsilon": 1.0
+          },
+          "4": {
+            "member_count": 13728,
+            "below_epsilon_members": 0,
+            "minimum_raw_cap": 8.418378779521934,
+            "minimum_scaled_cap": 6.1285797514919675,
+            "epsilon": 1.0
+          }
+        },
+        "diagnostics": {
+          "1": [
+            {
+              "draws": 286,
+              "groups": 286,
+              "members": 286,
+              "skipped_insufficient": 0,
+              "candidate_slots": 9152,
+              "excluded_candidates": 1035,
+              "cqi_zero_candidates": 1035,
+              "real_zero_mi_members": 0
+            },
+            {
+              "draws": 286,
+              "groups": 286,
+              "members": 286,
+              "skipped_insufficient": 0,
+              "candidate_slots": 9152,
+              "excluded_candidates": 1726,
+              "cqi_zero_candidates": 1726,
+              "real_zero_mi_members": 0
+            },
+            {
+              "draws": 286,
+              "groups": 286,
+              "members": 286,
+              "skipped_insufficient": 0,
+              "candidate_slots": 9152,
+              "excluded_candidates": 889,
+              "cqi_zero_candidates": 889,
+              "real_zero_mi_members": 0
+            },
+            {
+              "draws": 286,
+              "groups": 286,
+              "members": 286,
+              "skipped_insufficient": 0,
+              "candidate_slots": 9152,
+              "excluded_candidates": 1585,
+              "cqi_zero_candidates": 1585,
+              "real_zero_mi_members": 0
+            },
+            {
+              "draws": 286,
+              "groups": 286,
+              "members": 286,
+              "skipped_insufficient": 0,
+              "candidate_slots": 9152,
+              "excluded_candidates": 34,
+              "cqi_zero_candidates": 34,
+              "real_zero_mi_members": 0
+            },
+            {
+              "draws": 286,
+              "groups": 286,
+              "members": 286,
+              "skipped_insufficient": 0,
+              "candidate_slots": 9152,
+              "excluded_candidates": 741,
+              "cqi_zero_candidates": 741,
+              "real_zero_mi_members": 0
+            },
+            {
+              "draws": 286,
+              "groups": 286,
+              "members": 286,
+              "skipped_insufficient": 0,
+              "candidate_slots": 9152,
+              "excluded_candidates": 415,
+              "cqi_zero_candidates": 415,
+              "real_zero_mi_members": 0
+            },
+            {
+              "draws": 286,
+              "groups": 286,
+              "members": 286,
+              "skipped_insufficient": 0,
+              "candidate_slots": 9152,
+              "excluded_candidates": 1581,
+              "cqi_zero_candidates": 1581,
+              "real_zero_mi_members": 0
+            },
+            {
+              "draws": 286,
+              "groups": 286,
+              "members": 286,
+              "skipped_insufficient": 0,
+              "candidate_slots": 9152,
+              "excluded_candidates": 1371,
+              "cqi_zero_candidates": 1371,
+              "real_zero_mi_members": 0
+            },
+            {
+              "draws": 286,
+              "groups": 286,
+              "members": 286,
+              "skipped_insufficient": 0,
+              "candidate_slots": 9152,
+              "excluded_candidates": 35,
+              "cqi_zero_candidates": 35,
+              "real_zero_mi_members": 0
+            },
+            {
+              "draws": 286,
+              "groups": 286,
+              "members": 286,
+              "skipped_insufficient": 0,
+              "candidate_slots": 9152,
+              "excluded_candidates": 145,
+              "cqi_zero_candidates": 145,
+              "real_zero_mi_members": 0
+            },
+            {
+              "draws": 286,
+              "groups": 286,
+              "members": 286,
+              "skipped_insufficient": 0,
+              "candidate_slots": 9152,
+              "excluded_candidates": 16,
+              "cqi_zero_candidates": 16,
+              "real_zero_mi_members": 0
+            }
+          ],
+          "2": [
+            {
+              "draws": 286,
+              "groups": 286,
+              "members": 572,
+              "skipped_insufficient": 0,
+              "candidate_slots": 9152,
+              "excluded_candidates": 1043,
+              "cqi_zero_candidates": 1043,
+              "real_zero_mi_members": 0
+            },
+            {
+              "draws": 286,
+              "groups": 286,
+              "members": 572,
+              "skipped_insufficient": 0,
+              "candidate_slots": 9152,
+              "excluded_candidates": 1707,
+              "cqi_zero_candidates": 1707,
+              "real_zero_mi_members": 0
+            },
+            {
+              "draws": 286,
+              "groups": 286,
+              "members": 572,
+              "skipped_insufficient": 0,
+              "candidate_slots": 9152,
+              "excluded_candidates": 888,
+              "cqi_zero_candidates": 888,
+              "real_zero_mi_members": 0
+            },
+            {
+              "draws": 286,
+              "groups": 286,
+              "members": 572,
+              "skipped_insufficient": 0,
+              "candidate_slots": 9152,
+              "excluded_candidates": 1569,
+              "cqi_zero_candidates": 1569,
+              "real_zero_mi_members": 0
+            },
+            {
+              "draws": 286,
+              "groups": 286,
+              "members": 572,
+              "skipped_insufficient": 0,
+              "candidate_slots": 9152,
+              "excluded_candidates": 26,
+              "cqi_zero_candidates": 26,
+              "real_zero_mi_members": 0
+            },
+            {
+              "draws": 286,
+              "groups": 286,
+              "members": 572,
+              "skipped_insufficient": 0,
+              "candidate_slots": 9152,
+              "excluded_candidates": 736,
+              "cqi_zero_candidates": 736,
+              "real_zero_mi_members": 0
+            },
+            {
+              "draws": 286,
+              "groups": 286,
+              "members": 572,
+              "skipped_insufficient": 0,
+              "candidate_slots": 9152,
+              "excluded_candidates": 419,
+              "cqi_zero_candidates": 419,
+              "real_zero_mi_members": 0
+            },
+            {
+              "draws": 286,
+              "groups": 286,
+              "members": 572,
+              "skipped_insufficient": 0,
+              "candidate_slots": 9152,
+              "excluded_candidates": 1573,
+              "cqi_zero_candidates": 1573,
+              "real_zero_mi_members": 0
+            },
+            {
+              "draws": 286,
+              "groups": 286,
+              "members": 572,
+              "skipped_insufficient": 0,
+              "candidate_slots": 9152,
+              "excluded_candidates": 1370,
+              "cqi_zero_candidates": 1370,
+              "real_zero_mi_members": 0
+            },
+            {
+              "draws": 286,
+              "groups": 286,
+              "members": 572,
+              "skipped_insufficient": 0,
+              "candidate_slots": 9152,
+              "excluded_candidates": 39,
+              "cqi_zero_candidates": 39,
+              "real_zero_mi_members": 0
+            },
+            {
+              "draws": 286,
+              "groups": 286,
+              "members": 572,
+              "skipped_insufficient": 0,
+              "candidate_slots": 9152,
+              "excluded_candidates": 142,
+              "cqi_zero_candidates": 142,
+              "real_zero_mi_members": 0
+            },
+            {
+              "draws": 286,
+              "groups": 286,
+              "members": 572,
+              "skipped_insufficient": 0,
+              "candidate_slots": 9152,
+              "excluded_candidates": 17,
+              "cqi_zero_candidates": 17,
+              "real_zero_mi_members": 0
+            }
+          ],
+          "3": [
+            {
+              "draws": 286,
+              "groups": 286,
+              "members": 858,
+              "skipped_insufficient": 0,
+              "candidate_slots": 9152,
+              "excluded_candidates": 1032,
+              "cqi_zero_candidates": 1032,
+              "real_zero_mi_members": 0
+            },
+            {
+              "draws": 286,
+              "groups": 286,
+              "members": 858,
+              "skipped_insufficient": 0,
+              "candidate_slots": 9152,
+              "excluded_candidates": 1732,
+              "cqi_zero_candidates": 1732,
+              "real_zero_mi_members": 0
+            },
+            {
+              "draws": 286,
+              "groups": 286,
+              "members": 858,
+              "skipped_insufficient": 0,
+              "candidate_slots": 9152,
+              "excluded_candidates": 882,
+              "cqi_zero_candidates": 882,
+              "real_zero_mi_members": 0
+            },
+            {
+              "draws": 286,
+              "groups": 286,
+              "members": 858,
+              "skipped_insufficient": 0,
+              "candidate_slots": 9152,
+              "excluded_candidates": 1580,
+              "cqi_zero_candidates": 1580,
+              "real_zero_mi_members": 0
+            },
+            {
+              "draws": 286,
+              "groups": 286,
+              "members": 858,
+              "skipped_insufficient": 0,
+              "candidate_slots": 9152,
+              "excluded_candidates": 31,
+              "cqi_zero_candidates": 31,
+              "real_zero_mi_members": 0
+            },
+            {
+              "draws": 286,
+              "groups": 286,
+              "members": 858,
+              "skipped_insufficient": 0,
+              "candidate_slots": 9152,
+              "excluded_candidates": 760,
+              "cqi_zero_candidates": 760,
+              "real_zero_mi_members": 0
+            },
+            {
+              "draws": 286,
+              "groups": 286,
+              "members": 858,
+              "skipped_insufficient": 0,
+              "candidate_slots": 9152,
+              "excluded_candidates": 413,
+              "cqi_zero_candidates": 413,
+              "real_zero_mi_members": 0
+            },
+            {
+              "draws": 286,
+              "groups": 286,
+              "members": 858,
+              "skipped_insufficient": 0,
+              "candidate_slots": 9152,
+              "excluded_candidates": 1591,
+              "cqi_zero_candidates": 1591,
+              "real_zero_mi_members": 0
+            },
+            {
+              "draws": 286,
+              "groups": 286,
+              "members": 858,
+              "skipped_insufficient": 0,
+              "candidate_slots": 9152,
+              "excluded_candidates": 1368,
+              "cqi_zero_candidates": 1368,
+              "real_zero_mi_members": 0
+            },
+            {
+              "draws": 286,
+              "groups": 286,
+              "members": 858,
+              "skipped_insufficient": 0,
+              "candidate_slots": 9152,
+              "excluded_candidates": 44,
+              "cqi_zero_candidates": 44,
+              "real_zero_mi_members": 0
+            },
+            {
+              "draws": 286,
+              "groups": 286,
+              "members": 858,
+              "skipped_insufficient": 0,
+              "candidate_slots": 9152,
+              "excluded_candidates": 141,
+              "cqi_zero_candidates": 141,
+              "real_zero_mi_members": 0
+            },
+            {
+              "draws": 286,
+              "groups": 286,
+              "members": 858,
+              "skipped_insufficient": 0,
+              "candidate_slots": 9152,
+              "excluded_candidates": 22,
+              "cqi_zero_candidates": 22,
+              "real_zero_mi_members": 0
+            }
+          ],
+          "4": [
+            {
+              "draws": 286,
+              "groups": 286,
+              "members": 1144,
+              "skipped_insufficient": 0,
+              "candidate_slots": 9152,
+              "excluded_candidates": 1031,
+              "cqi_zero_candidates": 1031,
+              "real_zero_mi_members": 0
+            },
+            {
+              "draws": 286,
+              "groups": 286,
+              "members": 1144,
+              "skipped_insufficient": 0,
+              "candidate_slots": 9152,
+              "excluded_candidates": 1719,
+              "cqi_zero_candidates": 1719,
+              "real_zero_mi_members": 0
+            },
+            {
+              "draws": 286,
+              "groups": 286,
+              "members": 1144,
+              "skipped_insufficient": 0,
+              "candidate_slots": 9152,
+              "excluded_candidates": 880,
+              "cqi_zero_candidates": 880,
+              "real_zero_mi_members": 0
+            },
+            {
+              "draws": 286,
+              "groups": 286,
+              "members": 1144,
+              "skipped_insufficient": 0,
+              "candidate_slots": 9152,
+              "excluded_candidates": 1587,
+              "cqi_zero_candidates": 1587,
+              "real_zero_mi_members": 0
+            },
+            {
+              "draws": 286,
+              "groups": 286,
+              "members": 1144,
+              "skipped_insufficient": 0,
+              "candidate_slots": 9152,
+              "excluded_candidates": 33,
+              "cqi_zero_candidates": 33,
+              "real_zero_mi_members": 0
+            },
+            {
+              "draws": 286,
+              "groups": 286,
+              "members": 1144,
+              "skipped_insufficient": 0,
+              "candidate_slots": 9152,
+              "excluded_candidates": 753,
+              "cqi_zero_candidates": 753,
+              "real_zero_mi_members": 0
+            },
+            {
+              "draws": 286,
+              "groups": 286,
+              "members": 1144,
+              "skipped_insufficient": 0,
+              "candidate_slots": 9152,
+              "excluded_candidates": 388,
+              "cqi_zero_candidates": 388,
+              "real_zero_mi_members": 0
+            },
+            {
+              "draws": 286,
+              "groups": 286,
+              "members": 1144,
+              "skipped_insufficient": 0,
+              "candidate_slots": 9152,
+              "excluded_candidates": 1598,
+              "cqi_zero_candidates": 1598,
+              "real_zero_mi_members": 0
+            },
+            {
+              "draws": 286,
+              "groups": 286,
+              "members": 1144,
+              "skipped_insufficient": 0,
+              "candidate_slots": 9152,
+              "excluded_candidates": 1356,
+              "cqi_zero_candidates": 1356,
+              "real_zero_mi_members": 0
+            },
+            {
+              "draws": 286,
+              "groups": 286,
+              "members": 1144,
+              "skipped_insufficient": 0,
+              "candidate_slots": 9152,
+              "excluded_candidates": 41,
+              "cqi_zero_candidates": 41,
+              "real_zero_mi_members": 0
+            },
+            {
+              "draws": 286,
+              "groups": 286,
+              "members": 1144,
+              "skipped_insufficient": 0,
+              "candidate_slots": 9152,
+              "excluded_candidates": 160,
+              "cqi_zero_candidates": 160,
+              "real_zero_mi_members": 0
+            },
+            {
+              "draws": 286,
+              "groups": 286,
+              "members": 1144,
+              "skipped_insufficient": 0,
+              "candidate_slots": 9152,
+              "excluded_candidates": 23,
+              "cqi_zero_candidates": 23,
+              "real_zero_mi_members": 0
+            }
+          ]
+        },
+        "by_depth": {
+          "1": {
+            "first_ack": 0.9000582750582751,
+            "episode_cluster_ci95": [
+              0.8892773892773893,
+              0.909965034965035
+            ],
+            "member_count": 3432,
+            "acks": 3089,
+            "episode_member_counts": [
+              286,
+              286,
+              286,
+              286,
+              286,
+              286,
+              286,
+              286,
+              286,
+              286,
+              286,
+              286
+            ],
+            "episode_ack_counts": [
+              263,
+              251,
+              253,
+              256,
+              262,
+              265,
+              261,
+              260,
+              260,
+              252,
+              258,
+              248
+            ],
+            "zero_member_episodes": 0,
+            "bootstrap_undefined_fraction": 0.0,
+            "ack_tolerance_bits": 1e-06,
+            "strict_ratio_first_ack": 0.9000582750582751
+          },
+          "2": {
+            "first_ack": 0.9277389277389277,
+            "episode_cluster_ci95": [
+              0.9166666666666666,
+              0.9392482517482518
+            ],
+            "member_count": 6864,
+            "acks": 6368,
+            "episode_member_counts": [
+              572,
+              572,
+              572,
+              572,
+              572,
+              572,
+              572,
+              572,
+              572,
+              572,
+              572,
+              572
+            ],
+            "episode_ack_counts": [
+              539,
+              551,
+              540,
+              526,
+              542,
+              523,
+              522,
+              542,
+              525,
+              524,
+              509,
+              525
+            ],
+            "zero_member_episodes": 0,
+            "bootstrap_undefined_fraction": 0.0,
+            "ack_tolerance_bits": 1e-06,
+            "strict_ratio_first_ack": 0.9277389277389277
+          },
+          "3": {
+            "first_ack": 0.932012432012432,
+            "episode_cluster_ci95": [
+              0.9221056721056721,
+              0.9417249417249417
+            ],
+            "member_count": 10296,
+            "acks": 9596,
+            "episode_member_counts": [
+              858,
+              858,
+              858,
+              858,
+              858,
+              858,
+              858,
+              858,
+              858,
+              858,
+              858,
+              858
+            ],
+            "episode_ack_counts": [
+              819,
+              817,
+              819,
+              792,
+              807,
+              789,
+              803,
+              803,
+              809,
+              786,
+              779,
+              773
+            ],
+            "zero_member_episodes": 0,
+            "bootstrap_undefined_fraction": 0.0,
+            "ack_tolerance_bits": 1e-06,
+            "strict_ratio_first_ack": 0.932012432012432
+          },
+          "4": {
+            "first_ack": 0.93254662004662,
+            "episode_cluster_ci95": [
+              0.9208916083916084,
+              0.9444201631701632
+            ],
+            "member_count": 13728,
+            "acks": 12802,
+            "episode_member_counts": [
+              1144,
+              1144,
+              1144,
+              1144,
+              1144,
+              1144,
+              1144,
+              1144,
+              1144,
+              1144,
+              1144,
+              1144
+            ],
+            "episode_ack_counts": [
+              1096,
+              1107,
+              1087,
+              1067,
+              1076,
+              1050,
+              1076,
+              1057,
+              1081,
+              1033,
+              1031,
+              1041
+            ],
+            "zero_member_episodes": 0,
+            "bootstrap_undefined_fraction": 0.0,
+            "ack_tolerance_bits": 1e-06,
+            "strict_ratio_first_ack": 0.93254662004662
+          }
+        }
+      },
+      "beta_raw": [
+        1.0162281097433123,
+        0.850860841514678,
+        0.773227004455956,
+        0.7280035717320891
+      ],
+      "beta_rounded": [
+        1.0162,
+        0.8509,
+        0.7732,
+        0.728
+      ],
+      "membership_verified_calibration": true,
+      "old_beta_on_same_holdout": {
+        "1": {
+          "beta": 1.0018,
+          "first_ack": 0.9548368298368298
+        },
+        "2": {
+          "beta": 0.7499,
+          "first_ack": 0.9637237762237763
+        },
+        "3": {
+          "beta": 0.6592,
+          "first_ack": 0.9655205905205905
+        },
+        "4": {
+          "beta": 0.6058,
+          "first_ack": 0.965472027972028
+        }
+      },
+      "membership_verified_holdout": true,
+      "calibration_fit_sha256": "c9f5b00b41914f91b9ca12c6e151e358e8330f24f13883e9b68316f8771ea8dd",
+      "samples_sha256": {
+        "calibration_samples.npz": "6847401ef45003723d1345ce06cea9c68ee042379701323880a03aec0ae0f966",
+        "holdout_samples.npz": "66a6031d34481b2e63300698be653f139f4b065d3b5b23cdb5c7277ba6770eab"
+      },
+      "completed_at": "2026-09-09T02:04:57.719919+00:00"
+    }
+  },
+  "calibration_application": "Base-calibrated beta",
+  "continuation": {
+    "created_at": "2026-09-10T01:20:21.982693+00:00",
+    "parent_run": "14_base_cqi4_batched_evalfast_lr1000_s2024_20260909_gpu5",
+    "reason": "Explicit low-LR continuation from the last completed checkpoint; full model, critic, optimizer and RNG retained.",
+    "resumed_checkpoint_update": 999,
+    "next_update": 1000,
+    "target_updates": 2000,
+    "previous_schedule": {
+      "lr_final": 0.0,
+      "lr_decay_updates": 1000
+    },
+    "continuation_schedule": {
+      "lr_final": 0.0,
+      "lr_decay_updates": 1000,
+      "lr_initial": 1e-05,
+      "lr_start_update": 1000
+    },
+    "changed_sources": [
+      "paper_train.py",
+      "train_phase2.py"
+    ],
+    "parent_source_sha256": {
+      "paper_train.py": "8bfe8762214bcd9b68e7fffb425c6cf455ba6ddd10a637c8c92fd6c0965cac7b",
+      "train_phase2.py": "05f9b74ac124029cefd1dc8ae41fef2e88e512487555f39f00ee4a6f6065fea0",
+      "config.py": "5ab93d0212e1a86449896252514ffd4ddb7666410117a720efc527bb7db47658",
+      "env.py": "e91c83165b2717c3c021433c67fb6531ae20e6f714b934b936b6ff95aff5015d",
+      "channel.py": "b308c63d369a181ba08788bc0f52f6f620c1ac3ff65ad210ae5367cd0d47e755",
+      "csi.py": "e6084b6b514c1269e0a56c76637a07c2cffcf04cfa889683a38d23b10d71f356",
+      "codebook.py": "93234f7b2aae3d7f5b593deca8aa8c4aace3c0756e2a20abe577e1ffbe381abf",
+      "phy.py": "f18d9d7cf57a981c6e835a955eea0a0195e2efdf6aad675312566b61b0b66846",
+      "la_planner.py": "ddb6028d2fd138b6b4517ecc5a73ea109915f1029081350a42a152343bb3d39d",
+      "traffic.py": "49f1822387d29c4b8333cc73ea22f64af9fa153800651dcf7c14cb139e3fd4aa",
+      "transmission.py": "317e0ece855e33de44445a7c4ecb90cddbad5dbcc70dd9357435864f5887276e",
+      "policy.py": "b668806d4604abe7f69683a4b78136dd4a811abe1597dadb640c22d4507af9f5",
+      "ppo.py": "dc3157aed774fe410f729b142db5f914fd095ba824d0366d8f619c50b27fd298",
+      "baselines.py": "c227fdc61c836969f1c8f7d7bf2cbccce0efd7e1a36b4940cc6b4dddd0e17e07",
+      "metrics.py": "cba7a47dd1de4c5487bf5ee91925f3b0a869436430496044ad5bf9bada9a8809",
+      "calibration/profile.py": "35e4c3ff438eaa29770b905229ad67d47fd4bd73acc298ac00e5708cc0a98d92"
+    },
+    "source_archive": "provenance/run14_before_lrrestart_sources.tar.gz",
+    "source_archive_sha256": "1adeb73e4b418657efdcea1d01bfa927f62d91edbafa51d37d1368232b7774dd",
+    "parent_metadata_sha256": {
+      "paper_manifest.json": "c6eb026b98e12599b82f4733afe32fc90fe8600ced23e812992381a7ab8c8e12",
+      "config.json": "efefbc1a4b052cf7d4863b1c98108cca1dc472667dd7236eb3d22f1078afdbce"
+    },
+    "copied_checkpoint_sha256": {
+      "latest.pt": "c7335c3cedef947ddae2ed3caf36c9835730b62d6a544c964f497adc83e7f45b",
+      "best.pt": "4544298a2344cef2e4e9348f6e6011c7ac78b3a98d9fac8e9e3af8e1922d076d"
+    },
+    "parent_optimizer_lr": 3.000000000000073e-07,
+    "parent_best_update": 789,
+    "parent_best_reward": 5683.826146036928,
+    "initial_child_config_sha256": "c89b0c2bf414070a08b11fbda05dfd78a2368e4244ca51f6b6ae838e573781c4",
+    "csv_history": {
+      "env_metrics.csv": {
+        "parent_sha256": "2ff1bbcf78cd9368feedb9bddd23f270add0a3c4a4e84a7844c8774ff82ba1df",
+        "initial_child_sha256": "2ff1bbcf78cd9368feedb9bddd23f270add0a3c4a4e84a7844c8774ff82ba1df",
+        "inherited_rows": 1000,
+        "dropped_rows": 0,
+        "inherited_through_update": 999
+      },
+      "eval_metrics.csv": {
+        "parent_sha256": "d2c4e51a2ca7ebf00b937f26bacbbce9e1cb1de9d1c5325015c2fadbe7470f0b",
+        "initial_child_sha256": "d2c4e51a2ca7ebf00b937f26bacbbce9e1cb1de9d1c5325015c2fadbe7470f0b",
+        "inherited_rows": 112,
+        "dropped_rows": 0,
+        "inherited_through_update": 999
+      },
+      "per_ue_metrics.csv": {
+        "parent_sha256": "f4f1e6390624b3176f75db6757c965b1678cdeb205003f7ef13cb3a25b04bcc8",
+        "initial_child_sha256": "f4f1e6390624b3176f75db6757c965b1678cdeb205003f7ef13cb3a25b04bcc8",
+        "inherited_rows": 9600,
+        "dropped_rows": 0,
+        "inherited_through_update": 999
+      },
+      "ppo_metrics.csv": {
+        "parent_sha256": "7dc57c7ee1b7be53e776bdfa7da5210b79a99480d724b0edf20db5d30bca9c90",
+        "initial_child_sha256": "7dc57c7ee1b7be53e776bdfa7da5210b79a99480d724b0edf20db5d30bca9c90",
+        "inherited_rows": 1000,
+        "dropped_rows": 0,
+        "inherited_through_update": 999
+      }
+    },
+    "parent_checkpoint_schedule_field": "absent; legacy payload, schedule retained in parent manifest",
+    "tensorboard": "Child events begin at update 1000; earlier events remain in parent run.",
+    "purpose": "training"
+  }
+}
+2026-09-10 01:21:18.252361: E external/local_xla/xla/stream_executor/cuda/cuda_dnn.cc:9261] Unable to register cuDNN factory: Attempting to register factory for plugin cuDNN when one has already been registered
+2026-09-10 01:21:18.252414: E external/local_xla/xla/stream_executor/cuda/cuda_fft.cc:607] Unable to register cuFFT factory: Attempting to register factory for plugin cuFFT when one has already been registered
+2026-09-10 01:21:18.254275: E external/local_xla/xla/stream_executor/cuda/cuda_blas.cc:1515] Unable to register cuBLAS factory: Attempting to register factory for plugin cuBLAS when one has already been registered
+git: sha256:57f7b  (clean py)
+=== ML DRL Scheduler -- Config ===
+  cell        : 1 BS (32 ant) x 32 UE (1 ant), DL
+  resource    : 8 RBG x 4 layers = 32 positions
+  RE per RBG  : 1344
+  bandwidth   : RBG 2.88 MHz, total 23.04 MHz
+  slot        : 0.500 ms
+  channel     : TR38.901 UMI, UE speed 3.0 km/h
+  codebook    : type2_sparse_56bit, L=4, atoms=512, payload=56 bit/(UE,RBG)
+  feedback    : p_csi=0.6, cqi=nr4bit
+  traffic     : p_arrival=0.22, size U[4000,12000] bits, deadline U[3,12] slots
+  power/noise : P_total=8.0, P_r=1.0, target SNR 10.0 dB (calibration)
+  retx        : max_retx=4 (5 attempts total)
+  reward      : lambda_s/c/m=1.0/1.0/2.0, eta_D=1.0, B_norm=8000.0
+  episode     : 1000 slots
+
+run_dir: /home/MYH/ML_DRL_Scheduler/PaperMain/runs/16_base_cqi4_lrrestart2000_s2024_20260910_gpu5
+num_updates: 2000
+device: cuda
+actor-critic params: 98,755
+
+resumed /home/MYH/ML_DRL_Scheduler/PaperMain/runs/16_base_cqi4_lrrestart2000_s2024_20260910_gpu5/ckpt/latest.pt: start_update=1000, best_eval_reward=5683.83
+lr anneal: 1e-05 -> 0.0 over 1000 updates from global update 1000 (linear, resume-safe)
+    [batch-verify] update 1000: 4 slots, max scaled |diff| 5.72e-06 OK
+[1000/2000] rew= 4879.8  thr=95.06Mbps  comp=0.599  drop=0.000  SINR= 12.4dB  KL= 0.0031  ent=0.737  clip=0.034  ev=+0.25  t=55s
+[1005/2000] rew= 7340.7  thr=104.41Mbps  comp=0.659  drop=0.000  SINR= 13.2dB  KL= 0.0012  ent=0.881  clip=0.004  ev=+0.08  t=287s
+  --- eval at update 1009 ---
+    PPO           reward  5634.80  thrpt  89.02Mbps  comp 0.645  totfail 0.352  depth 3.14  eval_s=104.5
+  [eval-time] update 1009: 104.5s total
+[1010/2000] rew= 6150.4  thr=96.79Mbps  comp=0.634  drop=0.000  SINR= 12.0dB  KL= 0.0014  ent=0.837  clip=0.005  ev=+0.33  t=636s
+[1015/2000] rew= 4766.3  thr=57.98Mbps  comp=0.705  drop=0.000  SINR=  9.9dB  KL= 0.0002  ent=0.489  clip=0.000  ev=+0.15  t=880s
+  --- eval at update 1019 ---
+    PPO           reward  5647.42  thrpt  89.05Mbps  comp 0.646  totfail 0.352  depth 3.14  eval_s=88.3
+  [eval-time] update 1019: 88.3s total
+[1020/2000] rew= 7130.0  thr=64.49Mbps  comp=0.841  drop=0.000  SINR= 13.6dB  KL= 0.0008  ent=0.565  clip=0.001  ev=+0.24  t=1220s
+    [batch-verify] update 1025: 4 slots, max scaled |diff| 3.81e-06 OK
+[1025/2000] rew= 3925.5  thr=59.09Mbps  comp=0.645  drop=0.001  SINR= 11.6dB  KL= 0.0017  ent=0.438  clip=0.012  ev=+0.05  t=1441s
+  --- eval at update 1029 ---
+    PPO           reward  5639.15  thrpt  88.95Mbps  comp 0.646  totfail 0.352  depth 3.08  eval_s=94.1
+  [eval-time] update 1029: 94.1s total
+[1030/2000] rew= 3938.2  thr=42.46Mbps  comp=0.750  drop=0.000  SINR= 15.7dB  KL= 0.0001  ent=0.365  clip=0.000  ev=+0.17  t=1776s
+[1035/2000] rew= 6816.0  thr=96.50Mbps  comp=0.657  drop=0.000  SINR= 12.6dB  KL= 0.0005  ent=1.058  clip=0.000  ev=-0.06  t=2049s
+  --- eval at update 1039 ---
+    PPO           reward  5627.43  thrpt  88.97Mbps  comp 0.645  totfail 0.352  depth 3.06  eval_s=87.7
+  [eval-time] update 1039: 87.7s total
+[1040/2000] rew= 5298.8  thr=57.44Mbps  comp=0.745  drop=0.000  SINR=  9.6dB  KL= 0.0016  ent=0.573  clip=0.008  ev=+0.34  t=2392s
+[1045/2000] rew= 5158.6  thr=59.55Mbps  comp=0.722  drop=0.001  SINR= 14.1dB  KL= 0.0005  ent=0.522  clip=0.001  ev=+0.03  t=2611s
+  --- eval at update 1049 ---
+    PPO           reward  5629.69  thrpt  88.96Mbps  comp 0.645  totfail 0.352  depth 3.02  eval_s=87.8
+  [eval-time] update 1049: 87.8s total
+    [batch-verify] update 1050: 4 slots, max scaled |diff| 7.63e-06 OK
+[1050/2000] rew= 7116.4  thr=97.06Mbps  comp=0.669  drop=0.000  SINR= 16.5dB  KL= 0.0005  ent=0.853  clip=0.000  ev=+0.24  t=2950s
+[1055/2000] rew= 4452.5  thr=66.99Mbps  comp=0.647  drop=0.000  SINR= 12.1dB  KL= 0.0011  ent=0.451  clip=0.004  ev=+0.20  t=3192s
+  --- eval at update 1059 ---
+    PPO           reward  5639.36  thrpt  88.98Mbps  comp 0.646  totfail 0.352  depth 3.02  eval_s=87.5
+  [eval-time] update 1059: 87.5s total
+[1060/2000] rew= 4655.1  thr=76.63Mbps  comp=0.624  drop=0.000  SINR=  8.6dB  KL= 0.0021  ent=0.661  clip=0.014  ev=+0.36  t=3540s
+[1065/2000] rew= 5216.3  thr=60.94Mbps  comp=0.717  drop=0.000  SINR=  5.1dB  KL= 0.0006  ent=0.599  clip=0.001  ev=+0.13  t=3782s
+  --- eval at update 1069 ---
+    PPO           reward  5647.62  thrpt  89.00Mbps  comp 0.646  totfail 0.352  depth 3.06  eval_s=87.5
+  [eval-time] update 1069: 87.5s total
+[1070/2000] rew= 2793.8  thr=55.81Mbps  comp=0.595  drop=0.001  SINR= 14.4dB  KL= 0.0008  ent=0.482  clip=0.003  ev=+0.12  t=4094s
+    [batch-verify] update 1075: 4 slots, max scaled |diff| 7.63e-06 OK
+[1075/2000] rew= 2289.3  thr=126.45Mbps  comp=0.511  drop=0.000  SINR= 11.0dB  KL= 0.0009  ent=1.286  clip=0.002  ev=+0.22  t=4324s
+  --- eval at update 1079 ---
+    PPO           reward  5632.86  thrpt  88.88Mbps  comp 0.646  totfail 0.352  depth 3.00  eval_s=85.9
+  [eval-time] update 1079: 85.9s total
+[1080/2000] rew= 6018.2  thr=117.80Mbps  comp=0.597  drop=0.000  SINR= 13.8dB  KL= 0.0007  ent=1.018  clip=0.001  ev=+0.28  t=4646s
+[1085/2000] rew= 5373.6  thr=100.57Mbps  comp=0.602  drop=0.000  SINR= 12.5dB  KL= 0.0021  ent=0.917  clip=0.017  ev=+0.30  t=4903s
+  --- eval at update 1089 ---
+    PPO           reward  5631.18  thrpt  89.01Mbps  comp 0.645  totfail 0.352  depth 3.06  eval_s=88.7
+  [eval-time] update 1089: 88.7s total
+[1090/2000] rew= 4167.1  thr=110.06Mbps  comp=0.561  drop=0.000  SINR= 12.3dB  KL= 0.0004  ent=0.894  clip=0.000  ev=+0.25  t=5221s
+[1095/2000] rew= 5210.5  thr=107.26Mbps  comp=0.587  drop=0.000  SINR= 10.8dB  KL= 0.0012  ent=1.062  clip=0.004  ev=+0.19  t=5465s
+  --- eval at update 1099 ---
+    PPO           reward  5629.48  thrpt  88.94Mbps  comp 0.645  totfail 0.352  depth 3.02  eval_s=87.0
+  [eval-time] update 1099: 87.0s total
+    [batch-verify] update 1100: 4 slots, max scaled |diff| 7.63e-06 OK
+[1100/2000] rew= 5835.4  thr=105.13Mbps  comp=0.609  drop=0.000  SINR=  9.6dB  KL= 0.0012  ent=0.950  clip=0.007  ev=+0.16  t=5777s
+[1105/2000] rew= 5555.0  thr=74.12Mbps  comp=0.674  drop=0.000  SINR=  6.6dB  KL= 0.0007  ent=0.725  clip=0.002  ev=+0.18  t=6013s
+  --- eval at update 1109 ---
+    PPO           reward  5654.26  thrpt  89.05Mbps  comp 0.646  totfail 0.352  depth 3.09  eval_s=88.3
+  [eval-time] update 1109: 88.3s total
+[1110/2000] rew= 4514.0  thr=44.82Mbps  comp=0.787  drop=0.001  SINR= 16.8dB  KL= 0.0015  ent=0.409  clip=0.012  ev=+0.17  t=6351s
+/home/MYH/ML_DRL_Scheduler/PaperMain/env.py:363: RuntimeWarning: divide by zero encountered in log10
+  slot_sinr_db = (float(10.0 * np.log10(sinr_map[occ].mean()))
+[1115/2000] rew= 8349.6  thr=98.26Mbps  comp=0.715  drop=0.000  SINR= 16.3dB  KL= 0.0003  ent=0.748  clip=0.000  ev=+0.33  t=6587s
+  --- eval at update 1119 ---
+    PPO           reward  5654.14  thrpt  89.06Mbps  comp 0.646  totfail 0.352  depth 3.08  eval_s=89.9
+  [eval-time] update 1119: 89.9s total
+[1120/2000] rew= 5236.2  thr=76.06Mbps  comp=0.652  drop=0.000  SINR= 11.8dB  KL= 0.0007  ent=0.665  clip=0.001  ev=+0.14  t=6915s
+    [batch-verify] update 1125: 4 slots, max scaled |diff| 2.38e-06 OK
+[1125/2000] rew= 1196.4  thr=95.18Mbps  comp=0.503  drop=0.000  SINR= 12.9dB  KL= 0.0003  ent=0.732  clip=0.000  ev=+0.28  t=7154s
+  --- eval at update 1129 ---
+    PPO           reward  5634.09  thrpt  89.00Mbps  comp 0.645  totfail 0.352  depth 3.01  eval_s=89.7
+  [eval-time] update 1129: 89.7s total
+[1130/2000] rew= 4753.3  thr=64.00Mbps  comp=0.676  drop=0.002  SINR= 12.6dB  KL= 0.0003  ent=0.406  clip=0.000  ev=+0.07  t=7466s
+[1135/2000] rew= 6635.6  thr=79.15Mbps  comp=0.710  drop=0.000  SINR= 10.7dB  KL= 0.0016  ent=0.674  clip=0.008  ev=+0.25  t=7717s
+  --- eval at update 1139 ---
+    PPO           reward  5631.95  thrpt  89.06Mbps  comp 0.645  totfail 0.352  depth 3.05  eval_s=91.1
+  [eval-time] update 1139: 91.1s total
+[1140/2000] rew= 3728.6  thr=51.92Mbps  comp=0.667  drop=0.001  SINR= 10.3dB  KL= 0.0012  ent=0.379  clip=0.007  ev=+0.15  t=8056s
+[1145/2000] rew= 6292.8  thr=60.02Mbps  comp=0.812  drop=0.000  SINR=  7.2dB  KL= 0.0002  ent=0.370  clip=0.000  ev=+0.15  t=8295s
+  --- eval at update 1149 ---
+    PPO           reward  5642.50  thrpt  89.03Mbps  comp 0.646  totfail 0.352  depth 3.08  eval_s=91.1
+  [eval-time] update 1149: 91.1s total
+    [batch-verify] update 1150: 4 slots, max scaled |diff| 5.72e-06 OK
+[1150/2000] rew= 4449.4  thr=103.10Mbps  comp=0.571  drop=0.000  SINR= 13.8dB  KL= 0.0005  ent=0.870  clip=0.000  ev=+0.17  t=8621s
+[1155/2000] rew= 6151.9  thr=47.69Mbps  comp=0.962  drop=0.000  SINR= 13.5dB  KL= 0.0010  ent=0.247  clip=0.006  ev=-0.13  t=8861s
+  --- eval at update 1159 ---
+    PPO           reward  5633.31  thrpt  89.03Mbps  comp 0.645  totfail 0.352  depth 3.09  eval_s=91.0
+  [eval-time] update 1159: 91.0s total
+[1160/2000] rew= 5966.6  thr=120.84Mbps  comp=0.591  drop=0.000  SINR= 12.4dB  KL= 0.0012  ent=1.048  clip=0.004  ev=+0.27  t=9199s
+[1165/2000] rew= 5652.5  thr=68.96Mbps  comp=0.704  drop=0.000  SINR= 10.0dB  KL= 0.0003  ent=0.534  clip=0.000  ev=+0.31  t=9450s
+  --- eval at update 1169 ---
+    PPO           reward  5649.86  thrpt  89.06Mbps  comp 0.646  totfail 0.352  depth 3.09  eval_s=89.1
+  [eval-time] update 1169: 89.1s total
+[1170/2000] rew= 4678.5  thr=61.72Mbps  comp=0.679  drop=0.001  SINR=  8.1dB  KL= 0.0001  ent=0.495  clip=0.000  ev=+0.17  t=9769s
+    [batch-verify] update 1175: 4 slots, max scaled |diff| 7.63e-06 OK
+[1175/2000] rew= 8961.7  thr=138.66Mbps  comp=0.638  drop=0.000  SINR= 16.8dB  KL= 0.0001  ent=1.137  clip=0.000  ev=+0.24  t=10023s
+  --- eval at update 1179 ---
+    PPO           reward  5632.17  thrpt  89.00Mbps  comp 0.645  totfail 0.352  depth 3.08  eval_s=91.7
+  [eval-time] update 1179: 91.7s total
+[1180/2000] rew= 7356.8  thr=67.47Mbps  comp=0.832  drop=0.000  SINR= 15.1dB  KL= 0.0009  ent=0.606  clip=0.002  ev=+0.10  t=10369s
+[1185/2000] rew= 5768.6  thr=71.36Mbps  comp=0.699  drop=0.000  SINR= 14.1dB  KL= 0.0006  ent=0.576  clip=0.001  ev=+0.20  t=10618s
+  --- eval at update 1189 ---
+    PPO           reward  5640.51  thrpt  89.01Mbps  comp 0.645  totfail 0.352  depth 3.04  eval_s=90.2
+  [eval-time] update 1189: 90.2s total
+[1190/2000] rew= 4112.2  thr=102.28Mbps  comp=0.564  drop=0.000  SINR= 13.3dB  KL= 0.0007  ent=0.973  clip=0.001  ev=+0.34  t=10959s
+[1195/2000] rew= 3931.3  thr=58.94Mbps  comp=0.646  drop=0.000  SINR=  9.1dB  KL= 0.0003  ent=0.514  clip=0.000  ev=+0.19  t=11185s
+  --- eval at update 1199 ---
+    PPO           reward  5640.68  thrpt  88.98Mbps  comp 0.646  totfail 0.352  depth 3.06  eval_s=90.4
+  [eval-time] update 1199: 90.4s total
+    [batch-verify] update 1200: 4 slots, max scaled |diff| 4.77e-06 OK
+[1200/2000] rew= 6598.7  thr=76.13Mbps  comp=0.724  drop=0.000  SINR= 11.9dB  KL= 0.0022  ent=0.646  clip=0.015  ev=+0.17  t=11513s
+[1205/2000] rew= 6691.4  thr=60.83Mbps  comp=0.841  drop=0.000  SINR= 16.3dB  KL= 0.0002  ent=0.314  clip=0.000  ev=+0.08  t=11748s
+  --- eval at update 1209 ---
+    PPO           reward  5644.00  thrpt  89.02Mbps  comp 0.646  totfail 0.352  depth 3.08  eval_s=91.1
+  [eval-time] update 1209: 91.1s total
+[1210/2000] rew= 6411.6  thr=77.56Mbps  comp=0.706  drop=0.000  SINR= 13.1dB  KL= 0.0003  ent=0.675  clip=0.000  ev=+0.10  t=12100s
+[1215/2000] rew= 7894.3  thr=82.49Mbps  comp=0.761  drop=0.000  SINR= 13.3dB  KL= 0.0009  ent=0.684  clip=0.004  ev=+0.30  t=12364s
+  --- eval at update 1219 ---
+    PPO           reward  5644.92  thrpt  89.03Mbps  comp 0.645  totfail 0.352  depth 3.08  eval_s=92.4
+  [eval-time] update 1219: 92.4s total
+[1220/2000] rew= 5430.8  thr=66.84Mbps  comp=0.701  drop=0.000  SINR= 12.0dB  KL= 0.0002  ent=0.472  clip=0.000  ev=+0.27  t=12685s
+    [batch-verify] update 1225: 4 slots, max scaled |diff| 4.77e-06 OK
+[1225/2000] rew= 5171.0  thr=50.42Mbps  comp=0.799  drop=0.000  SINR=  8.7dB  KL= 0.0011  ent=0.350  clip=0.006  ev=+0.07  t=12919s
+  --- eval at update 1229 ---
+    PPO           reward  5640.23  thrpt  89.07Mbps  comp 0.645  totfail 0.352  depth 3.12  eval_s=92.1
+  [eval-time] update 1229: 92.1s total
+[1230/2000] rew= 6940.4  thr=70.80Mbps  comp=0.774  drop=0.000  SINR= 12.7dB  KL= 0.0012  ent=0.557  clip=0.004  ev=+0.22  t=13268s
+[1235/2000] rew= 6375.7  thr=104.72Mbps  comp=0.627  drop=0.000  SINR=  9.6dB  KL= 0.0010  ent=0.992  clip=0.005  ev=+0.27  t=13525s
+  --- eval at update 1239 ---
+    PPO           reward  5643.64  thrpt  89.04Mbps  comp 0.646  totfail 0.352  depth 3.10  eval_s=90.0
+  [eval-time] update 1239: 90.0s total
+[1240/2000] rew= 4648.0  thr=80.84Mbps  comp=0.616  drop=0.000  SINR= 12.2dB  KL= 0.0015  ent=0.681  clip=0.009  ev=+0.22  t=13859s
+[1245/2000] rew= 1990.5  thr=70.82Mbps  comp=0.534  drop=0.000  SINR=  7.5dB  KL= 0.0013  ent=0.546  clip=0.008  ev=+0.07  t=14112s
+  --- eval at update 1249 ---
+    PPO           reward  5656.48  thrpt  89.00Mbps  comp 0.646  totfail 0.351  depth 3.04  eval_s=89.8
+  [eval-time] update 1249: 89.8s total
+    [batch-verify] update 1250: 4 slots, max scaled |diff| 5.72e-06 OK
+[1250/2000] rew= 5401.3  thr=97.55Mbps  comp=0.610  drop=0.000  SINR=  8.3dB  KL= 0.0031  ent=0.821  clip=0.031  ev=-0.15  t=14458s
+[1255/2000] rew= 5851.3  thr=88.37Mbps  comp=0.643  drop=0.000  SINR=  9.3dB  KL= 0.0009  ent=0.800  clip=0.003  ev=+0.14  t=14731s
+  --- eval at update 1259 ---
+    PPO           reward  5645.76  thrpt  89.07Mbps  comp 0.646  totfail 0.352  depth 3.09  eval_s=90.3
+  [eval-time] update 1259: 90.3s total
+[1260/2000] rew= 7347.8  thr=95.74Mbps  comp=0.683  drop=0.000  SINR=  9.2dB  KL= 0.0008  ent=0.800  clip=0.002  ev=+0.25  t=15088s
+[1265/2000] rew= 5896.1  thr=64.55Mbps  comp=0.742  drop=0.000  SINR= 11.3dB  KL= 0.0005  ent=0.605  clip=0.001  ev=+0.21  t=15323s
+  --- eval at update 1269 ---
+    PPO           reward  5669.01  thrpt  89.07Mbps  comp 0.646  totfail 0.351  depth 3.04  eval_s=89.6
+  [eval-time] update 1269: 89.6s total
+[1270/2000] rew= 6064.9  thr=115.18Mbps  comp=0.600  drop=0.000  SINR=  8.9dB  KL= 0.0002  ent=0.997  clip=0.000  ev=+0.17  t=15669s
+    [batch-verify] update 1275: 4 slots, max scaled |diff| 7.63e-06 OK
+[1275/2000] rew= 4173.3  thr=99.04Mbps  comp=0.570  drop=0.000  SINR=  9.8dB  KL= 0.0020  ent=0.824  clip=0.015  ev=+0.27  t=15928s
+  --- eval at update 1279 ---
+    PPO           reward  5654.48  thrpt  88.99Mbps  comp 0.646  totfail 0.351  depth 2.99  eval_s=88.4
+  [eval-time] update 1279: 88.4s total
+[1280/2000] rew= 4283.4  thr=128.22Mbps  comp=0.550  drop=0.000  SINR= 15.5dB  KL= 0.0014  ent=1.025  clip=0.006  ev=+0.27  t=16265s
+[1285/2000] rew= 3300.0  thr=121.39Mbps  comp=0.535  drop=0.000  SINR= 13.7dB  KL= 0.0013  ent=0.945  clip=0.006  ev=+0.31  t=16514s
+  --- eval at update 1289 ---
+    PPO           reward  5630.94  thrpt  88.89Mbps  comp 0.645  totfail 0.352  depth 2.91  eval_s=89.1
+  [eval-time] update 1289: 89.1s total
+[1290/2000] rew= 4932.1  thr=49.08Mbps  comp=0.789  drop=0.001  SINR=  7.2dB  KL= 0.0008  ent=0.369  clip=0.001  ev=+0.16  t=16822s
+[1295/2000] rew= 8105.8  thr=73.00Mbps  comp=0.845  drop=0.000  SINR=  9.6dB  KL= 0.0002  ent=0.492  clip=0.000  ev=+0.02  t=17051s
+  --- eval at update 1299 ---
+    PPO           reward  5648.05  thrpt  88.94Mbps  comp 0.646  totfail 0.352  depth 2.97  eval_s=88.1
+  [eval-time] update 1299: 88.1s total
+    [batch-verify] update 1300: 4 slots, max scaled |diff| 7.63e-06 OK
+[1300/2000] rew= 1866.9  thr=110.81Mbps  comp=0.513  drop=0.000  SINR= 13.1dB  KL= 0.0013  ent=0.900  clip=0.005  ev=+0.24  t=17390s
+[1305/2000] rew= 5019.0  thr=54.84Mbps  comp=0.743  drop=0.000  SINR= 13.9dB  KL= 0.0007  ent=0.412  clip=0.002  ev=+0.30  t=17607s
+  --- eval at update 1309 ---
+    PPO           reward  5639.14  thrpt  88.89Mbps  comp 0.646  totfail 0.352  depth 2.92  eval_s=86.9
+  [eval-time] update 1309: 86.9s total
+[1310/2000] rew= 3269.0  thr=109.97Mbps  comp=0.540  drop=0.000  SINR= 11.2dB  KL= 0.0022  ent=0.977  clip=0.016  ev=+0.32  t=17922s
+[1315/2000] rew= 4378.6  thr=61.24Mbps  comp=0.663  drop=0.000  SINR= 13.9dB  KL= 0.0003  ent=0.470  clip=0.000  ev=+0.11  t=18146s
+  --- eval at update 1319 ---
+    PPO           reward  5610.16  thrpt  88.81Mbps  comp 0.645  totfail 0.353  depth 2.91  eval_s=86.5
+  [eval-time] update 1319: 86.5s total
+[1320/2000] rew= 6991.7  thr=108.35Mbps  comp=0.635  drop=0.000  SINR= 10.3dB  KL= 0.0008  ent=1.188  clip=0.002  ev=+0.19  t=18470s
+    [batch-verify] update 1325: 4 slots, max scaled |diff| 5.72e-06 OK
+[1325/2000] rew= 5055.9  thr=100.53Mbps  comp=0.595  drop=0.000  SINR= 10.0dB  KL= 0.0016  ent=0.943  clip=0.009  ev=+0.25  t=18705s
+  --- eval at update 1329 ---
+    PPO           reward  5596.86  thrpt  88.80Mbps  comp 0.644  totfail 0.353  depth 2.91  eval_s=86.0
+  [eval-time] update 1329: 86.0s total
+[1330/2000] rew= 3348.8  thr=124.20Mbps  comp=0.533  drop=0.000  SINR= 11.7dB  KL= 0.0006  ent=1.110  clip=0.001  ev=+0.28  t=19050s
+[1335/2000] rew= 3824.6  thr=80.66Mbps  comp=0.586  drop=0.000  SINR= 12.9dB  KL= 0.0008  ent=0.596  clip=0.001  ev=+0.28  t=19298s
+  --- eval at update 1339 ---
+    PPO           reward  5606.31  thrpt  88.75Mbps  comp 0.645  totfail 0.353  depth 2.82  eval_s=85.5
+  [eval-time] update 1339: 85.5s total
+[1340/2000] rew= 2412.9  thr=115.72Mbps  comp=0.519  drop=0.000  SINR=  9.6dB  KL= 0.0018  ent=1.040  clip=0.011  ev=+0.26  t=19620s
+[1345/2000] rew= 3792.3  thr=52.07Mbps  comp=0.668  drop=0.000  SINR= 13.1dB  KL= 0.0005  ent=0.429  clip=0.001  ev=+0.07  t=19847s
+  --- eval at update 1349 ---
+    PPO           reward  5599.02  thrpt  88.67Mbps  comp 0.645  totfail 0.353  depth 2.80  eval_s=87.5
+  [eval-time] update 1349: 87.5s total
+    [batch-verify] update 1350: 4 slots, max scaled |diff| 7.63e-06 OK
+[1350/2000] rew= 4489.9  thr=87.52Mbps  comp=0.600  drop=0.000  SINR= 13.2dB  KL= 0.0003  ent=0.571  clip=0.000  ev=+0.27  t=20173s
+[1355/2000] rew= 5136.0  thr=98.96Mbps  comp=0.601  drop=0.000  SINR= 12.4dB  KL= 0.0008  ent=0.708  clip=0.003  ev=+0.22  t=20424s
+  --- eval at update 1359 ---
+    PPO           reward  5615.21  thrpt  88.76Mbps  comp 0.645  totfail 0.352  depth 2.83  eval_s=85.8
+  [eval-time] update 1359: 85.8s total
+[1360/2000] rew= 3894.5  thr=44.45Mbps  comp=0.727  drop=0.001  SINR=  9.7dB  KL= 0.0007  ent=0.339  clip=0.001  ev=+0.23  t=20732s
+[1365/2000] rew= 8220.2  thr=89.46Mbps  comp=0.743  drop=0.001  SINR= 10.3dB  KL= 0.0020  ent=0.732  clip=0.016  ev=-0.17  t=20968s
+  --- eval at update 1369 ---
+    PPO           reward  5610.54  thrpt  88.82Mbps  comp 0.645  totfail 0.353  depth 2.89  eval_s=86.1
+  [eval-time] update 1369: 86.1s total
+[1370/2000] rew= 6706.6  thr=93.74Mbps  comp=0.662  drop=0.000  SINR= 12.5dB  KL= 0.0009  ent=0.753  clip=0.004  ev=+0.18  t=21303s
+    [batch-verify] update 1375: 4 slots, max scaled |diff| 7.63e-06 OK
+[1375/2000] rew= 7259.1  thr=113.34Mbps  comp=0.636  drop=0.000  SINR=  9.8dB  KL= 0.0003  ent=0.950  clip=0.000  ev=+0.20  t=21541s
+  --- eval at update 1379 ---
+    PPO           reward  5613.52  thrpt  88.87Mbps  comp 0.645  totfail 0.353  depth 2.93  eval_s=86.4
+  [eval-time] update 1379: 86.4s total
+[1380/2000] rew= 5786.1  thr=91.89Mbps  comp=0.631  drop=0.000  SINR=  9.5dB  KL= 0.0008  ent=0.735  clip=0.002  ev=+0.33  t=21863s
+[1385/2000] rew= 4289.8  thr=65.71Mbps  comp=0.640  drop=0.000  SINR= 12.6dB  KL= 0.0019  ent=0.565  clip=0.013  ev=+0.09  t=22108s
+  --- eval at update 1389 ---
+    PPO           reward  5655.81  thrpt  88.97Mbps  comp 0.646  totfail 0.351  depth 2.93  eval_s=86.6
+  [eval-time] update 1389: 86.6s total
+[1390/2000] rew= 4211.4  thr=88.77Mbps  comp=0.586  drop=0.000  SINR= 10.4dB  KL= 0.0004  ent=0.779  clip=0.000  ev=+0.30  t=22427s
+[1395/2000] rew= 5413.8  thr=70.95Mbps  comp=0.680  drop=0.000  SINR= 10.6dB  KL= 0.0002  ent=0.530  clip=0.000  ev=+0.09  t=22656s
+  --- eval at update 1399 ---
+    PPO           reward  5622.70  thrpt  88.86Mbps  comp 0.645  totfail 0.352  depth 2.87  eval_s=86.8
+  [eval-time] update 1399: 86.8s total
+    [batch-verify] update 1400: 4 slots, max scaled |diff| 1.91e-06 OK
+[1400/2000] rew= 3697.9  thr=39.56Mbps  comp=0.753  drop=0.000  SINR= 16.5dB  KL= 0.0006  ent=0.347  clip=0.000  ev=+0.06  t=22967s
+[1405/2000] rew= 4992.2  thr=70.77Mbps  comp=0.660  drop=0.000  SINR=  8.9dB  KL= 0.0008  ent=0.479  clip=0.002  ev=+0.12  t=23214s
+  --- eval at update 1409 ---
+    PPO           reward  5619.57  thrpt  88.82Mbps  comp 0.645  totfail 0.352  depth 2.87  eval_s=85.2
+  [eval-time] update 1409: 85.2s total
+[1410/2000] rew= 6854.7  thr=69.23Mbps  comp=0.781  drop=0.000  SINR=  9.2dB  KL= 0.0001  ent=0.489  clip=0.000  ev=+0.07  t=23519s
+[1415/2000] rew= 6805.5  thr=111.28Mbps  comp=0.627  drop=0.000  SINR= 14.2dB  KL= 0.0010  ent=0.880  clip=0.002  ev=+0.19  t=23769s
+  --- eval at update 1419 ---
+    PPO           reward  5637.95  thrpt  88.92Mbps  comp 0.646  totfail 0.352  depth 2.93  eval_s=86.2
+  [eval-time] update 1419: 86.2s total
+[1420/2000] rew= 3390.9  thr=84.87Mbps  comp=0.567  drop=0.000  SINR=  6.0dB  KL= 0.0002  ent=0.779  clip=0.000  ev=+0.21  t=24104s
+    [batch-verify] update 1425: 4 slots, max scaled |diff| 5.72e-06 OK
+[1425/2000] rew= 6292.8  thr=64.88Mbps  comp=0.770  drop=0.000  SINR= 13.1dB  KL= 0.0001  ent=0.472  clip=0.000  ev=+0.14  t=24322s
+  --- eval at update 1429 ---
+    PPO           reward  5616.44  thrpt  88.85Mbps  comp 0.645  totfail 0.352  depth 2.96  eval_s=86.3
+  [eval-time] update 1429: 86.3s total
+[1430/2000] rew= 3624.9  thr=54.27Mbps  comp=0.647  drop=0.001  SINR= 11.2dB  KL= 0.0005  ent=0.398  clip=0.001  ev=+0.10  t=24633s
+[1435/2000] rew= 5898.5  thr=113.56Mbps  comp=0.598  drop=0.000  SINR= 13.9dB  KL= 0.0001  ent=0.829  clip=0.000  ev=+0.25  t=24877s
+  --- eval at update 1439 ---
+    PPO           reward  5609.45  thrpt  88.86Mbps  comp 0.645  totfail 0.353  depth 2.91  eval_s=86.4
+  [eval-time] update 1439: 86.4s total
+[1440/2000] rew= 5616.7  thr=59.70Mbps  comp=0.757  drop=0.000  SINR= 12.7dB  KL= 0.0013  ent=0.396  clip=0.008  ev=-0.08  t=25182s
+[1445/2000] rew= 3976.2  thr=60.37Mbps  comp=0.644  drop=0.000  SINR= 11.9dB  KL= 0.0003  ent=0.479  clip=0.000  ev=+0.20  t=25403s
+  --- eval at update 1449 ---
+    PPO           reward  5631.04  thrpt  88.92Mbps  comp 0.645  totfail 0.352  depth 2.93  eval_s=87.3
+  [eval-time] update 1449: 87.3s total
+    [batch-verify] update 1450: 4 slots, max scaled |diff| 5.72e-06 OK
+[1450/2000] rew= 7865.7  thr=76.19Mbps  comp=0.800  drop=0.000  SINR= 11.3dB  KL= 0.0001  ent=0.605  clip=0.000  ev=-0.18  t=25733s
+[1455/2000] rew= 3801.8  thr=43.84Mbps  comp=0.725  drop=0.001  SINR= 14.0dB  KL= 0.0001  ent=0.274  clip=0.000  ev=+0.23  t=25964s
+  --- eval at update 1459 ---
+    PPO           reward  5637.33  thrpt  88.93Mbps  comp 0.646  totfail 0.352  depth 2.94  eval_s=87.4
+  [eval-time] update 1459: 87.4s total
+[1460/2000] rew= 7308.3  thr=76.40Mbps  comp=0.763  drop=0.000  SINR= 12.7dB  KL= 0.0002  ent=0.519  clip=0.000  ev=+0.22  t=26297s
+[1465/2000] rew= 5376.2  thr=60.30Mbps  comp=0.733  drop=0.000  SINR= 15.8dB  KL= 0.0018  ent=0.489  clip=0.014  ev=+0.12  t=26530s
+  --- eval at update 1469 ---
+    PPO           reward  5652.36  thrpt  88.99Mbps  comp 0.646  totfail 0.351  depth 2.96  eval_s=88.9
+  [eval-time] update 1469: 88.9s total
+[1470/2000] rew= 4887.1  thr=56.17Mbps  comp=0.727  drop=0.003  SINR= 10.8dB  KL= 0.0001  ent=0.359  clip=0.000  ev=-0.01  t=26852s
+    [batch-verify] update 1475: 4 slots, max scaled |diff| 1.14e-05 OK
+[1475/2000] rew= 4092.0  thr=81.92Mbps  comp=0.592  drop=0.000  SINR=  7.4dB  KL= 0.0008  ent=0.803  clip=0.002  ev=+0.22  t=27103s
+  --- eval at update 1479 ---
+    PPO           reward  5645.71  thrpt  88.96Mbps  comp 0.646  totfail 0.352  depth 2.92  eval_s=89.0
+  [eval-time] update 1479: 89.0s total
+[1480/2000] rew= 3403.1  thr=125.12Mbps  comp=0.530  drop=0.000  SINR=  9.4dB  KL= 0.0003  ent=1.282  clip=0.000  ev=+0.26  t=27439s
+[1485/2000] rew= 5852.6  thr=97.44Mbps  comp=0.621  drop=0.000  SINR= 10.1dB  KL= 0.0003  ent=0.920  clip=0.000  ev=+0.17  t=27680s
+  --- eval at update 1489 ---
+    PPO           reward  5647.59  thrpt  88.97Mbps  comp 0.646  totfail 0.352  depth 2.99  eval_s=86.9
+  [eval-time] update 1489: 86.9s total
+[1490/2000] rew= 8056.3  thr=77.19Mbps  comp=0.807  drop=0.001  SINR= 14.1dB  KL= 0.0008  ent=0.491  clip=0.002  ev=+0.11  t=28007s
+[1495/2000] rew= 7164.7  thr=84.41Mbps  comp=0.716  drop=0.000  SINR= 13.5dB  KL= 0.0010  ent=0.575  clip=0.004  ev=+0.20  t=28239s
+  --- eval at update 1499 ---
+    PPO           reward  5681.11  thrpt  89.07Mbps  comp 0.647  totfail 0.350  depth 3.02  eval_s=89.9
+  [eval-time] update 1499: 89.9s total
+    [batch-verify] update 1500: 4 slots, max scaled |diff| 7.63e-06 OK
+[1500/2000] rew= 2781.1  thr=127.13Mbps  comp=0.521  drop=0.000  SINR= 13.0dB  KL= 0.0004  ent=1.163  clip=0.000  ev=+0.25  t=28568s
+[1505/2000] rew= 4027.5  thr=112.19Mbps  comp=0.555  drop=0.000  SINR=  8.5dB  KL= 0.0002  ent=1.112  clip=0.000  ev=+0.19  t=28821s
+  --- eval at update 1509 ---
+    PPO           reward  5680.58  thrpt  89.05Mbps  comp 0.647  totfail 0.350  depth 2.99  eval_s=88.3
+  [eval-time] update 1509: 88.3s total
+[1510/2000] rew= 3751.4  thr=55.53Mbps  comp=0.651  drop=0.000  SINR= 11.4dB  KL= 0.0007  ent=0.360  clip=0.003  ev=+0.15  t=29129s
+[1515/2000] rew= 5261.5  thr=70.98Mbps  comp=0.671  drop=0.000  SINR= 11.4dB  KL= 0.0003  ent=0.533  clip=0.000  ev=+0.31  t=29366s
+  --- eval at update 1519 ---
+    PPO           reward  5670.12  thrpt  89.07Mbps  comp 0.647  totfail 0.351  depth 3.02  eval_s=88.1
+  [eval-time] update 1519: 88.1s total
+[1520/2000] rew= 3273.0  thr=53.20Mbps  comp=0.630  drop=0.000  SINR= 11.4dB  KL= 0.0005  ent=0.496  clip=0.001  ev=+0.27  t=29680s
+    [batch-verify] update 1525: 4 slots, max scaled |diff| 9.54e-06 OK
+[1525/2000] rew= 4879.3  thr=112.64Mbps  comp=0.574  drop=0.000  SINR= 12.2dB  KL= 0.0002  ent=1.051  clip=0.000  ev=+0.32  t=29928s
+  --- eval at update 1529 ---
+    PPO           reward  5675.39  thrpt  89.09Mbps  comp 0.647  totfail 0.351  depth 3.03  eval_s=90.3
+  [eval-time] update 1529: 90.3s total
+[1530/2000] rew= 5934.9  thr=56.00Mbps  comp=0.814  drop=0.000  SINR= 14.0dB  KL= 0.0013  ent=0.463  clip=0.006  ev=+0.08  t=30247s
+[1535/2000] rew= 8081.0  thr=115.84Mbps  comp=0.656  drop=0.000  SINR= 17.0dB  KL= 0.0005  ent=0.926  clip=0.000  ev=+0.20  t=30495s
+  --- eval at update 1539 ---
+    PPO           reward  5669.02  thrpt  89.13Mbps  comp 0.646  totfail 0.351  depth 3.04  eval_s=88.3
+  [eval-time] update 1539: 88.3s total
+[1540/2000] rew= 5245.7  thr=74.49Mbps  comp=0.660  drop=0.001  SINR= 11.7dB  KL= 0.0001  ent=0.613  clip=0.000  ev=+0.22  t=30832s
+[1545/2000] rew= 3823.6  thr=69.48Mbps  comp=0.609  drop=0.000  SINR= 16.8dB  KL= 0.0000  ent=0.432  clip=0.000  ev=+0.31  t=31082s
+  --- eval at update 1549 ---
+    PPO           reward  5676.56  thrpt  89.13Mbps  comp 0.647  totfail 0.351  depth 3.04  eval_s=87.6
+  [eval-time] update 1549: 87.6s total
+    [batch-verify] update 1550: 4 slots, max scaled |diff| 5.72e-06 OK
+[1550/2000] rew= 2692.3  thr=126.06Mbps  comp=0.518  drop=0.000  SINR= 11.9dB  KL= 0.0001  ent=1.219  clip=0.000  ev=+0.31  t=31407s
+[1555/2000] rew= 8018.9  thr=79.14Mbps  comp=0.791  drop=0.000  SINR= 11.8dB  KL= 0.0002  ent=0.571  clip=0.000  ev=+0.06  t=31647s
+  --- eval at update 1559 ---
+    PPO           reward  5663.98  thrpt  89.12Mbps  comp 0.646  totfail 0.351  depth 3.04  eval_s=89.1
+  [eval-time] update 1559: 89.1s total
+[1560/2000] rew= 2492.3  thr=78.07Mbps  comp=0.547  drop=0.000  SINR=  8.3dB  KL= 0.0000  ent=0.626  clip=0.000  ev=+0.13  t=31976s
+[1565/2000] rew= 7819.1  thr=85.44Mbps  comp=0.744  drop=0.000  SINR=  8.3dB  KL= 0.0003  ent=0.650  clip=0.000  ev=-0.03  t=32234s
+  --- eval at update 1569 ---
+    PPO           reward  5664.08  thrpt  89.17Mbps  comp 0.646  totfail 0.351  depth 3.07  eval_s=90.7
+  [eval-time] update 1569: 90.7s total
+[1570/2000] rew= 5500.8  thr=122.54Mbps  comp=0.577  drop=0.000  SINR= 11.8dB  KL= 0.0006  ent=1.214  clip=0.000  ev=+0.24  t=32579s
+    [batch-verify] update 1575: 4 slots, max scaled |diff| 7.63e-06 OK
+[1575/2000] rew= 3576.9  thr=125.56Mbps  comp=0.538  drop=0.000  SINR= 11.3dB  KL= 0.0013  ent=1.194  clip=0.005  ev=+0.22  t=32835s
+  --- eval at update 1579 ---
+    PPO           reward  5661.17  thrpt  89.14Mbps  comp 0.646  totfail 0.352  depth 3.09  eval_s=89.2
+  [eval-time] update 1579: 89.2s total
+[1580/2000] rew= 6597.1  thr=87.55Mbps  comp=0.677  drop=0.000  SINR=  8.8dB  KL= 0.0012  ent=0.795  clip=0.006  ev=+0.34  t=33180s
+[1585/2000] rew= 5605.4  thr=80.31Mbps  comp=0.656  drop=0.000  SINR=  8.5dB  KL= 0.0001  ent=0.651  clip=0.000  ev=+0.13  t=33418s
+  --- eval at update 1589 ---
+    PPO           reward  5676.05  thrpt  89.11Mbps  comp 0.647  totfail 0.351  depth 3.02  eval_s=89.1
+  [eval-time] update 1589: 89.1s total
+[1590/2000] rew= 4771.2  thr=51.84Mbps  comp=0.744  drop=0.000  SINR= 13.0dB  KL= 0.0010  ent=0.431  clip=0.003  ev=+0.15  t=33750s
+[1595/2000] rew= 1994.5  thr=43.89Mbps  comp=0.581  drop=0.001  SINR=  9.8dB  KL= 0.0004  ent=0.370  clip=0.000  ev=+0.20  t=33977s
+  --- eval at update 1599 ---
+    PPO           reward  5678.49  thrpt  89.11Mbps  comp 0.647  totfail 0.351  depth 2.99  eval_s=87.1
+  [eval-time] update 1599: 87.1s total
+    [batch-verify] update 1600: 4 slots, max scaled |diff| 6.68e-06 OK
+[1600/2000] rew= 4628.5  thr=68.29Mbps  comp=0.651  drop=0.000  SINR= 17.0dB  KL= 0.0000  ent=0.490  clip=0.000  ev=+0.20  t=34298s
+[1605/2000] rew= 6282.0  thr=86.37Mbps  comp=0.667  drop=0.000  SINR=  7.6dB  KL= 0.0000  ent=0.789  clip=0.000  ev=+0.13  t=34552s
+  --- eval at update 1609 ---
+    PPO           reward  5680.09  thrpt  89.14Mbps  comp 0.647  totfail 0.351  depth 3.01  eval_s=86.7
+  [eval-time] update 1609: 86.7s total
+[1610/2000] rew= 5613.6  thr=63.90Mbps  comp=0.730  drop=0.000  SINR=  6.3dB  KL= 0.0000  ent=0.465  clip=0.000  ev=+0.18  t=34866s
+[1615/2000] rew= 5918.9  thr=65.08Mbps  comp=0.743  drop=0.000  SINR= 12.1dB  KL= 0.0005  ent=0.428  clip=0.001  ev=+0.10  t=35098s
+  --- eval at update 1619 ---
+    PPO           reward  5667.71  thrpt  89.11Mbps  comp 0.646  totfail 0.351  depth 3.04  eval_s=88.9
+  [eval-time] update 1619: 88.9s total
+[1620/2000] rew= 6009.3  thr=74.07Mbps  comp=0.702  drop=0.000  SINR= 12.4dB  KL= 0.0001  ent=0.488  clip=0.000  ev=+0.13  t=35431s
+    [batch-verify] update 1625: 4 slots, max scaled |diff| 3.81e-06 OK
+[1625/2000] rew= 5639.0  thr=61.61Mbps  comp=0.745  drop=0.000  SINR= 11.3dB  KL= 0.0000  ent=0.474  clip=0.000  ev=+0.06  t=35675s
+  --- eval at update 1629 ---
+    PPO           reward  5671.41  thrpt  89.16Mbps  comp 0.646  totfail 0.351  depth 3.05  eval_s=88.4
+  [eval-time] update 1629: 88.4s total
+[1630/2000] rew= 7144.0  thr=121.29Mbps  comp=0.620  drop=0.000  SINR= 15.3dB  KL= 0.0002  ent=0.959  clip=0.000  ev=+0.19  t=36005s
+[1635/2000] rew= 8137.9  thr=102.30Mbps  comp=0.692  drop=0.000  SINR= 11.6dB  KL= 0.0002  ent=0.755  clip=0.000  ev=+0.15  t=36245s
+  --- eval at update 1639 ---
+    PPO           reward  5659.16  thrpt  89.14Mbps  comp 0.646  totfail 0.352  depth 3.03  eval_s=88.5
+  [eval-time] update 1639: 88.5s total
+[1640/2000] rew= 6501.2  thr=112.22Mbps  comp=0.617  drop=0.000  SINR= 12.6dB  KL= 0.0000  ent=0.923  clip=0.000  ev=+0.26  t=36566s
+[1645/2000] rew= 4115.8  thr=118.79Mbps  comp=0.552  drop=0.000  SINR= 12.8dB  KL= 0.0001  ent=0.966  clip=0.000  ev=+0.23  t=36804s
+  --- eval at update 1649 ---
+    PPO           reward  5670.09  thrpt  89.18Mbps  comp 0.646  totfail 0.351  depth 3.06  eval_s=92.2
+  [eval-time] update 1649: 92.2s total
+    [batch-verify] update 1650: 4 slots, max scaled |diff| 1.91e-06 OK
+[1650/2000] rew= 3715.2  thr=98.51Mbps  comp=0.558  drop=0.000  SINR= 11.4dB  KL= 0.0004  ent=0.847  clip=0.000  ev=+0.28  t=37144s
+[1655/2000] rew= 3053.7  thr=81.35Mbps  comp=0.559  drop=0.000  SINR= 14.6dB  KL= 0.0000  ent=0.714  clip=0.000  ev=+0.37  t=37403s
+  --- eval at update 1659 ---
+    PPO           reward  5662.45  thrpt  89.14Mbps  comp 0.646  totfail 0.352  depth 3.03  eval_s=88.7
+  [eval-time] update 1659: 88.7s total
+[1660/2000] rew= 6693.1  thr=94.27Mbps  comp=0.661  drop=0.000  SINR= 15.1dB  KL= 0.0001  ent=0.745  clip=0.000  ev=+0.19  t=37728s
+[1665/2000] rew= 6495.9  thr=95.77Mbps  comp=0.651  drop=0.000  SINR= 13.0dB  KL= 0.0004  ent=0.699  clip=0.000  ev=+0.21  t=37978s
+  --- eval at update 1669 ---
+    PPO           reward  5672.88  thrpt  89.19Mbps  comp 0.646  totfail 0.351  depth 3.04  eval_s=87.4
+  [eval-time] update 1669: 87.4s total
+[1670/2000] rew= 5689.5  thr=64.73Mbps  comp=0.726  drop=0.000  SINR=  7.9dB  KL= 0.0000  ent=0.576  clip=0.000  ev=+0.08  t=38313s
+    [batch-verify] update 1675: 4 slots, max scaled |diff| 2.86e-06 OK
+[1675/2000] rew= 5865.3  thr=68.80Mbps  comp=0.719  drop=0.000  SINR=  8.8dB  KL= 0.0010  ent=0.502  clip=0.004  ev=+0.18  t=38556s
+  --- eval at update 1679 ---
+    PPO           reward  5686.02  thrpt  89.20Mbps  comp 0.647  totfail 0.351  depth 3.03  eval_s=89.1
+  [eval-time] update 1679: 89.1s total
+  >>> new best eval reward 5686.02, saved best.pt
+[1680/2000] rew= 2672.7  thr=31.67Mbps  comp=0.713  drop=0.003  SINR= 11.5dB  KL= 0.0002  ent=0.273  clip=0.000  ev=+0.21  t=38878s
+[1685/2000] rew= 5434.8  thr=60.27Mbps  comp=0.739  drop=0.000  SINR=  9.9dB  KL= 0.0001  ent=0.492  clip=0.000  ev=+0.12  t=39102s
+  --- eval at update 1689 ---
+    PPO           reward  5672.10  thrpt  89.18Mbps  comp 0.646  totfail 0.351  depth 3.07  eval_s=88.3
+  [eval-time] update 1689: 88.3s total
+[1690/2000] rew= 6044.2  thr=70.61Mbps  comp=0.718  drop=0.000  SINR= 11.3dB  KL= 0.0001  ent=0.626  clip=0.000  ev=+0.34  t=39428s
+[1695/2000] rew= 8720.9  thr=93.76Mbps  comp=0.749  drop=0.000  SINR= 13.9dB  KL= 0.0001  ent=0.878  clip=0.000  ev=+0.20  t=39673s
+  --- eval at update 1699 ---
+    PPO           reward  5680.65  thrpt  89.18Mbps  comp 0.647  totfail 0.351  depth 3.04  eval_s=87.7
+  [eval-time] update 1699: 87.7s total
+    [batch-verify] update 1700: 4 slots, max scaled |diff| 7.63e-06 OK
+[1700/2000] rew= 8897.2  thr=89.07Mbps  comp=0.783  drop=0.000  SINR= 12.0dB  KL= 0.0003  ent=0.823  clip=0.000  ev=+0.30  t=40001s
+[1705/2000] rew= 6211.7  thr=83.10Mbps  comp=0.675  drop=0.000  SINR= 11.4dB  KL= 0.0001  ent=0.710  clip=0.000  ev=+0.26  t=40247s
+  --- eval at update 1709 ---
+    PPO           reward  5673.49  thrpt  89.23Mbps  comp 0.646  totfail 0.351  depth 3.08  eval_s=88.7
+  [eval-time] update 1709: 88.7s total
+[1710/2000] rew= 1802.3  thr=95.40Mbps  comp=0.512  drop=0.000  SINR=  8.9dB  KL= 0.0003  ent=0.899  clip=0.000  ev=+0.33  t=40587s
+[1715/2000] rew= 4819.2  thr=62.14Mbps  comp=0.685  drop=0.000  SINR=  7.6dB  KL= 0.0001  ent=0.518  clip=0.000  ev=+0.20  t=40839s
+  --- eval at update 1719 ---
+    PPO           reward  5682.19  thrpt  89.23Mbps  comp 0.647  totfail 0.351  depth 3.06  eval_s=90.3
+  [eval-time] update 1719: 90.3s total
+[1720/2000] rew= 4520.6  thr=41.33Mbps  comp=0.841  drop=0.001  SINR= 14.4dB  KL= 0.0004  ent=0.355  clip=0.000  ev=+0.15  t=41182s
+    [batch-verify] update 1725: 4 slots, max scaled |diff| 9.54e-06 OK
+[1725/2000] rew= 4762.7  thr=96.84Mbps  comp=0.590  drop=0.000  SINR= 10.5dB  KL= 0.0001  ent=0.841  clip=0.000  ev=+0.35  t=41437s
+  --- eval at update 1729 ---
+    PPO           reward  5687.21  thrpt  89.27Mbps  comp 0.647  totfail 0.351  depth 3.09  eval_s=88.1
+  [eval-time] update 1729: 88.1s total
+  >>> new best eval reward 5687.21, saved best.pt
+[1730/2000] rew= 8205.7  thr=75.97Mbps  comp=0.824  drop=0.000  SINR= 10.9dB  KL= 0.0000  ent=0.622  clip=0.000  ev=+0.10  t=41782s
+[1735/2000] rew= 7971.0  thr=96.84Mbps  comp=0.703  drop=0.000  SINR= 10.6dB  KL= 0.0002  ent=0.842  clip=0.000  ev=+0.32  t=42027s
+  --- eval at update 1739 ---
+    PPO           reward  5681.64  thrpt  89.24Mbps  comp 0.646  totfail 0.351  depth 3.10  eval_s=88.9
+  [eval-time] update 1739: 88.9s total
+[1740/2000] rew= 4831.8  thr=85.69Mbps  comp=0.610  drop=0.000  SINR= 10.7dB  KL= 0.0001  ent=0.909  clip=0.000  ev=+0.24  t=42353s
+[1745/2000] rew= 4091.6  thr=66.85Mbps  comp=0.628  drop=0.000  SINR= 11.7dB  KL= 0.0000  ent=0.636  clip=0.000  ev=+0.39  t=42606s
+  --- eval at update 1749 ---
+    PPO           reward  5674.73  thrpt  89.21Mbps  comp 0.646  totfail 0.351  depth 3.08  eval_s=88.7
+  [eval-time] update 1749: 88.7s total
+    [batch-verify] update 1750: 4 slots, max scaled |diff| 4.77e-06 OK
+[1750/2000] rew= 3069.7  thr=79.91Mbps  comp=0.562  drop=0.000  SINR= 14.0dB  KL= 0.0001  ent=0.590  clip=0.000  ev=+0.30  t=42919s
+[1755/2000] rew= 6988.4  thr=82.74Mbps  comp=0.715  drop=0.000  SINR= 10.3dB  KL= 0.0002  ent=0.588  clip=0.000  ev=+0.14  t=43166s
+  --- eval at update 1759 ---
+    PPO           reward  5675.32  thrpt  89.19Mbps  comp 0.646  totfail 0.351  depth 3.08  eval_s=87.4
+  [eval-time] update 1759: 87.4s total
+[1760/2000] rew= 6029.6  thr=89.03Mbps  comp=0.650  drop=0.000  SINR= 13.0dB  KL= 0.0000  ent=0.682  clip=0.000  ev=+0.30  t=43503s
+[1765/2000] rew= 3236.0  thr=101.50Mbps  comp=0.545  drop=0.000  SINR= 13.7dB  KL= 0.0001  ent=0.842  clip=0.000  ev=+0.33  t=43754s
+  --- eval at update 1769 ---
+    PPO           reward  5681.61  thrpt  89.26Mbps  comp 0.646  totfail 0.351  depth 3.09  eval_s=91.8
+  [eval-time] update 1769: 91.8s total
+[1770/2000] rew= 4189.5  thr=42.76Mbps  comp=0.776  drop=0.001  SINR= 11.9dB  KL= 0.0002  ent=0.351  clip=0.000  ev=+0.13  t=44080s
+    [batch-verify] update 1775: 4 slots, max scaled |diff| 5.72e-06 OK
+[1775/2000] rew= 3538.0  thr=75.94Mbps  comp=0.582  drop=0.000  SINR=  8.8dB  KL= 0.0001  ent=0.714  clip=0.000  ev=+0.38  t=44329s
+  --- eval at update 1779 ---
+    PPO           reward  5671.81  thrpt  89.20Mbps  comp 0.646  totfail 0.351  depth 3.08  eval_s=87.5
+  [eval-time] update 1779: 87.5s total
+[1780/2000] rew= 8091.6  thr=85.53Mbps  comp=0.759  drop=0.000  SINR= 16.0dB  KL= 0.0001  ent=0.493  clip=0.000  ev=+0.09  t=44656s
+[1785/2000] rew= 7071.4  thr=102.47Mbps  comp=0.654  drop=0.000  SINR= 12.8dB  KL= 0.0000  ent=0.891  clip=0.000  ev=+0.27  t=44903s
+  --- eval at update 1789 ---
+    PPO           reward  5679.32  thrpt  89.22Mbps  comp 0.646  totfail 0.351  depth 3.07  eval_s=89.2
+  [eval-time] update 1789: 89.2s total
+[1790/2000] rew= 5947.8  thr=86.80Mbps  comp=0.652  drop=0.000  SINR= 13.3dB  KL= 0.0001  ent=0.683  clip=0.000  ev=+0.24  t=45241s
+[1795/2000] rew= 6458.7  thr=79.98Mbps  comp=0.698  drop=0.000  SINR= 11.2dB  KL= 0.0003  ent=0.552  clip=0.000  ev=+0.23  t=45473s
+  --- eval at update 1799 ---
+    PPO           reward  5683.36  thrpt  89.24Mbps  comp 0.647  totfail 0.351  depth 3.10  eval_s=88.6
+  [eval-time] update 1799: 88.6s total
+    [batch-verify] update 1800: 4 slots, max scaled |diff| 7.63e-06 OK
+[1800/2000] rew= 4767.5  thr=98.00Mbps  comp=0.584  drop=0.000  SINR= 12.5dB  KL= 0.0001  ent=0.935  clip=0.000  ev=+0.36  t=45822s
+[1805/2000] rew= 3401.9  thr=121.43Mbps  comp=0.535  drop=0.000  SINR=  9.7dB  KL= 0.0000  ent=1.256  clip=0.000  ev=+0.40  t=46080s
+  --- eval at update 1809 ---
+    PPO           reward  5676.74  thrpt  89.26Mbps  comp 0.646  totfail 0.351  depth 3.12  eval_s=88.0
+  [eval-time] update 1809: 88.0s total
+[1810/2000] rew= 5509.5  thr=67.60Mbps  comp=0.700  drop=0.000  SINR= 10.0dB  KL= 0.0000  ent=0.662  clip=0.000  ev=+0.28  t=46407s
+[1815/2000] rew= 6843.1  thr=67.68Mbps  comp=0.791  drop=0.000  SINR=  8.1dB  KL= 0.0002  ent=0.533  clip=0.000  ev=+0.14  t=46652s
+  --- eval at update 1819 ---
+    PPO           reward  5687.00  thrpt  89.26Mbps  comp 0.647  totfail 0.351  depth 3.12  eval_s=88.1
+  [eval-time] update 1819: 88.1s total
+[1820/2000] rew= 6351.0  thr=99.39Mbps  comp=0.637  drop=0.000  SINR= 10.0dB  KL= 0.0000  ent=0.857  clip=0.000  ev=+0.24  t=46995s
+    [batch-verify] update 1825: 4 slots, max scaled |diff| 7.63e-06 OK
+[1825/2000] rew= 8544.9  thr=83.19Mbps  comp=0.799  drop=0.000  SINR= 11.5dB  KL= 0.0001  ent=0.650  clip=0.000  ev=+0.22  t=47244s
+  --- eval at update 1829 ---
+    PPO           reward  5664.86  thrpt  89.23Mbps  comp 0.646  totfail 0.352  depth 3.17  eval_s=87.9
+  [eval-time] update 1829: 87.9s total
+[1830/2000] rew= 4992.4  thr=52.80Mbps  comp=0.760  drop=0.000  SINR=  7.7dB  KL= 0.0000  ent=0.470  clip=0.000  ev=+0.09  t=47578s
+[1835/2000] rew= 4137.1  thr=64.63Mbps  comp=0.639  drop=0.000  SINR= 10.3dB  KL= 0.0001  ent=0.570  clip=0.000  ev=+0.17  t=47816s
+  --- eval at update 1839 ---
+    PPO           reward  5665.30  thrpt  89.23Mbps  comp 0.646  totfail 0.352  depth 3.13  eval_s=88.4
+  [eval-time] update 1839: 88.4s total
+[1840/2000] rew= 5411.1  thr=126.68Mbps  comp=0.572  drop=0.000  SINR= 10.3dB  KL= 0.0000  ent=1.362  clip=0.000  ev=+0.35  t=48168s
+[1845/2000] rew= 6192.1  thr=81.47Mbps  comp=0.681  drop=0.000  SINR= 12.4dB  KL= 0.0001  ent=0.721  clip=0.000  ev=+0.31  t=48421s
+  --- eval at update 1849 ---
+    PPO           reward  5679.10  thrpt  89.26Mbps  comp 0.646  totfail 0.351  depth 3.15  eval_s=89.7
+  [eval-time] update 1849: 89.7s total
+    [batch-verify] update 1850: 4 slots, max scaled |diff| 9.54e-06 OK
+[1850/2000] rew=10654.4  thr=94.92Mbps  comp=0.849  drop=0.000  SINR= 15.6dB  KL= 0.0000  ent=0.639  clip=0.000  ev=+0.04  t=48732s
+[1855/2000] rew= 5160.6  thr=87.64Mbps  comp=0.619  drop=0.000  SINR= 10.9dB  KL= 0.0000  ent=0.896  clip=0.000  ev=+0.30  t=48993s
+  --- eval at update 1859 ---
+    PPO           reward  5663.30  thrpt  89.25Mbps  comp 0.646  totfail 0.352  depth 3.17  eval_s=89.1
+  [eval-time] update 1859: 89.1s total
+[1860/2000] rew= 4072.9  thr=101.80Mbps  comp=0.565  drop=0.000  SINR=  8.0dB  KL= 0.0000  ent=1.033  clip=0.000  ev=+0.25  t=49331s
+[1865/2000] rew= 2812.8  thr=78.80Mbps  comp=0.555  drop=0.000  SINR=  8.7dB  KL= 0.0001  ent=0.629  clip=0.000  ev=+0.17  t=49579s
+  --- eval at update 1869 ---
+    PPO           reward  5670.75  thrpt  89.26Mbps  comp 0.646  totfail 0.351  depth 3.14  eval_s=89.7
+  [eval-time] update 1869: 89.7s total
+[1870/2000] rew= 3862.7  thr=94.88Mbps  comp=0.569  drop=0.000  SINR=  9.9dB  KL= 0.0000  ent=0.858  clip=0.000  ev=+0.10  t=49910s
+    [batch-verify] update 1875: 4 slots, max scaled |diff| 7.63e-06 OK
+[1875/2000] rew= 4385.9  thr=81.16Mbps  comp=0.603  drop=0.000  SINR= 12.8dB  KL= 0.0000  ent=0.784  clip=0.000  ev=+0.27  t=50146s
+  --- eval at update 1879 ---
+    PPO           reward  5678.66  thrpt  89.27Mbps  comp 0.646  totfail 0.351  depth 3.12  eval_s=89.3
+  [eval-time] update 1879: 89.3s total
+[1880/2000] rew= 6101.0  thr=95.51Mbps  comp=0.638  drop=0.000  SINR=  8.0dB  KL= 0.0000  ent=0.924  clip=0.000  ev=+0.32  t=50471s
+[1885/2000] rew= 4632.7  thr=68.81Mbps  comp=0.649  drop=0.000  SINR= 14.9dB  KL= 0.0000  ent=0.553  clip=0.000  ev=+0.25  t=50715s
+  --- eval at update 1889 ---
+    PPO           reward  5674.07  thrpt  89.22Mbps  comp 0.646  totfail 0.351  depth 3.13  eval_s=87.4
+  [eval-time] update 1889: 87.4s total
+[1890/2000] rew= 4038.6  thr=112.13Mbps  comp=0.555  drop=0.000  SINR= 10.8dB  KL= 0.0001  ent=0.950  clip=0.000  ev=+0.33  t=51031s
+[1895/2000] rew= 2641.1  thr=73.30Mbps  comp=0.553  drop=0.000  SINR=  6.9dB  KL= 0.0000  ent=0.674  clip=0.000  ev=+0.24  t=51260s
+  --- eval at update 1899 ---
+    PPO           reward  5683.49  thrpt  89.24Mbps  comp 0.647  totfail 0.351  depth 3.11  eval_s=89.3
+  [eval-time] update 1899: 89.3s total
+    [batch-verify] update 1900: 4 slots, max scaled |diff| 3.81e-06 OK
+[1900/2000] rew= 6518.6  thr=88.67Mbps  comp=0.670  drop=0.000  SINR=  9.7dB  KL= 0.0000  ent=0.632  clip=0.000  ev=+0.29  t=51579s
+[1905/2000] rew= 3231.7  thr=78.85Mbps  comp=0.568  drop=0.000  SINR=  9.5dB  KL= 0.0000  ent=0.638  clip=0.000  ev=+0.35  t=51828s
+  --- eval at update 1909 ---
+    PPO           reward  5685.03  thrpt  89.26Mbps  comp 0.647  totfail 0.351  depth 3.11  eval_s=90.3
+  [eval-time] update 1909: 90.3s total
+[1910/2000] rew= 5330.0  thr=81.42Mbps  comp=0.641  drop=0.000  SINR= 13.2dB  KL= 0.0000  ent=0.802  clip=0.000  ev=+0.34  t=52163s
+[1915/2000] rew= 7454.0  thr=69.94Mbps  comp=0.823  drop=0.000  SINR= 13.9dB  KL= 0.0000  ent=0.438  clip=0.000  ev=+0.10  t=52400s
+  --- eval at update 1919 ---
+    PPO           reward  5686.21  thrpt  89.26Mbps  comp 0.647  totfail 0.351  depth 3.11  eval_s=87.6
+  [eval-time] update 1919: 87.6s total
+[1920/2000] rew= 6507.3  thr=62.48Mbps  comp=0.804  drop=0.000  SINR= 12.4dB  KL= 0.0000  ent=0.485  clip=0.000  ev=+0.26  t=52715s
+    [batch-verify] update 1925: 4 slots, max scaled |diff| 1.91e-06 OK
+[1925/2000] rew= 5376.6  thr=51.73Mbps  comp=0.804  drop=0.000  SINR= 10.7dB  KL= 0.0000  ent=0.500  clip=0.000  ev=+0.04  t=52966s
+  --- eval at update 1929 ---
+    PPO           reward  5688.36  thrpt  89.26Mbps  comp 0.647  totfail 0.351  depth 3.10  eval_s=88.7
+  [eval-time] update 1929: 88.7s total
+  >>> new best eval reward 5688.36, saved best.pt
+[1930/2000] rew= 5771.5  thr=51.55Mbps  comp=0.852  drop=0.001  SINR= 13.6dB  KL= 0.0000  ent=0.391  clip=0.000  ev=+0.11  t=53286s
+[1935/2000] rew= 7480.1  thr=117.43Mbps  comp=0.635  drop=0.000  SINR= 13.0dB  KL= 0.0000  ent=1.261  clip=0.000  ev=+0.23  t=53551s
+  --- eval at update 1939 ---
+    PPO           reward  5686.17  thrpt  89.25Mbps  comp 0.647  totfail 0.351  depth 3.07  eval_s=88.6
+  [eval-time] update 1939: 88.6s total
+[1940/2000] rew= 5670.6  thr=112.19Mbps  comp=0.592  drop=0.000  SINR= 11.1dB  KL= 0.0000  ent=0.990  clip=0.000  ev=+0.18  t=53898s
+[1945/2000] rew= 5301.3  thr=55.04Mbps  comp=0.766  drop=0.000  SINR= 12.5dB  KL= 0.0000  ent=0.481  clip=0.000  ev=+0.19  t=54135s
+  --- eval at update 1949 ---
+    PPO           reward  5672.94  thrpt  89.23Mbps  comp 0.646  totfail 0.351  depth 3.08  eval_s=88.6
+  [eval-time] update 1949: 88.6s total
+    [batch-verify] update 1950: 4 slots, max scaled |diff| 5.72e-06 OK
+[1950/2000] rew= 7098.1  thr=64.60Mbps  comp=0.837  drop=0.000  SINR= 12.3dB  KL= 0.0000  ent=0.459  clip=0.000  ev=+0.18  t=54467s
+[1955/2000] rew= 1616.0  thr=35.18Mbps  comp=0.581  drop=0.002  SINR= 17.4dB  KL= 0.0000  ent=0.333  clip=0.000  ev=+0.22  t=54705s
+  --- eval at update 1959 ---
+    PPO           reward  5678.65  thrpt  89.23Mbps  comp 0.646  totfail 0.351  depth 3.09  eval_s=87.6
+  [eval-time] update 1959: 87.6s total
+[1960/2000] rew= 4850.4  thr=83.30Mbps  comp=0.620  drop=0.000  SINR= 10.3dB  KL= 0.0000  ent=0.620  clip=0.000  ev=+0.27  t=55040s
+[1965/2000] rew= 6675.0  thr=93.41Mbps  comp=0.660  drop=0.000  SINR=  9.6dB  KL= 0.0000  ent=0.936  clip=0.000  ev=+0.20  t=55274s
+  --- eval at update 1969 ---
+    PPO           reward  5672.60  thrpt  89.22Mbps  comp 0.646  totfail 0.351  depth 3.06  eval_s=88.6
+  [eval-time] update 1969: 88.6s total
+[1970/2000] rew= 4000.9  thr=81.59Mbps  comp=0.591  drop=0.000  SINR=  9.8dB  KL= 0.0000  ent=0.683  clip=0.000  ev=+0.10  t=55610s
+    [batch-verify] update 1975: 4 slots, max scaled |diff| 3.81e-06 OK
+[1975/2000] rew= 6960.1  thr=66.86Mbps  comp=0.804  drop=0.000  SINR= 10.9dB  KL= 0.0000  ent=0.539  clip=0.000  ev=+0.06  t=55828s
+  --- eval at update 1979 ---
+    PPO           reward  5689.13  thrpt  89.25Mbps  comp 0.647  totfail 0.351  depth 3.10  eval_s=87.6
+  [eval-time] update 1979: 87.6s total
+  >>> new best eval reward 5689.13, saved best.pt
+[1980/2000] rew= 2985.5  thr=63.99Mbps  comp=0.584  drop=0.000  SINR=  9.5dB  KL= 0.0000  ent=0.526  clip=0.000  ev=+0.38  t=56155s
+[1985/2000] rew= 6033.6  thr=71.76Mbps  comp=0.713  drop=0.000  SINR=  7.0dB  KL= 0.0000  ent=0.597  clip=0.000  ev=+0.13  t=56394s
+  --- eval at update 1989 ---
+    PPO           reward  5692.63  thrpt  89.25Mbps  comp 0.647  totfail 0.350  depth 3.07  eval_s=87.4
+  [eval-time] update 1989: 87.4s total
+  >>> new best eval reward 5692.63, saved best.pt
+[1990/2000] rew= 2532.5  thr=118.01Mbps  comp=0.520  drop=0.000  SINR=  8.6dB  KL= 0.0000  ent=1.299  clip=0.000  ev=+0.38  t=56723s
+[1995/2000] rew= 3025.4  thr=47.04Mbps  comp=0.636  drop=0.000  SINR= 11.7dB  KL= 0.0000  ent=0.416  clip=0.000  ev=+0.22  t=56953s
+[1999/2000] rew= 6359.6  thr=61.66Mbps  comp=0.802  drop=0.000  SINR= 13.5dB  KL= 0.0000  ent=0.440  clip=0.000  ev=+0.11  t=57156s
+  --- eval at update 1999 ---
+    PPO           reward  5692.63  thrpt  89.25Mbps  comp 0.647  totfail 0.350  depth 3.07  eval_s=87.0
+  [eval-time] update 1999: 87.0s total
+latest.pt saved at update 1999
+
+Done. 1000 updates in 57243s  (57.2s/update). Best eval reward: 5692.63

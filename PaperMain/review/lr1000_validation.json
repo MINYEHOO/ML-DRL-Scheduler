@@ -1,0 +1,26 @@
+{
+  "date": "2026-09-09T02:46:55.646415+00:00",
+  "status": "passed",
+  "tests": 85,
+  "corrected_calibration": "validated",
+  "beta": [
+    1.0162,
+    0.8509,
+    0.7732,
+    0.728
+  ],
+  "base_config_unchanged": true,
+  "initial_lr": 0.0003,
+  "schedule": {
+    "lr_final": 0.0,
+    "lr_decay_updates": 1000
+  },
+  "applied_lr_at_999": 3.0000000000000025e-07,
+  "resume_optimizer_lr": 0.00029969999999999997,
+  "smoke_updates": 2,
+  "original_code_files_unchanged": 16,
+  "original_and_copied_artifacts_unchanged": 137,
+  "run_name": "base_cqi4_lr1000_s2024_20260909_gpu5",
+  "preflight": "/home/MYH/ML_DRL_Scheduler/PaperMain/runs/base_cqi4_lr1000_s2024_20260909_gpu5",
+  "physical_gpu": 5
+}

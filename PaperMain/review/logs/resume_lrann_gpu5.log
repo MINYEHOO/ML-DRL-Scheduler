@@ -1,0 +1,215 @@
+{
+  "run_dir": "/home/MYH/ML_DRL_Scheduler/PaperMain/runs/audit_lrann_gpu5",
+  "resume": "/home/MYH/ML_DRL_Scheduler/PaperMain/runs/audit_lrann_gpu5/ckpt/latest.pt",
+  "version": 1,
+  "recipe": "lrann",
+  "config": {
+    "age_norm_max": 50.0,
+    "b_norm": 8000.0,
+    "b_tx_epsilon": 1.0,
+    "beta_rate": 1.0,
+    "bs_ant_cols": 4,
+    "bs_ant_rows": 4,
+    "bs_polarization": "dual",
+    "carrier_frequency": 3500000000.0,
+    "codebook_size": 256,
+    "cqi_mode": "nr4bit",
+    "cqi_norm_const": 8.0,
+    "deadline_max": 12,
+    "deadline_min": 3,
+    "debug": false,
+    "decode_order": "rbg_major",
+    "enable_pathloss": true,
+    "enable_shadow_fading": true,
+    "encoder_hidden": 128,
+    "encoder_out_dim": 64,
+    "episode_len_debug": 32,
+    "episode_len_main": 32,
+    "eta_d": 1.0,
+    "eta_data": 1.0,
+    "indoor_probability": 0.0,
+    "l_max": 4,
+    "la_beta": 1.0,
+    "la_beta_by_depth": [
+      1.0018,
+      0.7499,
+      0.6592,
+      0.6058
+    ],
+    "la_mode": "post_rzf",
+    "lambda_c": 1.0,
+    "lambda_m": 2.0,
+    "lambda_s": 1.0,
+    "max_retx": 4,
+    "mu_aware_la": false,
+    "n_active_max": 32,
+    "n_active_min": 16,
+    "no_user_head_hidden": [
+      128,
+      64
+    ],
+    "noise_mode": "calibration",
+    "num_bs_ant": 32,
+    "num_rb_per_rbg": 8,
+    "num_rbg": 8,
+    "num_sc_per_rb": 12,
+    "num_sym_per_rb": 14,
+    "num_ue": 32,
+    "num_ue_ant": 1,
+    "o2i_model": "low",
+    "p_arrival": 0.22,
+    "p_arrival_ablation": [
+      0.1,
+      0.2,
+      0.4
+    ],
+    "p_arrival_max": 0.5,
+    "p_arrival_min": 0.15,
+    "p_csi": 0.6,
+    "p_csi_ablation": [
+      1.0,
+      0.5,
+      0.2,
+      0.1
+    ],
+    "p_total": 8.0,
+    "packet_size_max": 12000,
+    "packet_size_min": 4000,
+    "pf_epsilon": 1.0,
+    "pmi_mode": "type2_sparse_56bit",
+    "ppo_batch_verify_every": 25,
+    "ppo_batch_verify_slots": 4,
+    "ppo_batch_verify_tol": 0.001,
+    "ppo_batched_replay": true,
+    "ppo_clip_eps": 0.2,
+    "ppo_critic_v2": true,
+    "ppo_entropy_coef": 0.02,
+    "ppo_epochs": 1,
+    "ppo_eval_episodes": 1,
+    "ppo_eval_every": 1,
+    "ppo_force_full_rank": false,
+    "ppo_gae_lambda": 0.95,
+    "ppo_gamma": 0.99,
+    "ppo_learning_rate": 0.0003,
+    "ppo_max_grad_norm": 0.5,
+    "ppo_minibatch_size": 24,
+    "ppo_no_user_scale": 1.0,
+    "ppo_save_every": 1,
+    "ppo_target_kl": 0.02,
+    "ppo_value_coef": 0.25,
+    "queue_size": 8,
+    "rzf_alpha_mode": "noise",
+    "scenario": "umi",
+    "score_net_hidden": [
+      128,
+      64
+    ],
+    "seed": 2024,
+    "share_critic_encoder": true,
+    "speed_ablation_kmh": [
+      3.0,
+      10.0,
+      30.0,
+      60.0
+    ],
+    "subcarrier_spacing": 30000.0,
+    "sus_ortho_threshold": 0.75,
+    "t_c": 100,
+    "target_snr_ablation_db": [
+      5.0,
+      10.0,
+      15.0
+    ],
+    "target_snr_db": 10.0,
+    "type2_L": 4,
+    "type2_O1": 4,
+    "type2_O2": 4,
+    "type2_amp_bits": 3,
+    "type2_phase_bits": 2,
+    "ue_speed_kmh": 3.0,
+    "ue_speed_max": 40.0,
+    "ue_speed_min": 5.0,
+    "ue_speed_mix": [],
+    "value_head_hidden": [
+      128,
+      64
+    ]
+  },
+  "artifact_config_sha256": "f1373c9579ee5def7e2c5d7f52f7d7b7ecd1c01a8c14fc69e4fb5dae3c2e4c53",
+  "source_sha256": {
+    "paper_train.py": "74c247d16137e6f9b5be5674190b5191fcd6b2c2b846b5a31387d1829917a2ff",
+    "train_phase2.py": "e26a9c72dae9331701e490cde0863c02bb5f9b8f4d64d5e6c204e964ae0c5759",
+    "config.py": "5ab93d0212e1a86449896252514ffd4ddb7666410117a720efc527bb7db47658",
+    "env.py": "e91c83165b2717c3c021433c67fb6531ae20e6f714b934b936b6ff95aff5015d",
+    "channel.py": "b308c63d369a181ba08788bc0f52f6f620c1ac3ff65ad210ae5367cd0d47e755",
+    "csi.py": "e6084b6b514c1269e0a56c76637a07c2cffcf04cfa889683a38d23b10d71f356",
+    "codebook.py": "93234f7b2aae3d7f5b593deca8aa8c4aace3c0756e2a20abe577e1ffbe381abf",
+    "phy.py": "f18d9d7cf57a981c6e835a955eea0a0195e2efdf6aad675312566b61b0b66846",
+    "la_planner.py": "ddb6028d2fd138b6b4517ecc5a73ea109915f1029081350a42a152343bb3d39d",
+    "traffic.py": "49f1822387d29c4b8333cc73ea22f64af9fa153800651dcf7c14cb139e3fd4aa",
+    "transmission.py": "317e0ece855e33de44445a7c4ecb90cddbad5dbcc70dd9357435864f5887276e",
+    "policy.py": "d52e81e5a91fcf4c23bbd944526d328eddb69039f47b21e04c6f19785947eff0",
+    "ppo.py": "5af255677305f59e9334d7b8f43f19e830b71d6c4229eebe409c81ce4d7ca228",
+    "baselines.py": "c227fdc61c836969f1c8f7d7bf2cbccce0efd7e1a36b4940cc6b4dddd0e17e07",
+    "metrics.py": "cba7a47dd1de4c5487bf5ee91925f3b0a869436430496044ad5bf9bada9a8809"
+  },
+  "schedule": {
+    "lr_final": 0.0,
+    "lr_decay_updates": 866
+  },
+  "target_updates": 2,
+  "smoke_slots": 32,
+  "purpose": "execution_smoke",
+  "execution": {
+    "device": "cuda",
+    "gpu": "5",
+    "threads": 4
+  },
+  "runtime": {
+    "python": "3.11.0rc1",
+    "system": "Linux",
+    "machine": "x86_64",
+    "packages": {
+      "numpy": "1.26.4",
+      "torch": "2.7.1+cu118",
+      "tensorflow": "2.15.0",
+      "sionna": "1.2.1",
+      "tensorboard": "2.15.1",
+      "scipy": "1.17.0"
+    },
+    "torch_cuda": "11.8",
+    "gpu_name": "NVIDIA GeForce RTX 4090"
+  }
+}
+2026-09-09 01:20:06.365294: E external/local_xla/xla/stream_executor/cuda/cuda_dnn.cc:9261] Unable to register cuDNN factory: Attempting to register factory for plugin cuDNN when one has already been registered
+2026-09-09 01:20:06.365329: E external/local_xla/xla/stream_executor/cuda/cuda_fft.cc:607] Unable to register cuFFT factory: Attempting to register factory for plugin cuFFT when one has already been registered
+2026-09-09 01:20:06.366840: E external/local_xla/xla/stream_executor/cuda/cuda_blas.cc:1515] Unable to register cuBLAS factory: Attempting to register factory for plugin cuBLAS when one has already been registered
+git: sha256:5d232  (clean py)
+=== ML DRL Scheduler -- Config ===
+  cell        : 1 BS (32 ant) x 32 UE (1 ant), DL
+  resource    : 8 RBG x 4 layers = 32 positions
+  RE per RBG  : 1344
+  bandwidth   : RBG 2.88 MHz, total 23.04 MHz
+  slot        : 0.500 ms
+  channel     : TR38.901 UMI, UE speed 3.0 km/h
+  codebook    : type2_sparse_56bit, L=4, atoms=512, payload=56 bit/(UE,RBG)
+  feedback    : p_csi=0.6, cqi=nr4bit
+  traffic     : p_arrival=0.22, size U[4000,12000] bits, deadline U[3,12] slots
+  power/noise : P_total=8.0, P_r=1.0, target SNR 10.0 dB (calibration)
+  retx        : max_retx=4 (5 attempts total)
+  reward      : lambda_s/c/m=1.0/1.0/2.0, eta_D=1.0, B_norm=8000.0
+  episode     : 32 slots
+
+run_dir: /home/MYH/ML_DRL_Scheduler/PaperMain/runs/audit_lrann_gpu5
+num_updates: 2
+device: cuda
+actor-critic params: 98,755
+
+resumed /home/MYH/ML_DRL_Scheduler/PaperMain/runs/audit_lrann_gpu5/ckpt/latest.pt: start_update=1, best_eval_reward=62.29
+lr anneal: 0.0003 -> 0.0 over 866 updates (linear, resume-safe)
+[   1/2] rew=  170.1  thr=70.49Mbps  comp=0.594  drop=0.000  SINR= 11.5dB  KL= 0.0000  ent=2.328  clip=0.000  ev=+0.00  t=9s
+  --- eval at update 1 ---
+    PPO           reward  -231.91  thrpt  29.36Mbps  comp 0.215  totfail 0.584  depth 4.00
+latest.pt saved at update 1
+
+Done. 1 updates in 12s  (11.5s/update). Best eval reward: 62.29

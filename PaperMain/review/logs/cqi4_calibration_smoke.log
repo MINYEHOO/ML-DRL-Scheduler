@@ -1,0 +1,104 @@
+2026-09-09 01:46:23.005794: E external/local_xla/xla/stream_executor/cuda/cuda_dnn.cc:9261] Unable to register cuDNN factory: Attempting to register factory for plugin cuDNN when one has already been registered
+2026-09-09 01:46:23.005842: E external/local_xla/xla/stream_executor/cuda/cuda_fft.cc:607] Unable to register cuFFT factory: Attempting to register factory for plugin cuFFT when one has already been registered
+2026-09-09 01:46:23.007236: E external/local_xla/xla/stream_executor/cuda/cuda_blas.cc:1515] Unable to register cuBLAS factory: Attempting to register factory for plugin cuBLAS when one has already been registered
+2026-09-09 01:46:25.805692: E external/local_xla/xla/stream_executor/cuda/cuda_driver.cc:274] failed call to cuInit: CUDA_ERROR_NO_DEVICE: no CUDA-capable device is detected
+feasible CQI4 sampler: episode 50000 (1/2)
+feasible CQI4 sampler: episode 50001 (2/2)
+feasible CQI4 sampler: episode 70000 (1/2)
+feasible CQI4 sampler: episode 70001 (2/2)
+{
+  "status": "diagnostic_only",
+  "beta_rounded": [
+    1.0079,
+    0.8326,
+    0.8442,
+    0.8125
+  ],
+  "holdout": {
+    "1": {
+      "first_ack": 0.95,
+      "episode_cluster_ci95": [
+        0.9,
+        1.0
+      ],
+      "member_count": 20,
+      "acks": 19,
+      "episode_member_counts": [
+        10,
+        10
+      ],
+      "episode_ack_counts": [
+        9,
+        10
+      ],
+      "zero_member_episodes": 0,
+      "bootstrap_undefined_fraction": 0.0,
+      "ack_tolerance_bits": 1e-06,
+      "strict_ratio_first_ack": 0.95
+    },
+    "2": {
+      "first_ack": 0.975,
+      "episode_cluster_ci95": [
+        0.95,
+        1.0
+      ],
+      "member_count": 40,
+      "acks": 39,
+      "episode_member_counts": [
+        20,
+        20
+      ],
+      "episode_ack_counts": [
+        20,
+        19
+      ],
+      "zero_member_episodes": 0,
+      "bootstrap_undefined_fraction": 0.0,
+      "ack_tolerance_bits": 1e-06,
+      "strict_ratio_first_ack": 0.975
+    },
+    "3": {
+      "first_ack": 0.9666666666666667,
+      "episode_cluster_ci95": [
+        0.9666666666666667,
+        0.9666666666666667
+      ],
+      "member_count": 60,
+      "acks": 58,
+      "episode_member_counts": [
+        30,
+        30
+      ],
+      "episode_ack_counts": [
+        29,
+        29
+      ],
+      "zero_member_episodes": 0,
+      "bootstrap_undefined_fraction": 0.0,
+      "ack_tolerance_bits": 1e-06,
+      "strict_ratio_first_ack": 0.9666666666666667
+    },
+    "4": {
+      "first_ack": 0.95,
+      "episode_cluster_ci95": [
+        0.925,
+        0.975
+      ],
+      "member_count": 80,
+      "acks": 76,
+      "episode_member_counts": [
+        40,
+        40
+      ],
+      "episode_ack_counts": [
+        37,
+        39
+      ],
+      "zero_member_episodes": 0,
+      "bootstrap_undefined_fraction": 0.0,
+      "ack_tolerance_bits": 1e-06,
+      "strict_ratio_first_ack": 0.95
+    }
+  }
+}
+Calibration saved to /home/MYH/ML_DRL_Scheduler/PaperMain/results/cqi4_corrected_smoke_v1; apply explicitly with --calibration-profile /home/MYH/ML_DRL_Scheduler/PaperMain/results/cqi4_corrected_smoke_v1/summary.json

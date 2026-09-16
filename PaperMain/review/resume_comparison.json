@@ -1,0 +1,13 @@
+{
+  "update_a": 1,
+  "update_b": 1,
+  "model_exact_equal": true,
+  "optimizer_exact_equal": true,
+  "torch_rng_exact_equal": true,
+  "cuda_rng_exact_equal": true,
+  "config_equal": true,
+  "max_parameter_abs_diff": 0.0,
+  "learning_rate": 0.0002996535796766743,
+  "expected_lr": 0.0002996535796766743,
+  "passed": true
+}

@@ -1,0 +1,7 @@
+{
+  "requested_at": "2026-09-09T05:06:21.425443+00:00",
+  "training_pid": 90828,
+  "reason": "User requested faster exact evaluation and restart; preserve checkpoint for lineage-recorded continuation",
+  "source_archive": "/home/MYH/ML_DRL_Scheduler/PaperMain/provenance/run12_before_eval_fast_sources.tar.gz",
+  "archive_sha256": "85be89c9e351c9449c8d5dcb6e68920b78500f9cc11c7f70a48cbd5b34ebefb4"
+}

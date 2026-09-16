@@ -1,0 +1,9 @@
+test_archived_zero_cap_ratio_is_not_runtime_group (__main__.WirelessMain.test_archived_zero_cap_ratio_is_not_runtime_group) ... ok
+test_cqi_floor_boundaries (__main__.WirelessMain.test_cqi_floor_boundaries) ... ok
+test_post_rzf_against_explicit_independent_inverse (__main__.WirelessMain.test_post_rzf_against_explicit_independent_inverse) ... ok
+test_zero_cqi_fixed_retx_keeps_declared_outage (__main__.WirelessMain.test_zero_cqi_fixed_retx_keeps_declared_outage) ... ok
+
+----------------------------------------------------------------------
+Ran 4 tests in 0.188s
+
+OK

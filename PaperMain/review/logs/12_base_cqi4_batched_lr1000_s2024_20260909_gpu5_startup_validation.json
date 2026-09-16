@@ -1,0 +1,17 @@
+{
+  "observed_at": "2026-09-09T04:39:34.973520+00:00",
+  "status": "running",
+  "name": "12_base_cqi4_batched_lr1000_s2024_20260909_gpu5",
+  "run_dir": "/home/MYH/ML_DRL_Scheduler/PaperMain/runs/12_base_cqi4_batched_lr1000_s2024_20260909_gpu5",
+  "training_pid": 90828,
+  "first_update_seconds": 65,
+  "previous_first_update_seconds": 566,
+  "first_update_speedup": 8.707692307692307,
+  "checkpoint_update": 0,
+  "checkpoint_replay_batched": true,
+  "initial_runtime_crosscheck": "passed",
+  "finite_checkpoint": true,
+  "source_hashes_match": true,
+  "optimizer_lr": 0.0003,
+  "timing_scope": "first full update only, not a steady-state throughput estimate"
+}

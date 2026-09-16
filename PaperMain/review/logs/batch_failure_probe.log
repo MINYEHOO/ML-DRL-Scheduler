@@ -1,0 +1,8 @@
+decode/replay 0 0.0
+decode/replay 1 0.0
+replay_batch max logprob diff 0.0
+baseline consistency checks passed
+    [batch-verify] update 0: FAILED, max scaled |diff| 3.485e-02 >= 0.001 at slot 1 value -- DISABLING batched replay for the rest of this process (falling back to sequential; the run continues, slower but exact)
+after failed verification {"update": 0, "counts": {"batch": 1, "seq": 2}, "cfg_batched": true, "bias_changed": true}
+    [batch-verify] update 1: FAILED, max scaled |diff| 4.547e-02 >= 0.001 at slot 0 value -- DISABLING batched replay for the rest of this process (falling back to sequential; the run continues, slower but exact)
+after failed verification {"update": 1, "counts": {"batch": 2, "seq": 4}, "cfg_batched": true, "bias_changed": true}

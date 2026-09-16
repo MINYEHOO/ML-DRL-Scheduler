@@ -1,0 +1,27 @@
+{
+  "strict_checkpoint_loads": {
+    "base": 409,
+    "lrann": 539,
+    "narrow": 739,
+    "base_s3024": 489,
+    "base_s4024": 849,
+    "base_s5024": 389
+  },
+  "module_paths": {
+    "config": "/home/MYH/ML_DRL_Scheduler/PaperMain/config.py",
+    "env": "/home/MYH/ML_DRL_Scheduler/PaperMain/env.py",
+    "channel": "/home/MYH/ML_DRL_Scheduler/PaperMain/channel.py",
+    "csi": "/home/MYH/ML_DRL_Scheduler/PaperMain/csi.py",
+    "codebook": "/home/MYH/ML_DRL_Scheduler/PaperMain/codebook.py",
+    "phy": "/home/MYH/ML_DRL_Scheduler/PaperMain/phy.py",
+    "la_planner": "/home/MYH/ML_DRL_Scheduler/PaperMain/la_planner.py",
+    "traffic": "/home/MYH/ML_DRL_Scheduler/PaperMain/traffic.py",
+    "transmission": "/home/MYH/ML_DRL_Scheduler/PaperMain/transmission.py",
+    "policy": "/home/MYH/ML_DRL_Scheduler/PaperMain/policy.py",
+    "ppo": "/home/MYH/ML_DRL_Scheduler/PaperMain/ppo.py",
+    "baselines": "/home/MYH/ML_DRL_Scheduler/PaperMain/baselines.py",
+    "metrics": "/home/MYH/ML_DRL_Scheduler/PaperMain/metrics.py",
+    "train_phase2": "/home/MYH/ML_DRL_Scheduler/PaperMain/train_phase2.py"
+  },
+  "passed": true
+}

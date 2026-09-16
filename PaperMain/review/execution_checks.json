@@ -1,0 +1,66 @@
+{
+  "strict_main_checkpoint_load": "PASS",
+  "checkpoint_update": 409,
+  "checkpoint_git": "d3efef9cf39643baaf72fb3620ee7c23cc1fbfd6",
+  "historical_main_batched_replay": false,
+  "gae_time_limit_analytic_check": "PASS",
+  "checkpoint_compatible_queue_preset_changes_semantics": {
+    "cqi_mode": {
+      "checkpoint": "nr4bit",
+      "queue_default": "continuous"
+    },
+    "la_mode": {
+      "checkpoint": "post_rzf",
+      "queue_default": ""
+    },
+    "decode_order": {
+      "checkpoint": "rbg_major",
+      "queue_default": "layer_major"
+    },
+    "la_beta_by_depth": {
+      "checkpoint": [
+        1.0018,
+        0.7499,
+        0.6592,
+        0.6058
+      ],
+      "queue_default": []
+    },
+    "p_arrival_min": {
+      "checkpoint": 0.15,
+      "queue_default": 0.0
+    },
+    "p_arrival_max": {
+      "checkpoint": 0.5,
+      "queue_default": 0.0
+    },
+    "ue_speed_max": {
+      "checkpoint": 40.0,
+      "queue_default": 30.0
+    },
+    "ppo_entropy_coef": {
+      "checkpoint": 0.02,
+      "queue_default": 0.01
+    }
+  },
+  "training_eval_baseline_names": [
+    "SUS+CQI",
+    "SUS+Deadline-PF",
+    "SUS+PF",
+    "SUS+Random",
+    "SUS+MW",
+    "SUS+EDF",
+    "SU+CQI",
+    "SU+Deadline-PF",
+    "SU+PF",
+    "SU+Random",
+    "SU+MW",
+    "SU+EDF"
+  ],
+  "additional_paper_primary_baselines": [
+    "SUS-RPS",
+    "SUS+CQI-Feasible",
+    "PF-Greedy-SDS"
+  ],
+  "scope": "No channel simulation, optimizer step, or files modified by this diagnostic."
+}

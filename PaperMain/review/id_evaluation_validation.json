@@ -1,0 +1,86 @@
+{
+  "status": "passed",
+  "validated_at": "2026-09-11T01:12:38.029508+00:00",
+  "campaign": "/home/MYH/ML_DRL_Scheduler/PaperMain/results/ftp3_id_run18_best_u0639_s2024_20260911",
+  "evaluation": "ID",
+  "traffic": "ftp3",
+  "source_run": "18_base_cqi4_ftp3_lr1000_s2024_20260910_gpu4",
+  "checkpoint_update": 639,
+  "checkpoint_sha256": "9afca2081ee8a5db08fe40460528e253456974b2d53abd39ca1cf0ace30ce329",
+  "episodes": 100,
+  "episode_start": 120000,
+  "schedulers": 7,
+  "expected_rows": 700,
+  "physical_gpus": [
+    3,
+    5
+  ],
+  "workers": [
+    {
+      "shard_index": 0,
+      "gpu": 3,
+      "pid": 195044
+    },
+    {
+      "shard_index": 1,
+      "gpu": 5,
+      "pid": 195045
+    }
+  ],
+  "supervisor_pid": 195039,
+  "tests": 204,
+  "smoke": {
+    "status": "passed",
+    "rows": 14,
+    "serial_vs_two_gpu_shards": true,
+    "max_abs_difference": 0.0,
+    "rtol": 1e-10,
+    "atol": 1e-08
+  },
+  "startup_progress": [
+    {
+      "status": "running",
+      "rows_written": 6,
+      "total_rows": 350,
+      "last_completed": {
+        "episode_idx": 120000,
+        "scheduler": "pf_greedy_sds"
+      },
+      "elapsed_seconds": 71.94593701418489
+    },
+    {
+      "status": "running",
+      "rows_written": 5,
+      "total_rows": 350,
+      "last_completed": {
+        "episode_idx": 120001,
+        "scheduler": "sus_rps"
+      },
+      "elapsed_seconds": 66.74531894829124
+    }
+  ],
+  "first_full_episode_ppo_completed_on_both_gpus": true,
+  "run19_training_unchanged": true,
+  "training_pid": 186992,
+  "original_artifacts_unchanged": 137,
+  "automatic_merge": "/home/MYH/ML_DRL_Scheduler/PaperMain/results/ftp3_id_run18_best_u0639_s2024_20260911/combined/summary.md",
+  "per_run_link": "/home/MYH/ML_DRL_Scheduler/PaperMain/runs/18_base_cqi4_ftp3_lr1000_s2024_20260910_gpu4/id_eval_20260911",
+  "source_sha256": {
+    "paper_train.py": "3095c067ce9ed3cf0dea43bcac5263e839986b85599e53ef4df43b84be3f64cc",
+    "train_phase2.py": "2079a90c356a92d8cd591b378d6708b6b06d3185a84fc206d887d9bb9b3e4eca",
+    "config.py": "734936660c5ea80ad64c8b58b1d9f2e6942e5e52787f5df7d07370cb0e8845a8",
+    "env.py": "e91c83165b2717c3c021433c67fb6531ae20e6f714b934b936b6ff95aff5015d",
+    "channel.py": "b308c63d369a181ba08788bc0f52f6f620c1ac3ff65ad210ae5367cd0d47e755",
+    "csi.py": "e6084b6b514c1269e0a56c76637a07c2cffcf04cfa889683a38d23b10d71f356",
+    "codebook.py": "93234f7b2aae3d7f5b593deca8aa8c4aace3c0756e2a20abe577e1ffbe381abf",
+    "phy.py": "f18d9d7cf57a981c6e835a955eea0a0195e2efdf6aad675312566b61b0b66846",
+    "la_planner.py": "ddb6028d2fd138b6b4517ecc5a73ea109915f1029081350a42a152343bb3d39d",
+    "traffic.py": "3a4c341b240924110c82c296eec3b7bf67dfcf2d7d8e2043557462ae843cdf01",
+    "transmission.py": "317e0ece855e33de44445a7c4ecb90cddbad5dbcc70dd9357435864f5887276e",
+    "policy.py": "b668806d4604abe7f69683a4b78136dd4a811abe1597dadb640c22d4507af9f5",
+    "ppo.py": "dc3157aed774fe410f729b142db5f914fd095ba824d0366d8f619c50b27fd298",
+    "baselines.py": "c227fdc61c836969f1c8f7d7bf2cbccce0efd7e1a36b4940cc6b4dddd0e17e07",
+    "metrics.py": "cba7a47dd1de4c5487bf5ee91925f3b0a869436430496044ad5bf9bada9a8809",
+    "calibration/profile.py": "35e4c3ff438eaa29770b905229ad67d47fd4bd73acc298ac00e5708cc0a98d92"
+  }
+}

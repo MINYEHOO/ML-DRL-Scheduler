@@ -1,0 +1,17 @@
+{
+  "preflight": "/home/MYH/ML_DRL_Scheduler/PaperMain/review/logs/19_base_cqi4_ftp3_lr2000_s2024_20260911_gpu4_preflight.json",
+  "schedule": {
+    "lr_final": 0.0,
+    "lr_decay_updates": 2000
+  },
+  "lr_values": {
+    "0": 0.0003,
+    "500": 0.000225,
+    "1000": 0.00015,
+    "1500": 7.5e-05,
+    "1999": 1.5e-07,
+    "2000": 0.0
+  },
+  "config_unchanged": true,
+  "fresh": true
+}

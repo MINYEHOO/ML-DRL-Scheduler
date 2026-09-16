@@ -1,0 +1,13 @@
+{
+  "status": "running",
+  "observed_at": "2026-09-09T05:17:27.209777+00:00",
+  "name": "14_base_cqi4_batched_evalfast_lr1000_s2024_20260909_gpu5",
+  "training_pid": 97614,
+  "supervisor_pid": 97613,
+  "checkpoint_update": 21,
+  "completed_updates": 22,
+  "optimizer_lr": 0.0002937,
+  "checkpoint_finite": true,
+  "source_hashes_match": true,
+  "csv_continuity_verified": true
+}

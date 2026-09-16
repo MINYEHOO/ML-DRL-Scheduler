@@ -1,0 +1,10 @@
+# Observed on the lab server, 2026-09-09. Not a portable lockfile.
+# Python 3.11.0rc1; torch CUDA 11.8 build. CUDA wheel provenance/index is
+# environment-specific; do not blindly replace an existing working environment.
+numpy==1.26.4
+scipy==1.17.0
+tensorflow==2.15.0
+sionna==1.2.1
+torch==2.7.1+cu118
+tensorboard==2.15.1
+matplotlib==3.10.8

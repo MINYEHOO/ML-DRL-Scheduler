@@ -1,0 +1,27 @@
+{
+  "requested_at": "2026-09-09T04:27:02.676153+00:00",
+  "reason": "User requested verified batched PPO acceleration and a fresh 1000-update run",
+  "training_pid": 75539,
+  "supervisor_pid": 75538,
+  "run_dir": "/home/MYH/ML_DRL_Scheduler/PaperMain/runs/10_base_cqi4_lr1000_s2024_20260909_gpu5",
+  "source_archive": "/home/MYH/ML_DRL_Scheduler/PaperMain/provenance/run10_sequential_before_batch_sources.tar.gz",
+  "source_sha256": {
+    "paper_train.py": "fafbcf621c69a03747ad53071fee9a75142748f96e5c77e3253aad121be1c49a",
+    "train_phase2.py": "e26a9c72dae9331701e490cde0863c02bb5f9b8f4d64d5e6c204e964ae0c5759",
+    "config.py": "5ab93d0212e1a86449896252514ffd4ddb7666410117a720efc527bb7db47658",
+    "env.py": "e91c83165b2717c3c021433c67fb6531ae20e6f714b934b936b6ff95aff5015d",
+    "channel.py": "b308c63d369a181ba08788bc0f52f6f620c1ac3ff65ad210ae5367cd0d47e755",
+    "csi.py": "e6084b6b514c1269e0a56c76637a07c2cffcf04cfa889683a38d23b10d71f356",
+    "codebook.py": "93234f7b2aae3d7f5b593deca8aa8c4aace3c0756e2a20abe577e1ffbe381abf",
+    "phy.py": "f18d9d7cf57a981c6e835a955eea0a0195e2efdf6aad675312566b61b0b66846",
+    "la_planner.py": "ddb6028d2fd138b6b4517ecc5a73ea109915f1029081350a42a152343bb3d39d",
+    "traffic.py": "49f1822387d29c4b8333cc73ea22f64af9fa153800651dcf7c14cb139e3fd4aa",
+    "transmission.py": "317e0ece855e33de44445a7c4ecb90cddbad5dbcc70dd9357435864f5887276e",
+    "policy.py": "d52e81e5a91fcf4c23bbd944526d328eddb69039f47b21e04c6f19785947eff0",
+    "ppo.py": "5af255677305f59e9334d7b8f43f19e830b71d6c4229eebe409c81ce4d7ca228",
+    "baselines.py": "c227fdc61c836969f1c8f7d7bf2cbccce0efd7e1a36b4940cc6b4dddd0e17e07",
+    "metrics.py": "cba7a47dd1de4c5487bf5ee91925f3b0a869436430496044ad5bf9bada9a8809",
+    "calibration/profile.py": "35e4c3ff438eaa29770b905229ad67d47fd4bd73acc298ac00e5708cc0a98d92"
+  },
+  "archive_sha256": "1505b2c62c604f4856fee5da37d73919c17e4a7ed3e802a75e221ed875a1236a"
+}

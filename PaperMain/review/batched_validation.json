@@ -1,0 +1,34 @@
+{
+  "status": "passed",
+  "validated_at": "2026-09-09T04:38:17.236756+00:00",
+  "tests": 101,
+  "gpu_replay_equivalence": "passed; corrected beta, 48 slots, frozen Base weights",
+  "gpu_ppo_equivalence": "passed; corrected beta, 300 slots, minibatches 256+44, 4 epochs, KL-frozen branch",
+  "smoke_fresh_resume": "passed; checkpoint update 1, saved batched mode and LR restored",
+  "smoke_optimizer_lr": 0.00029969999999999997,
+  "calibration": "validated",
+  "beta": [
+    1.0162,
+    0.8509,
+    0.7732,
+    0.728
+  ],
+  "config_diff_from_run10": {
+    "ppo_batched_replay": {
+      "old": false,
+      "new": true
+    }
+  },
+  "schedule": {
+    "lr_final": 0.0,
+    "lr_decay_updates": 1000
+  },
+  "initial_lr": 0.0003,
+  "last_update_lr": 3.0000000000000025e-07,
+  "original_code_files_unchanged": 16,
+  "original_and_copied_artifacts_unchanged": 137,
+  "previous_run_source_archive_verified": true,
+  "run_name": "12_base_cqi4_batched_lr1000_s2024_20260909_gpu5",
+  "physical_gpu": 5,
+  "guard_behavior": "invalid batch clears gradients and raises before optimizer.step; no automatic retry"
+}

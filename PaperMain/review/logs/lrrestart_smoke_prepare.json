@@ -1,0 +1,89 @@
+{
+  "prepared": true,
+  "run_dir": "/home/MYH/ML_DRL_Scheduler/PaperMain/runs/15_audit_lrrestart_gpu5",
+  "created_at": "2026-09-10T01:18:29.736874+00:00",
+  "parent_run": "13_audit_eval_fast_gpu5",
+  "reason": "Explicit low-LR continuation from the last completed checkpoint; full model, critic, optimizer and RNG retained.",
+  "resumed_checkpoint_update": 1,
+  "next_update": 2,
+  "target_updates": 3,
+  "previous_schedule": {
+    "lr_final": 0.0,
+    "lr_decay_updates": 1000
+  },
+  "continuation_schedule": {
+    "lr_final": 0.0,
+    "lr_decay_updates": 1000,
+    "lr_initial": 1e-05,
+    "lr_start_update": 2
+  },
+  "changed_sources": [
+    "paper_train.py",
+    "train_phase2.py"
+  ],
+  "parent_source_sha256": {
+    "paper_train.py": "8bfe8762214bcd9b68e7fffb425c6cf455ba6ddd10a637c8c92fd6c0965cac7b",
+    "train_phase2.py": "05f9b74ac124029cefd1dc8ae41fef2e88e512487555f39f00ee4a6f6065fea0",
+    "config.py": "5ab93d0212e1a86449896252514ffd4ddb7666410117a720efc527bb7db47658",
+    "env.py": "e91c83165b2717c3c021433c67fb6531ae20e6f714b934b936b6ff95aff5015d",
+    "channel.py": "b308c63d369a181ba08788bc0f52f6f620c1ac3ff65ad210ae5367cd0d47e755",
+    "csi.py": "e6084b6b514c1269e0a56c76637a07c2cffcf04cfa889683a38d23b10d71f356",
+    "codebook.py": "93234f7b2aae3d7f5b593deca8aa8c4aace3c0756e2a20abe577e1ffbe381abf",
+    "phy.py": "f18d9d7cf57a981c6e835a955eea0a0195e2efdf6aad675312566b61b0b66846",
+    "la_planner.py": "ddb6028d2fd138b6b4517ecc5a73ea109915f1029081350a42a152343bb3d39d",
+    "traffic.py": "49f1822387d29c4b8333cc73ea22f64af9fa153800651dcf7c14cb139e3fd4aa",
+    "transmission.py": "317e0ece855e33de44445a7c4ecb90cddbad5dbcc70dd9357435864f5887276e",
+    "policy.py": "b668806d4604abe7f69683a4b78136dd4a811abe1597dadb640c22d4507af9f5",
+    "ppo.py": "dc3157aed774fe410f729b142db5f914fd095ba824d0366d8f619c50b27fd298",
+    "baselines.py": "c227fdc61c836969f1c8f7d7bf2cbccce0efd7e1a36b4940cc6b4dddd0e17e07",
+    "metrics.py": "cba7a47dd1de4c5487bf5ee91925f3b0a869436430496044ad5bf9bada9a8809",
+    "calibration/profile.py": "35e4c3ff438eaa29770b905229ad67d47fd4bd73acc298ac00e5708cc0a98d92"
+  },
+  "source_archive": "provenance/run14_before_lrrestart_sources.tar.gz",
+  "source_archive_sha256": "1adeb73e4b418657efdcea1d01bfa927f62d91edbafa51d37d1368232b7774dd",
+  "parent_metadata_sha256": {
+    "paper_manifest.json": "a9e9332b1824bcc98b53c5dfff6e87c55a16a3611b1d28b9095f7145bbb8dfae",
+    "config.json": "a8d6f596987b341899142a1d740179088e0f4ff679bb633db5ecd238ba2cb260"
+  },
+  "copied_checkpoint_sha256": {
+    "latest.pt": "9e639906be4cc323cdcd66d8a0857680b30d2a7ed3dfedfdad389781a985825f",
+    "best.pt": "303436b409fc47981f15ebc019f1572c4dc6332eab50a7fa3cce25710f3750a6"
+  },
+  "parent_optimizer_lr": 0.00029969999999999997,
+  "parent_best_update": 1,
+  "parent_best_reward": 98.20400717619256,
+  "initial_child_config_sha256": "6f3596ebe4cc952e93514c3eeadf8dde82fd8008cd57be4498cfd1ac7d399318",
+  "csv_history": {
+    "env_metrics.csv": {
+      "parent_sha256": "6eab0c8690d4390acf931e016fb0d2322d102ecb368485a93da53e5f814a6621",
+      "initial_child_sha256": "6eab0c8690d4390acf931e016fb0d2322d102ecb368485a93da53e5f814a6621",
+      "inherited_rows": 2,
+      "dropped_rows": 0,
+      "inherited_through_update": 1
+    },
+    "eval_metrics.csv": {
+      "parent_sha256": "aa25f6f85eb5f2f114bb4c7fd07f7f927b9419f67831c7be98e69611019b8855",
+      "initial_child_sha256": "aa25f6f85eb5f2f114bb4c7fd07f7f927b9419f67831c7be98e69611019b8855",
+      "inherited_rows": 14,
+      "dropped_rows": 0,
+      "inherited_through_update": 1
+    },
+    "per_ue_metrics.csv": {
+      "parent_sha256": "d1f70e5ad2f70c6af75f9e449e8c1813a0c53d8ebcbe3246c377d6dc2c62def6",
+      "initial_child_sha256": "d1f70e5ad2f70c6af75f9e449e8c1813a0c53d8ebcbe3246c377d6dc2c62def6",
+      "inherited_rows": 64,
+      "dropped_rows": 0,
+      "inherited_through_update": 1
+    },
+    "ppo_metrics.csv": {
+      "parent_sha256": "af1299efd5fc02335635ffd8bd4eabafb488bfaada19fcff5d593b13f65cae72",
+      "initial_child_sha256": "af1299efd5fc02335635ffd8bd4eabafb488bfaada19fcff5d593b13f65cae72",
+      "inherited_rows": 2,
+      "dropped_rows": 0,
+      "inherited_through_update": 1
+    }
+  },
+  "parent_checkpoint_schedule_field": "absent; legacy payload, schedule retained in parent manifest",
+  "tensorboard": "Child events begin at update 2; earlier events remain in parent run.",
+  "purpose": "execution_smoke"
+}

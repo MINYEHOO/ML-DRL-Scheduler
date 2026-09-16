@@ -1,0 +1,3300 @@
+{
+  "run_dir": "/home/MYH/ML_DRL_Scheduler/PaperMain/runs/18_base_cqi4_ftp3_lr1000_s2024_20260910_gpu4",
+  "resume": null,
+  "version": 1,
+  "recipe": "base",
+  "config": {
+    "age_norm_max": 50.0,
+    "b_norm": 8000.0,
+    "b_tx_epsilon": 1.0,
+    "beta_rate": 1.0,
+    "bs_ant_cols": 4,
+    "bs_ant_rows": 4,
+    "bs_polarization": "dual",
+    "carrier_frequency": 3500000000.0,
+    "codebook_size": 256,
+    "cqi_mode": "nr4bit",
+    "cqi_norm_const": 8.0,
+    "deadline_max": 12,
+    "deadline_min": 3,
+    "debug": false,
+    "decode_order": "rbg_major",
+    "enable_pathloss": true,
+    "enable_shadow_fading": true,
+    "encoder_hidden": 128,
+    "encoder_out_dim": 64,
+    "episode_len_debug": 200,
+    "episode_len_main": 1000,
+    "eta_d": 1.0,
+    "eta_data": 1.0,
+    "indoor_probability": 0.0,
+    "l_max": 4,
+    "la_beta": 1.0,
+    "la_beta_by_depth": [
+      1.0162,
+      0.8509,
+      0.7732,
+      0.728
+    ],
+    "la_mode": "post_rzf",
+    "lambda_c": 1.0,
+    "lambda_m": 2.0,
+    "lambda_s": 1.0,
+    "max_retx": 4,
+    "mu_aware_la": false,
+    "n_active_max": 32,
+    "n_active_min": 16,
+    "no_user_head_hidden": [
+      128,
+      64
+    ],
+    "noise_mode": "calibration",
+    "num_bs_ant": 32,
+    "num_rb_per_rbg": 8,
+    "num_rbg": 8,
+    "num_sc_per_rb": 12,
+    "num_sym_per_rb": 14,
+    "num_ue": 32,
+    "num_ue_ant": 1,
+    "o2i_model": "low",
+    "p_arrival": 0.22,
+    "p_arrival_ablation": [
+      0.1,
+      0.2,
+      0.4
+    ],
+    "p_arrival_max": 0.5,
+    "p_arrival_min": 0.15,
+    "p_csi": 0.6,
+    "p_csi_ablation": [
+      1.0,
+      0.5,
+      0.2,
+      0.1
+    ],
+    "p_total": 8.0,
+    "packet_size_max": 12000,
+    "packet_size_min": 4000,
+    "pf_epsilon": 1.0,
+    "pmi_mode": "type2_sparse_56bit",
+    "ppo_batch_verify_every": 25,
+    "ppo_batch_verify_slots": 4,
+    "ppo_batch_verify_tol": 0.001,
+    "ppo_batched_replay": true,
+    "ppo_clip_eps": 0.2,
+    "ppo_critic_v2": true,
+    "ppo_entropy_coef": 0.02,
+    "ppo_epochs": 4,
+    "ppo_eval_episodes": 3,
+    "ppo_eval_every": 10,
+    "ppo_force_full_rank": false,
+    "ppo_gae_lambda": 0.95,
+    "ppo_gamma": 0.99,
+    "ppo_learning_rate": 0.0003,
+    "ppo_max_grad_norm": 0.5,
+    "ppo_minibatch_size": 256,
+    "ppo_no_user_scale": 1.0,
+    "ppo_save_every": 1,
+    "ppo_target_kl": 0.02,
+    "ppo_value_coef": 0.25,
+    "queue_size": 8,
+    "rzf_alpha_mode": "noise",
+    "scenario": "umi",
+    "score_net_hidden": [
+      128,
+      64
+    ],
+    "seed": 2024,
+    "share_critic_encoder": true,
+    "speed_ablation_kmh": [
+      3.0,
+      10.0,
+      30.0,
+      60.0
+    ],
+    "subcarrier_spacing": 30000.0,
+    "sus_ortho_threshold": 0.75,
+    "t_c": 100,
+    "target_snr_ablation_db": [
+      5.0,
+      10.0,
+      15.0
+    ],
+    "target_snr_db": 10.0,
+    "traffic_model": "ftp3",
+    "type2_L": 4,
+    "type2_O1": 4,
+    "type2_O2": 4,
+    "type2_amp_bits": 3,
+    "type2_phase_bits": 2,
+    "ue_speed_kmh": 3.0,
+    "ue_speed_max": 40.0,
+    "ue_speed_min": 5.0,
+    "ue_speed_mix": [],
+    "value_head_hidden": [
+      128,
+      64
+    ]
+  },
+  "artifact_config_sha256": "8bbcd8e83195713cf9baefe96af8d4e6ed4035481d791ef7ccd63f2f043be81c",
+  "source_sha256": {
+    "paper_train.py": "3095c067ce9ed3cf0dea43bcac5263e839986b85599e53ef4df43b84be3f64cc",
+    "train_phase2.py": "2079a90c356a92d8cd591b378d6708b6b06d3185a84fc206d887d9bb9b3e4eca",
+    "config.py": "734936660c5ea80ad64c8b58b1d9f2e6942e5e52787f5df7d07370cb0e8845a8",
+    "env.py": "e91c83165b2717c3c021433c67fb6531ae20e6f714b934b936b6ff95aff5015d",
+    "channel.py": "b308c63d369a181ba08788bc0f52f6f620c1ac3ff65ad210ae5367cd0d47e755",
+    "csi.py": "e6084b6b514c1269e0a56c76637a07c2cffcf04cfa889683a38d23b10d71f356",
+    "codebook.py": "93234f7b2aae3d7f5b593deca8aa8c4aace3c0756e2a20abe577e1ffbe381abf",
+    "phy.py": "f18d9d7cf57a981c6e835a955eea0a0195e2efdf6aad675312566b61b0b66846",
+    "la_planner.py": "ddb6028d2fd138b6b4517ecc5a73ea109915f1029081350a42a152343bb3d39d",
+    "traffic.py": "3a4c341b240924110c82c296eec3b7bf67dfcf2d7d8e2043557462ae843cdf01",
+    "transmission.py": "317e0ece855e33de44445a7c4ecb90cddbad5dbcc70dd9357435864f5887276e",
+    "policy.py": "b668806d4604abe7f69683a4b78136dd4a811abe1597dadb640c22d4507af9f5",
+    "ppo.py": "dc3157aed774fe410f729b142db5f914fd095ba824d0366d8f619c50b27fd298",
+    "baselines.py": "c227fdc61c836969f1c8f7d7bf2cbccce0efd7e1a36b4940cc6b4dddd0e17e07",
+    "metrics.py": "cba7a47dd1de4c5487bf5ee91925f3b0a869436430496044ad5bf9bada9a8809",
+    "calibration/profile.py": "35e4c3ff438eaa29770b905229ad67d47fd4bd73acc298ac00e5708cc0a98d92"
+  },
+  "schedule": {
+    "lr_final": 0.0,
+    "lr_decay_updates": 1000
+  },
+  "schedule_origin": "override",
+  "replay_origin": "override",
+  "traffic_origin": "override",
+  "target_updates": 1000,
+  "smoke_slots": null,
+  "purpose": "training",
+  "execution": {
+    "device": "cuda",
+    "gpu": "4",
+    "threads": 4
+  },
+  "runtime": {
+    "python": "3.11.0rc1",
+    "system": "Linux",
+    "machine": "x86_64",
+    "packages": {
+      "numpy": "1.26.4",
+      "torch": "2.7.1+cu118",
+      "tensorflow": "2.15.0",
+      "sionna": "1.2.1",
+      "tensorboard": "2.15.1",
+      "scipy": "1.17.0"
+    },
+    "torch_cuda": "11.8",
+    "gpu_name": "NVIDIA GeForce RTX 4090"
+  },
+  "calibration_profile": {
+    "path": "/home/MYH/ML_DRL_Scheduler/PaperMain/results/cqi4_hl_corrected_v2/summary.json",
+    "file_sha256": "258e90406be65d7621d0938bb7755034b35c6d4f1485f4a28e7da2c506009110",
+    "document_sha256": "0a8a6ff47855f24c33b8e348019ab30a4f73e05d7ef02e553eae18f5ee72e39e",
+    "document": {
+      "schema_version": 1,
+      "protocol": "cqi4-feasible-v1",
+      "status": "validated",
+      "config": {
+        "seed": 2024,
+        "num_bs_ant": 32,
+        "num_ue_ant": 1,
+        "bs_ant_rows": 4,
+        "bs_ant_cols": 4,
+        "bs_polarization": "dual",
+        "num_ue": 32,
+        "n_active_min": 16,
+        "n_active_max": 32,
+        "ue_speed_min": 5.0,
+        "ue_speed_max": 40.0,
+        "num_rbg": 8,
+        "num_rb_per_rbg": 8,
+        "num_sc_per_rb": 12,
+        "num_sym_per_rb": 14,
+        "subcarrier_spacing": 30000.0,
+        "carrier_frequency": 3500000000.0,
+        "l_max": 4,
+        "scenario": "umi",
+        "o2i_model": "low",
+        "enable_pathloss": true,
+        "enable_shadow_fading": true,
+        "indoor_probability": 0.0,
+        "ue_speed_kmh": 3.0,
+        "speed_ablation_kmh": [
+          3.0,
+          10.0,
+          30.0,
+          60.0
+        ],
+        "ue_speed_mix": [],
+        "pmi_mode": "type2_sparse_56bit",
+        "codebook_size": 256,
+        "type2_O1": 4,
+        "type2_O2": 4,
+        "type2_L": 4,
+        "type2_amp_bits": 3,
+        "type2_phase_bits": 2,
+        "p_csi": 0.6,
+        "p_csi_ablation": [
+          1.0,
+          0.5,
+          0.2,
+          0.1
+        ],
+        "cqi_mode": "nr4bit",
+        "p_arrival": 0.22,
+        "p_arrival_min": 0.15,
+        "p_arrival_max": 0.5,
+        "p_arrival_ablation": [
+          0.1,
+          0.2,
+          0.4
+        ],
+        "packet_size_min": 4000,
+        "packet_size_max": 12000,
+        "deadline_min": 3,
+        "deadline_max": 12,
+        "queue_size": 8,
+        "eta_data": 1.0,
+        "beta_rate": 1.0,
+        "la_beta": 1.0,
+        "la_beta_by_depth": [],
+        "b_tx_epsilon": 1.0,
+        "mu_aware_la": false,
+        "la_mode": "post_rzf",
+        "decode_order": "rbg_major",
+        "p_total": 8.0,
+        "target_snr_db": 10.0,
+        "target_snr_ablation_db": [
+          5.0,
+          10.0,
+          15.0
+        ],
+        "noise_mode": "calibration",
+        "rzf_alpha_mode": "noise",
+        "max_retx": 4,
+        "lambda_s": 1.0,
+        "lambda_c": 1.0,
+        "lambda_m": 2.0,
+        "eta_d": 1.0,
+        "b_norm": 8000.0,
+        "t_c": 100,
+        "sus_ortho_threshold": 0.75,
+        "pf_epsilon": 1.0,
+        "cqi_norm_const": 8.0,
+        "age_norm_max": 50.0,
+        "ppo_gamma": 0.99,
+        "ppo_gae_lambda": 0.95,
+        "ppo_clip_eps": 0.2,
+        "ppo_learning_rate": 0.0003,
+        "ppo_value_coef": 0.25,
+        "ppo_entropy_coef": 0.02,
+        "ppo_max_grad_norm": 0.5,
+        "ppo_epochs": 4,
+        "ppo_minibatch_size": 256,
+        "ppo_target_kl": 0.02,
+        "ppo_critic_v2": true,
+        "ppo_batched_replay": false,
+        "ppo_force_full_rank": false,
+        "ppo_no_user_scale": 1.0,
+        "ppo_batch_verify_every": 25,
+        "ppo_batch_verify_slots": 4,
+        "ppo_batch_verify_tol": 0.001,
+        "encoder_hidden": 128,
+        "encoder_out_dim": 64,
+        "score_net_hidden": [
+          128,
+          64
+        ],
+        "no_user_head_hidden": [
+          128,
+          64
+        ],
+        "value_head_hidden": [
+          128,
+          64
+        ],
+        "share_critic_encoder": true,
+        "ppo_eval_every": 10,
+        "ppo_eval_episodes": 3,
+        "ppo_save_every": 1,
+        "episode_len_main": 1000,
+        "episode_len_debug": 200,
+        "debug": false
+      },
+      "reference_config_sha256": "8bbcd8e83195713cf9baefe96af8d4e6ed4035481d791ef7ccd63f2f043be81c",
+      "source_sha256": {
+        "calibration/beta_m_calib_holdout.py": "f57ab3a07175f66504f9410e9cb560b298adbda0d22e431d36ebd61c81966987",
+        "calibration/cqi4.py": "be2aaeeee46cca8bd72fdd335ad06e86f0614d418414365c0462e2796f85fc20",
+        "calibration/profile.py": "35e4c3ff438eaa29770b905229ad67d47fd4bd73acc298ac00e5708cc0a98d92",
+        "channel.py": "b308c63d369a181ba08788bc0f52f6f620c1ac3ff65ad210ae5367cd0d47e755",
+        "codebook.py": "93234f7b2aae3d7f5b593deca8aa8c4aace3c0756e2a20abe577e1ffbe381abf",
+        "config.py": "5ab93d0212e1a86449896252514ffd4ddb7666410117a720efc527bb7db47658",
+        "csi.py": "e6084b6b514c1269e0a56c76637a07c2cffcf04cfa889683a38d23b10d71f356",
+        "env.py": "e91c83165b2717c3c021433c67fb6531ae20e6f714b934b936b6ff95aff5015d",
+        "la_planner.py": "ddb6028d2fd138b6b4517ecc5a73ea109915f1029081350a42a152343bb3d39d",
+        "paper_calibration.py": "4fa79689189ca4fd5135cc6a0865e36a4f34faf8e48d83c44902d7893d85c88d",
+        "phy.py": "f18d9d7cf57a981c6e835a955eea0a0195e2efdf6aad675312566b61b0b66846",
+        "traffic.py": "49f1822387d29c4b8333cc73ea22f64af9fa153800651dcf7c14cb139e3fd4aa",
+        "transmission.py": "317e0ece855e33de44445a7c4ecb90cddbad5dbcc70dd9357435864f5887276e"
+      },
+      "created_at": "2026-09-09T01:58:32.525402+00:00",
+      "threads": 4,
+      "sampling": {
+        "every_slots": 7,
+        "groups_per_depth_per_sample": 2,
+        "law": "uniform_without_replacement_over_feedback_eligible_UEs",
+        "traffic": "empty actions; all-new full-capacity reference groups",
+        "insufficient_population": "skip draw without redrawing RBG",
+        "membership": "frozen beta times every raw cap must pass runtime epsilon"
+      },
+      "target_coverage": {
+        "target_first_ack": 0.9,
+        "interpretation": "reference-group estimate; not a policy or BLER guarantee"
+      },
+      "calibration": {
+        "start": 50000,
+        "episodes": 36,
+        "sampler_seed": 777,
+        "slots": 1000,
+        "membership": {
+          "1": {
+            "member_count": 10296,
+            "below_epsilon_members": 0,
+            "minimum_raw_cap": 204.6911999999998,
+            "minimum_scaled_cap": 208.0071974399998,
+            "epsilon": 1.0
+          },
+          "2": {
+            "member_count": 20592,
+            "below_epsilon_members": 0,
+            "minimum_raw_cap": 24.751201510432686,
+            "minimum_scaled_cap": 21.060797365227174,
+            "epsilon": 1.0
+          },
+          "3": {
+            "member_count": 30888,
+            "below_epsilon_members": 0,
+            "minimum_raw_cap": 9.693088419334057,
+            "minimum_scaled_cap": 7.494695965829092,
+            "epsilon": 1.0
+          },
+          "4": {
+            "member_count": 41184,
+            "below_epsilon_members": 0,
+            "minimum_raw_cap": 5.406800226721885,
+            "minimum_scaled_cap": 3.9361505650535324,
+            "epsilon": 1.0
+          }
+        },
+        "diagnostics": {
+          "1": [
+            {
+              "draws": 286,
+              "groups": 286,
+              "members": 286,
+              "skipped_insufficient": 0,
+              "candidate_slots": 9152,
+              "excluded_candidates": 900,
+              "cqi_zero_candidates": 900,
+              "real_zero_mi_members": 0
+            },
+            {
+              "draws": 286,
+              "groups": 286,
+              "members": 286,
+              "skipped_insufficient": 0,
+              "candidate_slots": 9152,
+              "excluded_candidates": 274,
+              "cqi_zero_candidates": 274,
+              "real_zero_mi_members": 0
+            },
+            {
+              "draws": 286,
+              "groups": 286,
+              "members": 286,
+              "skipped_insufficient": 0,
+              "candidate_slots": 9152,
+              "excluded_candidates": 366,
+              "cqi_zero_candidates": 366,
+              "real_zero_mi_members": 0
+            },
+            {
+              "draws": 286,
+              "groups": 286,
+              "members": 286,
+              "skipped_insufficient": 0,
+              "candidate_slots": 9152,
+              "excluded_candidates": 1,
+              "cqi_zero_candidates": 1,
+              "real_zero_mi_members": 0
+            },
+            {
+              "draws": 286,
+              "groups": 286,
+              "members": 286,
+              "skipped_insufficient": 0,
+              "candidate_slots": 9152,
+              "excluded_candidates": 849,
+              "cqi_zero_candidates": 849,
+              "real_zero_mi_members": 0
+            },
+            {
+              "draws": 286,
+              "groups": 286,
+              "members": 286,
+              "skipped_insufficient": 0,
+              "candidate_slots": 9152,
+              "excluded_candidates": 166,
+              "cqi_zero_candidates": 166,
+              "real_zero_mi_members": 0
+            },
+            {
+              "draws": 286,
+              "groups": 286,
+              "members": 286,
+              "skipped_insufficient": 0,
+              "candidate_slots": 9152,
+              "excluded_candidates": 214,
+              "cqi_zero_candidates": 214,
+              "real_zero_mi_members": 0
+            },
+            {
+              "draws": 286,
+              "groups": 286,
+              "members": 286,
+              "skipped_insufficient": 0,
+              "candidate_slots": 9152,
+              "excluded_candidates": 984,
+              "cqi_zero_candidates": 984,
+              "real_zero_mi_members": 0
+            },
+            {
+              "draws": 286,
+              "groups": 286,
+              "members": 286,
+              "skipped_insufficient": 0,
+              "candidate_slots": 9152,
+              "excluded_candidates": 46,
+              "cqi_zero_candidates": 46,
+              "real_zero_mi_members": 0
+            },
+            {
+              "draws": 286,
+              "groups": 286,
+              "members": 286,
+              "skipped_insufficient": 0,
+              "candidate_slots": 9152,
+              "excluded_candidates": 151,
+              "cqi_zero_candidates": 151,
+              "real_zero_mi_members": 0
+            },
+            {
+              "draws": 286,
+              "groups": 286,
+              "members": 286,
+              "skipped_insufficient": 0,
+              "candidate_slots": 9152,
+              "excluded_candidates": 447,
+              "cqi_zero_candidates": 447,
+              "real_zero_mi_members": 0
+            },
+            {
+              "draws": 286,
+              "groups": 286,
+              "members": 286,
+              "skipped_insufficient": 0,
+              "candidate_slots": 9152,
+              "excluded_candidates": 96,
+              "cqi_zero_candidates": 96,
+              "real_zero_mi_members": 0
+            },
+            {
+              "draws": 286,
+              "groups": 286,
+              "members": 286,
+              "skipped_insufficient": 0,
+              "candidate_slots": 9152,
+              "excluded_candidates": 844,
+              "cqi_zero_candidates": 844,
+              "real_zero_mi_members": 0
+            },
+            {
+              "draws": 286,
+              "groups": 286,
+              "members": 286,
+              "skipped_insufficient": 0,
+              "candidate_slots": 9152,
+              "excluded_candidates": 133,
+              "cqi_zero_candidates": 133,
+              "real_zero_mi_members": 0
+            },
+            {
+              "draws": 286,
+              "groups": 286,
+              "members": 286,
+              "skipped_insufficient": 0,
+              "candidate_slots": 9152,
+              "excluded_candidates": 8,
+              "cqi_zero_candidates": 8,
+              "real_zero_mi_members": 0
+            },
+            {
+              "draws": 286,
+              "groups": 286,
+              "members": 286,
+              "skipped_insufficient": 0,
+              "candidate_slots": 9152,
+              "excluded_candidates": 622,
+              "cqi_zero_candidates": 622,
+              "real_zero_mi_members": 0
+            },
+            {
+              "draws": 286,
+              "groups": 286,
+              "members": 286,
+              "skipped_insufficient": 0,
+              "candidate_slots": 9152,
+              "excluded_candidates": 276,
+              "cqi_zero_candidates": 276,
+              "real_zero_mi_members": 0
+            },
+            {
+              "draws": 286,
+              "groups": 286,
+              "members": 286,
+              "skipped_insufficient": 0,
+              "candidate_slots": 9152,
+              "excluded_candidates": 21,
+              "cqi_zero_candidates": 21,
+              "real_zero_mi_members": 0
+            },
+            {
+              "draws": 286,
+              "groups": 286,
+              "members": 286,
+              "skipped_insufficient": 0,
+              "candidate_slots": 9152,
+              "excluded_candidates": 77,
+              "cqi_zero_candidates": 77,
+              "real_zero_mi_members": 0
+            },
+            {
+              "draws": 286,
+              "groups": 286,
+              "members": 286,
+              "skipped_insufficient": 0,
+              "candidate_slots": 9152,
+              "excluded_candidates": 384,
+              "cqi_zero_candidates": 384,
+              "real_zero_mi_members": 0
+            },
+            {
+              "draws": 286,
+              "groups": 286,
+              "members": 286,
+              "skipped_insufficient": 0,
+              "candidate_slots": 9152,
+              "excluded_candidates": 187,
+              "cqi_zero_candidates": 187,
+              "real_zero_mi_members": 0
+            },
+            {
+              "draws": 286,
+              "groups": 286,
+              "members": 286,
+              "skipped_insufficient": 0,
+              "candidate_slots": 9152,
+              "excluded_candidates": 1037,
+              "cqi_zero_candidates": 1037,
+              "real_zero_mi_members": 0
+            },
+            {
+              "draws": 286,
+              "groups": 286,
+              "members": 286,
+              "skipped_insufficient": 0,
+              "candidate_slots": 9152,
+              "excluded_candidates": 249,
+              "cqi_zero_candidates": 249,
+              "real_zero_mi_members": 0
+            },
+            {
+              "draws": 286,
+              "groups": 286,
+              "members": 286,
+              "skipped_insufficient": 0,
+              "candidate_slots": 9152,
+              "excluded_candidates": 1298,
+              "cqi_zero_candidates": 1298,
+              "real_zero_mi_members": 0
+            },
+            {
+              "draws": 286,
+              "groups": 286,
+              "members": 286,
+              "skipped_insufficient": 0,
+              "candidate_slots": 9152,
+              "excluded_candidates": 775,
+              "cqi_zero_candidates": 775,
+              "real_zero_mi_members": 0
+            },
+            {
+              "draws": 286,
+              "groups": 286,
+              "members": 286,
+              "skipped_insufficient": 0,
+              "candidate_slots": 9152,
+              "excluded_candidates": 992,
+              "cqi_zero_candidates": 992,
+              "real_zero_mi_members": 0
+            },
+            {
+              "draws": 286,
+              "groups": 286,
+              "members": 286,
+              "skipped_insufficient": 0,
+              "candidate_slots": 9152,
+              "excluded_candidates": 815,
+              "cqi_zero_candidates": 815,
+              "real_zero_mi_members": 0
+            },
+            {
+              "draws": 286,
+              "groups": 286,
+              "members": 286,
+              "skipped_insufficient": 0,
+              "candidate_slots": 9152,
+              "excluded_candidates": 115,
+              "cqi_zero_candidates": 115,
+              "real_zero_mi_members": 0
+            },
+            {
+              "draws": 286,
+              "groups": 286,
+              "members": 286,
+              "skipped_insufficient": 0,
+              "candidate_slots": 9152,
+              "excluded_candidates": 530,
+              "cqi_zero_candidates": 530,
+              "real_zero_mi_members": 0
+            },
+            {
+              "draws": 286,
+              "groups": 286,
+              "members": 286,
+              "skipped_insufficient": 0,
+              "candidate_slots": 9152,
+              "excluded_candidates": 938,
+              "cqi_zero_candidates": 938,
+              "real_zero_mi_members": 0
+            },
+            {
+              "draws": 286,
+              "groups": 286,
+              "members": 286,
+              "skipped_insufficient": 0,
+              "candidate_slots": 9152,
+              "excluded_candidates": 60,
+              "cqi_zero_candidates": 60,
+              "real_zero_mi_members": 0
+            },
+            {
+              "draws": 286,
+              "groups": 286,
+              "members": 286,
+              "skipped_insufficient": 0,
+              "candidate_slots": 9152,
+              "excluded_candidates": 916,
+              "cqi_zero_candidates": 916,
+              "real_zero_mi_members": 0
+            },
+            {
+              "draws": 286,
+              "groups": 286,
+              "members": 286,
+              "skipped_insufficient": 0,
+              "candidate_slots": 9152,
+              "excluded_candidates": 309,
+              "cqi_zero_candidates": 309,
+              "real_zero_mi_members": 0
+            },
+            {
+              "draws": 286,
+              "groups": 286,
+              "members": 286,
+              "skipped_insufficient": 0,
+              "candidate_slots": 9152,
+              "excluded_candidates": 505,
+              "cqi_zero_candidates": 505,
+              "real_zero_mi_members": 0
+            },
+            {
+              "draws": 286,
+              "groups": 286,
+              "members": 286,
+              "skipped_insufficient": 0,
+              "candidate_slots": 9152,
+              "excluded_candidates": 235,
+              "cqi_zero_candidates": 235,
+              "real_zero_mi_members": 0
+            },
+            {
+              "draws": 286,
+              "groups": 286,
+              "members": 286,
+              "skipped_insufficient": 0,
+              "candidate_slots": 9152,
+              "excluded_candidates": 1294,
+              "cqi_zero_candidates": 1294,
+              "real_zero_mi_members": 0
+            }
+          ],
+          "2": [
+            {
+              "draws": 286,
+              "groups": 286,
+              "members": 572,
+              "skipped_insufficient": 0,
+              "candidate_slots": 9152,
+              "excluded_candidates": 927,
+              "cqi_zero_candidates": 927,
+              "real_zero_mi_members": 0
+            },
+            {
+              "draws": 286,
+              "groups": 286,
+              "members": 572,
+              "skipped_insufficient": 0,
+              "candidate_slots": 9152,
+              "excluded_candidates": 300,
+              "cqi_zero_candidates": 300,
+              "real_zero_mi_members": 0
+            },
+            {
+              "draws": 286,
+              "groups": 286,
+              "members": 572,
+              "skipped_insufficient": 0,
+              "candidate_slots": 9152,
+              "excluded_candidates": 375,
+              "cqi_zero_candidates": 375,
+              "real_zero_mi_members": 0
+            },
+            {
+              "draws": 286,
+              "groups": 286,
+              "members": 572,
+              "skipped_insufficient": 0,
+              "candidate_slots": 9152,
+              "excluded_candidates": 1,
+              "cqi_zero_candidates": 1,
+              "real_zero_mi_members": 0
+            },
+            {
+              "draws": 286,
+              "groups": 286,
+              "members": 572,
+              "skipped_insufficient": 0,
+              "candidate_slots": 9152,
+              "excluded_candidates": 867,
+              "cqi_zero_candidates": 867,
+              "real_zero_mi_members": 0
+            },
+            {
+              "draws": 286,
+              "groups": 286,
+              "members": 572,
+              "skipped_insufficient": 0,
+              "candidate_slots": 9152,
+              "excluded_candidates": 192,
+              "cqi_zero_candidates": 192,
+              "real_zero_mi_members": 0
+            },
+            {
+              "draws": 286,
+              "groups": 286,
+              "members": 572,
+              "skipped_insufficient": 0,
+              "candidate_slots": 9152,
+              "excluded_candidates": 216,
+              "cqi_zero_candidates": 216,
+              "real_zero_mi_members": 0
+            },
+            {
+              "draws": 286,
+              "groups": 286,
+              "members": 572,
+              "skipped_insufficient": 0,
+              "candidate_slots": 9152,
+              "excluded_candidates": 998,
+              "cqi_zero_candidates": 998,
+              "real_zero_mi_members": 0
+            },
+            {
+              "draws": 286,
+              "groups": 286,
+              "members": 572,
+              "skipped_insufficient": 0,
+              "candidate_slots": 9152,
+              "excluded_candidates": 47,
+              "cqi_zero_candidates": 47,
+              "real_zero_mi_members": 0
+            },
+            {
+              "draws": 286,
+              "groups": 286,
+              "members": 572,
+              "skipped_insufficient": 0,
+              "candidate_slots": 9152,
+              "excluded_candidates": 152,
+              "cqi_zero_candidates": 152,
+              "real_zero_mi_members": 0
+            },
+            {
+              "draws": 286,
+              "groups": 286,
+              "members": 572,
+              "skipped_insufficient": 0,
+              "candidate_slots": 9152,
+              "excluded_candidates": 449,
+              "cqi_zero_candidates": 449,
+              "real_zero_mi_members": 0
+            },
+            {
+              "draws": 286,
+              "groups": 286,
+              "members": 572,
+              "skipped_insufficient": 0,
+              "candidate_slots": 9152,
+              "excluded_candidates": 98,
+              "cqi_zero_candidates": 98,
+              "real_zero_mi_members": 0
+            },
+            {
+              "draws": 286,
+              "groups": 286,
+              "members": 572,
+              "skipped_insufficient": 0,
+              "candidate_slots": 9152,
+              "excluded_candidates": 811,
+              "cqi_zero_candidates": 811,
+              "real_zero_mi_members": 0
+            },
+            {
+              "draws": 286,
+              "groups": 286,
+              "members": 572,
+              "skipped_insufficient": 0,
+              "candidate_slots": 9152,
+              "excluded_candidates": 139,
+              "cqi_zero_candidates": 139,
+              "real_zero_mi_members": 0
+            },
+            {
+              "draws": 286,
+              "groups": 286,
+              "members": 572,
+              "skipped_insufficient": 0,
+              "candidate_slots": 9152,
+              "excluded_candidates": 3,
+              "cqi_zero_candidates": 3,
+              "real_zero_mi_members": 0
+            },
+            {
+              "draws": 286,
+              "groups": 286,
+              "members": 572,
+              "skipped_insufficient": 0,
+              "candidate_slots": 9152,
+              "excluded_candidates": 623,
+              "cqi_zero_candidates": 623,
+              "real_zero_mi_members": 0
+            },
+            {
+              "draws": 286,
+              "groups": 286,
+              "members": 572,
+              "skipped_insufficient": 0,
+              "candidate_slots": 9152,
+              "excluded_candidates": 273,
+              "cqi_zero_candidates": 273,
+              "real_zero_mi_members": 0
+            },
+            {
+              "draws": 286,
+              "groups": 286,
+              "members": 572,
+              "skipped_insufficient": 0,
+              "candidate_slots": 9152,
+              "excluded_candidates": 20,
+              "cqi_zero_candidates": 20,
+              "real_zero_mi_members": 0
+            },
+            {
+              "draws": 286,
+              "groups": 286,
+              "members": 572,
+              "skipped_insufficient": 0,
+              "candidate_slots": 9152,
+              "excluded_candidates": 72,
+              "cqi_zero_candidates": 72,
+              "real_zero_mi_members": 0
+            },
+            {
+              "draws": 286,
+              "groups": 286,
+              "members": 572,
+              "skipped_insufficient": 0,
+              "candidate_slots": 9152,
+              "excluded_candidates": 398,
+              "cqi_zero_candidates": 398,
+              "real_zero_mi_members": 0
+            },
+            {
+              "draws": 286,
+              "groups": 286,
+              "members": 572,
+              "skipped_insufficient": 0,
+              "candidate_slots": 9152,
+              "excluded_candidates": 198,
+              "cqi_zero_candidates": 198,
+              "real_zero_mi_members": 0
+            },
+            {
+              "draws": 286,
+              "groups": 286,
+              "members": 572,
+              "skipped_insufficient": 0,
+              "candidate_slots": 9152,
+              "excluded_candidates": 1046,
+              "cqi_zero_candidates": 1046,
+              "real_zero_mi_members": 0
+            },
+            {
+              "draws": 286,
+              "groups": 286,
+              "members": 572,
+              "skipped_insufficient": 0,
+              "candidate_slots": 9152,
+              "excluded_candidates": 257,
+              "cqi_zero_candidates": 257,
+              "real_zero_mi_members": 0
+            },
+            {
+              "draws": 286,
+              "groups": 286,
+              "members": 572,
+              "skipped_insufficient": 0,
+              "candidate_slots": 9152,
+              "excluded_candidates": 1284,
+              "cqi_zero_candidates": 1284,
+              "real_zero_mi_members": 0
+            },
+            {
+              "draws": 286,
+              "groups": 286,
+              "members": 572,
+              "skipped_insufficient": 0,
+              "candidate_slots": 9152,
+              "excluded_candidates": 789,
+              "cqi_zero_candidates": 789,
+              "real_zero_mi_members": 0
+            },
+            {
+              "draws": 286,
+              "groups": 286,
+              "members": 572,
+              "skipped_insufficient": 0,
+              "candidate_slots": 9152,
+              "excluded_candidates": 977,
+              "cqi_zero_candidates": 977,
+              "real_zero_mi_members": 0
+            },
+            {
+              "draws": 286,
+              "groups": 286,
+              "members": 572,
+              "skipped_insufficient": 0,
+              "candidate_slots": 9152,
+              "excluded_candidates": 803,
+              "cqi_zero_candidates": 803,
+              "real_zero_mi_members": 0
+            },
+            {
+              "draws": 286,
+              "groups": 286,
+              "members": 572,
+              "skipped_insufficient": 0,
+              "candidate_slots": 9152,
+              "excluded_candidates": 120,
+              "cqi_zero_candidates": 120,
+              "real_zero_mi_members": 0
+            },
+            {
+              "draws": 286,
+              "groups": 286,
+              "members": 572,
+              "skipped_insufficient": 0,
+              "candidate_slots": 9152,
+              "excluded_candidates": 540,
+              "cqi_zero_candidates": 540,
+              "real_zero_mi_members": 0
+            },
+            {
+              "draws": 286,
+              "groups": 286,
+              "members": 572,
+              "skipped_insufficient": 0,
+              "candidate_slots": 9152,
+              "excluded_candidates": 941,
+              "cqi_zero_candidates": 941,
+              "real_zero_mi_members": 0
+            },
+            {
+              "draws": 286,
+              "groups": 286,
+              "members": 572,
+              "skipped_insufficient": 0,
+              "candidate_slots": 9152,
+              "excluded_candidates": 77,
+              "cqi_zero_candidates": 77,
+              "real_zero_mi_members": 0
+            },
+            {
+              "draws": 286,
+              "groups": 286,
+              "members": 572,
+              "skipped_insufficient": 0,
+              "candidate_slots": 9152,
+              "excluded_candidates": 907,
+              "cqi_zero_candidates": 907,
+              "real_zero_mi_members": 0
+            },
+            {
+              "draws": 286,
+              "groups": 286,
+              "members": 572,
+              "skipped_insufficient": 0,
+              "candidate_slots": 9152,
+              "excluded_candidates": 307,
+              "cqi_zero_candidates": 307,
+              "real_zero_mi_members": 0
+            },
+            {
+              "draws": 286,
+              "groups": 286,
+              "members": 572,
+              "skipped_insufficient": 0,
+              "candidate_slots": 9152,
+              "excluded_candidates": 495,
+              "cqi_zero_candidates": 495,
+              "real_zero_mi_members": 0
+            },
+            {
+              "draws": 286,
+              "groups": 286,
+              "members": 572,
+              "skipped_insufficient": 0,
+              "candidate_slots": 9152,
+              "excluded_candidates": 208,
+              "cqi_zero_candidates": 208,
+              "real_zero_mi_members": 0
+            },
+            {
+              "draws": 286,
+              "groups": 286,
+              "members": 572,
+              "skipped_insufficient": 0,
+              "candidate_slots": 9152,
+              "excluded_candidates": 1310,
+              "cqi_zero_candidates": 1310,
+              "real_zero_mi_members": 0
+            }
+          ],
+          "3": [
+            {
+              "draws": 286,
+              "groups": 286,
+              "members": 858,
+              "skipped_insufficient": 0,
+              "candidate_slots": 9152,
+              "excluded_candidates": 912,
+              "cqi_zero_candidates": 912,
+              "real_zero_mi_members": 0
+            },
+            {
+              "draws": 286,
+              "groups": 286,
+              "members": 858,
+              "skipped_insufficient": 0,
+              "candidate_slots": 9152,
+              "excluded_candidates": 278,
+              "cqi_zero_candidates": 278,
+              "real_zero_mi_members": 0
+            },
+            {
+              "draws": 286,
+              "groups": 286,
+              "members": 858,
+              "skipped_insufficient": 0,
+              "candidate_slots": 9152,
+              "excluded_candidates": 372,
+              "cqi_zero_candidates": 372,
+              "real_zero_mi_members": 0
+            },
+            {
+              "draws": 286,
+              "groups": 286,
+              "members": 858,
+              "skipped_insufficient": 0,
+              "candidate_slots": 9152,
+              "excluded_candidates": 0,
+              "cqi_zero_candidates": 0,
+              "real_zero_mi_members": 0
+            },
+            {
+              "draws": 286,
+              "groups": 286,
+              "members": 858,
+              "skipped_insufficient": 0,
+              "candidate_slots": 9152,
+              "excluded_candidates": 859,
+              "cqi_zero_candidates": 859,
+              "real_zero_mi_members": 0
+            },
+            {
+              "draws": 286,
+              "groups": 286,
+              "members": 858,
+              "skipped_insufficient": 0,
+              "candidate_slots": 9152,
+              "excluded_candidates": 176,
+              "cqi_zero_candidates": 176,
+              "real_zero_mi_members": 0
+            },
+            {
+              "draws": 286,
+              "groups": 286,
+              "members": 858,
+              "skipped_insufficient": 0,
+              "candidate_slots": 9152,
+              "excluded_candidates": 216,
+              "cqi_zero_candidates": 216,
+              "real_zero_mi_members": 0
+            },
+            {
+              "draws": 286,
+              "groups": 286,
+              "members": 858,
+              "skipped_insufficient": 0,
+              "candidate_slots": 9152,
+              "excluded_candidates": 992,
+              "cqi_zero_candidates": 992,
+              "real_zero_mi_members": 0
+            },
+            {
+              "draws": 286,
+              "groups": 286,
+              "members": 858,
+              "skipped_insufficient": 0,
+              "candidate_slots": 9152,
+              "excluded_candidates": 39,
+              "cqi_zero_candidates": 39,
+              "real_zero_mi_members": 0
+            },
+            {
+              "draws": 286,
+              "groups": 286,
+              "members": 858,
+              "skipped_insufficient": 0,
+              "candidate_slots": 9152,
+              "excluded_candidates": 139,
+              "cqi_zero_candidates": 139,
+              "real_zero_mi_members": 0
+            },
+            {
+              "draws": 286,
+              "groups": 286,
+              "members": 858,
+              "skipped_insufficient": 0,
+              "candidate_slots": 9152,
+              "excluded_candidates": 435,
+              "cqi_zero_candidates": 435,
+              "real_zero_mi_members": 0
+            },
+            {
+              "draws": 286,
+              "groups": 286,
+              "members": 858,
+              "skipped_insufficient": 0,
+              "candidate_slots": 9152,
+              "excluded_candidates": 108,
+              "cqi_zero_candidates": 108,
+              "real_zero_mi_members": 0
+            },
+            {
+              "draws": 286,
+              "groups": 286,
+              "members": 858,
+              "skipped_insufficient": 0,
+              "candidate_slots": 9152,
+              "excluded_candidates": 825,
+              "cqi_zero_candidates": 825,
+              "real_zero_mi_members": 0
+            },
+            {
+              "draws": 286,
+              "groups": 286,
+              "members": 858,
+              "skipped_insufficient": 0,
+              "candidate_slots": 9152,
+              "excluded_candidates": 136,
+              "cqi_zero_candidates": 136,
+              "real_zero_mi_members": 0
+            },
+            {
+              "draws": 286,
+              "groups": 286,
+              "members": 858,
+              "skipped_insufficient": 0,
+              "candidate_slots": 9152,
+              "excluded_candidates": 8,
+              "cqi_zero_candidates": 8,
+              "real_zero_mi_members": 0
+            },
+            {
+              "draws": 286,
+              "groups": 286,
+              "members": 858,
+              "skipped_insufficient": 0,
+              "candidate_slots": 9152,
+              "excluded_candidates": 621,
+              "cqi_zero_candidates": 621,
+              "real_zero_mi_members": 0
+            },
+            {
+              "draws": 286,
+              "groups": 286,
+              "members": 858,
+              "skipped_insufficient": 0,
+              "candidate_slots": 9152,
+              "excluded_candidates": 273,
+              "cqi_zero_candidates": 273,
+              "real_zero_mi_members": 0
+            },
+            {
+              "draws": 286,
+              "groups": 286,
+              "members": 858,
+              "skipped_insufficient": 0,
+              "candidate_slots": 9152,
+              "excluded_candidates": 10,
+              "cqi_zero_candidates": 10,
+              "real_zero_mi_members": 0
+            },
+            {
+              "draws": 286,
+              "groups": 286,
+              "members": 858,
+              "skipped_insufficient": 0,
+              "candidate_slots": 9152,
+              "excluded_candidates": 73,
+              "cqi_zero_candidates": 73,
+              "real_zero_mi_members": 0
+            },
+            {
+              "draws": 286,
+              "groups": 286,
+              "members": 858,
+              "skipped_insufficient": 0,
+              "candidate_slots": 9152,
+              "excluded_candidates": 400,
+              "cqi_zero_candidates": 400,
+              "real_zero_mi_members": 0
+            },
+            {
+              "draws": 286,
+              "groups": 286,
+              "members": 858,
+              "skipped_insufficient": 0,
+              "candidate_slots": 9152,
+              "excluded_candidates": 179,
+              "cqi_zero_candidates": 179,
+              "real_zero_mi_members": 0
+            },
+            {
+              "draws": 286,
+              "groups": 286,
+              "members": 858,
+              "skipped_insufficient": 0,
+              "candidate_slots": 9152,
+              "excluded_candidates": 1040,
+              "cqi_zero_candidates": 1040,
+              "real_zero_mi_members": 0
+            },
+            {
+              "draws": 286,
+              "groups": 286,
+              "members": 858,
+              "skipped_insufficient": 0,
+              "candidate_slots": 9152,
+              "excluded_candidates": 268,
+              "cqi_zero_candidates": 268,
+              "real_zero_mi_members": 0
+            },
+            {
+              "draws": 286,
+              "groups": 286,
+              "members": 858,
+              "skipped_insufficient": 0,
+              "candidate_slots": 9152,
+              "excluded_candidates": 1297,
+              "cqi_zero_candidates": 1297,
+              "real_zero_mi_members": 0
+            },
+            {
+              "draws": 286,
+              "groups": 286,
+              "members": 858,
+              "skipped_insufficient": 0,
+              "candidate_slots": 9152,
+              "excluded_candidates": 797,
+              "cqi_zero_candidates": 797,
+              "real_zero_mi_members": 0
+            },
+            {
+              "draws": 286,
+              "groups": 286,
+              "members": 858,
+              "skipped_insufficient": 0,
+              "candidate_slots": 9152,
+              "excluded_candidates": 1000,
+              "cqi_zero_candidates": 1000,
+              "real_zero_mi_members": 0
+            },
+            {
+              "draws": 286,
+              "groups": 286,
+              "members": 858,
+              "skipped_insufficient": 0,
+              "candidate_slots": 9152,
+              "excluded_candidates": 810,
+              "cqi_zero_candidates": 810,
+              "real_zero_mi_members": 0
+            },
+            {
+              "draws": 286,
+              "groups": 286,
+              "members": 858,
+              "skipped_insufficient": 0,
+              "candidate_slots": 9152,
+              "excluded_candidates": 120,
+              "cqi_zero_candidates": 120,
+              "real_zero_mi_members": 0
+            },
+            {
+              "draws": 286,
+              "groups": 286,
+              "members": 858,
+              "skipped_insufficient": 0,
+              "candidate_slots": 9152,
+              "excluded_candidates": 538,
+              "cqi_zero_candidates": 538,
+              "real_zero_mi_members": 0
+            },
+            {
+              "draws": 286,
+              "groups": 286,
+              "members": 858,
+              "skipped_insufficient": 0,
+              "candidate_slots": 9152,
+              "excluded_candidates": 936,
+              "cqi_zero_candidates": 936,
+              "real_zero_mi_members": 0
+            },
+            {
+              "draws": 286,
+              "groups": 286,
+              "members": 858,
+              "skipped_insufficient": 0,
+              "candidate_slots": 9152,
+              "excluded_candidates": 81,
+              "cqi_zero_candidates": 81,
+              "real_zero_mi_members": 0
+            },
+            {
+              "draws": 286,
+              "groups": 286,
+              "members": 858,
+              "skipped_insufficient": 0,
+              "candidate_slots": 9152,
+              "excluded_candidates": 880,
+              "cqi_zero_candidates": 880,
+              "real_zero_mi_members": 0
+            },
+            {
+              "draws": 286,
+              "groups": 286,
+              "members": 858,
+              "skipped_insufficient": 0,
+              "candidate_slots": 9152,
+              "excluded_candidates": 317,
+              "cqi_zero_candidates": 317,
+              "real_zero_mi_members": 0
+            },
+            {
+              "draws": 286,
+              "groups": 286,
+              "members": 858,
+              "skipped_insufficient": 0,
+              "candidate_slots": 9152,
+              "excluded_candidates": 486,
+              "cqi_zero_candidates": 486,
+              "real_zero_mi_members": 0
+            },
+            {
+              "draws": 286,
+              "groups": 286,
+              "members": 858,
+              "skipped_insufficient": 0,
+              "candidate_slots": 9152,
+              "excluded_candidates": 215,
+              "cqi_zero_candidates": 215,
+              "real_zero_mi_members": 0
+            },
+            {
+              "draws": 286,
+              "groups": 286,
+              "members": 858,
+              "skipped_insufficient": 0,
+              "candidate_slots": 9152,
+              "excluded_candidates": 1276,
+              "cqi_zero_candidates": 1276,
+              "real_zero_mi_members": 0
+            }
+          ],
+          "4": [
+            {
+              "draws": 286,
+              "groups": 286,
+              "members": 1144,
+              "skipped_insufficient": 0,
+              "candidate_slots": 9152,
+              "excluded_candidates": 899,
+              "cqi_zero_candidates": 899,
+              "real_zero_mi_members": 0
+            },
+            {
+              "draws": 286,
+              "groups": 286,
+              "members": 1144,
+              "skipped_insufficient": 0,
+              "candidate_slots": 9152,
+              "excluded_candidates": 262,
+              "cqi_zero_candidates": 262,
+              "real_zero_mi_members": 0
+            },
+            {
+              "draws": 286,
+              "groups": 286,
+              "members": 1144,
+              "skipped_insufficient": 0,
+              "candidate_slots": 9152,
+              "excluded_candidates": 374,
+              "cqi_zero_candidates": 374,
+              "real_zero_mi_members": 0
+            },
+            {
+              "draws": 286,
+              "groups": 286,
+              "members": 1144,
+              "skipped_insufficient": 0,
+              "candidate_slots": 9152,
+              "excluded_candidates": 0,
+              "cqi_zero_candidates": 0,
+              "real_zero_mi_members": 0
+            },
+            {
+              "draws": 286,
+              "groups": 286,
+              "members": 1144,
+              "skipped_insufficient": 0,
+              "candidate_slots": 9152,
+              "excluded_candidates": 844,
+              "cqi_zero_candidates": 844,
+              "real_zero_mi_members": 0
+            },
+            {
+              "draws": 286,
+              "groups": 286,
+              "members": 1144,
+              "skipped_insufficient": 0,
+              "candidate_slots": 9152,
+              "excluded_candidates": 182,
+              "cqi_zero_candidates": 182,
+              "real_zero_mi_members": 0
+            },
+            {
+              "draws": 286,
+              "groups": 286,
+              "members": 1144,
+              "skipped_insufficient": 0,
+              "candidate_slots": 9152,
+              "excluded_candidates": 198,
+              "cqi_zero_candidates": 198,
+              "real_zero_mi_members": 0
+            },
+            {
+              "draws": 286,
+              "groups": 286,
+              "members": 1144,
+              "skipped_insufficient": 0,
+              "candidate_slots": 9152,
+              "excluded_candidates": 968,
+              "cqi_zero_candidates": 968,
+              "real_zero_mi_members": 0
+            },
+            {
+              "draws": 286,
+              "groups": 286,
+              "members": 1144,
+              "skipped_insufficient": 0,
+              "candidate_slots": 9152,
+              "excluded_candidates": 50,
+              "cqi_zero_candidates": 50,
+              "real_zero_mi_members": 0
+            },
+            {
+              "draws": 286,
+              "groups": 286,
+              "members": 1144,
+              "skipped_insufficient": 0,
+              "candidate_slots": 9152,
+              "excluded_candidates": 145,
+              "cqi_zero_candidates": 145,
+              "real_zero_mi_members": 0
+            },
+            {
+              "draws": 286,
+              "groups": 286,
+              "members": 1144,
+              "skipped_insufficient": 0,
+              "candidate_slots": 9152,
+              "excluded_candidates": 434,
+              "cqi_zero_candidates": 434,
+              "real_zero_mi_members": 0
+            },
+            {
+              "draws": 286,
+              "groups": 286,
+              "members": 1144,
+              "skipped_insufficient": 0,
+              "candidate_slots": 9152,
+              "excluded_candidates": 115,
+              "cqi_zero_candidates": 115,
+              "real_zero_mi_members": 0
+            },
+            {
+              "draws": 286,
+              "groups": 286,
+              "members": 1144,
+              "skipped_insufficient": 0,
+              "candidate_slots": 9152,
+              "excluded_candidates": 832,
+              "cqi_zero_candidates": 832,
+              "real_zero_mi_members": 0
+            },
+            {
+              "draws": 286,
+              "groups": 286,
+              "members": 1144,
+              "skipped_insufficient": 0,
+              "candidate_slots": 9152,
+              "excluded_candidates": 124,
+              "cqi_zero_candidates": 124,
+              "real_zero_mi_members": 0
+            },
+            {
+              "draws": 286,
+              "groups": 286,
+              "members": 1144,
+              "skipped_insufficient": 0,
+              "candidate_slots": 9152,
+              "excluded_candidates": 5,
+              "cqi_zero_candidates": 5,
+              "real_zero_mi_members": 0
+            },
+            {
+              "draws": 286,
+              "groups": 286,
+              "members": 1144,
+              "skipped_insufficient": 0,
+              "candidate_slots": 9152,
+              "excluded_candidates": 621,
+              "cqi_zero_candidates": 621,
+              "real_zero_mi_members": 0
+            },
+            {
+              "draws": 286,
+              "groups": 286,
+              "members": 1144,
+              "skipped_insufficient": 0,
+              "candidate_slots": 9152,
+              "excluded_candidates": 273,
+              "cqi_zero_candidates": 273,
+              "real_zero_mi_members": 0
+            },
+            {
+              "draws": 286,
+              "groups": 286,
+              "members": 1144,
+              "skipped_insufficient": 0,
+              "candidate_slots": 9152,
+              "excluded_candidates": 21,
+              "cqi_zero_candidates": 21,
+              "real_zero_mi_members": 0
+            },
+            {
+              "draws": 286,
+              "groups": 286,
+              "members": 1144,
+              "skipped_insufficient": 0,
+              "candidate_slots": 9152,
+              "excluded_candidates": 70,
+              "cqi_zero_candidates": 70,
+              "real_zero_mi_members": 0
+            },
+            {
+              "draws": 286,
+              "groups": 286,
+              "members": 1144,
+              "skipped_insufficient": 0,
+              "candidate_slots": 9152,
+              "excluded_candidates": 391,
+              "cqi_zero_candidates": 391,
+              "real_zero_mi_members": 0
+            },
+            {
+              "draws": 286,
+              "groups": 286,
+              "members": 1144,
+              "skipped_insufficient": 0,
+              "candidate_slots": 9152,
+              "excluded_candidates": 176,
+              "cqi_zero_candidates": 176,
+              "real_zero_mi_members": 0
+            },
+            {
+              "draws": 286,
+              "groups": 286,
+              "members": 1144,
+              "skipped_insufficient": 0,
+              "candidate_slots": 9152,
+              "excluded_candidates": 1038,
+              "cqi_zero_candidates": 1038,
+              "real_zero_mi_members": 0
+            },
+            {
+              "draws": 286,
+              "groups": 286,
+              "members": 1144,
+              "skipped_insufficient": 0,
+              "candidate_slots": 9152,
+              "excluded_candidates": 247,
+              "cqi_zero_candidates": 247,
+              "real_zero_mi_members": 0
+            },
+            {
+              "draws": 286,
+              "groups": 286,
+              "members": 1144,
+              "skipped_insufficient": 0,
+              "candidate_slots": 9152,
+              "excluded_candidates": 1311,
+              "cqi_zero_candidates": 1311,
+              "real_zero_mi_members": 0
+            },
+            {
+              "draws": 286,
+              "groups": 286,
+              "members": 1144,
+              "skipped_insufficient": 0,
+              "candidate_slots": 9152,
+              "excluded_candidates": 772,
+              "cqi_zero_candidates": 772,
+              "real_zero_mi_members": 0
+            },
+            {
+              "draws": 286,
+              "groups": 286,
+              "members": 1144,
+              "skipped_insufficient": 0,
+              "candidate_slots": 9152,
+              "excluded_candidates": 991,
+              "cqi_zero_candidates": 991,
+              "real_zero_mi_members": 0
+            },
+            {
+              "draws": 286,
+              "groups": 286,
+              "members": 1144,
+              "skipped_insufficient": 0,
+              "candidate_slots": 9152,
+              "excluded_candidates": 803,
+              "cqi_zero_candidates": 803,
+              "real_zero_mi_members": 0
+            },
+            {
+              "draws": 286,
+              "groups": 286,
+              "members": 1144,
+              "skipped_insufficient": 0,
+              "candidate_slots": 9152,
+              "excluded_candidates": 128,
+              "cqi_zero_candidates": 128,
+              "real_zero_mi_members": 0
+            },
+            {
+              "draws": 286,
+              "groups": 286,
+              "members": 1144,
+              "skipped_insufficient": 0,
+              "candidate_slots": 9152,
+              "excluded_candidates": 532,
+              "cqi_zero_candidates": 532,
+              "real_zero_mi_members": 0
+            },
+            {
+              "draws": 286,
+              "groups": 286,
+              "members": 1144,
+              "skipped_insufficient": 0,
+              "candidate_slots": 9152,
+              "excluded_candidates": 933,
+              "cqi_zero_candidates": 933,
+              "real_zero_mi_members": 0
+            },
+            {
+              "draws": 286,
+              "groups": 286,
+              "members": 1144,
+              "skipped_insufficient": 0,
+              "candidate_slots": 9152,
+              "excluded_candidates": 79,
+              "cqi_zero_candidates": 79,
+              "real_zero_mi_members": 0
+            },
+            {
+              "draws": 286,
+              "groups": 286,
+              "members": 1144,
+              "skipped_insufficient": 0,
+              "candidate_slots": 9152,
+              "excluded_candidates": 867,
+              "cqi_zero_candidates": 867,
+              "real_zero_mi_members": 0
+            },
+            {
+              "draws": 286,
+              "groups": 286,
+              "members": 1144,
+              "skipped_insufficient": 0,
+              "candidate_slots": 9152,
+              "excluded_candidates": 308,
+              "cqi_zero_candidates": 308,
+              "real_zero_mi_members": 0
+            },
+            {
+              "draws": 286,
+              "groups": 286,
+              "members": 1144,
+              "skipped_insufficient": 0,
+              "candidate_slots": 9152,
+              "excluded_candidates": 492,
+              "cqi_zero_candidates": 492,
+              "real_zero_mi_members": 0
+            },
+            {
+              "draws": 286,
+              "groups": 286,
+              "members": 1144,
+              "skipped_insufficient": 0,
+              "candidate_slots": 9152,
+              "excluded_candidates": 211,
+              "cqi_zero_candidates": 211,
+              "real_zero_mi_members": 0
+            },
+            {
+              "draws": 286,
+              "groups": 286,
+              "members": 1144,
+              "skipped_insufficient": 0,
+              "candidate_slots": 9152,
+              "excluded_candidates": 1277,
+              "cqi_zero_candidates": 1277,
+              "real_zero_mi_members": 0
+            }
+          ]
+        }
+      },
+      "holdout": {
+        "start": 70000,
+        "episodes": 12,
+        "sampler_seed": 20250713,
+        "slots": 1000,
+        "beta_rounded": [
+          1.0162,
+          0.8509,
+          0.7732,
+          0.728
+        ],
+        "membership": {
+          "1": {
+            "member_count": 3432,
+            "below_epsilon_members": 0,
+            "minimum_raw_cap": 204.69120000000018,
+            "minimum_scaled_cap": 208.00719744000017,
+            "epsilon": 1.0
+          },
+          "2": {
+            "member_count": 6864,
+            "below_epsilon_members": 0,
+            "minimum_raw_cap": 24.83146334764119,
+            "minimum_scaled_cap": 21.129092162507888,
+            "epsilon": 1.0
+          },
+          "3": {
+            "member_count": 10296,
+            "below_epsilon_members": 0,
+            "minimum_raw_cap": 15.130924034278772,
+            "minimum_scaled_cap": 11.699230463304346,
+            "epsilon": 1.0
+          },
+          "4": {
+            "member_count": 13728,
+            "below_epsilon_members": 0,
+            "minimum_raw_cap": 8.418378779521934,
+            "minimum_scaled_cap": 6.1285797514919675,
+            "epsilon": 1.0
+          }
+        },
+        "diagnostics": {
+          "1": [
+            {
+              "draws": 286,
+              "groups": 286,
+              "members": 286,
+              "skipped_insufficient": 0,
+              "candidate_slots": 9152,
+              "excluded_candidates": 1035,
+              "cqi_zero_candidates": 1035,
+              "real_zero_mi_members": 0
+            },
+            {
+              "draws": 286,
+              "groups": 286,
+              "members": 286,
+              "skipped_insufficient": 0,
+              "candidate_slots": 9152,
+              "excluded_candidates": 1726,
+              "cqi_zero_candidates": 1726,
+              "real_zero_mi_members": 0
+            },
+            {
+              "draws": 286,
+              "groups": 286,
+              "members": 286,
+              "skipped_insufficient": 0,
+              "candidate_slots": 9152,
+              "excluded_candidates": 889,
+              "cqi_zero_candidates": 889,
+              "real_zero_mi_members": 0
+            },
+            {
+              "draws": 286,
+              "groups": 286,
+              "members": 286,
+              "skipped_insufficient": 0,
+              "candidate_slots": 9152,
+              "excluded_candidates": 1585,
+              "cqi_zero_candidates": 1585,
+              "real_zero_mi_members": 0
+            },
+            {
+              "draws": 286,
+              "groups": 286,
+              "members": 286,
+              "skipped_insufficient": 0,
+              "candidate_slots": 9152,
+              "excluded_candidates": 34,
+              "cqi_zero_candidates": 34,
+              "real_zero_mi_members": 0
+            },
+            {
+              "draws": 286,
+              "groups": 286,
+              "members": 286,
+              "skipped_insufficient": 0,
+              "candidate_slots": 9152,
+              "excluded_candidates": 741,
+              "cqi_zero_candidates": 741,
+              "real_zero_mi_members": 0
+            },
+            {
+              "draws": 286,
+              "groups": 286,
+              "members": 286,
+              "skipped_insufficient": 0,
+              "candidate_slots": 9152,
+              "excluded_candidates": 415,
+              "cqi_zero_candidates": 415,
+              "real_zero_mi_members": 0
+            },
+            {
+              "draws": 286,
+              "groups": 286,
+              "members": 286,
+              "skipped_insufficient": 0,
+              "candidate_slots": 9152,
+              "excluded_candidates": 1581,
+              "cqi_zero_candidates": 1581,
+              "real_zero_mi_members": 0
+            },
+            {
+              "draws": 286,
+              "groups": 286,
+              "members": 286,
+              "skipped_insufficient": 0,
+              "candidate_slots": 9152,
+              "excluded_candidates": 1371,
+              "cqi_zero_candidates": 1371,
+              "real_zero_mi_members": 0
+            },
+            {
+              "draws": 286,
+              "groups": 286,
+              "members": 286,
+              "skipped_insufficient": 0,
+              "candidate_slots": 9152,
+              "excluded_candidates": 35,
+              "cqi_zero_candidates": 35,
+              "real_zero_mi_members": 0
+            },
+            {
+              "draws": 286,
+              "groups": 286,
+              "members": 286,
+              "skipped_insufficient": 0,
+              "candidate_slots": 9152,
+              "excluded_candidates": 145,
+              "cqi_zero_candidates": 145,
+              "real_zero_mi_members": 0
+            },
+            {
+              "draws": 286,
+              "groups": 286,
+              "members": 286,
+              "skipped_insufficient": 0,
+              "candidate_slots": 9152,
+              "excluded_candidates": 16,
+              "cqi_zero_candidates": 16,
+              "real_zero_mi_members": 0
+            }
+          ],
+          "2": [
+            {
+              "draws": 286,
+              "groups": 286,
+              "members": 572,
+              "skipped_insufficient": 0,
+              "candidate_slots": 9152,
+              "excluded_candidates": 1043,
+              "cqi_zero_candidates": 1043,
+              "real_zero_mi_members": 0
+            },
+            {
+              "draws": 286,
+              "groups": 286,
+              "members": 572,
+              "skipped_insufficient": 0,
+              "candidate_slots": 9152,
+              "excluded_candidates": 1707,
+              "cqi_zero_candidates": 1707,
+              "real_zero_mi_members": 0
+            },
+            {
+              "draws": 286,
+              "groups": 286,
+              "members": 572,
+              "skipped_insufficient": 0,
+              "candidate_slots": 9152,
+              "excluded_candidates": 888,
+              "cqi_zero_candidates": 888,
+              "real_zero_mi_members": 0
+            },
+            {
+              "draws": 286,
+              "groups": 286,
+              "members": 572,
+              "skipped_insufficient": 0,
+              "candidate_slots": 9152,
+              "excluded_candidates": 1569,
+              "cqi_zero_candidates": 1569,
+              "real_zero_mi_members": 0
+            },
+            {
+              "draws": 286,
+              "groups": 286,
+              "members": 572,
+              "skipped_insufficient": 0,
+              "candidate_slots": 9152,
+              "excluded_candidates": 26,
+              "cqi_zero_candidates": 26,
+              "real_zero_mi_members": 0
+            },
+            {
+              "draws": 286,
+              "groups": 286,
+              "members": 572,
+              "skipped_insufficient": 0,
+              "candidate_slots": 9152,
+              "excluded_candidates": 736,
+              "cqi_zero_candidates": 736,
+              "real_zero_mi_members": 0
+            },
+            {
+              "draws": 286,
+              "groups": 286,
+              "members": 572,
+              "skipped_insufficient": 0,
+              "candidate_slots": 9152,
+              "excluded_candidates": 419,
+              "cqi_zero_candidates": 419,
+              "real_zero_mi_members": 0
+            },
+            {
+              "draws": 286,
+              "groups": 286,
+              "members": 572,
+              "skipped_insufficient": 0,
+              "candidate_slots": 9152,
+              "excluded_candidates": 1573,
+              "cqi_zero_candidates": 1573,
+              "real_zero_mi_members": 0
+            },
+            {
+              "draws": 286,
+              "groups": 286,
+              "members": 572,
+              "skipped_insufficient": 0,
+              "candidate_slots": 9152,
+              "excluded_candidates": 1370,
+              "cqi_zero_candidates": 1370,
+              "real_zero_mi_members": 0
+            },
+            {
+              "draws": 286,
+              "groups": 286,
+              "members": 572,
+              "skipped_insufficient": 0,
+              "candidate_slots": 9152,
+              "excluded_candidates": 39,
+              "cqi_zero_candidates": 39,
+              "real_zero_mi_members": 0
+            },
+            {
+              "draws": 286,
+              "groups": 286,
+              "members": 572,
+              "skipped_insufficient": 0,
+              "candidate_slots": 9152,
+              "excluded_candidates": 142,
+              "cqi_zero_candidates": 142,
+              "real_zero_mi_members": 0
+            },
+            {
+              "draws": 286,
+              "groups": 286,
+              "members": 572,
+              "skipped_insufficient": 0,
+              "candidate_slots": 9152,
+              "excluded_candidates": 17,
+              "cqi_zero_candidates": 17,
+              "real_zero_mi_members": 0
+            }
+          ],
+          "3": [
+            {
+              "draws": 286,
+              "groups": 286,
+              "members": 858,
+              "skipped_insufficient": 0,
+              "candidate_slots": 9152,
+              "excluded_candidates": 1032,
+              "cqi_zero_candidates": 1032,
+              "real_zero_mi_members": 0
+            },
+            {
+              "draws": 286,
+              "groups": 286,
+              "members": 858,
+              "skipped_insufficient": 0,
+              "candidate_slots": 9152,
+              "excluded_candidates": 1732,
+              "cqi_zero_candidates": 1732,
+              "real_zero_mi_members": 0
+            },
+            {
+              "draws": 286,
+              "groups": 286,
+              "members": 858,
+              "skipped_insufficient": 0,
+              "candidate_slots": 9152,
+              "excluded_candidates": 882,
+              "cqi_zero_candidates": 882,
+              "real_zero_mi_members": 0
+            },
+            {
+              "draws": 286,
+              "groups": 286,
+              "members": 858,
+              "skipped_insufficient": 0,
+              "candidate_slots": 9152,
+              "excluded_candidates": 1580,
+              "cqi_zero_candidates": 1580,
+              "real_zero_mi_members": 0
+            },
+            {
+              "draws": 286,
+              "groups": 286,
+              "members": 858,
+              "skipped_insufficient": 0,
+              "candidate_slots": 9152,
+              "excluded_candidates": 31,
+              "cqi_zero_candidates": 31,
+              "real_zero_mi_members": 0
+            },
+            {
+              "draws": 286,
+              "groups": 286,
+              "members": 858,
+              "skipped_insufficient": 0,
+              "candidate_slots": 9152,
+              "excluded_candidates": 760,
+              "cqi_zero_candidates": 760,
+              "real_zero_mi_members": 0
+            },
+            {
+              "draws": 286,
+              "groups": 286,
+              "members": 858,
+              "skipped_insufficient": 0,
+              "candidate_slots": 9152,
+              "excluded_candidates": 413,
+              "cqi_zero_candidates": 413,
+              "real_zero_mi_members": 0
+            },
+            {
+              "draws": 286,
+              "groups": 286,
+              "members": 858,
+              "skipped_insufficient": 0,
+              "candidate_slots": 9152,
+              "excluded_candidates": 1591,
+              "cqi_zero_candidates": 1591,
+              "real_zero_mi_members": 0
+            },
+            {
+              "draws": 286,
+              "groups": 286,
+              "members": 858,
+              "skipped_insufficient": 0,
+              "candidate_slots": 9152,
+              "excluded_candidates": 1368,
+              "cqi_zero_candidates": 1368,
+              "real_zero_mi_members": 0
+            },
+            {
+              "draws": 286,
+              "groups": 286,
+              "members": 858,
+              "skipped_insufficient": 0,
+              "candidate_slots": 9152,
+              "excluded_candidates": 44,
+              "cqi_zero_candidates": 44,
+              "real_zero_mi_members": 0
+            },
+            {
+              "draws": 286,
+              "groups": 286,
+              "members": 858,
+              "skipped_insufficient": 0,
+              "candidate_slots": 9152,
+              "excluded_candidates": 141,
+              "cqi_zero_candidates": 141,
+              "real_zero_mi_members": 0
+            },
+            {
+              "draws": 286,
+              "groups": 286,
+              "members": 858,
+              "skipped_insufficient": 0,
+              "candidate_slots": 9152,
+              "excluded_candidates": 22,
+              "cqi_zero_candidates": 22,
+              "real_zero_mi_members": 0
+            }
+          ],
+          "4": [
+            {
+              "draws": 286,
+              "groups": 286,
+              "members": 1144,
+              "skipped_insufficient": 0,
+              "candidate_slots": 9152,
+              "excluded_candidates": 1031,
+              "cqi_zero_candidates": 1031,
+              "real_zero_mi_members": 0
+            },
+            {
+              "draws": 286,
+              "groups": 286,
+              "members": 1144,
+              "skipped_insufficient": 0,
+              "candidate_slots": 9152,
+              "excluded_candidates": 1719,
+              "cqi_zero_candidates": 1719,
+              "real_zero_mi_members": 0
+            },
+            {
+              "draws": 286,
+              "groups": 286,
+              "members": 1144,
+              "skipped_insufficient": 0,
+              "candidate_slots": 9152,
+              "excluded_candidates": 880,
+              "cqi_zero_candidates": 880,
+              "real_zero_mi_members": 0
+            },
+            {
+              "draws": 286,
+              "groups": 286,
+              "members": 1144,
+              "skipped_insufficient": 0,
+              "candidate_slots": 9152,
+              "excluded_candidates": 1587,
+              "cqi_zero_candidates": 1587,
+              "real_zero_mi_members": 0
+            },
+            {
+              "draws": 286,
+              "groups": 286,
+              "members": 1144,
+              "skipped_insufficient": 0,
+              "candidate_slots": 9152,
+              "excluded_candidates": 33,
+              "cqi_zero_candidates": 33,
+              "real_zero_mi_members": 0
+            },
+            {
+              "draws": 286,
+              "groups": 286,
+              "members": 1144,
+              "skipped_insufficient": 0,
+              "candidate_slots": 9152,
+              "excluded_candidates": 753,
+              "cqi_zero_candidates": 753,
+              "real_zero_mi_members": 0
+            },
+            {
+              "draws": 286,
+              "groups": 286,
+              "members": 1144,
+              "skipped_insufficient": 0,
+              "candidate_slots": 9152,
+              "excluded_candidates": 388,
+              "cqi_zero_candidates": 388,
+              "real_zero_mi_members": 0
+            },
+            {
+              "draws": 286,
+              "groups": 286,
+              "members": 1144,
+              "skipped_insufficient": 0,
+              "candidate_slots": 9152,
+              "excluded_candidates": 1598,
+              "cqi_zero_candidates": 1598,
+              "real_zero_mi_members": 0
+            },
+            {
+              "draws": 286,
+              "groups": 286,
+              "members": 1144,
+              "skipped_insufficient": 0,
+              "candidate_slots": 9152,
+              "excluded_candidates": 1356,
+              "cqi_zero_candidates": 1356,
+              "real_zero_mi_members": 0
+            },
+            {
+              "draws": 286,
+              "groups": 286,
+              "members": 1144,
+              "skipped_insufficient": 0,
+              "candidate_slots": 9152,
+              "excluded_candidates": 41,
+              "cqi_zero_candidates": 41,
+              "real_zero_mi_members": 0
+            },
+            {
+              "draws": 286,
+              "groups": 286,
+              "members": 1144,
+              "skipped_insufficient": 0,
+              "candidate_slots": 9152,
+              "excluded_candidates": 160,
+              "cqi_zero_candidates": 160,
+              "real_zero_mi_members": 0
+            },
+            {
+              "draws": 286,
+              "groups": 286,
+              "members": 1144,
+              "skipped_insufficient": 0,
+              "candidate_slots": 9152,
+              "excluded_candidates": 23,
+              "cqi_zero_candidates": 23,
+              "real_zero_mi_members": 0
+            }
+          ]
+        },
+        "by_depth": {
+          "1": {
+            "first_ack": 0.9000582750582751,
+            "episode_cluster_ci95": [
+              0.8892773892773893,
+              0.909965034965035
+            ],
+            "member_count": 3432,
+            "acks": 3089,
+            "episode_member_counts": [
+              286,
+              286,
+              286,
+              286,
+              286,
+              286,
+              286,
+              286,
+              286,
+              286,
+              286,
+              286
+            ],
+            "episode_ack_counts": [
+              263,
+              251,
+              253,
+              256,
+              262,
+              265,
+              261,
+              260,
+              260,
+              252,
+              258,
+              248
+            ],
+            "zero_member_episodes": 0,
+            "bootstrap_undefined_fraction": 0.0,
+            "ack_tolerance_bits": 1e-06,
+            "strict_ratio_first_ack": 0.9000582750582751
+          },
+          "2": {
+            "first_ack": 0.9277389277389277,
+            "episode_cluster_ci95": [
+              0.9166666666666666,
+              0.9392482517482518
+            ],
+            "member_count": 6864,
+            "acks": 6368,
+            "episode_member_counts": [
+              572,
+              572,
+              572,
+              572,
+              572,
+              572,
+              572,
+              572,
+              572,
+              572,
+              572,
+              572
+            ],
+            "episode_ack_counts": [
+              539,
+              551,
+              540,
+              526,
+              542,
+              523,
+              522,
+              542,
+              525,
+              524,
+              509,
+              525
+            ],
+            "zero_member_episodes": 0,
+            "bootstrap_undefined_fraction": 0.0,
+            "ack_tolerance_bits": 1e-06,
+            "strict_ratio_first_ack": 0.9277389277389277
+          },
+          "3": {
+            "first_ack": 0.932012432012432,
+            "episode_cluster_ci95": [
+              0.9221056721056721,
+              0.9417249417249417
+            ],
+            "member_count": 10296,
+            "acks": 9596,
+            "episode_member_counts": [
+              858,
+              858,
+              858,
+              858,
+              858,
+              858,
+              858,
+              858,
+              858,
+              858,
+              858,
+              858
+            ],
+            "episode_ack_counts": [
+              819,
+              817,
+              819,
+              792,
+              807,
+              789,
+              803,
+              803,
+              809,
+              786,
+              779,
+              773
+            ],
+            "zero_member_episodes": 0,
+            "bootstrap_undefined_fraction": 0.0,
+            "ack_tolerance_bits": 1e-06,
+            "strict_ratio_first_ack": 0.932012432012432
+          },
+          "4": {
+            "first_ack": 0.93254662004662,
+            "episode_cluster_ci95": [
+              0.9208916083916084,
+              0.9444201631701632
+            ],
+            "member_count": 13728,
+            "acks": 12802,
+            "episode_member_counts": [
+              1144,
+              1144,
+              1144,
+              1144,
+              1144,
+              1144,
+              1144,
+              1144,
+              1144,
+              1144,
+              1144,
+              1144
+            ],
+            "episode_ack_counts": [
+              1096,
+              1107,
+              1087,
+              1067,
+              1076,
+              1050,
+              1076,
+              1057,
+              1081,
+              1033,
+              1031,
+              1041
+            ],
+            "zero_member_episodes": 0,
+            "bootstrap_undefined_fraction": 0.0,
+            "ack_tolerance_bits": 1e-06,
+            "strict_ratio_first_ack": 0.93254662004662
+          }
+        }
+      },
+      "beta_raw": [
+        1.0162281097433123,
+        0.850860841514678,
+        0.773227004455956,
+        0.7280035717320891
+      ],
+      "beta_rounded": [
+        1.0162,
+        0.8509,
+        0.7732,
+        0.728
+      ],
+      "membership_verified_calibration": true,
+      "old_beta_on_same_holdout": {
+        "1": {
+          "beta": 1.0018,
+          "first_ack": 0.9548368298368298
+        },
+        "2": {
+          "beta": 0.7499,
+          "first_ack": 0.9637237762237763
+        },
+        "3": {
+          "beta": 0.6592,
+          "first_ack": 0.9655205905205905
+        },
+        "4": {
+          "beta": 0.6058,
+          "first_ack": 0.965472027972028
+        }
+      },
+      "membership_verified_holdout": true,
+      "calibration_fit_sha256": "c9f5b00b41914f91b9ca12c6e151e358e8330f24f13883e9b68316f8771ea8dd",
+      "samples_sha256": {
+        "calibration_samples.npz": "6847401ef45003723d1345ce06cea9c68ee042379701323880a03aec0ae0f966",
+        "holdout_samples.npz": "66a6031d34481b2e63300698be653f139f4b065d3b5b23cdb5c7277ba6770eab"
+      },
+      "completed_at": "2026-09-09T02:04:57.719919+00:00"
+    }
+  },
+  "calibration_reference_root": "provenance/before_ftp3_sources",
+  "calibration_application": "Bernoulli Base-calibrated beta transferred to FTP3 traffic; no FTP3 holdout validation"
+}
+2026-09-10 02:47:12.479455: E external/local_xla/xla/stream_executor/cuda/cuda_dnn.cc:9261] Unable to register cuDNN factory: Attempting to register factory for plugin cuDNN when one has already been registered
+2026-09-10 02:47:12.479504: E external/local_xla/xla/stream_executor/cuda/cuda_fft.cc:607] Unable to register cuFFT factory: Attempting to register factory for plugin cuFFT when one has already been registered
+2026-09-10 02:47:12.481032: E external/local_xla/xla/stream_executor/cuda/cuda_blas.cc:1515] Unable to register cuBLAS factory: Attempting to register factory for plugin cuBLAS when one has already been registered
+git: sha256:c1634  (clean py)
+=== ML DRL Scheduler -- Config ===
+  cell        : 1 BS (32 ant) x 32 UE (1 ant), DL
+  resource    : 8 RBG x 4 layers = 32 positions
+  RE per RBG  : 1344
+  bandwidth   : RBG 2.88 MHz, total 23.04 MHz
+  slot        : 0.500 ms
+  channel     : TR38.901 UMI, UE speed 3.0 km/h
+  codebook    : type2_sparse_56bit, L=4, atoms=512, payload=56 bit/(UE,RBG)
+  feedback    : p_csi=0.6, cqi=nr4bit
+  traffic     : ftp3, mean_arrivals_per_ue_slot=0.22, size U[4000,12000] bits, deadline U[3,12] slots
+  power/noise : P_total=8.0, P_r=1.0, target SNR 10.0 dB (calibration)
+  retx        : max_retx=4 (5 attempts total)
+  reward      : lambda_s/c/m=1.0/1.0/2.0, eta_D=1.0, B_norm=8000.0
+  episode     : 1000 slots
+
+run_dir: /home/MYH/ML_DRL_Scheduler/PaperMain/runs/18_base_cqi4_ftp3_lr1000_s2024_20260910_gpu4
+num_updates: 1000
+device: cuda
+actor-critic params: 98,755
+
+lr anneal: 0.0003 -> 0.0 over 1000 updates from global update 0 (linear, resume-safe)
+    [batch-verify] update 0: 4 slots, max scaled |diff| 7.63e-06 OK
+[   0/1000] rew= 2876.8  thr=73.35Mbps  comp=0.554  drop=0.000  SINR= 18.1dB  KL= 0.0018  ent=2.429  clip=0.008  ev=-0.00  t=64s
+[   5/1000] rew= 4354.4  thr=63.33Mbps  comp=0.646  drop=0.001  SINR=  8.8dB  KL= 0.0037  ent=2.053  clip=0.030  ev=+0.00  t=340s
+  --- eval at update 9 ---
+    PPO           reward  4932.51  thrpt  86.00Mbps  comp 0.625  totfail 0.372  depth 3.92  eval_s=123.5
+    SUS+CQI       reward  5202.40  thrpt  88.67Mbps  comp 0.628  totfail 0.369  depth 3.96  eval_s=11.3
+    SUS+Deadline-PF  reward  3504.29  thrpt  82.95Mbps  comp 0.573  totfail 0.424  depth 3.99  eval_s=12.0
+    SUS+PF        reward  3482.69  thrpt  83.54Mbps  comp 0.573  totfail 0.424  depth 3.99  eval_s=11.6
+    SUS+Random    reward  2573.55  thrpt  80.16Mbps  comp 0.540  totfail 0.456  depth 3.99  eval_s=12.7
+    SUS+MW        reward  4894.14  thrpt  88.60Mbps  comp 0.613  totfail 0.383  depth 3.98  eval_s=11.5
+    SUS+EDF       reward  -344.54  thrpt  67.34Mbps  comp 0.438  totfail 0.555  depth 4.00  eval_s=12.3
+    SU+CQI        reward  1986.31  thrpt  74.31Mbps  comp 0.538  totfail 0.458  depth 1.00  eval_s=7.4
+    SU+Deadline-PF  reward -1811.23  thrpt  59.28Mbps  comp 0.409  totfail 0.586  depth 1.00  eval_s=7.7
+    SU+PF         reward -2110.68  thrpt  61.32Mbps  comp 0.411  totfail 0.585  depth 1.00  eval_s=7.5
+    SU+Random     reward -4756.86  thrpt  53.57Mbps  comp 0.323  totfail 0.672  depth 1.00  eval_s=7.9
+    SU+MW         reward  1141.39  thrpt  72.53Mbps  comp 0.502  totfail 0.494  depth 1.00  eval_s=7.6
+    SU+EDF        reward -8788.24  thrpt  32.74Mbps  comp 0.212  totfail 0.781  depth 1.00  eval_s=7.8
+  [eval-time] update 9: 240.6s total
+  >>> new best eval reward 4932.51, saved best.pt
+[  10/1000] rew= 4235.6  thr=62.93Mbps  comp=0.644  drop=0.001  SINR=  9.7dB  KL= 0.0076  ent=2.030  clip=0.107  ev=+0.00  t=857s
+[  15/1000] rew= 1854.5  thr=71.68Mbps  comp=0.517  drop=0.001  SINR=  8.1dB  KL= 0.0052  ent=2.471  clip=0.067  ev=-0.01  t=1128s
+  --- eval at update 19 ---
+    PPO           reward  4948.52  thrpt  86.39Mbps  comp 0.624  totfail 0.373  depth 3.98  eval_s=108.7
+  [eval-time] update 19: 108.7s total
+  >>> new best eval reward 4948.52, saved best.pt
+[  20/1000] rew= 2479.2  thr=31.35Mbps  comp=0.694  drop=0.007  SINR=  8.2dB  KL= 0.0018  ent=0.707  clip=0.018  ev=+0.05  t=1509s
+    [batch-verify] update 25: 4 slots, max scaled |diff| 1.53e-05 OK
+[  25/1000] rew= 1066.1  thr=80.55Mbps  comp=0.486  drop=0.000  SINR=  8.9dB  KL= 0.0077  ent=2.793  clip=0.109  ev=-0.03  t=1784s
+  --- eval at update 29 ---
+    PPO           reward  4930.49  thrpt  86.32Mbps  comp 0.624  totfail 0.373  depth 3.97  eval_s=109.6
+  [eval-time] update 29: 109.6s total
+[  30/1000] rew= 2017.2  thr=97.29Mbps  comp=0.506  drop=0.000  SINR= 16.5dB  KL= 0.0089  ent=2.638  clip=0.127  ev=+0.06  t=2178s
+[  35/1000] rew= 6742.8  thr=68.80Mbps  comp=0.772  drop=0.000  SINR= 11.2dB  KL= 0.0048  ent=1.852  clip=0.055  ev=+0.06  t=2464s
+  --- eval at update 39 ---
+    PPO           reward  4958.82  thrpt  86.17Mbps  comp 0.625  totfail 0.372  depth 3.99  eval_s=109.1
+  [eval-time] update 39: 109.1s total
+  >>> new best eval reward 4958.82, saved best.pt
+[  40/1000] rew=-1206.3  thr=81.36Mbps  comp=0.435  drop=0.000  SINR= 13.6dB  KL= 0.0119  ent=2.599  clip=0.171  ev=+0.04  t=2860s
+    [kl-stop] update 43: minibatch KL 0.0346 > 0.0300 (epoch 4/4) -- actor frozen, value-only for remaining passes
+[  45/1000] rew= 4772.5  thr=57.21Mbps  comp=0.710  drop=0.000  SINR= 13.0dB  KL= 0.0081  ent=1.938  clip=0.106  ev=+0.05  t=3147s
+  --- eval at update 49 ---
+    PPO           reward  4910.78  thrpt  86.18Mbps  comp 0.623  totfail 0.374  depth 4.00  eval_s=109.7
+  [eval-time] update 49: 109.7s total
+    [batch-verify] update 50: 4 slots, max scaled |diff| 7.63e-06 OK
+[  50/1000] rew=-2393.6  thr=105.77Mbps  comp=0.418  drop=0.000  SINR= 15.2dB  KL= 0.0090  ent=2.896  clip=0.132  ev=+0.15  t=3539s
+[  55/1000] rew= 1638.8  thr=54.06Mbps  comp=0.540  drop=0.002  SINR=  9.7dB  KL= 0.0080  ent=1.355  clip=0.113  ev=+0.06  t=3820s
+    [kl-stop] update 58: minibatch KL 0.0303 > 0.0300 (epoch 3/4) -- actor frozen, value-only for remaining passes
+  --- eval at update 59 ---
+    PPO           reward  4833.46  thrpt  85.72Mbps  comp 0.621  totfail 0.375  depth 4.00  eval_s=107.7
+  [eval-time] update 59: 107.7s total
+[  60/1000] rew= 1957.9  thr=54.28Mbps  comp=0.551  drop=0.001  SINR=  6.0dB  KL= 0.0057  ent=1.781  clip=0.075  ev=+0.09  t=4211s
+    [kl-stop] update 62: minibatch KL 0.0310 > 0.0300 (epoch 2/4) -- actor frozen, value-only for remaining passes
+    [kl-stop] update 63: minibatch KL 0.0345 > 0.0300 (epoch 3/4) -- actor frozen, value-only for remaining passes
+[  65/1000] rew= 2205.8  thr=101.85Mbps  comp=0.513  drop=0.000  SINR= 11.9dB  KL= 0.0114  ent=2.715  clip=0.175  ev=+0.08  t=4496s
+    [kl-stop] update 68: minibatch KL 0.0327 > 0.0300 (epoch 4/4) -- actor frozen, value-only for remaining passes
+  --- eval at update 69 ---
+    PPO           reward  4804.83  thrpt  85.71Mbps  comp 0.620  totfail 0.377  depth 3.97  eval_s=113.3
+  [eval-time] update 69: 113.3s total
+[  70/1000] rew= 3202.8  thr=63.10Mbps  comp=0.586  drop=0.000  SINR=  8.7dB  KL= 0.0100  ent=2.217  clip=0.138  ev=+0.18  t=4905s
+    [batch-verify] update 75: 4 slots, max scaled |diff| 7.63e-06 OK
+    [kl-stop] update 75: minibatch KL 0.0310 > 0.0300 (epoch 2/4) -- actor frozen, value-only for remaining passes
+[  75/1000] rew= 6103.7  thr=52.29Mbps  comp=0.878  drop=0.000  SINR= 11.6dB  KL= 0.0244  ent=1.096  clip=0.313  ev=+0.02  t=5181s
+    [kl-stop] update 76: minibatch KL 0.0301 > 0.0300 (epoch 4/4) -- actor frozen, value-only for remaining passes
+    [kl-stop] update 78: minibatch KL 0.0323 > 0.0300 (epoch 4/4) -- actor frozen, value-only for remaining passes
+  --- eval at update 79 ---
+    PPO           reward  4813.03  thrpt  85.67Mbps  comp 0.620  totfail 0.377  depth 3.87  eval_s=111.9
+  [eval-time] update 79: 111.9s total
+[  80/1000] rew= 4373.2  thr=59.12Mbps  comp=0.668  drop=0.000  SINR= 13.7dB  KL= 0.0097  ent=2.119  clip=0.135  ev=+0.14  t=5580s
+    [kl-stop] update 81: minibatch KL 0.0348 > 0.0300 (epoch 2/4) -- actor frozen, value-only for remaining passes
+    [kl-stop] update 84: minibatch KL 0.0332 > 0.0300 (epoch 4/4) -- actor frozen, value-only for remaining passes
+[  85/1000] rew= 3574.3  thr=48.32Mbps  comp=0.672  drop=0.002  SINR= 10.7dB  KL= 0.0111  ent=1.599  clip=0.163  ev=+0.19  t=5861s
+  --- eval at update 89 ---
+    PPO           reward  4855.36  thrpt  85.37Mbps  comp 0.622  totfail 0.375  depth 3.62  eval_s=106.3
+  [eval-time] update 89: 106.3s total
+[  90/1000] rew= 2518.1  thr=78.22Mbps  comp=0.538  drop=0.000  SINR= 14.4dB  KL= 0.0059  ent=2.156  clip=0.078  ev=+0.10  t=6255s
+[  95/1000] rew= 5925.7  thr=64.45Mbps  comp=0.746  drop=0.000  SINR=  9.4dB  KL= 0.0051  ent=1.616  clip=0.066  ev=+0.05  t=6537s
+  --- eval at update 99 ---
+    PPO           reward  4808.64  thrpt  85.67Mbps  comp 0.620  totfail 0.377  depth 3.87  eval_s=107.3
+  [eval-time] update 99: 107.3s total
+    [batch-verify] update 100: 4 slots, max scaled |diff| 7.63e-06 OK
+[ 100/1000] rew= 1459.2  thr=90.81Mbps  comp=0.493  drop=0.000  SINR= 10.9dB  KL= 0.0148  ent=2.622  clip=0.215  ev=+0.19  t=6927s
+    [kl-stop] update 103: minibatch KL 0.0354 > 0.0300 (epoch 4/4) -- actor frozen, value-only for remaining passes
+[ 105/1000] rew= 4980.9  thr=94.57Mbps  comp=0.593  drop=0.000  SINR= 14.3dB  KL= 0.0127  ent=2.499  clip=0.185  ev=+0.08  t=7222s
+    [kl-stop] update 108: minibatch KL 0.0333 > 0.0300 (epoch 2/4) -- actor frozen, value-only for remaining passes
+  --- eval at update 109 ---
+    PPO           reward  4895.23  thrpt  85.45Mbps  comp 0.624  totfail 0.373  depth 3.57  eval_s=107.6
+  [eval-time] update 109: 107.6s total
+[ 110/1000] rew= 5233.1  thr=52.48Mbps  comp=0.787  drop=0.000  SINR= 14.2dB  KL= 0.0047  ent=0.940  clip=0.056  ev=-0.09  t=7612s
+[ 115/1000] rew= 1446.7  thr=85.88Mbps  comp=0.503  drop=0.000  SINR= 13.5dB  KL= 0.0107  ent=2.178  clip=0.159  ev=+0.14  t=7901s
+    [kl-stop] update 116: minibatch KL 0.0340 > 0.0300 (epoch 4/4) -- actor frozen, value-only for remaining passes
+  --- eval at update 119 ---
+    PPO           reward  4930.27  thrpt  85.82Mbps  comp 0.625  totfail 0.372  depth 3.62  eval_s=110.3
+  [eval-time] update 119: 110.3s total
+    [kl-stop] update 120: minibatch KL 0.0366 > 0.0300 (epoch 3/4) -- actor frozen, value-only for remaining passes
+[ 120/1000] rew= 5100.4  thr=72.08Mbps  comp=0.654  drop=0.000  SINR= 10.7dB  KL= 0.0225  ent=2.099  clip=0.291  ev=+0.17  t=8307s
+    [kl-stop] update 123: minibatch KL 0.0333 > 0.0300 (epoch 3/4) -- actor frozen, value-only for remaining passes
+    [batch-verify] update 125: 4 slots, max scaled |diff| 7.63e-06 OK
+[ 125/1000] rew= 5620.5  thr=67.97Mbps  comp=0.702  drop=0.000  SINR=  9.6dB  KL= 0.0047  ent=1.338  clip=0.053  ev=+0.13  t=8595s
+    [kl-stop] update 126: minibatch KL 0.0426 > 0.0300 (epoch 2/4) -- actor frozen, value-only for remaining passes
+  --- eval at update 129 ---
+    PPO           reward  4908.07  thrpt  85.77Mbps  comp 0.624  totfail 0.373  depth 3.67  eval_s=107.6
+  [eval-time] update 129: 107.6s total
+    [kl-stop] update 130: minibatch KL 0.0320 > 0.0300 (epoch 3/4) -- actor frozen, value-only for remaining passes
+[ 130/1000] rew= 1616.5  thr=71.95Mbps  comp=0.508  drop=0.000  SINR=  6.8dB  KL= 0.0152  ent=2.324  clip=0.207  ev=+0.20  t=8983s
+    [kl-stop] update 133: minibatch KL 0.0354 > 0.0300 (epoch 2/4) -- actor frozen, value-only for remaining passes
+[ 135/1000] rew= 2651.5  thr=57.60Mbps  comp=0.579  drop=0.001  SINR= 12.8dB  KL= 0.0110  ent=1.859  clip=0.156  ev=+0.09  t=9274s
+  --- eval at update 139 ---
+    PPO           reward  5009.31  thrpt  86.09Mbps  comp 0.627  totfail 0.370  depth 3.70  eval_s=106.1
+  [eval-time] update 139: 106.1s total
+  >>> new best eval reward 5009.31, saved best.pt
+[ 140/1000] rew= 2169.2  thr=90.35Mbps  comp=0.515  drop=0.000  SINR= 12.5dB  KL= 0.0129  ent=2.347  clip=0.197  ev=+0.12  t=9667s
+[ 145/1000] rew= 3376.3  thr=34.36Mbps  comp=0.780  drop=0.002  SINR=  8.7dB  KL= 0.0067  ent=0.788  clip=0.086  ev=-0.10  t=9945s
+    [kl-stop] update 147: minibatch KL 0.0344 > 0.0300 (epoch 4/4) -- actor frozen, value-only for remaining passes
+    [kl-stop] update 148: minibatch KL 0.0305 > 0.0300 (epoch 4/4) -- actor frozen, value-only for remaining passes
+  --- eval at update 149 ---
+    PPO           reward  4993.95  thrpt  86.20Mbps  comp 0.626  totfail 0.371  depth 3.69  eval_s=107.1
+  [eval-time] update 149: 107.1s total
+    [batch-verify] update 150: 4 slots, max scaled |diff| 7.63e-06 OK
+[ 150/1000] rew= 5123.8  thr=97.21Mbps  comp=0.599  drop=0.000  SINR= 10.0dB  KL= 0.0109  ent=1.946  clip=0.153  ev=+0.09  t=10342s
+[ 155/1000] rew= 3616.9  thr=34.35Mbps  comp=0.812  drop=0.000  SINR= 10.0dB  KL= 0.0059  ent=0.285  clip=0.080  ev=-0.14  t=10608s
+  --- eval at update 159 ---
+    PPO           reward  4981.62  thrpt  86.18Mbps  comp 0.626  totfail 0.371  depth 3.81  eval_s=109.9
+  [eval-time] update 159: 109.9s total
+[ 160/1000] rew= 3293.7  thr=83.91Mbps  comp=0.559  drop=0.000  SINR= 11.9dB  KL= 0.0109  ent=1.997  clip=0.157  ev=+0.13  t=11002s
+    [kl-stop] update 165: minibatch KL 0.0324 > 0.0300 (epoch 4/4) -- actor frozen, value-only for remaining passes
+[ 165/1000] rew= -299.2  thr=52.90Mbps  comp=0.459  drop=0.001  SINR=  3.7dB  KL= 0.0200  ent=1.799  clip=0.277  ev=+0.11  t=11291s
+    [kl-stop] update 167: minibatch KL 0.0364 > 0.0300 (epoch 3/4) -- actor frozen, value-only for remaining passes
+  --- eval at update 169 ---
+    PPO           reward  4880.76  thrpt  85.97Mbps  comp 0.622  totfail 0.375  depth 3.84  eval_s=110.7
+  [eval-time] update 169: 110.7s total
+[ 170/1000] rew= 5111.6  thr=57.62Mbps  comp=0.732  drop=0.000  SINR= 12.3dB  KL= 0.0063  ent=1.199  clip=0.084  ev=+0.06  t=11677s
+    [batch-verify] update 175: 4 slots, max scaled |diff| 3.81e-06 OK
+[ 175/1000] rew= 4076.4  thr=60.37Mbps  comp=0.647  drop=0.001  SINR= 10.3dB  KL= 0.0101  ent=1.438  clip=0.156  ev=+0.08  t=11969s
+    [kl-stop] update 176: minibatch KL 0.0354 > 0.0300 (epoch 4/4) -- actor frozen, value-only for remaining passes
+    [kl-stop] update 179: minibatch KL 0.0317 > 0.0300 (epoch 4/4) -- actor frozen, value-only for remaining passes
+  --- eval at update 179 ---
+    PPO           reward  4871.50  thrpt  86.05Mbps  comp 0.621  totfail 0.375  depth 3.88  eval_s=109.4
+  [eval-time] update 179: 109.4s total
+[ 180/1000] rew= 5910.4  thr=67.43Mbps  comp=0.723  drop=0.001  SINR=  6.4dB  KL= 0.0100  ent=1.416  clip=0.143  ev=+0.16  t=12368s
+    [kl-stop] update 181: minibatch KL 0.0394 > 0.0300 (epoch 4/4) -- actor frozen, value-only for remaining passes
+    [kl-stop] update 184: minibatch KL 0.0306 > 0.0300 (epoch 3/4) -- actor frozen, value-only for remaining passes
+    [kl-stop] update 185: minibatch KL 0.0307 > 0.0300 (epoch 3/4) -- actor frozen, value-only for remaining passes
+[ 185/1000] rew=  623.6  thr=116.69Mbps  comp=0.482  drop=0.000  SINR= 11.7dB  KL= 0.0202  ent=2.402  clip=0.280  ev=+0.15  t=12658s
+    [kl-stop] update 189: minibatch KL 0.0347 > 0.0300 (epoch 3/4) -- actor frozen, value-only for remaining passes
+  --- eval at update 189 ---
+    PPO           reward  5010.43  thrpt  86.31Mbps  comp 0.626  totfail 0.371  depth 3.69  eval_s=104.1
+  [eval-time] update 189: 104.1s total
+  >>> new best eval reward 5010.43, saved best.pt
+    [kl-stop] update 190: minibatch KL 0.0302 > 0.0300 (epoch 2/4) -- actor frozen, value-only for remaining passes
+[ 190/1000] rew= 5038.9  thr=67.29Mbps  comp=0.673  drop=0.001  SINR= 10.7dB  KL= 0.0196  ent=1.813  clip=0.278  ev=+0.10  t=13043s
+    [kl-stop] update 195: minibatch KL 0.0361 > 0.0300 (epoch 3/4) -- actor frozen, value-only for remaining passes
+[ 195/1000] rew= 7191.4  thr=74.24Mbps  comp=0.768  drop=0.000  SINR=  8.2dB  KL= 0.0162  ent=1.508  clip=0.215  ev=-0.11  t=13319s
+    [kl-stop] update 196: minibatch KL 0.0304 > 0.0300 (epoch 4/4) -- actor frozen, value-only for remaining passes
+    [kl-stop] update 198: minibatch KL 0.0371 > 0.0300 (epoch 3/4) -- actor frozen, value-only for remaining passes
+    [kl-stop] update 199: minibatch KL 0.0328 > 0.0300 (epoch 4/4) -- actor frozen, value-only for remaining passes
+  --- eval at update 199 ---
+    PPO           reward  5118.15  thrpt  86.62Mbps  comp 0.630  totfail 0.367  depth 3.64  eval_s=105.6
+  [eval-time] update 199: 105.6s total
+  >>> new best eval reward 5118.15, saved best.pt
+    [batch-verify] update 200: 4 slots, max scaled |diff| 3.81e-06 OK
+    [kl-stop] update 200: minibatch KL 0.0352 > 0.0300 (epoch 2/4) -- actor frozen, value-only for remaining passes
+[ 200/1000] rew= 5334.3  thr=57.44Mbps  comp=0.748  drop=0.001  SINR= 12.9dB  KL= 0.0252  ent=1.036  clip=0.322  ev=-0.02  t=13706s
+    [kl-stop] update 203: minibatch KL 0.0331 > 0.0300 (epoch 2/4) -- actor frozen, value-only for remaining passes
+    [kl-stop] update 204: minibatch KL 0.0323 > 0.0300 (epoch 3/4) -- actor frozen, value-only for remaining passes
+    [kl-stop] update 205: minibatch KL 0.0315 > 0.0300 (epoch 3/4) -- actor frozen, value-only for remaining passes
+[ 205/1000] rew=  896.2  thr=70.46Mbps  comp=0.493  drop=0.000  SINR=  7.3dB  KL= 0.0200  ent=2.103  clip=0.276  ev=+0.18  t=13988s
+  --- eval at update 209 ---
+    PPO           reward  5258.15  thrpt  86.72Mbps  comp 0.635  totfail 0.362  depth 3.41  eval_s=98.1
+  [eval-time] update 209: 98.1s total
+  >>> new best eval reward 5258.15, saved best.pt
+[ 210/1000] rew= 5361.7  thr=68.48Mbps  comp=0.686  drop=0.000  SINR=  8.4dB  KL= 0.0115  ent=1.870  clip=0.184  ev=+0.20  t=14354s
+    [kl-stop] update 212: minibatch KL 0.0333 > 0.0300 (epoch 4/4) -- actor frozen, value-only for remaining passes
+    [kl-stop] update 213: minibatch KL 0.0507 > 0.0300 (epoch 4/4) -- actor frozen, value-only for remaining passes
+[ 215/1000] rew= 3697.9  thr=47.84Mbps  comp=0.680  drop=0.000  SINR=  6.4dB  KL= 0.0105  ent=1.532  clip=0.150  ev=+0.18  t=14635s
+    [kl-stop] update 216: minibatch KL 0.0335 > 0.0300 (epoch 2/4) -- actor frozen, value-only for remaining passes
+  --- eval at update 219 ---
+    PPO           reward  5129.28  thrpt  86.65Mbps  comp 0.631  totfail 0.366  depth 3.65  eval_s=104.6
+  [eval-time] update 219: 104.6s total
+    [kl-stop] update 220: minibatch KL 0.0333 > 0.0300 (epoch 2/4) -- actor frozen, value-only for remaining passes
+[ 220/1000] rew=10895.0  thr=119.41Mbps  comp=0.742  drop=0.000  SINR= 17.0dB  KL= 0.0273  ent=1.563  clip=0.363  ev=+0.01  t=15018s
+    [kl-stop] update 224: minibatch KL 0.0301 > 0.0300 (epoch 3/4) -- actor frozen, value-only for remaining passes
+    [batch-verify] update 225: 4 slots, max scaled |diff| 3.81e-06 OK
+[ 225/1000] rew= 4383.1  thr=73.45Mbps  comp=0.621  drop=0.000  SINR=  9.8dB  KL= 0.0096  ent=1.596  clip=0.136  ev=+0.24  t=15300s
+    [kl-stop] update 226: minibatch KL 0.0330 > 0.0300 (epoch 4/4) -- actor frozen, value-only for remaining passes
+  --- eval at update 229 ---
+    PPO           reward  5244.44  thrpt  86.69Mbps  comp 0.635  totfail 0.362  depth 3.51  eval_s=102.0
+  [eval-time] update 229: 102.0s total
+    [kl-stop] update 230: minibatch KL 0.0316 > 0.0300 (epoch 4/4) -- actor frozen, value-only for remaining passes
+[ 230/1000] rew= 6407.0  thr=103.21Mbps  comp=0.630  drop=0.000  SINR= 13.4dB  KL= 0.0172  ent=1.535  clip=0.238  ev=+0.16  t=15687s
+    [kl-stop] update 232: minibatch KL 0.0310 > 0.0300 (epoch 3/4) -- actor frozen, value-only for remaining passes
+[ 235/1000] rew= 2705.2  thr=97.17Mbps  comp=0.529  drop=0.000  SINR= 11.2dB  KL= 0.0102  ent=2.115  clip=0.158  ev=+0.25  t=15966s
+  --- eval at update 239 ---
+    PPO           reward  5233.77  thrpt  87.21Mbps  comp 0.633  totfail 0.364  depth 3.67  eval_s=102.8
+  [eval-time] update 239: 102.8s total
+    [kl-stop] update 240: minibatch KL 0.0343 > 0.0300 (epoch 3/4) -- actor frozen, value-only for remaining passes
+[ 240/1000] rew= 3913.3  thr=106.68Mbps  comp=0.557  drop=0.000  SINR= 21.3dB  KL= 0.0201  ent=1.911  clip=0.273  ev=+0.11  t=16353s
+    [kl-stop] update 244: minibatch KL 0.0315 > 0.0300 (epoch 3/4) -- actor frozen, value-only for remaining passes
+[ 245/1000] rew= 6058.0  thr=79.58Mbps  comp=0.677  drop=0.000  SINR=  7.5dB  KL= 0.0104  ent=1.751  clip=0.154  ev=-0.08  t=16644s
+    [kl-stop] update 249: minibatch KL 0.0328 > 0.0300 (epoch 1/4) -- actor frozen, value-only for remaining passes
+  --- eval at update 249 ---
+    PPO           reward  5288.36  thrpt  87.20Mbps  comp 0.635  totfail 0.361  depth 3.57  eval_s=103.2
+  [eval-time] update 249: 103.2s total
+  >>> new best eval reward 5288.36, saved best.pt
+    [batch-verify] update 250: 4 slots, max scaled |diff| 7.63e-06 OK
+[ 250/1000] rew= 1575.9  thr=121.77Mbps  comp=0.500  drop=0.000  SINR= 10.5dB  KL= 0.0165  ent=2.153  clip=0.243  ev=+0.24  t=17036s
+[ 255/1000] rew= 4664.5  thr=48.75Mbps  comp=0.763  drop=0.002  SINR=  6.8dB  KL= 0.0075  ent=0.786  clip=0.103  ev=+0.03  t=17304s
+    [kl-stop] update 257: minibatch KL 0.0340 > 0.0300 (epoch 4/4) -- actor frozen, value-only for remaining passes
+  --- eval at update 259 ---
+    PPO           reward  5333.91  thrpt  87.30Mbps  comp 0.637  totfail 0.360  depth 3.51  eval_s=103.0
+  [eval-time] update 259: 103.0s total
+  >>> new best eval reward 5333.91, saved best.pt
+[ 260/1000] rew= 3783.1  thr=67.06Mbps  comp=0.609  drop=0.000  SINR=  7.1dB  KL= 0.0124  ent=1.386  clip=0.185  ev=-0.06  t=17695s
+[ 265/1000] rew= 1734.2  thr=114.69Mbps  comp=0.506  drop=0.000  SINR=  9.8dB  KL= 0.0096  ent=1.944  clip=0.139  ev=+0.04  t=17976s
+  --- eval at update 269 ---
+    PPO           reward  5307.32  thrpt  87.25Mbps  comp 0.636  totfail 0.361  depth 3.46  eval_s=99.4
+  [eval-time] update 269: 99.4s total
+[ 270/1000] rew= 5132.0  thr=47.00Mbps  comp=0.837  drop=0.001  SINR= 10.9dB  KL= 0.0047  ent=0.572  clip=0.059  ev=+0.02  t=18339s
+    [kl-stop] update 271: minibatch KL 0.0335 > 0.0300 (epoch 4/4) -- actor frozen, value-only for remaining passes
+    [batch-verify] update 275: 4 slots, max scaled |diff| 1.53e-05 OK
+    [kl-stop] update 275: minibatch KL 0.0320 > 0.0300 (epoch 4/4) -- actor frozen, value-only for remaining passes
+[ 275/1000] rew= 4513.9  thr=90.51Mbps  comp=0.587  drop=0.000  SINR= 12.9dB  KL= 0.0160  ent=1.806  clip=0.228  ev=+0.09  t=18617s
+    [kl-stop] update 276: minibatch KL 0.0382 > 0.0300 (epoch 3/4) -- actor frozen, value-only for remaining passes
+    [kl-stop] update 277: minibatch KL 0.0326 > 0.0300 (epoch 1/4) -- actor frozen, value-only for remaining passes
+    [kl-stop] update 279: minibatch KL 0.0345 > 0.0300 (epoch 1/4) -- actor frozen, value-only for remaining passes
+  --- eval at update 279 ---
+    PPO           reward  5317.94  thrpt  87.25Mbps  comp 0.636  totfail 0.361  depth 3.54  eval_s=103.7
+  [eval-time] update 279: 103.7s total
+[ 280/1000] rew= 1511.6  thr=126.12Mbps  comp=0.502  drop=0.000  SINR= 11.6dB  KL= 0.0116  ent=1.842  clip=0.173  ev=+0.07  t=18994s
+[ 285/1000] rew= 3815.8  thr=92.39Mbps  comp=0.567  drop=0.000  SINR=  9.0dB  KL= 0.0102  ent=1.630  clip=0.152  ev=+0.23  t=19275s
+    [kl-stop] update 288: minibatch KL 0.0329 > 0.0300 (epoch 4/4) -- actor frozen, value-only for remaining passes
+  --- eval at update 289 ---
+    PPO           reward  5326.55  thrpt  87.28Mbps  comp 0.637  totfail 0.360  depth 3.56  eval_s=98.9
+  [eval-time] update 289: 98.9s total
+[ 290/1000] rew= 6529.6  thr=63.16Mbps  comp=0.802  drop=0.000  SINR=  9.3dB  KL= 0.0041  ent=0.724  clip=0.047  ev=-0.18  t=19648s
+    [kl-stop] update 292: minibatch KL 0.0372 > 0.0300 (epoch 3/4) -- actor frozen, value-only for remaining passes
+/home/MYH/ML_DRL_Scheduler/PaperMain/env.py:363: RuntimeWarning: divide by zero encountered in log10
+  slot_sinr_db = (float(10.0 * np.log10(sinr_map[occ].mean()))
+[ 295/1000] rew= 3181.0  thr=110.69Mbps  comp=0.529  drop=0.000  SINR= 11.5dB  KL= 0.0094  ent=2.286  clip=0.142  ev=+0.30  t=19912s
+  --- eval at update 299 ---
+    PPO           reward  5322.25  thrpt  87.37Mbps  comp 0.636  totfail 0.361  depth 3.57  eval_s=102.8
+  [eval-time] update 299: 102.8s total
+    [batch-verify] update 300: 4 slots, max scaled |diff| 7.63e-06 OK
+[ 300/1000] rew= 4124.0  thr=72.76Mbps  comp=0.607  drop=0.000  SINR= 10.3dB  KL= 0.0121  ent=1.686  clip=0.186  ev=+0.22  t=20293s
+    [kl-stop] update 301: minibatch KL 0.0304 > 0.0300 (epoch 3/4) -- actor frozen, value-only for remaining passes
+    [kl-stop] update 304: minibatch KL 0.0303 > 0.0300 (epoch 2/4) -- actor frozen, value-only for remaining passes
+[ 305/1000] rew= 4241.0  thr=63.75Mbps  comp=0.642  drop=0.000  SINR= 11.4dB  KL= 0.0108  ent=1.668  clip=0.163  ev=+0.15  t=20563s
+  --- eval at update 309 ---
+    PPO           reward  5407.30  thrpt  87.58Mbps  comp 0.639  totfail 0.358  depth 3.48  eval_s=101.2
+  [eval-time] update 309: 101.2s total
+  >>> new best eval reward 5407.30, saved best.pt
+    [kl-stop] update 310: minibatch KL 0.0336 > 0.0300 (epoch 4/4) -- actor frozen, value-only for remaining passes
+[ 310/1000] rew= 5698.3  thr=77.87Mbps  comp=0.668  drop=0.000  SINR= 15.3dB  KL= 0.0103  ent=1.659  clip=0.138  ev=+0.01  t=20945s
+    [kl-stop] update 311: minibatch KL 0.0403 > 0.0300 (epoch 1/4) -- actor frozen, value-only for remaining passes
+    [kl-stop] update 312: minibatch KL 0.0305 > 0.0300 (epoch 2/4) -- actor frozen, value-only for remaining passes
+[ 315/1000] rew= 3319.5  thr=94.78Mbps  comp=0.546  drop=0.000  SINR=  7.8dB  KL= 0.0111  ent=2.135  clip=0.179  ev=+0.24  t=21217s
+  --- eval at update 319 ---
+    PPO           reward  5370.44  thrpt  87.60Mbps  comp 0.638  totfail 0.359  depth 3.53  eval_s=102.1
+  [eval-time] update 319: 102.1s total
+    [kl-stop] update 320: minibatch KL 0.0358 > 0.0300 (epoch 4/4) -- actor frozen, value-only for remaining passes
+[ 320/1000] rew= 2289.9  thr=98.86Mbps  comp=0.521  drop=0.000  SINR=  8.6dB  KL= 0.0153  ent=1.902  clip=0.216  ev=+0.16  t=21592s
+    [kl-stop] update 323: minibatch KL 0.0323 > 0.0300 (epoch 2/4) -- actor frozen, value-only for remaining passes
+    [batch-verify] update 325: 4 slots, max scaled |diff| 1.14e-05 OK
+[ 325/1000] rew= 3528.1  thr=101.13Mbps  comp=0.548  drop=0.000  SINR= 12.3dB  KL= 0.0115  ent=1.905  clip=0.165  ev=+0.13  t=21881s
+  --- eval at update 329 ---
+    PPO           reward  5390.92  thrpt  87.67Mbps  comp 0.638  totfail 0.359  depth 3.50  eval_s=103.6
+  [eval-time] update 329: 103.6s total
+[ 330/1000] rew= 4778.6  thr=53.72Mbps  comp=0.733  drop=0.000  SINR= 10.8dB  KL= 0.0138  ent=1.504  clip=0.214  ev=+0.10  t=22266s
+[ 335/1000] rew= 5193.5  thr=90.71Mbps  comp=0.608  drop=0.000  SINR=  9.8dB  KL= 0.0132  ent=1.994  clip=0.201  ev=+0.21  t=22547s
+    [kl-stop] update 336: minibatch KL 0.0358 > 0.0300 (epoch 3/4) -- actor frozen, value-only for remaining passes
+  --- eval at update 339 ---
+    PPO           reward  5387.95  thrpt  87.59Mbps  comp 0.638  totfail 0.358  depth 3.48  eval_s=101.1
+  [eval-time] update 339: 101.1s total
+[ 340/1000] rew= 7077.0  thr=88.44Mbps  comp=0.690  drop=0.000  SINR= 21.3dB  KL= 0.0144  ent=1.908  clip=0.196  ev=+0.21  t=22922s
+[ 345/1000] rew= 4807.7  thr=80.98Mbps  comp=0.618  drop=0.000  SINR= 10.8dB  KL= 0.0095  ent=1.665  clip=0.144  ev=+0.24  t=23197s
+    [kl-stop] update 347: minibatch KL 0.0384 > 0.0300 (epoch 2/4) -- actor frozen, value-only for remaining passes
+  --- eval at update 349 ---
+    PPO           reward  5468.81  thrpt  87.76Mbps  comp 0.641  totfail 0.356  depth 3.42  eval_s=102.6
+  [eval-time] update 349: 102.6s total
+  >>> new best eval reward 5468.81, saved best.pt
+    [batch-verify] update 350: 4 slots, max scaled |diff| 1.14e-05 OK
+[ 350/1000] rew= 6361.1  thr=69.03Mbps  comp=0.745  drop=0.000  SINR= 11.9dB  KL= 0.0094  ent=1.522  clip=0.140  ev=+0.16  t=23575s
+    [kl-stop] update 352: minibatch KL 0.0325 > 0.0300 (epoch 3/4) -- actor frozen, value-only for remaining passes
+[ 355/1000] rew= 5153.5  thr=84.42Mbps  comp=0.623  drop=0.000  SINR= 13.6dB  KL= 0.0113  ent=1.490  clip=0.172  ev=+0.04  t=23844s
+    [kl-stop] update 358: minibatch KL 0.0351 > 0.0300 (epoch 4/4) -- actor frozen, value-only for remaining passes
+  --- eval at update 359 ---
+    PPO           reward  5432.26  thrpt  87.67Mbps  comp 0.640  totfail 0.357  depth 3.44  eval_s=99.6
+  [eval-time] update 359: 99.6s total
+[ 360/1000] rew= 4150.2  thr=67.10Mbps  comp=0.625  drop=0.000  SINR= 11.9dB  KL= 0.0104  ent=1.265  clip=0.157  ev=+0.18  t=24218s
+    [kl-stop] update 361: minibatch KL 0.0355 > 0.0300 (epoch 4/4) -- actor frozen, value-only for remaining passes
+    [kl-stop] update 364: minibatch KL 0.0338 > 0.0300 (epoch 2/4) -- actor frozen, value-only for remaining passes
+[ 365/1000] rew= 5472.0  thr=55.72Mbps  comp=0.777  drop=0.001  SINR= 13.7dB  KL= 0.0084  ent=1.155  clip=0.117  ev=+0.16  t=24487s
+  --- eval at update 369 ---
+    PPO           reward  5403.21  thrpt  87.45Mbps  comp 0.639  totfail 0.357  depth 3.37  eval_s=95.0
+  [eval-time] update 369: 95.0s total
+[ 370/1000] rew= 1562.0  thr=80.54Mbps  comp=0.517  drop=0.000  SINR= 11.2dB  KL= 0.0100  ent=1.408  clip=0.142  ev=+0.13  t=24851s
+    [kl-stop] update 374: minibatch KL 0.0360 > 0.0300 (epoch 4/4) -- actor frozen, value-only for remaining passes
+    [batch-verify] update 375: 4 slots, max scaled |diff| 1.91e-06 OK
+    [kl-stop] update 375: minibatch KL 0.0391 > 0.0300 (epoch 4/4) -- actor frozen, value-only for remaining passes
+[ 375/1000] rew= 4335.4  thr=67.95Mbps  comp=0.635  drop=0.001  SINR= 12.5dB  KL= 0.0165  ent=1.000  clip=0.228  ev=+0.17  t=25110s
+    [kl-stop] update 377: minibatch KL 0.0328 > 0.0300 (epoch 4/4) -- actor frozen, value-only for remaining passes
+  --- eval at update 379 ---
+    PPO           reward  5501.84  thrpt  87.71Mbps  comp 0.643  totfail 0.354  depth 3.22  eval_s=93.6
+  [eval-time] update 379: 93.6s total
+  >>> new best eval reward 5501.84, saved best.pt
+[ 380/1000] rew= 4197.5  thr=82.81Mbps  comp=0.595  drop=0.001  SINR= 11.0dB  KL= 0.0076  ent=1.402  clip=0.105  ev=+0.19  t=25471s
+    [kl-stop] update 382: minibatch KL 0.0461 > 0.0300 (epoch 4/4) -- actor frozen, value-only for remaining passes
+    [kl-stop] update 383: minibatch KL 0.0378 > 0.0300 (epoch 4/4) -- actor frozen, value-only for remaining passes
+[ 385/1000] rew= 6615.0  thr=72.10Mbps  comp=0.743  drop=0.000  SINR= 13.1dB  KL= 0.0121  ent=1.681  clip=0.184  ev=+0.08  t=25745s
+  --- eval at update 389 ---
+    PPO           reward  5498.89  thrpt  87.75Mbps  comp 0.642  totfail 0.355  depth 3.26  eval_s=94.3
+  [eval-time] update 389: 94.3s total
+[ 390/1000] rew= 3744.9  thr=66.67Mbps  comp=0.607  drop=0.000  SINR= 13.0dB  KL= 0.0121  ent=1.200  clip=0.170  ev=+0.26  t=26102s
+[ 395/1000] rew= 4704.0  thr=48.11Mbps  comp=0.774  drop=0.000  SINR=  7.6dB  KL= 0.0118  ent=0.902  clip=0.165  ev=+0.16  t=26365s
+    [kl-stop] update 396: minibatch KL 0.0321 > 0.0300 (epoch 2/4) -- actor frozen, value-only for remaining passes
+  --- eval at update 399 ---
+    PPO           reward  5508.54  thrpt  87.74Mbps  comp 0.643  totfail 0.354  depth 3.25  eval_s=94.6
+  [eval-time] update 399: 94.6s total
+  >>> new best eval reward 5508.54, saved best.pt
+    [batch-verify] update 400: 4 slots, max scaled |diff| 1.14e-05 OK
+    [kl-stop] update 400: minibatch KL 0.0383 > 0.0300 (epoch 3/4) -- actor frozen, value-only for remaining passes
+[ 400/1000] rew= 5612.4  thr=54.47Mbps  comp=0.802  drop=0.002  SINR= 15.2dB  KL= 0.0182  ent=0.858  clip=0.224  ev=-0.12  t=26722s
+[ 405/1000] rew= 6011.7  thr=61.60Mbps  comp=0.771  drop=0.000  SINR= 11.4dB  KL= 0.0104  ent=1.385  clip=0.159  ev=+0.23  t=26977s
+  --- eval at update 409 ---
+    PPO           reward  5504.55  thrpt  87.76Mbps  comp 0.643  totfail 0.354  depth 3.24  eval_s=94.4
+  [eval-time] update 409: 94.4s total
+[ 410/1000] rew= 4610.8  thr=73.27Mbps  comp=0.630  drop=0.000  SINR= 10.5dB  KL= 0.0097  ent=1.232  clip=0.139  ev=+0.19  t=27336s
+[ 415/1000] rew= 3477.8  thr=90.23Mbps  comp=0.563  drop=0.000  SINR=  8.6dB  KL= 0.0113  ent=1.256  clip=0.159  ev=+0.16  t=27605s
+  --- eval at update 419 ---
+    PPO           reward  5473.91  thrpt  87.58Mbps  comp 0.642  totfail 0.355  depth 3.22  eval_s=94.1
+  [eval-time] update 419: 94.1s total
+[ 420/1000] rew= 4717.6  thr=75.32Mbps  comp=0.631  drop=0.000  SINR=  8.9dB  KL= 0.0085  ent=1.082  clip=0.119  ev=+0.09  t=27945s
+    [kl-stop] update 424: minibatch KL 0.0302 > 0.0300 (epoch 4/4) -- actor frozen, value-only for remaining passes
+    [batch-verify] update 425: 4 slots, max scaled |diff| 5.72e-06 OK
+[ 425/1000] rew= 7852.9  thr=77.85Mbps  comp=0.786  drop=0.000  SINR= 11.4dB  KL= 0.0109  ent=0.976  clip=0.161  ev=+0.12  t=28215s
+    [kl-stop] update 427: minibatch KL 0.0311 > 0.0300 (epoch 4/4) -- actor frozen, value-only for remaining passes
+    [kl-stop] update 428: minibatch KL 0.0320 > 0.0300 (epoch 2/4) -- actor frozen, value-only for remaining passes
+  --- eval at update 429 ---
+    PPO           reward  5509.57  thrpt  87.65Mbps  comp 0.643  totfail 0.354  depth 3.17  eval_s=91.9
+  [eval-time] update 429: 91.9s total
+  >>> new best eval reward 5509.57, saved best.pt
+[ 430/1000] rew= 3979.2  thr=57.64Mbps  comp=0.654  drop=0.001  SINR=  9.9dB  KL= 0.0081  ent=1.475  clip=0.115  ev=+0.15  t=28572s
+    [kl-stop] update 434: minibatch KL 0.0302 > 0.0300 (epoch 3/4) -- actor frozen, value-only for remaining passes
+[ 435/1000] rew= 4586.6  thr=74.92Mbps  comp=0.628  drop=0.001  SINR= 12.2dB  KL= 0.0093  ent=1.020  clip=0.126  ev=+0.23  t=28837s
+    [kl-stop] update 437: minibatch KL 0.0311 > 0.0300 (epoch 3/4) -- actor frozen, value-only for remaining passes
+  --- eval at update 439 ---
+    PPO           reward  5507.33  thrpt  87.66Mbps  comp 0.643  totfail 0.354  depth 3.24  eval_s=93.8
+  [eval-time] update 439: 93.8s total
+[ 440/1000] rew= 6095.4  thr=54.73Mbps  comp=0.848  drop=0.000  SINR= 14.7dB  KL= 0.0061  ent=0.838  clip=0.082  ev=+0.13  t=29193s
+[ 445/1000] rew= 5108.8  thr=69.82Mbps  comp=0.667  drop=0.000  SINR=  8.1dB  KL= 0.0111  ent=1.249  clip=0.161  ev=-0.02  t=29453s
+    [kl-stop] update 448: minibatch KL 0.0336 > 0.0300 (epoch 4/4) -- actor frozen, value-only for remaining passes
+  --- eval at update 449 ---
+    PPO           reward  5492.89  thrpt  87.72Mbps  comp 0.642  totfail 0.355  depth 3.25  eval_s=94.5
+  [eval-time] update 449: 94.5s total
+    [batch-verify] update 450: 4 slots, max scaled |diff| 7.63e-06 OK
+    [kl-stop] update 450: minibatch KL 0.0334 > 0.0300 (epoch 4/4) -- actor frozen, value-only for remaining passes
+[ 450/1000] rew= 1449.2  thr=67.77Mbps  comp=0.514  drop=0.000  SINR=  8.7dB  KL= 0.0172  ent=1.598  clip=0.232  ev=+0.29  t=29823s
+[ 455/1000] rew= 4252.1  thr=38.16Mbps  comp=0.852  drop=0.001  SINR= 11.0dB  KL= 0.0049  ent=0.647  clip=0.062  ev=-0.04  t=30080s
+    [kl-stop] update 458: minibatch KL 0.0328 > 0.0300 (epoch 3/4) -- actor frozen, value-only for remaining passes
+  --- eval at update 459 ---
+    PPO           reward  5537.09  thrpt  87.80Mbps  comp 0.644  totfail 0.353  depth 3.17  eval_s=92.0
+  [eval-time] update 459: 92.0s total
+  >>> new best eval reward 5537.09, saved best.pt
+[ 460/1000] rew= 5443.6  thr=67.86Mbps  comp=0.693  drop=0.000  SINR=  7.9dB  KL= 0.0110  ent=1.588  clip=0.160  ev=+0.19  t=30426s
+[ 465/1000] rew= 4783.3  thr=48.46Mbps  comp=0.778  drop=0.000  SINR= 10.3dB  KL= 0.0076  ent=1.071  clip=0.116  ev=-0.07  t=30685s
+  --- eval at update 469 ---
+    PPO           reward  5507.37  thrpt  87.63Mbps  comp 0.643  totfail 0.354  depth 3.25  eval_s=94.2
+  [eval-time] update 469: 94.2s total
+[ 470/1000] rew= 4031.6  thr=92.53Mbps  comp=0.571  drop=0.000  SINR= 14.1dB  KL= 0.0099  ent=1.762  clip=0.148  ev=+0.30  t=31042s
+    [batch-verify] update 475: 4 slots, max scaled |diff| 3.81e-06 OK
+[ 475/1000] rew= 6082.4  thr=68.70Mbps  comp=0.730  drop=0.000  SINR= 10.8dB  KL= 0.0109  ent=1.376  clip=0.153  ev=+0.16  t=31300s
+  --- eval at update 479 ---
+    PPO           reward  5493.53  thrpt  87.68Mbps  comp 0.642  totfail 0.355  depth 3.29  eval_s=92.5
+  [eval-time] update 479: 92.5s total
+[ 480/1000] rew= 4237.6  thr=92.18Mbps  comp=0.581  drop=0.000  SINR= 12.9dB  KL= 0.0088  ent=1.381  clip=0.133  ev=+0.14  t=31652s
+    [kl-stop] update 482: minibatch KL 0.0351 > 0.0300 (epoch 2/4) -- actor frozen, value-only for remaining passes
+[ 485/1000] rew= 3252.4  thr=79.34Mbps  comp=0.568  drop=0.000  SINR= 12.7dB  KL= 0.0058  ent=1.155  clip=0.074  ev=+0.17  t=31914s
+    [kl-stop] update 488: minibatch KL 0.0364 > 0.0300 (epoch 3/4) -- actor frozen, value-only for remaining passes
+  --- eval at update 489 ---
+    PPO           reward  5504.94  thrpt  87.69Mbps  comp 0.643  totfail 0.354  depth 3.26  eval_s=92.1
+  [eval-time] update 489: 92.1s total
+[ 490/1000] rew= 6740.2  thr=73.93Mbps  comp=0.738  drop=0.000  SINR=  9.6dB  KL= 0.0155  ent=1.557  clip=0.231  ev=+0.28  t=32253s
+[ 495/1000] rew= 4913.6  thr=48.57Mbps  comp=0.793  drop=0.002  SINR= 12.3dB  KL= 0.0094  ent=0.726  clip=0.135  ev=+0.13  t=32513s
+  --- eval at update 499 ---
+    PPO           reward  5526.82  thrpt  87.87Mbps  comp 0.643  totfail 0.354  depth 3.32  eval_s=96.2
+  [eval-time] update 499: 96.2s total
+    [batch-verify] update 500: 4 slots, max scaled |diff| 1.14e-05 OK
+    [kl-stop] update 500: minibatch KL 0.0323 > 0.0300 (epoch 4/4) -- actor frozen, value-only for remaining passes
+[ 500/1000] rew= 4844.4  thr=87.33Mbps  comp=0.606  drop=0.000  SINR= 12.1dB  KL= 0.0110  ent=1.470  clip=0.154  ev=+0.14  t=32880s
+    [kl-stop] update 505: minibatch KL 0.0335 > 0.0300 (epoch 3/4) -- actor frozen, value-only for remaining passes
+[ 505/1000] rew= 3063.7  thr=116.95Mbps  comp=0.530  drop=0.000  SINR= 10.3dB  KL= 0.0164  ent=1.897  clip=0.219  ev=+0.27  t=33129s
+  --- eval at update 509 ---
+    PPO           reward  5591.93  thrpt  87.93Mbps  comp 0.645  totfail 0.351  depth 3.21  eval_s=93.0
+  [eval-time] update 509: 93.1s total
+  >>> new best eval reward 5591.93, saved best.pt
+[ 510/1000] rew= 6363.7  thr=105.34Mbps  comp=0.622  drop=0.000  SINR= 10.4dB  KL= 0.0159  ent=1.739  clip=0.210  ev=+0.07  t=33494s
+    [kl-stop] update 512: minibatch KL 0.0308 > 0.0300 (epoch 4/4) -- actor frozen, value-only for remaining passes
+[ 515/1000] rew= 3943.4  thr=48.75Mbps  comp=0.701  drop=0.001  SINR= 14.9dB  KL= 0.0087  ent=0.743  clip=0.126  ev=+0.07  t=33752s
+  --- eval at update 519 ---
+    PPO           reward  5578.36  thrpt  88.15Mbps  comp 0.644  totfail 0.353  depth 3.39  eval_s=96.7
+  [eval-time] update 519: 96.7s total
+[ 520/1000] rew= 4132.6  thr=54.81Mbps  comp=0.676  drop=0.001  SINR=  8.6dB  KL= 0.0102  ent=1.021  clip=0.142  ev=+0.18  t=34099s
+    [batch-verify] update 525: 4 slots, max scaled |diff| 3.81e-06 OK
+[ 525/1000] rew= 4174.1  thr=44.50Mbps  comp=0.754  drop=0.000  SINR=  9.7dB  KL= 0.0118  ent=0.992  clip=0.171  ev=+0.24  t=34353s
+    [kl-stop] update 529: minibatch KL 0.0373 > 0.0300 (epoch 3/4) -- actor frozen, value-only for remaining passes
+  --- eval at update 529 ---
+    PPO           reward  5531.69  thrpt  87.95Mbps  comp 0.643  totfail 0.354  depth 3.36  eval_s=94.3
+  [eval-time] update 529: 94.3s total
+[ 530/1000] rew= 4597.1  thr=68.98Mbps  comp=0.643  drop=0.000  SINR= 10.5dB  KL= 0.0122  ent=1.498  clip=0.179  ev=+0.11  t=34723s
+[ 535/1000] rew= 2816.2  thr=43.28Mbps  comp=0.638  drop=0.004  SINR=  7.6dB  KL= 0.0075  ent=0.868  clip=0.110  ev=+0.11  t=34978s
+    [kl-stop] update 536: minibatch KL 0.0326 > 0.0300 (epoch 4/4) -- actor frozen, value-only for remaining passes
+    [kl-stop] update 538: minibatch KL 0.0303 > 0.0300 (epoch 3/4) -- actor frozen, value-only for remaining passes
+  --- eval at update 539 ---
+    PPO           reward  5541.31  thrpt  88.03Mbps  comp 0.643  totfail 0.354  depth 3.38  eval_s=95.6
+  [eval-time] update 539: 95.6s total
+    [kl-stop] update 540: minibatch KL 0.0320 > 0.0300 (epoch 4/4) -- actor frozen, value-only for remaining passes
+[ 540/1000] rew= 1573.0  thr=127.85Mbps  comp=0.499  drop=0.000  SINR= 13.9dB  KL= 0.0125  ent=1.945  clip=0.176  ev=+0.22  t=35349s
+[ 545/1000] rew= 4750.9  thr=43.47Mbps  comp=0.832  drop=0.001  SINR= 16.5dB  KL= 0.0046  ent=0.547  clip=0.055  ev=+0.01  t=35597s
+  --- eval at update 549 ---
+    PPO           reward  5536.70  thrpt  87.99Mbps  comp 0.643  totfail 0.354  depth 3.38  eval_s=96.3
+  [eval-time] update 549: 96.3s total
+    [batch-verify] update 550: 4 slots, max scaled |diff| 3.81e-06 OK
+[ 550/1000] rew= 4770.7  thr=93.03Mbps  comp=0.593  drop=0.000  SINR= 15.5dB  KL= 0.0088  ent=1.746  clip=0.134  ev=+0.22  t=35954s
+[ 555/1000] rew= 5762.1  thr=78.52Mbps  comp=0.669  drop=0.000  SINR= 11.4dB  KL= 0.0077  ent=1.122  clip=0.104  ev=+0.14  t=36222s
+    [kl-stop] update 556: minibatch KL 0.0369 > 0.0300 (epoch 4/4) -- actor frozen, value-only for remaining passes
+    [kl-stop] update 557: minibatch KL 0.0317 > 0.0300 (epoch 4/4) -- actor frozen, value-only for remaining passes
+  --- eval at update 559 ---
+    PPO           reward  5538.58  thrpt  87.95Mbps  comp 0.643  totfail 0.353  depth 3.24  eval_s=92.9
+  [eval-time] update 559: 93.0s total
+[ 560/1000] rew= 4766.0  thr=108.86Mbps  comp=0.573  drop=0.000  SINR= 16.7dB  KL= 0.0076  ent=1.636  clip=0.106  ev=+0.20  t=36579s
+[ 565/1000] rew=  691.8  thr=37.94Mbps  comp=0.503  drop=0.000  SINR=  6.9dB  KL= 0.0140  ent=1.213  clip=0.208  ev=+0.25  t=36839s
+    [kl-stop] update 566: minibatch KL 0.0497 > 0.0300 (epoch 2/4) -- actor frozen, value-only for remaining passes
+  --- eval at update 569 ---
+    PPO           reward  5545.50  thrpt  87.91Mbps  comp 0.644  totfail 0.353  depth 3.18  eval_s=93.5
+  [eval-time] update 569: 93.5s total
+[ 570/1000] rew= 4995.1  thr=98.27Mbps  comp=0.597  drop=0.000  SINR= 10.4dB  KL= 0.0059  ent=1.293  clip=0.078  ev=+0.04  t=37191s
+    [batch-verify] update 575: 4 slots, max scaled |diff| 3.81e-06 OK
+[ 575/1000] rew= 3470.8  thr=48.34Mbps  comp=0.660  drop=0.000  SINR= 17.0dB  KL= 0.0081  ent=1.143  clip=0.114  ev=+0.03  t=37449s
+  --- eval at update 579 ---
+    PPO           reward  5576.36  thrpt  87.95Mbps  comp 0.645  totfail 0.352  depth 3.11  eval_s=91.8
+  [eval-time] update 579: 91.8s total
+[ 580/1000] rew= 3610.1  thr=52.49Mbps  comp=0.650  drop=0.000  SINR= 10.7dB  KL= 0.0088  ent=1.172  clip=0.124  ev=+0.20  t=37812s
+[ 585/1000] rew= 6184.4  thr=63.52Mbps  comp=0.769  drop=0.000  SINR= 13.7dB  KL= 0.0068  ent=1.201  clip=0.094  ev=+0.25  t=38058s
+  --- eval at update 589 ---
+    PPO           reward  5578.48  thrpt  87.97Mbps  comp 0.645  totfail 0.352  depth 3.12  eval_s=92.1
+  [eval-time] update 589: 92.1s total
+[ 590/1000] rew= 5262.0  thr=54.82Mbps  comp=0.766  drop=0.000  SINR=  9.8dB  KL= 0.0060  ent=1.121  clip=0.074  ev=+0.19  t=38400s
+[ 595/1000] rew= 6418.8  thr=81.54Mbps  comp=0.688  drop=0.000  SINR= 11.0dB  KL= 0.0114  ent=1.341  clip=0.174  ev=+0.12  t=38662s
+  --- eval at update 599 ---
+    PPO           reward  5555.92  thrpt  87.99Mbps  comp 0.644  totfail 0.353  depth 3.15  eval_s=91.2
+  [eval-time] update 599: 91.2s total
+    [batch-verify] update 600: 4 slots, max scaled |diff| 3.81e-06 OK
+[ 600/1000] rew= 3989.1  thr=82.94Mbps  comp=0.584  drop=0.000  SINR= 11.1dB  KL= 0.0082  ent=1.613  clip=0.122  ev=+0.21  t=39011s
+[ 605/1000] rew= 5709.0  thr=119.60Mbps  comp=0.583  drop=0.000  SINR= 13.6dB  KL= 0.0073  ent=1.824  clip=0.094  ev=+0.20  t=39275s
+  --- eval at update 609 ---
+    PPO           reward  5557.06  thrpt  87.97Mbps  comp 0.644  totfail 0.353  depth 3.16  eval_s=91.6
+  [eval-time] update 609: 91.6s total
+[ 610/1000] rew= 5010.8  thr=60.28Mbps  comp=0.707  drop=0.001  SINR=  9.1dB  KL= 0.0067  ent=0.894  clip=0.097  ev=+0.18  t=39615s
+[ 615/1000] rew= 6213.9  thr=62.37Mbps  comp=0.783  drop=0.000  SINR= 15.5dB  KL= 0.0075  ent=1.079  clip=0.105  ev=+0.23  t=39860s
+    [kl-stop] update 618: minibatch KL 0.0322 > 0.0300 (epoch 4/4) -- actor frozen, value-only for remaining passes
+  --- eval at update 619 ---
+    PPO           reward  5560.37  thrpt  87.98Mbps  comp 0.644  totfail 0.353  depth 3.12  eval_s=90.8
+  [eval-time] update 619: 90.8s total
+[ 620/1000] rew= 3529.7  thr=99.13Mbps  comp=0.552  drop=0.000  SINR= 11.4dB  KL= 0.0100  ent=1.522  clip=0.151  ev=+0.17  t=40215s
+    [kl-stop] update 623: minibatch KL 0.0370 > 0.0300 (epoch 3/4) -- actor frozen, value-only for remaining passes
+    [batch-verify] update 625: 4 slots, max scaled |diff| 3.81e-06 OK
+[ 625/1000] rew= 5335.0  thr=78.25Mbps  comp=0.650  drop=0.000  SINR= 12.3dB  KL= 0.0078  ent=1.235  clip=0.111  ev=+0.13  t=40471s
+  --- eval at update 629 ---
+    PPO           reward  5606.70  thrpt  88.22Mbps  comp 0.645  totfail 0.352  depth 3.14  eval_s=93.6
+  [eval-time] update 629: 93.6s total
+  >>> new best eval reward 5606.70, saved best.pt
+[ 630/1000] rew= 5039.1  thr=91.90Mbps  comp=0.601  drop=0.000  SINR=  9.6dB  KL= 0.0084  ent=1.660  clip=0.127  ev=+0.27  t=40821s
+[ 635/1000] rew= 5355.3  thr=62.94Mbps  comp=0.715  drop=0.000  SINR=  9.5dB  KL= 0.0069  ent=1.014  clip=0.097  ev=+0.08  t=41082s
+  --- eval at update 639 ---
+    PPO           reward  5630.27  thrpt  88.16Mbps  comp 0.646  totfail 0.350  depth 3.07  eval_s=91.9
+  [eval-time] update 639: 91.9s total
+  >>> new best eval reward 5630.27, saved best.pt
+[ 640/1000] rew= 5942.6  thr=89.32Mbps  comp=0.641  drop=0.000  SINR= 11.5dB  KL= 0.0095  ent=1.280  clip=0.145  ev=+0.24  t=41441s
+    [kl-stop] update 641: minibatch KL 0.0313 > 0.0300 (epoch 3/4) -- actor frozen, value-only for remaining passes
+[ 645/1000] rew= 5153.7  thr=94.79Mbps  comp=0.605  drop=0.000  SINR= 14.7dB  KL= 0.0064  ent=1.181  clip=0.090  ev=+0.24  t=41702s
+    [kl-stop] update 649: minibatch KL 0.0377 > 0.0300 (epoch 4/4) -- actor frozen, value-only for remaining passes
+  --- eval at update 649 ---
+    PPO           reward  5586.07  thrpt  88.01Mbps  comp 0.645  totfail 0.352  depth 3.00  eval_s=92.2
+  [eval-time] update 649: 92.2s total
+    [batch-verify] update 650: 4 slots, max scaled |diff| 7.63e-06 OK
+[ 650/1000] rew= 6480.2  thr=108.87Mbps  comp=0.620  drop=0.000  SINR= 11.8dB  KL= 0.0087  ent=1.348  clip=0.123  ev=+0.27  t=42042s
+    [kl-stop] update 654: minibatch KL 0.0326 > 0.0300 (epoch 4/4) -- actor frozen, value-only for remaining passes
+[ 655/1000] rew= 5622.4  thr=79.77Mbps  comp=0.655  drop=0.000  SINR=  8.9dB  KL= 0.0071  ent=1.220  clip=0.099  ev=+0.20  t=42296s
+    [kl-stop] update 656: minibatch KL 0.0316 > 0.0300 (epoch 3/4) -- actor frozen, value-only for remaining passes
+  --- eval at update 659 ---
+    PPO           reward  5593.02  thrpt  88.03Mbps  comp 0.645  totfail 0.352  depth 3.04  eval_s=91.3
+  [eval-time] update 659: 91.3s total
+[ 660/1000] rew= 4259.6  thr=112.48Mbps  comp=0.556  drop=0.000  SINR= 12.4dB  KL= 0.0066  ent=1.849  clip=0.090  ev=+0.28  t=42654s
+[ 665/1000] rew= 2492.9  thr=51.07Mbps  comp=0.586  drop=0.000  SINR= 13.3dB  KL= 0.0053  ent=1.053  clip=0.060  ev=+0.26  t=42916s
+    [kl-stop] update 666: minibatch KL 0.0302 > 0.0300 (epoch 4/4) -- actor frozen, value-only for remaining passes
+  --- eval at update 669 ---
+    PPO           reward  5585.37  thrpt  87.94Mbps  comp 0.645  totfail 0.352  depth 3.05  eval_s=90.2
+  [eval-time] update 669: 90.2s total
+[ 670/1000] rew= 6981.8  thr=81.10Mbps  comp=0.719  drop=0.000  SINR=  9.4dB  KL= 0.0109  ent=0.949  clip=0.159  ev=+0.10  t=43256s
+    [batch-verify] update 675: 4 slots, max scaled |diff| 7.63e-06 OK
+[ 675/1000] rew= 4489.6  thr=97.23Mbps  comp=0.580  drop=0.000  SINR= 10.7dB  KL= 0.0081  ent=1.331  clip=0.114  ev=+0.20  t=43521s
+  --- eval at update 679 ---
+    PPO           reward  5579.93  thrpt  87.97Mbps  comp 0.645  totfail 0.352  depth 3.05  eval_s=91.4
+  [eval-time] update 679: 91.4s total
+[ 680/1000] rew= 2831.5  thr=49.29Mbps  comp=0.613  drop=0.001  SINR=  9.1dB  KL= 0.0083  ent=0.914  clip=0.122  ev=+0.25  t=43858s
+[ 685/1000] rew= 5074.9  thr=87.55Mbps  comp=0.614  drop=0.000  SINR= 11.8dB  KL= 0.0068  ent=1.304  clip=0.088  ev=+0.26  t=44122s
+    [kl-stop] update 689: minibatch KL 0.0408 > 0.0300 (epoch 3/4) -- actor frozen, value-only for remaining passes
+  --- eval at update 689 ---
+    PPO           reward  5602.53  thrpt  88.07Mbps  comp 0.645  totfail 0.351  depth 3.03  eval_s=91.4
+  [eval-time] update 689: 91.4s total
+    [kl-stop] update 690: minibatch KL 0.0377 > 0.0300 (epoch 2/4) -- actor frozen, value-only for remaining passes
+[ 690/1000] rew= 2352.3  thr=95.35Mbps  comp=0.526  drop=0.000  SINR= 10.9dB  KL= 0.0272  ent=1.270  clip=0.331  ev=+0.15  t=44457s
+    [kl-stop] update 695: minibatch KL 0.0305 > 0.0300 (epoch 4/4) -- actor frozen, value-only for remaining passes
+[ 695/1000] rew=10281.6  thr=90.79Mbps  comp=0.855  drop=0.000  SINR= 12.3dB  KL= 0.0103  ent=0.883  clip=0.133  ev=-0.15  t=44702s
+  --- eval at update 699 ---
+    PPO           reward  5551.71  thrpt  87.84Mbps  comp 0.644  totfail 0.353  depth 2.99  eval_s=87.9
+  [eval-time] update 699: 87.9s total
+    [batch-verify] update 700: 4 slots, max scaled |diff| 3.81e-06 OK
+[ 700/1000] rew= 2663.4  thr=42.49Mbps  comp=0.631  drop=0.001  SINR=  8.5dB  KL= 0.0065  ent=0.802  clip=0.085  ev=+0.04  t=45039s
+[ 705/1000] rew= 2689.8  thr=83.55Mbps  comp=0.545  drop=0.000  SINR=  7.7dB  KL= 0.0113  ent=1.211  clip=0.173  ev=+0.13  t=45285s
+  --- eval at update 709 ---
+    PPO           reward  5577.60  thrpt  87.97Mbps  comp 0.645  totfail 0.352  depth 2.95  eval_s=87.7
+  [eval-time] update 709: 87.7s total
+[ 710/1000] rew= 3478.1  thr=101.03Mbps  comp=0.550  drop=0.000  SINR=  9.6dB  KL= 0.0081  ent=1.287  clip=0.120  ev=+0.07  t=45624s
+[ 715/1000] rew= 6126.7  thr=54.73Mbps  comp=0.847  drop=0.001  SINR= 14.5dB  KL= 0.0061  ent=0.697  clip=0.081  ev=+0.05  t=45867s
+  --- eval at update 719 ---
+    PPO           reward  5549.40  thrpt  87.88Mbps  comp 0.644  totfail 0.353  depth 3.00  eval_s=90.2
+  [eval-time] update 719: 90.2s total
+[ 720/1000] rew= 4125.3  thr=49.23Mbps  comp=0.708  drop=0.001  SINR= 12.1dB  KL= 0.0034  ent=0.693  clip=0.029  ev=+0.14  t=46184s
+    [batch-verify] update 725: 4 slots, max scaled |diff| 7.63e-06 OK
+[ 725/1000] rew= 4227.3  thr=113.59Mbps  comp=0.556  drop=0.000  SINR= 11.5dB  KL= 0.0076  ent=1.503  clip=0.112  ev=+0.18  t=46453s
+    [kl-stop] update 728: minibatch KL 0.0368 > 0.0300 (epoch 3/4) -- actor frozen, value-only for remaining passes
+  --- eval at update 729 ---
+    PPO           reward  5591.85  thrpt  88.11Mbps  comp 0.645  totfail 0.352  depth 3.05  eval_s=90.1
+  [eval-time] update 729: 90.1s total
+[ 730/1000] rew= 5014.2  thr=76.44Mbps  comp=0.642  drop=0.000  SINR=  9.0dB  KL= 0.0056  ent=0.842  clip=0.074  ev=+0.10  t=46787s
+    [kl-stop] update 732: minibatch KL 0.0340 > 0.0300 (epoch 4/4) -- actor frozen, value-only for remaining passes
+[ 735/1000] rew= 3676.3  thr=116.24Mbps  comp=0.545  drop=0.000  SINR= 10.1dB  KL= 0.0082  ent=1.241  clip=0.114  ev=+0.28  t=47051s
+  --- eval at update 739 ---
+    PPO           reward  5591.78  thrpt  88.10Mbps  comp 0.645  totfail 0.352  depth 3.08  eval_s=91.5
+  [eval-time] update 739: 91.5s total
+[ 740/1000] rew= 3906.8  thr=91.59Mbps  comp=0.569  drop=0.000  SINR=  9.5dB  KL= 0.0094  ent=1.349  clip=0.142  ev=+0.17  t=47407s
+    [kl-stop] update 741: minibatch KL 0.0309 > 0.0300 (epoch 4/4) -- actor frozen, value-only for remaining passes
+[ 745/1000] rew= 1742.4  thr=124.33Mbps  comp=0.508  drop=0.000  SINR= 12.7dB  KL= 0.0126  ent=1.323  clip=0.176  ev=+0.10  t=47659s
+  --- eval at update 749 ---
+    PPO           reward  5567.36  thrpt  87.94Mbps  comp 0.645  totfail 0.352  depth 3.02  eval_s=89.7
+  [eval-time] update 749: 89.7s total
+    [batch-verify] update 750: 4 slots, max scaled |diff| 2.86e-06 OK
+[ 750/1000] rew= 2635.3  thr=47.39Mbps  comp=0.607  drop=0.000  SINR= 13.5dB  KL= 0.0048  ent=0.723  clip=0.055  ev=+0.18  t=47976s
+[ 755/1000] rew= 3123.8  thr=62.66Mbps  comp=0.594  drop=0.000  SINR= 16.5dB  KL= 0.0067  ent=0.737  clip=0.095  ev=+0.25  t=48214s
+  --- eval at update 759 ---
+    PPO           reward  5530.84  thrpt  87.76Mbps  comp 0.643  totfail 0.353  depth 3.00  eval_s=88.6
+  [eval-time] update 759: 88.6s total
+[ 760/1000] rew= 6051.3  thr=72.43Mbps  comp=0.709  drop=0.000  SINR=  9.4dB  KL= 0.0065  ent=0.849  clip=0.089  ev=+0.28  t=48531s
+    [kl-stop] update 762: minibatch KL 0.0313 > 0.0300 (epoch 3/4) -- actor frozen, value-only for remaining passes
+[ 765/1000] rew= 7453.2  thr=80.11Mbps  comp=0.746  drop=0.000  SINR= 11.2dB  KL= 0.0140  ent=1.233  clip=0.205  ev=+0.18  t=48789s
+    [kl-stop] update 769: minibatch KL 0.0314 > 0.0300 (epoch 3/4) -- actor frozen, value-only for remaining passes
+  --- eval at update 769 ---
+    PPO           reward  5506.35  thrpt  87.61Mbps  comp 0.643  totfail 0.354  depth 2.96  eval_s=87.3
+  [eval-time] update 769: 87.3s total
+[ 770/1000] rew= 4613.7  thr=83.91Mbps  comp=0.607  drop=0.000  SINR= 14.0dB  KL= 0.0073  ent=0.976  clip=0.102  ev=+0.24  t=49129s
+    [batch-verify] update 775: 4 slots, max scaled |diff| 7.63e-06 OK
+[ 775/1000] rew= 5954.8  thr=78.55Mbps  comp=0.678  drop=0.000  SINR= 10.5dB  KL= 0.0059  ent=1.050  clip=0.083  ev=-0.03  t=49383s
+  --- eval at update 779 ---
+    PPO           reward  5569.69  thrpt  87.83Mbps  comp 0.645  totfail 0.352  depth 2.96  eval_s=87.8
+  [eval-time] update 779: 87.8s total
+[ 780/1000] rew= 3914.4  thr=110.03Mbps  comp=0.552  drop=0.000  SINR= 10.1dB  KL= 0.0063  ent=1.400  clip=0.091  ev=+0.40  t=49723s
+[ 785/1000] rew= 3972.8  thr=55.61Mbps  comp=0.662  drop=0.001  SINR= 11.4dB  KL= 0.0076  ent=0.619  clip=0.112  ev=+0.33  t=49954s
+  --- eval at update 789 ---
+    PPO           reward  5503.63  thrpt  87.64Mbps  comp 0.643  totfail 0.354  depth 2.88  eval_s=87.2
+  [eval-time] update 789: 87.2s total
+    [kl-stop] update 790: minibatch KL 0.0350 > 0.0300 (epoch 4/4) -- actor frozen, value-only for remaining passes
+[ 790/1000] rew= 6516.6  thr=100.81Mbps  comp=0.634  drop=0.000  SINR= 12.2dB  KL= 0.0129  ent=1.525  clip=0.189  ev=-0.14  t=50283s
+[ 795/1000] rew= 3611.7  thr=115.07Mbps  comp=0.544  drop=0.000  SINR= 14.8dB  KL= 0.0034  ent=1.369  clip=0.043  ev=+0.35  t=50527s
+    [kl-stop] update 796: minibatch KL 0.0365 > 0.0300 (epoch 3/4) -- actor frozen, value-only for remaining passes
+    [kl-stop] update 797: minibatch KL 0.0353 > 0.0300 (epoch 3/4) -- actor frozen, value-only for remaining passes
+  --- eval at update 799 ---
+    PPO           reward  5475.31  thrpt  87.50Mbps  comp 0.642  totfail 0.355  depth 2.86  eval_s=86.7
+  [eval-time] update 799: 86.7s total
+    [batch-verify] update 800: 4 slots, max scaled |diff| 5.72e-06 OK
+[ 800/1000] rew= 7347.1  thr=59.24Mbps  comp=0.926  drop=0.000  SINR= 11.5dB  KL= 0.0068  ent=0.591  clip=0.088  ev=+0.06  t=50847s
+    [kl-stop] update 802: minibatch KL 0.0411 > 0.0300 (epoch 4/4) -- actor frozen, value-only for remaining passes
+[ 805/1000] rew= 3238.4  thr=53.91Mbps  comp=0.625  drop=0.001  SINR= 10.9dB  KL= 0.0126  ent=0.619  clip=0.164  ev=+0.06  t=51078s
+    [kl-stop] update 806: minibatch KL 0.0402 > 0.0300 (epoch 3/4) -- actor frozen, value-only for remaining passes
+    [kl-stop] update 807: minibatch KL 0.0304 > 0.0300 (epoch 3/4) -- actor frozen, value-only for remaining passes
+  --- eval at update 809 ---
+    PPO           reward  5427.92  thrpt  87.26Mbps  comp 0.640  totfail 0.357  depth 2.76  eval_s=85.5
+  [eval-time] update 809: 85.5s total
+[ 810/1000] rew= 3667.3  thr=52.89Mbps  comp=0.653  drop=0.000  SINR= 11.1dB  KL= 0.0022  ent=0.742  clip=0.020  ev=-0.13  t=51410s
+[ 815/1000] rew= 4862.7  thr=111.11Mbps  comp=0.576  drop=0.000  SINR= 15.5dB  KL= 0.0050  ent=1.138  clip=0.062  ev=+0.22  t=51654s
+  --- eval at update 819 ---
+    PPO           reward  5498.13  thrpt  87.50Mbps  comp 0.643  totfail 0.354  depth 2.79  eval_s=85.5
+  [eval-time] update 819: 85.5s total
+[ 820/1000] rew= 5288.3  thr=96.88Mbps  comp=0.603  drop=0.000  SINR= 15.2dB  KL= 0.0055  ent=1.270  clip=0.076  ev=+0.17  t=51990s
+    [batch-verify] update 825: 4 slots, max scaled |diff| 5.72e-06 OK
+[ 825/1000] rew= -147.8  thr=78.01Mbps  comp=0.471  drop=0.000  SINR=  8.4dB  KL= 0.0086  ent=0.957  clip=0.114  ev=+0.34  t=52241s
+  --- eval at update 829 ---
+    PPO           reward  5443.70  thrpt  87.31Mbps  comp 0.641  totfail 0.356  depth 2.73  eval_s=82.3
+  [eval-time] update 829: 82.3s total
+[ 830/1000] rew= -381.8  thr=106.21Mbps  comp=0.471  drop=0.000  SINR=  7.3dB  KL= 0.0031  ent=1.433  clip=0.031  ev=+0.16  t=52554s
+[ 835/1000] rew= 3589.3  thr=93.59Mbps  comp=0.562  drop=0.000  SINR=  8.4dB  KL= 0.0034  ent=1.064  clip=0.040  ev=+0.24  t=52791s
+  --- eval at update 839 ---
+    PPO           reward  5455.67  thrpt  87.34Mbps  comp 0.641  totfail 0.355  depth 2.74  eval_s=82.4
+  [eval-time] update 839: 82.4s total
+[ 840/1000] rew= 4690.5  thr=49.93Mbps  comp=0.752  drop=0.000  SINR= 14.7dB  KL= 0.0038  ent=0.562  clip=0.048  ev=+0.15  t=53096s
+[ 845/1000] rew= 5138.1  thr=43.79Mbps  comp=0.882  drop=0.001  SINR= 14.1dB  KL= 0.0041  ent=0.425  clip=0.052  ev=+0.12  t=53321s
+  --- eval at update 849 ---
+    PPO           reward  5507.61  thrpt  87.58Mbps  comp 0.643  totfail 0.354  depth 2.88  eval_s=84.6
+  [eval-time] update 849: 84.6s total
+    [batch-verify] update 850: 4 slots, max scaled |diff| 3.81e-06 OK
+[ 850/1000] rew= 5482.8  thr=68.13Mbps  comp=0.695  drop=0.000  SINR= 10.6dB  KL= 0.0044  ent=0.844  clip=0.058  ev=+0.10  t=53648s
+    [kl-stop] update 851: minibatch KL 0.0324 > 0.0300 (epoch 4/4) -- actor frozen, value-only for remaining passes
+[ 855/1000] rew= 5219.5  thr=85.54Mbps  comp=0.623  drop=0.000  SINR=  8.6dB  KL= 0.0042  ent=1.208  clip=0.051  ev=+0.21  t=53899s
+  --- eval at update 859 ---
+    PPO           reward  5461.63  thrpt  87.42Mbps  comp 0.642  totfail 0.355  depth 2.78  eval_s=83.2
+  [eval-time] update 859: 83.2s total
+[ 860/1000] rew= 5802.1  thr=73.69Mbps  comp=0.687  drop=0.000  SINR=  9.4dB  KL= 0.0010  ent=0.876  clip=0.004  ev=+0.29  t=54221s
+    [kl-stop] update 865: minibatch KL 0.0349 > 0.0300 (epoch 4/4) -- actor frozen, value-only for remaining passes
+[ 865/1000] rew= 8100.8  thr=110.13Mbps  comp=0.667  drop=0.000  SINR= 12.2dB  KL= 0.0114  ent=1.297  clip=0.150  ev=+0.32  t=54455s
+  --- eval at update 869 ---
+    PPO           reward  5487.18  thrpt  87.52Mbps  comp 0.643  totfail 0.354  depth 2.82  eval_s=86.0
+  [eval-time] update 869: 86.0s total
+[ 870/1000] rew= 2890.9  thr=45.45Mbps  comp=0.635  drop=0.001  SINR=  9.4dB  KL= 0.0029  ent=0.526  clip=0.039  ev=+0.18  t=54772s
+    [kl-stop] update 871: minibatch KL 0.0306 > 0.0300 (epoch 3/4) -- actor frozen, value-only for remaining passes
+    [batch-verify] update 875: 4 slots, max scaled |diff| 3.81e-06 OK
+[ 875/1000] rew= 3691.4  thr=123.21Mbps  comp=0.538  drop=0.000  SINR= 11.9dB  KL= 0.0049  ent=1.397  clip=0.058  ev=+0.32  t=55022s
+  --- eval at update 879 ---
+    PPO           reward  5492.07  thrpt  87.53Mbps  comp 0.643  totfail 0.354  depth 2.83  eval_s=87.9
+  [eval-time] update 879: 87.9s total
+[ 880/1000] rew= 3773.9  thr=67.94Mbps  comp=0.608  drop=0.000  SINR=  8.8dB  KL= 0.0036  ent=0.809  clip=0.045  ev=+0.21  t=55356s
+[ 885/1000] rew= 5119.6  thr=60.63Mbps  comp=0.711  drop=0.000  SINR= 13.1dB  KL= 0.0054  ent=0.697  clip=0.067  ev=+0.08  t=55605s
+  --- eval at update 889 ---
+    PPO           reward  5462.85  thrpt  87.45Mbps  comp 0.642  totfail 0.355  depth 2.80  eval_s=86.5
+  [eval-time] update 889: 86.5s total
+[ 890/1000] rew= 8221.6  thr=83.72Mbps  comp=0.773  drop=0.001  SINR= 11.4dB  KL= 0.0042  ent=0.815  clip=0.052  ev=+0.11  t=55937s
+[ 895/1000] rew= 8475.6  thr=94.26Mbps  comp=0.734  drop=0.000  SINR= 14.8dB  KL= 0.0093  ent=1.022  clip=0.132  ev=+0.16  t=56188s
+  --- eval at update 899 ---
+    PPO           reward  5536.21  thrpt  87.74Mbps  comp 0.644  totfail 0.353  depth 2.84  eval_s=86.5
+  [eval-time] update 899: 86.5s total
+    [batch-verify] update 900: 4 slots, max scaled |diff| 3.81e-06 OK
+[ 900/1000] rew= 4734.5  thr=57.73Mbps  comp=0.704  drop=0.001  SINR= 13.3dB  KL= 0.0041  ent=0.666  clip=0.047  ev=+0.25  t=56503s
+[ 905/1000] rew= 7582.6  thr=93.05Mbps  comp=0.697  drop=0.000  SINR= 13.0dB  KL= 0.0054  ent=1.166  clip=0.071  ev=+0.24  t=56742s
+  --- eval at update 909 ---
+    PPO           reward  5518.64  thrpt  87.58Mbps  comp 0.644  totfail 0.353  depth 2.84  eval_s=86.4
+  [eval-time] update 909: 86.4s total
+[ 910/1000] rew= 5132.9  thr=62.90Mbps  comp=0.699  drop=0.000  SINR=  9.5dB  KL= 0.0019  ent=0.890  clip=0.013  ev=+0.31  t=57071s
+[ 915/1000] rew= 5848.9  thr=56.75Mbps  comp=0.799  drop=0.001  SINR= 12.0dB  KL= 0.0030  ent=0.478  clip=0.034  ev=+0.19  t=57300s
+  --- eval at update 919 ---
+    PPO           reward  5572.31  thrpt  87.94Mbps  comp 0.645  totfail 0.352  depth 2.94  eval_s=88.2
+  [eval-time] update 919: 88.2s total
+[ 920/1000] rew= 7205.8  thr=92.65Mbps  comp=0.682  drop=0.000  SINR= 12.8dB  KL= 0.0015  ent=1.225  clip=0.005  ev=+0.13  t=57654s
+    [batch-verify] update 925: 4 slots, max scaled |diff| 3.81e-06 OK
+[ 925/1000] rew= 1987.7  thr=50.81Mbps  comp=0.564  drop=0.001  SINR=  8.9dB  KL= 0.0071  ent=0.559  clip=0.095  ev=+0.10  t=57885s
+  --- eval at update 929 ---
+    PPO           reward  5553.17  thrpt  87.82Mbps  comp 0.644  totfail 0.353  depth 2.86  eval_s=86.8
+  [eval-time] update 929: 86.8s total
+[ 930/1000] rew= 8232.5  thr=91.77Mbps  comp=0.736  drop=0.000  SINR= 13.1dB  KL= 0.0018  ent=0.816  clip=0.017  ev=-0.07  t=58222s
+[ 935/1000] rew= 6531.8  thr=121.38Mbps  comp=0.602  drop=0.000  SINR= 15.3dB  KL= 0.0043  ent=1.289  clip=0.048  ev=+0.25  t=58474s
+  --- eval at update 939 ---
+    PPO           reward  5548.68  thrpt  87.87Mbps  comp 0.644  totfail 0.353  depth 2.93  eval_s=89.3
+  [eval-time] update 939: 89.3s total
+[ 940/1000] rew= 5056.5  thr=47.29Mbps  comp=0.826  drop=0.001  SINR= 26.5dB  KL= 0.0043  ent=0.442  clip=0.054  ev=+0.03  t=58788s
+[ 945/1000] rew= 3584.1  thr=75.57Mbps  comp=0.587  drop=0.000  SINR= 10.5dB  KL= 0.0037  ent=0.816  clip=0.042  ev=+0.26  t=59030s
+  --- eval at update 949 ---
+    PPO           reward  5537.56  thrpt  87.73Mbps  comp 0.644  totfail 0.353  depth 2.84  eval_s=87.3
+  [eval-time] update 949: 87.3s total
+    [batch-verify] update 950: 4 slots, max scaled |diff| 7.63e-06 OK
+[ 950/1000] rew= 5752.6  thr=93.52Mbps  comp=0.623  drop=0.000  SINR= 11.9dB  KL= 0.0010  ent=1.074  clip=0.003  ev=+0.28  t=59367s
+[ 955/1000] rew= 6345.9  thr=91.33Mbps  comp=0.655  drop=0.000  SINR= 11.5dB  KL= 0.0017  ent=1.123  clip=0.010  ev=+0.07  t=59629s
+  --- eval at update 959 ---
+    PPO           reward  5528.20  thrpt  87.72Mbps  comp 0.644  totfail 0.353  depth 2.82  eval_s=86.7
+  [eval-time] update 959: 86.7s total
+[ 960/1000] rew= 4856.0  thr=59.56Mbps  comp=0.702  drop=0.001  SINR= 11.6dB  KL= 0.0013  ent=0.620  clip=0.005  ev=+0.15  t=59960s
+[ 965/1000] rew= 4498.3  thr=67.21Mbps  comp=0.647  drop=0.000  SINR= 13.2dB  KL= 0.0012  ent=0.680  clip=0.006  ev=+0.12  t=60195s
+  --- eval at update 969 ---
+    PPO           reward  5497.08  thrpt  87.50Mbps  comp 0.643  totfail 0.354  depth 2.79  eval_s=85.7
+  [eval-time] update 969: 85.7s total
+[ 970/1000] rew= 4484.7  thr=62.92Mbps  comp=0.659  drop=0.000  SINR= 11.3dB  KL= 0.0004  ent=0.772  clip=0.000  ev=+0.25  t=60511s
+    [batch-verify] update 975: 4 slots, max scaled |diff| 7.63e-06 OK
+[ 975/1000] rew= 1404.8  thr=113.13Mbps  comp=0.504  drop=0.000  SINR= 10.6dB  KL= 0.0014  ent=1.246  clip=0.005  ev=+0.32  t=60748s
+  --- eval at update 979 ---
+    PPO           reward  5441.13  thrpt  87.27Mbps  comp 0.641  totfail 0.356  depth 2.69  eval_s=84.7
+  [eval-time] update 979: 84.7s total
+[ 980/1000] rew= 3034.6  thr=47.24Mbps  comp=0.636  drop=0.001  SINR= 10.2dB  KL= 0.0016  ent=0.615  clip=0.011  ev=+0.14  t=61061s
+[ 985/1000] rew= 4250.8  thr=55.32Mbps  comp=0.680  drop=0.000  SINR=  9.2dB  KL= 0.0002  ent=0.815  clip=0.000  ev=+0.25  t=61304s
+  --- eval at update 989 ---
+    PPO           reward  5462.43  thrpt  87.27Mbps  comp 0.642  totfail 0.355  depth 2.71  eval_s=83.9
+  [eval-time] update 989: 83.9s total
+[ 990/1000] rew= 6254.5  thr=93.40Mbps  comp=0.644  drop=0.000  SINR= 16.3dB  KL= 0.0002  ent=0.978  clip=0.000  ev=+0.12  t=61632s
+[ 995/1000] rew=  620.9  thr=60.93Mbps  comp=0.495  drop=0.000  SINR=  7.8dB  KL= 0.0000  ent=0.684  clip=0.000  ev=+0.22  t=61848s
+[ 999/1000] rew= 3683.7  thr=93.99Mbps  comp=0.563  drop=0.000  SINR= 13.3dB  KL= 0.0000  ent=0.953  clip=0.000  ev=+0.11  t=62038s
+  --- eval at update 999 ---
+    PPO           reward  5455.22  thrpt  87.27Mbps  comp 0.642  totfail 0.355  depth 2.72  eval_s=84.4
+  [eval-time] update 999: 84.4s total
+latest.pt saved at update 999
+
+Done. 1000 updates in 62123s  (62.1s/update). Best eval reward: 5630.27

@@ -1,0 +1,25 @@
+......................................................................................................................................................................................................................................................................    [batch-verify] update 0: n_decisions mismatch/nonfinite at slot 3 -- FAILED
+..    [batch-verify] update 0: FAILED, max scaled |diff| 5.000e-01 >= 0.001 at slot 3 value
+.    [batch-verify] update 0: invalid scale or tolerance -- FAILED
+    [batch-verify] update 0: invalid scale or tolerance -- FAILED
+    [batch-verify] update 0: invalid scale or tolerance -- FAILED
+    [batch-verify] update 0: invalid scale or tolerance -- FAILED
+    [batch-verify] update 0: invalid scale or tolerance -- FAILED
+    [batch-verify] update 0: invalid scale or tolerance -- FAILED
+..    [batch-verify] update 0: nonfinite log_prob_sum at slot 3 -- FAILED
+    [batch-verify] update 0: nonfinite log_prob_sum at slot 3 -- FAILED
+    [batch-verify] update 0: nonfinite entropy_sum at slot 3 -- FAILED
+    [batch-verify] update 0: nonfinite entropy_sum at slot 3 -- FAILED
+    [batch-verify] update 0: nonfinite value at slot 3 -- FAILED
+    [batch-verify] update 0: nonfinite value at slot 3 -- FAILED
+    [batch-verify] update 0: n_decisions mismatch/nonfinite at slot 3 -- FAILED
+    [batch-verify] update 0: n_decisions mismatch/nonfinite at slot 3 -- FAILED
+.    [batch-verify] update 0: 1 slots, max scaled |diff| 0.00e+00 OK
+    [kl-stop] update 0: minibatch KL 6.7075 > 0.0300 (epoch 1/2) -- actor frozen, value-only for remaining passes
+    [batch-verify] update 0: 1 slots, max scaled |diff| 0.00e+00 OK
+.....
+----------------------------------------------------------------------
+Ran 273 tests in 4.381s
+
+OK
+    [kl-stop] update 0: minibatch KL 6.7075 > 0.0300 (epoch 1/2) -- actor frozen, value-only for remaining passes

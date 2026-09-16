@@ -1,0 +1,848 @@
+===== [wrap] attempt 1 2026-08-19 05:33:21 :: HEAD=3cc31ac :: --run_root /home/MYH/ML_DRL_Scheduler/Run4 --run_name QueuePostRZF_S40HL_CQI4_s5024 =====
+2026-08-19 05:33:23.349016: I tensorflow/core/util/port.cc:113] oneDNN custom operations are on. You may see slightly different numerical results due to floating-point round-off errors from different computation orders. To turn them off, set the environment variable `TF_ENABLE_ONEDNN_OPTS=0`.
+2026-08-19 05:33:23.393691: E external/local_xla/xla/stream_executor/cuda/cuda_dnn.cc:9261] Unable to register cuDNN factory: Attempting to register factory for plugin cuDNN when one has already been registered
+2026-08-19 05:33:23.393749: E external/local_xla/xla/stream_executor/cuda/cuda_fft.cc:607] Unable to register cuFFT factory: Attempting to register factory for plugin cuFFT when one has already been registered
+2026-08-19 05:33:23.395985: E external/local_xla/xla/stream_executor/cuda/cuda_blas.cc:1515] Unable to register cuBLAS factory: Attempting to register factory for plugin cuBLAS when one has already been registered
+2026-08-19 05:33:23.404753: I tensorflow/core/platform/cpu_feature_guard.cc:182] This TensorFlow binary is optimized to use available CPU instructions in performance-critical operations.
+To enable the following instructions: AVX2 AVX512F AVX512_VNNI FMA, in other operations, rebuild TensorFlow with the appropriate compiler flags.
+2026-08-19 05:33:26.839142: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1929] Created device /job:localhost/replica:0/task:0/device:GPU:0 with 22282 MB memory:  -> device: 0, name: NVIDIA GeForce RTX 4090, pci bus id: 0000:ca:00.0, compute capability: 8.9
+2026-08-19 05:33:33.363410: I tensorflow/core/util/cuda_solvers.cc:179] Creating GpuSolver handles for stream 0x3a622fc0
+git: 3cc31ac59aeb  (clean py)
+=== ML DRL Scheduler -- Config ===
+  cell        : 1 BS (32 ant) x 32 UE (1 ant), DL
+  resource    : 8 RBG x 4 layers = 32 positions
+  RE per RBG  : 1344
+  bandwidth   : RBG 2.88 MHz, total 23.04 MHz
+  slot        : 0.500 ms
+  channel     : TR38.901 UMI, UE speed 3.0 km/h
+  codebook    : type2_sparse_56bit, L=4, atoms=512, payload=56 bit/(UE,RBG)
+  feedback    : p_csi=0.6, cqi=nr4bit
+  traffic     : p_arrival=0.22, size U[4000,12000] bits, deadline U[3,12] slots
+  power/noise : P_total=8.0, P_r=1.0, target SNR 10.0 dB (calibration)
+  retx        : max_retx=4 (5 attempts total)
+  reward      : lambda_s/c/m=1.0/1.0/2.0, eta_D=1.0, B_norm=8000.0
+  episode     : 1000 slots
+
+run_dir: /home/MYH/ML_DRL_Scheduler/Run4/QueuePostRZF_S40HL_CQI4_s5024
+num_updates: 866
+device: cuda
+actor-critic params: 98,755
+
+[   0/866] rew=-3084.8  thr=46.33Mbps  comp=0.323  drop=0.000  SINR=  6.1dB  KL= 0.0025  ent=2.486  clip=0.014  ev=-0.00  t=529s
+[   5/866] rew= 2886.4  thr=48.33Mbps  comp=0.620  drop=0.000  SINR=  9.7dB  KL= 0.0006  ent=1.898  clip=0.001  ev=+0.01  t=3195s
+  --- eval at update 9 ---
+    PPO           reward  4692.28  thrpt  60.00Mbps  comp 0.706  totfail 0.292  depth 2.53
+    SUS+CQI       reward  4338.39  thrpt  61.90Mbps  comp 0.674  totfail 0.323  depth 3.82
+    SUS+Deadline-PF  reward  3572.26  thrpt  60.00Mbps  comp 0.638  totfail 0.359  depth 3.84
+    SUS+PF        reward  3564.83  thrpt  60.07Mbps  comp 0.639  totfail 0.358  depth 3.84
+    SUS+Random    reward  2886.19  thrpt  57.43Mbps  comp 0.607  totfail 0.389  depth 3.88
+    SUS+MW        reward  4018.24  thrpt  61.58Mbps  comp 0.655  totfail 0.342  depth 3.84
+    SUS+EDF       reward  1777.83  thrpt  52.25Mbps  comp 0.546  totfail 0.448  depth 3.92
+    SU+CQI        reward  4354.68  thrpt  60.44Mbps  comp 0.688  totfail 0.310  depth 1.00
+    SU+Deadline-PF  reward  3309.16  thrpt  57.44Mbps  comp 0.632  totfail 0.365  depth 1.00
+    SU+PF         reward  3223.11  thrpt  57.93Mbps  comp 0.633  totfail 0.364  depth 1.00
+    SU+Random     reward   542.38  thrpt  48.85Mbps  comp 0.509  totfail 0.486  depth 1.00
+    SU+MW         reward  3956.07  thrpt  60.15Mbps  comp 0.662  totfail 0.336  depth 1.00
+    SU+EDF        reward -1730.90  thrpt  35.89Mbps  comp 0.403  totfail 0.590  depth 1.00
+  >>> new best eval reward 4692.28, saved best.pt
+[  10/866] rew= -207.8  thr=69.69Mbps  comp=0.451  drop=0.000  SINR= 11.9dB  KL= 0.0060  ent=2.814  clip=0.090  ev=+0.00  t=6232s
+[  15/866] rew= 1940.4  thr=75.03Mbps  comp=0.514  drop=0.000  SINR=  7.7dB  KL= 0.0034  ent=2.778  clip=0.036  ev=-0.02  t=9087s
+  --- eval at update 19 ---
+    PPO           reward  4669.24  thrpt  60.17Mbps  comp 0.704  totfail 0.293  depth 2.72
+[  20/866] rew=-4095.7  thr=100.68Mbps  comp=0.396  drop=0.000  SINR= 11.7dB  KL= 0.0021  ent=2.994  clip=0.011  ev=+0.01  t=12079s
+[  25/866] rew=   66.7  thr=89.89Mbps  comp=0.458  drop=0.000  SINR= 11.0dB  KL= 0.0046  ent=2.925  clip=0.044  ev=+0.01  t=14692s
+    [kl-stop] update 29: minibatch KL 0.0333 > 0.0300 (epoch 3/4) -- actor frozen, value-only for remaining passes
+  --- eval at update 29 ---
+    PPO           reward  4281.86  thrpt  59.91Mbps  comp 0.681  totfail 0.316  depth 3.71
+[  30/866] rew=-5999.2  thr=86.48Mbps  comp=0.343  drop=0.000  SINR= 10.0dB  KL= 0.0078  ent=3.017  clip=0.105  ev=+0.04  t=17439s
+[  35/866] rew= 4674.9  thr=69.03Mbps  comp=0.648  drop=0.001  SINR= 15.2dB  KL= 0.0139  ent=1.802  clip=0.212  ev=+0.02  t=20168s
+  --- eval at update 39 ---
+    PPO           reward  4487.21  thrpt  60.42Mbps  comp 0.692  totfail 0.305  depth 3.40
+[  40/866] rew= -364.9  thr=78.93Mbps  comp=0.453  drop=0.000  SINR= 15.6dB  KL= 0.0027  ent=2.512  clip=0.019  ev=+0.11  t=23125s
+[  45/866] rew=-2730.0  thr=89.51Mbps  comp=0.402  drop=0.000  SINR=  8.3dB  KL= 0.0044  ent=2.854  clip=0.045  ev=+0.09  t=25720s
+  --- eval at update 49 ---
+    PPO           reward  4496.46  thrpt  60.29Mbps  comp 0.693  totfail 0.305  depth 3.33
+[  50/866] rew=-5547.9  thr=97.47Mbps  comp=0.365  drop=0.000  SINR= 10.3dB  KL= 0.0084  ent=3.009  clip=0.111  ev=+0.02  t=28614s
+    [kl-stop] update 55: minibatch KL 0.0307 > 0.0300 (epoch 2/4) -- actor frozen, value-only for remaining passes
+[  55/866] rew= 5503.1  thr=72.75Mbps  comp=0.679  drop=0.000  SINR= 15.0dB  KL= 0.0231  ent=1.872  clip=0.319  ev=-0.01  t=31089s
+    [kl-stop] update 56: minibatch KL 0.0365 > 0.0300 (epoch 3/4) -- actor frozen, value-only for remaining passes
+    [kl-stop] update 57: minibatch KL 0.0304 > 0.0300 (epoch 3/4) -- actor frozen, value-only for remaining passes
+    [kl-stop] update 59: minibatch KL 0.0317 > 0.0300 (epoch 3/4) -- actor frozen, value-only for remaining passes
+  --- eval at update 59 ---
+    PPO           reward  4525.36  thrpt  60.08Mbps  comp 0.695  totfail 0.302  depth 2.99
+[  60/866] rew= 2236.5  thr=60.13Mbps  comp=0.543  drop=0.000  SINR= 12.8dB  KL= 0.0103  ent=2.230  clip=0.152  ev=+0.01  t=33505s
+    [kl-stop] update 62: minibatch KL 0.0306 > 0.0300 (epoch 3/4) -- actor frozen, value-only for remaining passes
+[  65/866] rew= 1605.6  thr=95.63Mbps  comp=0.505  drop=0.000  SINR= 15.9dB  KL= 0.0129  ent=2.182  clip=0.202  ev=+0.10  t=35922s
+    [kl-stop] update 66: minibatch KL 0.0480 > 0.0300 (epoch 1/4) -- actor frozen, value-only for remaining passes
+    [kl-stop] update 68: minibatch KL 0.0447 > 0.0300 (epoch 2/4) -- actor frozen, value-only for remaining passes
+  --- eval at update 69 ---
+    PPO           reward  4211.74  thrpt  60.04Mbps  comp 0.675  totfail 0.322  depth 3.80
+    [kl-stop] update 70: minibatch KL 0.0321 > 0.0300 (epoch 3/4) -- actor frozen, value-only for remaining passes
+[  70/866] rew= 3312.7  thr=93.52Mbps  comp=0.547  drop=0.000  SINR= 14.5dB  KL= 0.0176  ent=2.443  clip=0.247  ev=+0.11  t=38381s
+[  75/866] rew=  178.2  thr=73.24Mbps  comp=0.460  drop=0.000  SINR= 13.0dB  KL= 0.0067  ent=2.681  clip=0.095  ev=+0.17  t=41064s
+  --- eval at update 79 ---
+    PPO           reward  4463.32  thrpt  60.19Mbps  comp 0.692  totfail 0.305  depth 3.41
+[  80/866] rew= 3190.7  thr=46.30Mbps  comp=0.650  drop=0.000  SINR=  7.3dB  KL= 0.0135  ent=1.858  clip=0.215  ev=+0.13  t=43819s
+    [kl-stop] update 83: minibatch KL 0.0313 > 0.0300 (epoch 4/4) -- actor frozen, value-only for remaining passes
+[  85/866] rew= 3411.3  thr=52.17Mbps  comp=0.641  drop=0.000  SINR= 10.4dB  KL= 0.0089  ent=1.568  clip=0.130  ev=+0.13  t=46439s
+    [kl-stop] update 86: minibatch KL 0.0302 > 0.0300 (epoch 3/4) -- actor frozen, value-only for remaining passes
+    [kl-stop] update 89: minibatch KL 0.0315 > 0.0300 (epoch 3/4) -- actor frozen, value-only for remaining passes
+  --- eval at update 89 ---
+    PPO           reward  4446.83  thrpt  60.09Mbps  comp 0.691  totfail 0.307  depth 3.43
+[  90/866] rew=  816.3  thr=94.45Mbps  comp=0.483  drop=0.000  SINR= 11.7dB  KL= 0.0046  ent=2.551  clip=0.050  ev=+0.12  t=49165s
+[  95/866] rew= 2970.9  thr=74.71Mbps  comp=0.553  drop=0.000  SINR=  9.2dB  KL= 0.0108  ent=2.362  clip=0.160  ev=+0.17  t=51949s
+  --- eval at update 99 ---
+    PPO           reward  4400.73  thrpt  59.91Mbps  comp 0.688  totfail 0.309  depth 3.45
+    [kl-stop] update 100: minibatch KL 0.0328 > 0.0300 (epoch 4/4) -- actor frozen, value-only for remaining passes
+[ 100/866] rew= 3882.2  thr=41.65Mbps  comp=0.755  drop=0.000  SINR=  7.2dB  KL= 0.0130  ent=1.421  clip=0.187  ev=+0.12  t=54873s
+[ 105/866] rew=  -92.1  thr=74.89Mbps  comp=0.460  drop=0.000  SINR= 10.3dB  KL= 0.0037  ent=2.370  clip=0.044  ev=+0.14  t=57597s
+  --- eval at update 109 ---
+    PPO           reward  4570.79  thrpt  60.36Mbps  comp 0.697  totfail 0.301  depth 3.29
+[ 110/866] rew= 3307.8  thr=68.51Mbps  comp=0.586  drop=0.000  SINR= 11.6dB  KL= 0.0066  ent=1.653  clip=0.088  ev=+0.10  t=60346s
+[ 115/866] rew= -113.0  thr=84.79Mbps  comp=0.459  drop=0.000  SINR= 11.0dB  KL= 0.0091  ent=2.575  clip=0.131  ev=+0.17  t=63011s
+  --- eval at update 119 ---
+    PPO           reward  4764.94  thrpt  60.52Mbps  comp 0.708  totfail 0.289  depth 2.79
+  >>> new best eval reward 4764.94, saved best.pt
+[ 120/866] rew= 3243.5  thr=66.66Mbps  comp=0.588  drop=0.000  SINR=  9.5dB  KL= 0.0045  ent=1.847  clip=0.048  ev=+0.20  t=65780s
+[ 125/866] rew= 2640.9  thr=59.65Mbps  comp=0.571  drop=0.000  SINR= 18.8dB  KL= 0.0101  ent=1.969  clip=0.154  ev=+0.19  t=68500s
+  --- eval at update 129 ---
+    PPO           reward  4799.17  thrpt  60.99Mbps  comp 0.708  totfail 0.289  depth 3.00
+  >>> new best eval reward 4799.17, saved best.pt
+[ 130/866] rew= 4215.4  thr=69.56Mbps  comp=0.625  drop=0.000  SINR= 16.1dB  KL= 0.0146  ent=1.680  clip=0.222  ev=+0.05  t=71269s
+[ 135/866] rew= 4542.2  thr=71.97Mbps  comp=0.629  drop=0.000  SINR=  8.8dB  KL= 0.0121  ent=2.151  clip=0.172  ev=+0.25  t=73806s
+    [kl-stop] update 139: minibatch KL 0.0353 > 0.0300 (epoch 1/4) -- actor frozen, value-only for remaining passes
+  --- eval at update 139 ---
+    PPO           reward  4504.76  thrpt  60.75Mbps  comp 0.691  totfail 0.307  depth 3.61
+[ 140/866] rew= -315.4  thr=85.79Mbps  comp=0.459  drop=0.000  SINR=  9.1dB  KL= 0.0146  ent=2.357  clip=0.212  ev=+0.27  t=76430s
+    [kl-stop] update 144: minibatch KL 0.0381 > 0.0300 (epoch 2/4) -- actor frozen, value-only for remaining passes
+[ 145/866] rew= 1570.6  thr=36.93Mbps  comp=0.567  drop=0.001  SINR=  6.8dB  KL= 0.0048  ent=1.610  clip=0.054  ev=+0.15  t=78746s
+  --- eval at update 149 ---
+    PPO           reward  4548.71  thrpt  60.88Mbps  comp 0.693  totfail 0.304  depth 3.60
+[ 150/866] rew= 4412.2  thr=69.07Mbps  comp=0.634  drop=0.000  SINR= 11.2dB  KL= 0.0077  ent=2.156  clip=0.113  ev=+0.21  t=81483s
+    [kl-stop] update 151: minibatch KL 0.0314 > 0.0300 (epoch 4/4) -- actor frozen, value-only for remaining passes
+    [kl-stop] update 153: minibatch KL 0.0302 > 0.0300 (epoch 3/4) -- actor frozen, value-only for remaining passes
+[ 155/866] rew= 1086.7  thr=55.57Mbps  comp=0.507  drop=0.000  SINR= 10.4dB  KL= 0.0078  ent=2.016  clip=0.118  ev=+0.26  t=84017s
+  --- eval at update 159 ---
+    PPO           reward  4766.30  thrpt  61.11Mbps  comp 0.706  totfail 0.292  depth 3.22
+    [kl-stop] update 160: minibatch KL 0.0392 > 0.0300 (epoch 4/4) -- actor frozen, value-only for remaining passes
+[ 160/866] rew= 8046.2  thr=96.60Mbps  comp=0.706  drop=0.000  SINR= 20.1dB  KL= 0.0159  ent=1.781  clip=0.221  ev=+0.10  t=86902s
+    [kl-stop] update 162: minibatch KL 0.0324 > 0.0300 (epoch 4/4) -- actor frozen, value-only for remaining passes
+    [kl-stop] update 163: minibatch KL 0.0310 > 0.0300 (epoch 3/4) -- actor frozen, value-only for remaining passes
+    [kl-stop] update 164: minibatch KL 0.0302 > 0.0300 (epoch 3/4) -- actor frozen, value-only for remaining passes
+    [kl-stop] update 165: minibatch KL 0.0318 > 0.0300 (epoch 3/4) -- actor frozen, value-only for remaining passes
+[ 165/866] rew=  -85.8  thr=107.38Mbps  comp=0.469  drop=0.000  SINR= 13.9dB  KL= 0.0192  ent=2.371  clip=0.249  ev=+0.24  t=89251s
+  --- eval at update 169 ---
+    PPO           reward  4734.83  thrpt  61.04Mbps  comp 0.704  totfail 0.293  depth 3.24
+    [kl-stop] update 170: minibatch KL 0.0318 > 0.0300 (epoch 4/4) -- actor frozen, value-only for remaining passes
+[ 170/866] rew= 3641.2  thr=65.30Mbps  comp=0.609  drop=0.000  SINR=  9.0dB  KL= 0.0140  ent=1.725  clip=0.205  ev=+0.26  t=91850s
+    [kl-stop] update 175: minibatch KL 0.0363 > 0.0300 (epoch 3/4) -- actor frozen, value-only for remaining passes
+[ 175/866] rew= -872.8  thr=87.55Mbps  comp=0.446  drop=0.000  SINR=  8.3dB  KL= 0.0199  ent=2.471  clip=0.262  ev=+0.19  t=94354s
+    [kl-stop] update 176: minibatch KL 0.0345 > 0.0300 (epoch 3/4) -- actor frozen, value-only for remaining passes
+    [kl-stop] update 177: minibatch KL 0.0392 > 0.0300 (epoch 4/4) -- actor frozen, value-only for remaining passes
+    [kl-stop] update 178: minibatch KL 0.0326 > 0.0300 (epoch 2/4) -- actor frozen, value-only for remaining passes
+  --- eval at update 179 ---
+    PPO           reward  4841.80  thrpt  61.24Mbps  comp 0.710  totfail 0.287  depth 2.94
+  >>> new best eval reward 4841.80, saved best.pt
+    [kl-stop] update 180: minibatch KL 0.0352 > 0.0300 (epoch 2/4) -- actor frozen, value-only for remaining passes
+[ 180/866] rew= 5952.4  thr=76.28Mbps  comp=0.687  drop=0.000  SINR= 16.4dB  KL= 0.0217  ent=1.570  clip=0.274  ev=+0.10  t=96918s
+    [kl-stop] update 181: minibatch KL 0.0413 > 0.0300 (epoch 2/4) -- actor frozen, value-only for remaining passes
+    [kl-stop] update 182: minibatch KL 0.0319 > 0.0300 (epoch 4/4) -- actor frozen, value-only for remaining passes
+    [kl-stop] update 183: minibatch KL 0.0354 > 0.0300 (epoch 2/4) -- actor frozen, value-only for remaining passes
+[ 185/866] rew= 3957.0  thr=48.86Mbps  comp=0.701  drop=0.000  SINR=  7.7dB  KL= 0.0131  ent=1.459  clip=0.203  ev=+0.14  t=99235s
+  --- eval at update 189 ---
+    PPO           reward  4871.30  thrpt  61.37Mbps  comp 0.711  totfail 0.287  depth 2.89
+  >>> new best eval reward 4871.30, saved best.pt
+[ 190/866] rew= 3301.1  thr=72.67Mbps  comp=0.574  drop=0.000  SINR= 17.7dB  KL= 0.0118  ent=1.723  clip=0.166  ev=+0.15  t=102070s
+    [kl-stop] update 191: minibatch KL 0.0311 > 0.0300 (epoch 4/4) -- actor frozen, value-only for remaining passes
+    [kl-stop] update 192: minibatch KL 0.0318 > 0.0300 (epoch 2/4) -- actor frozen, value-only for remaining passes
+    [kl-stop] update 193: minibatch KL 0.0326 > 0.0300 (epoch 4/4) -- actor frozen, value-only for remaining passes
+    [kl-stop] update 194: minibatch KL 0.0307 > 0.0300 (epoch 3/4) -- actor frozen, value-only for remaining passes
+[ 195/866] rew= 1992.2  thr=41.72Mbps  comp=0.586  drop=0.003  SINR= 14.6dB  KL= 0.0111  ent=1.173  clip=0.166  ev=+0.21  t=104376s
+    [kl-stop] update 198: minibatch KL 0.0361 > 0.0300 (epoch 3/4) -- actor frozen, value-only for remaining passes
+  --- eval at update 199 ---
+    PPO           reward  4899.56  thrpt  61.26Mbps  comp 0.714  totfail 0.284  depth 2.64
+  >>> new best eval reward 4899.56, saved best.pt
+[ 200/866] rew= 2526.6  thr=88.74Mbps  comp=0.531  drop=0.000  SINR= 10.6dB  KL= 0.0089  ent=2.066  clip=0.128  ev=+0.14  t=107082s
+    [kl-stop] update 201: minibatch KL 0.0363 > 0.0300 (epoch 4/4) -- actor frozen, value-only for remaining passes
+    [kl-stop] update 202: minibatch KL 0.0385 > 0.0300 (epoch 2/4) -- actor frozen, value-only for remaining passes
+    [kl-stop] update 204: minibatch KL 0.0365 > 0.0300 (epoch 2/4) -- actor frozen, value-only for remaining passes
+[ 205/866] rew= 4305.6  thr=76.54Mbps  comp=0.611  drop=0.000  SINR= 12.1dB  KL= 0.0101  ent=1.513  clip=0.145  ev=+0.19  t=109397s
+    [kl-stop] update 207: minibatch KL 0.0330 > 0.0300 (epoch 4/4) -- actor frozen, value-only for remaining passes
+    [kl-stop] update 208: minibatch KL 0.0396 > 0.0300 (epoch 3/4) -- actor frozen, value-only for remaining passes
+    [kl-stop] update 209: minibatch KL 0.0330 > 0.0300 (epoch 3/4) -- actor frozen, value-only for remaining passes
+  --- eval at update 209 ---
+    PPO           reward  4876.29  thrpt  61.24Mbps  comp 0.712  totfail 0.286  depth 2.71
+[ 210/866] rew= 4289.3  thr=91.63Mbps  comp=0.579  drop=0.000  SINR= 12.6dB  KL= 0.0106  ent=1.856  clip=0.159  ev=+0.17  t=111931s
+    [kl-stop] update 212: minibatch KL 0.0304 > 0.0300 (epoch 4/4) -- actor frozen, value-only for remaining passes
+    [kl-stop] update 213: minibatch KL 0.0508 > 0.0300 (epoch 1/4) -- actor frozen, value-only for remaining passes
+[ 215/866] rew= 4204.0  thr=106.51Mbps  comp=0.561  drop=0.000  SINR= 15.4dB  KL= 0.0154  ent=2.150  clip=0.217  ev=+0.22  t=114299s
+  --- eval at update 219 ---
+    PPO           reward  4911.80  thrpt  61.37Mbps  comp 0.714  totfail 0.284  depth 2.63
+  >>> new best eval reward 4911.80, saved best.pt
+    [kl-stop] update 220: minibatch KL 0.0312 > 0.0300 (epoch 3/4) -- actor frozen, value-only for remaining passes
+[ 220/866] rew= 4628.2  thr=47.00Mbps  comp=0.778  drop=0.001  SINR= 13.3dB  KL= 0.0166  ent=1.047  clip=0.211  ev=+0.10  t=116713s
+[ 225/866] rew= 2097.5  thr=57.42Mbps  comp=0.557  drop=0.000  SINR= 10.2dB  KL= 0.0100  ent=1.290  clip=0.153  ev=+0.19  t=119209s
+    [kl-stop] update 228: minibatch KL 0.0414 > 0.0300 (epoch 3/4) -- actor frozen, value-only for remaining passes
+/home/MYH/ML_DRL_Scheduler/env.py:363: RuntimeWarning: divide by zero encountered in log10
+  slot_sinr_db = (float(10.0 * np.log10(sinr_map[occ].mean()))
+  --- eval at update 229 ---
+    PPO           reward  4905.23  thrpt  61.32Mbps  comp 0.713  totfail 0.284  depth 2.59
+[ 230/866] rew= 3522.6  thr=67.52Mbps  comp=0.601  drop=0.000  SINR= 15.0dB  KL= 0.0124  ent=1.368  clip=0.184  ev=+0.20  t=121671s
+    [kl-stop] update 232: minibatch KL 0.0321 > 0.0300 (epoch 4/4) -- actor frozen, value-only for remaining passes
+    [kl-stop] update 233: minibatch KL 0.0310 > 0.0300 (epoch 3/4) -- actor frozen, value-only for remaining passes
+    [kl-stop] update 235: minibatch KL 0.0317 > 0.0300 (epoch 4/4) -- actor frozen, value-only for remaining passes
+[ 235/866] rew=  233.1  thr=43.25Mbps  comp=0.482  drop=0.002  SINR= 11.1dB  KL= 0.0151  ent=1.149  clip=0.203  ev=+0.15  t=123992s
+  --- eval at update 239 ---
+    PPO           reward  4947.85  thrpt  61.62Mbps  comp 0.714  totfail 0.283  depth 2.67
+  >>> new best eval reward 4947.85, saved best.pt
+[ 240/866] rew= 4761.2  thr=66.56Mbps  comp=0.663  drop=0.000  SINR= 13.8dB  KL= 0.0132  ent=1.393  clip=0.200  ev=+0.07  t=126594s
+    [kl-stop] update 241: minibatch KL 0.0305 > 0.0300 (epoch 2/4) -- actor frozen, value-only for remaining passes
+[ 245/866] rew= 5435.8  thr=77.80Mbps  comp=0.656  drop=0.000  SINR= 12.2dB  KL= 0.0120  ent=1.380  clip=0.180  ev=+0.20  t=128805s
+    [kl-stop] update 246: minibatch KL 0.0321 > 0.0300 (epoch 4/4) -- actor frozen, value-only for remaining passes
+  --- eval at update 249 ---
+    PPO           reward  4962.05  thrpt  61.63Mbps  comp 0.716  totfail 0.282  depth 2.49
+  >>> new best eval reward 4962.05, saved best.pt
+[ 250/866] rew= 2205.7  thr=55.43Mbps  comp=0.565  drop=0.001  SINR= 14.8dB  KL= 0.0102  ent=1.316  clip=0.144  ev=+0.29  t=131265s
+    [kl-stop] update 253: minibatch KL 0.0308 > 0.0300 (epoch 4/4) -- actor frozen, value-only for remaining passes
+[ 255/866] rew= 1315.0  thr=94.86Mbps  comp=0.503  drop=0.000  SINR= 17.8dB  KL= 0.0100  ent=1.809  clip=0.135  ev=+0.17  t=133580s
+    [kl-stop] update 256: minibatch KL 0.0345 > 0.0300 (epoch 3/4) -- actor frozen, value-only for remaining passes
+    [kl-stop] update 257: minibatch KL 0.0310 > 0.0300 (epoch 4/4) -- actor frozen, value-only for remaining passes
+    [kl-stop] update 259: minibatch KL 0.0328 > 0.0300 (epoch 4/4) -- actor frozen, value-only for remaining passes
+  --- eval at update 259 ---
+    PPO           reward  4993.30  thrpt  61.71Mbps  comp 0.717  totfail 0.280  depth 2.47
+  >>> new best eval reward 4993.30, saved best.pt
+    [kl-stop] update 260: minibatch KL 0.0314 > 0.0300 (epoch 4/4) -- actor frozen, value-only for remaining passes
+[ 260/866] rew= 4532.7  thr=50.77Mbps  comp=0.730  drop=0.000  SINR= 14.9dB  KL= 0.0169  ent=1.344  clip=0.231  ev=+0.25  t=135876s
+    [kl-stop] update 262: minibatch KL 0.0363 > 0.0300 (epoch 1/4) -- actor frozen, value-only for remaining passes
+    [kl-stop] update 264: minibatch KL 0.0416 > 0.0300 (epoch 2/4) -- actor frozen, value-only for remaining passes
+    [kl-stop] update 265: minibatch KL 0.0315 > 0.0300 (epoch 3/4) -- actor frozen, value-only for remaining passes
+[ 265/866] rew= 5687.3  thr=80.69Mbps  comp=0.657  drop=0.000  SINR= 14.2dB  KL= 0.0174  ent=1.455  clip=0.211  ev=+0.27  t=137754s
+  --- eval at update 269 ---
+    PPO           reward  5005.89  thrpt  61.75Mbps  comp 0.718  totfail 0.279  depth 2.44
+  >>> new best eval reward 5005.89, saved best.pt
+[ 270/866] rew= 4050.3  thr=68.44Mbps  comp=0.620  drop=0.000  SINR= 10.9dB  KL= 0.0151  ent=1.459  clip=0.211  ev=+0.23  t=140070s
+[ 275/866] rew= 5964.1  thr=85.10Mbps  comp=0.656  drop=0.000  SINR= 14.8dB  KL= 0.0178  ent=1.745  clip=0.259  ev=+0.24  t=142496s
+    [kl-stop] update 276: minibatch KL 0.0312 > 0.0300 (epoch 3/4) -- actor frozen, value-only for remaining passes
+    [kl-stop] update 279: minibatch KL 0.0339 > 0.0300 (epoch 3/4) -- actor frozen, value-only for remaining passes
+  --- eval at update 279 ---
+    PPO           reward  5026.86  thrpt  61.81Mbps  comp 0.719  totfail 0.279  depth 2.37
+  >>> new best eval reward 5026.86, saved best.pt
+[ 280/866] rew= 3007.2  thr=69.27Mbps  comp=0.573  drop=0.000  SINR= 16.0dB  KL= 0.0118  ent=1.470  clip=0.167  ev=+0.22  t=144643s
+    [kl-stop] update 281: minibatch KL 0.0325 > 0.0300 (epoch 2/4) -- actor frozen, value-only for remaining passes
+[ 285/866] rew= 3503.1  thr=68.87Mbps  comp=0.598  drop=0.000  SINR= 14.3dB  KL= 0.0106  ent=1.162  clip=0.155  ev=+0.21  t=146584s
+  --- eval at update 289 ---
+    PPO           reward  5042.18  thrpt  61.95Mbps  comp 0.720  totfail 0.278  depth 2.42
+  >>> new best eval reward 5042.18, saved best.pt
+    [kl-stop] update 290: minibatch KL 0.0444 > 0.0300 (epoch 2/4) -- actor frozen, value-only for remaining passes
+[ 290/866] rew= 8218.0  thr=107.55Mbps  comp=0.681  drop=0.000  SINR= 12.5dB  KL= 0.0324  ent=1.612  clip=0.347  ev=+0.13  t=148721s
+    [kl-stop] update 291: minibatch KL 0.0449 > 0.0300 (epoch 2/4) -- actor frozen, value-only for remaining passes
+    [kl-stop] update 293: minibatch KL 0.0325 > 0.0300 (epoch 2/4) -- actor frozen, value-only for remaining passes
+    [kl-stop] update 295: minibatch KL 0.0391 > 0.0300 (epoch 2/4) -- actor frozen, value-only for remaining passes
+[ 295/866] rew= -984.5  thr=113.40Mbps  comp=0.453  drop=0.000  SINR= 12.5dB  KL= 0.0286  ent=2.310  clip=0.341  ev=+0.22  t=150548s
+    [kl-stop] update 297: minibatch KL 0.0317 > 0.0300 (epoch 4/4) -- actor frozen, value-only for remaining passes
+  --- eval at update 299 ---
+    PPO           reward  5048.99  thrpt  62.01Mbps  comp 0.719  totfail 0.278  depth 2.52
+  >>> new best eval reward 5048.99, saved best.pt
+    [kl-stop] update 300: minibatch KL 0.0403 > 0.0300 (epoch 4/4) -- actor frozen, value-only for remaining passes
+[ 300/866] rew= 4958.1  thr=53.39Mbps  comp=0.751  drop=0.000  SINR= 22.7dB  KL= 0.0190  ent=1.089  clip=0.256  ev=+0.15  t=152914s
+    [kl-stop] update 301: minibatch KL 0.0315 > 0.0300 (epoch 3/4) -- actor frozen, value-only for remaining passes
+[ 305/866] rew= 4946.0  thr=59.41Mbps  comp=0.708  drop=0.000  SINR= 13.6dB  KL= 0.0113  ent=1.419  clip=0.172  ev=+0.15  t=155061s
+    [kl-stop] update 308: minibatch KL 0.0312 > 0.0300 (epoch 1/4) -- actor frozen, value-only for remaining passes
+  --- eval at update 309 ---
+    PPO           reward  5095.82  thrpt  62.21Mbps  comp 0.721  totfail 0.276  depth 2.69
+  >>> new best eval reward 5095.82, saved best.pt
+[ 310/866] rew= 4660.6  thr=82.86Mbps  comp=0.611  drop=0.000  SINR= 13.6dB  KL= 0.0130  ent=1.493  clip=0.201  ev=+0.34  t=157370s
+    [kl-stop] update 312: minibatch KL 0.0377 > 0.0300 (epoch 2/4) -- actor frozen, value-only for remaining passes
+    [kl-stop] update 313: minibatch KL 0.0428 > 0.0300 (epoch 2/4) -- actor frozen, value-only for remaining passes
+    [kl-stop] update 314: minibatch KL 0.0379 > 0.0300 (epoch 4/4) -- actor frozen, value-only for remaining passes
+[ 315/866] rew= 5608.9  thr=49.87Mbps  comp=0.853  drop=0.000  SINR= 14.9dB  KL= 0.0080  ent=0.871  clip=0.116  ev=-0.05  t=159367s
+    [kl-stop] update 316: minibatch KL 0.0313 > 0.0300 (epoch 4/4) -- actor frozen, value-only for remaining passes
+    [kl-stop] update 317: minibatch KL 0.0462 > 0.0300 (epoch 1/4) -- actor frozen, value-only for remaining passes
+    [kl-stop] update 318: minibatch KL 0.0341 > 0.0300 (epoch 2/4) -- actor frozen, value-only for remaining passes
+  --- eval at update 319 ---
+    PPO           reward  5073.43  thrpt  62.10Mbps  comp 0.720  totfail 0.278  depth 2.32
+[ 320/866] rew= 3267.1  thr=66.72Mbps  comp=0.590  drop=0.000  SINR= 12.2dB  KL= 0.0104  ent=1.298  clip=0.150  ev=+0.19  t=161317s
+[ 325/866] rew= 5097.1  thr=102.59Mbps  comp=0.592  drop=0.000  SINR= 10.4dB  KL= 0.0102  ent=1.819  clip=0.151  ev=+0.02  t=163626s
+  --- eval at update 329 ---
+    PPO           reward  5085.75  thrpt  62.16Mbps  comp 0.721  totfail 0.277  depth 2.33
+[ 330/866] rew= 7509.9  thr=106.66Mbps  comp=0.658  drop=0.000  SINR= 18.9dB  KL= 0.0161  ent=1.636  clip=0.221  ev=+0.17  t=165970s
+    [kl-stop] update 331: minibatch KL 0.0309 > 0.0300 (epoch 1/4) -- actor frozen, value-only for remaining passes
+    [kl-stop] update 333: minibatch KL 0.0374 > 0.0300 (epoch 4/4) -- actor frozen, value-only for remaining passes
+    [kl-stop] update 334: minibatch KL 0.0304 > 0.0300 (epoch 4/4) -- actor frozen, value-only for remaining passes
+[ 335/866] rew= 4241.6  thr=47.28Mbps  comp=0.735  drop=0.000  SINR=  9.5dB  KL= 0.0102  ent=0.994  clip=0.133  ev=+0.05  t=167895s
+    [kl-stop] update 337: minibatch KL 0.0315 > 0.0300 (epoch 3/4) -- actor frozen, value-only for remaining passes
+    [kl-stop] update 338: minibatch KL 0.0597 > 0.0300 (epoch 4/4) -- actor frozen, value-only for remaining passes
+  --- eval at update 339 ---
+    PPO           reward  5074.31  thrpt  62.09Mbps  comp 0.720  totfail 0.277  depth 2.30
+[ 340/866] rew= 4786.0  thr=50.44Mbps  comp=0.762  drop=0.001  SINR= 19.5dB  KL= 0.0089  ent=0.627  clip=0.126  ev=+0.10  t=170037s
+    [kl-stop] update 343: minibatch KL 0.0348 > 0.0300 (epoch 3/4) -- actor frozen, value-only for remaining passes
+    [kl-stop] update 344: minibatch KL 0.0347 > 0.0300 (epoch 3/4) -- actor frozen, value-only for remaining passes
+[ 345/866] rew= 2329.4  thr=72.93Mbps  comp=0.541  drop=0.000  SINR=  8.2dB  KL= 0.0111  ent=1.380  clip=0.157  ev=+0.19  t=172144s
+    [kl-stop] update 347: minibatch KL 0.0343 > 0.0300 (epoch 1/4) -- actor frozen, value-only for remaining passes
+    [kl-stop] update 348: minibatch KL 0.0359 > 0.0300 (epoch 4/4) -- actor frozen, value-only for remaining passes
+    [kl-stop] update 349: minibatch KL 0.0362 > 0.0300 (epoch 2/4) -- actor frozen, value-only for remaining passes
+  --- eval at update 349 ---
+    PPO           reward  5081.20  thrpt  62.16Mbps  comp 0.720  totfail 0.278  depth 2.27
+[ 350/866] rew= 4393.1  thr=95.43Mbps  comp=0.581  drop=0.000  SINR= 12.7dB  KL= 0.0090  ent=1.447  clip=0.124  ev=+0.33  t=174585s
+    [kl-stop] update 352: minibatch KL 0.0307 > 0.0300 (epoch 4/4) -- actor frozen, value-only for remaining passes
+    [kl-stop] update 353: minibatch KL 0.0332 > 0.0300 (epoch 1/4) -- actor frozen, value-only for remaining passes
+[ 355/866] rew= 5277.1  thr=87.21Mbps  comp=0.626  drop=0.000  SINR= 13.9dB  KL= 0.0147  ent=1.383  clip=0.204  ev=+0.22  t=176948s
+    [kl-stop] update 356: minibatch KL 0.0363 > 0.0300 (epoch 4/4) -- actor frozen, value-only for remaining passes
+  --- eval at update 359 ---
+    PPO           reward  5052.96  thrpt  62.10Mbps  comp 0.719  totfail 0.278  depth 2.46
+[ 360/866] rew= 5263.1  thr=72.91Mbps  comp=0.661  drop=0.000  SINR= 13.1dB  KL= 0.0113  ent=1.298  clip=0.168  ev=+0.18  t=179329s
+[ 365/866] rew= 4545.1  thr=83.12Mbps  comp=0.604  drop=0.000  SINR= 14.8dB  KL= 0.0110  ent=1.460  clip=0.154  ev=+0.35  t=181571s
+    [kl-stop] update 366: minibatch KL 0.0308 > 0.0300 (epoch 4/4) -- actor frozen, value-only for remaining passes
+    [kl-stop] update 367: minibatch KL 0.0314 > 0.0300 (epoch 3/4) -- actor frozen, value-only for remaining passes
+    [kl-stop] update 368: minibatch KL 0.0308 > 0.0300 (epoch 3/4) -- actor frozen, value-only for remaining passes
+  --- eval at update 369 ---
+    PPO           reward  5140.51  thrpt  62.43Mbps  comp 0.723  totfail 0.275  depth 2.52
+  >>> new best eval reward 5140.51, saved best.pt
+[ 370/866] rew= 3991.1  thr=73.11Mbps  comp=0.606  drop=0.000  SINR= 10.9dB  KL= 0.0133  ent=1.317  clip=0.196  ev=+0.22  t=183903s
+[ 375/866] rew= 5292.8  thr=44.31Mbps  comp=0.896  drop=0.000  SINR= 12.0dB  KL= 0.0097  ent=0.742  clip=0.134  ev=-0.25  t=186196s
+    [kl-stop] update 376: minibatch KL 0.0316 > 0.0300 (epoch 2/4) -- actor frozen, value-only for remaining passes
+    [kl-stop] update 377: minibatch KL 0.0337 > 0.0300 (epoch 3/4) -- actor frozen, value-only for remaining passes
+    [kl-stop] update 378: minibatch KL 0.0308 > 0.0300 (epoch 4/4) -- actor frozen, value-only for remaining passes
+  --- eval at update 379 ---
+    PPO           reward  5105.59  thrpt  62.33Mbps  comp 0.721  totfail 0.276  depth 2.52
+[ 380/866] rew= 1968.3  thr=49.11Mbps  comp=0.568  drop=0.001  SINR= 11.6dB  KL= 0.0096  ent=0.805  clip=0.132  ev=+0.21  t=188492s
+[ 385/866] rew= 3982.1  thr=61.70Mbps  comp=0.640  drop=0.000  SINR= 13.8dB  KL= 0.0095  ent=0.975  clip=0.134  ev=+0.20  t=190683s
+    [kl-stop] update 389: minibatch KL 0.0348 > 0.0300 (epoch 4/4) -- actor frozen, value-only for remaining passes
+  --- eval at update 389 ---
+    PPO           reward  5143.68  thrpt  62.47Mbps  comp 0.723  totfail 0.274  depth 2.50
+  >>> new best eval reward 5143.68, saved best.pt
+[ 390/866] rew= 4297.0  thr=94.20Mbps  comp=0.578  drop=0.000  SINR= 18.4dB  KL= 0.0173  ent=1.699  clip=0.259  ev=+0.16  t=192988s
+    [kl-stop] update 393: minibatch KL 0.0413 > 0.0300 (epoch 4/4) -- actor frozen, value-only for remaining passes
+[ 395/866] rew= 4534.9  thr=94.39Mbps  comp=0.587  drop=0.000  SINR= 16.7dB  KL= 0.0144  ent=1.382  clip=0.219  ev=+0.19  t=195360s
+    [kl-stop] update 396: minibatch KL 0.0333 > 0.0300 (epoch 3/4) -- actor frozen, value-only for remaining passes
+    [kl-stop] update 397: minibatch KL 0.0313 > 0.0300 (epoch 4/4) -- actor frozen, value-only for remaining passes
+    [kl-stop] update 398: minibatch KL 0.0310 > 0.0300 (epoch 2/4) -- actor frozen, value-only for remaining passes
+    [kl-stop] update 399: minibatch KL 0.0339 > 0.0300 (epoch 2/4) -- actor frozen, value-only for remaining passes
+  --- eval at update 399 ---
+    PPO           reward  5119.56  thrpt  62.36Mbps  comp 0.722  totfail 0.276  depth 2.50
+[ 400/866] rew= 6646.7  thr=80.01Mbps  comp=0.708  drop=0.000  SINR= 17.2dB  KL= 0.0114  ent=1.177  clip=0.161  ev=+0.25  t=197639s
+[ 405/866] rew= 4885.4  thr=83.78Mbps  comp=0.615  drop=0.000  SINR= 10.5dB  KL= 0.0130  ent=1.660  clip=0.198  ev=+0.33  t=200040s
+    [kl-stop] update 407: minibatch KL 0.0318 > 0.0300 (epoch 2/4) -- actor frozen, value-only for remaining passes
+    [kl-stop] update 408: minibatch KL 0.0347 > 0.0300 (epoch 2/4) -- actor frozen, value-only for remaining passes
+  --- eval at update 409 ---
+    PPO           reward  5089.70  thrpt  62.30Mbps  comp 0.720  totfail 0.277  depth 2.39
+    [kl-stop] update 410: minibatch KL 0.0317 > 0.0300 (epoch 4/4) -- actor frozen, value-only for remaining passes
+[ 410/866] rew= 4082.8  thr=114.38Mbps  comp=0.552  drop=0.000  SINR= 17.4dB  KL= 0.0152  ent=1.781  clip=0.222  ev=+0.23  t=202210s
+    [kl-stop] update 411: minibatch KL 0.0327 > 0.0300 (epoch 4/4) -- actor frozen, value-only for remaining passes
+    [kl-stop] update 412: minibatch KL 0.0307 > 0.0300 (epoch 4/4) -- actor frozen, value-only for remaining passes
+    [kl-stop] update 413: minibatch KL 0.0348 > 0.0300 (epoch 3/4) -- actor frozen, value-only for remaining passes
+    [kl-stop] update 415: minibatch KL 0.0320 > 0.0300 (epoch 2/4) -- actor frozen, value-only for remaining passes
+[ 415/866] rew= 2648.5  thr=103.70Mbps  comp=0.528  drop=0.000  SINR= 10.6dB  KL= 0.0245  ent=1.730  clip=0.307  ev=+0.11  t=204291s
+    [kl-stop] update 418: minibatch KL 0.0362 > 0.0300 (epoch 3/4) -- actor frozen, value-only for remaining passes
+    [kl-stop] update 419: minibatch KL 0.0357 > 0.0300 (epoch 2/4) -- actor frozen, value-only for remaining passes
+  --- eval at update 419 ---
+    PPO           reward  5020.47  thrpt  62.04Mbps  comp 0.717  totfail 0.280  depth 2.22
+[ 420/866] rew= 5044.0  thr=88.06Mbps  comp=0.616  drop=0.000  SINR= 17.3dB  KL= 0.0101  ent=1.180  clip=0.151  ev=-0.22  t=206199s
+    [kl-stop] update 421: minibatch KL 0.0320 > 0.0300 (epoch 3/4) -- actor frozen, value-only for remaining passes
+    [kl-stop] update 424: minibatch KL 0.0374 > 0.0300 (epoch 1/4) -- actor frozen, value-only for remaining passes
+    [kl-stop] update 425: minibatch KL 0.0391 > 0.0300 (epoch 1/4) -- actor frozen, value-only for remaining passes
+[ 425/866] rew= 4273.9  thr=72.46Mbps  comp=0.620  drop=0.000  SINR= 13.2dB  KL= 0.0320  ent=1.026  clip=0.389  ev=+0.20  t=207780s
+    [kl-stop] update 426: minibatch KL 0.0303 > 0.0300 (epoch 4/4) -- actor frozen, value-only for remaining passes
+    [kl-stop] update 427: minibatch KL 0.0318 > 0.0300 (epoch 4/4) -- actor frozen, value-only for remaining passes
+    [kl-stop] update 429: minibatch KL 0.0303 > 0.0300 (epoch 3/4) -- actor frozen, value-only for remaining passes
+  --- eval at update 429 ---
+    PPO           reward  5047.37  thrpt  62.16Mbps  comp 0.718  totfail 0.279  depth 2.34
+    [kl-stop] update 430: minibatch KL 0.0349 > 0.0300 (epoch 4/4) -- actor frozen, value-only for remaining passes
+[ 430/866] rew= 6729.7  thr=93.09Mbps  comp=0.666  drop=0.000  SINR= 18.1dB  KL= 0.0154  ent=0.995  clip=0.175  ev=+0.05  t=209837s
+    [kl-stop] update 432: minibatch KL 0.0441 > 0.0300 (epoch 2/4) -- actor frozen, value-only for remaining passes
+    [kl-stop] update 433: minibatch KL 0.0334 > 0.0300 (epoch 3/4) -- actor frozen, value-only for remaining passes
+    [kl-stop] update 435: minibatch KL 0.0327 > 0.0300 (epoch 4/4) -- actor frozen, value-only for remaining passes
+[ 435/866] rew= 6894.8  thr=91.33Mbps  comp=0.678  drop=0.000  SINR= 13.0dB  KL= 0.0140  ent=1.099  clip=0.188  ev=+0.24  t=211847s
+    [kl-stop] update 438: minibatch KL 0.0371 > 0.0300 (epoch 2/4) -- actor frozen, value-only for remaining passes
+  --- eval at update 439 ---
+    PPO           reward  5047.63  thrpt  62.08Mbps  comp 0.719  totfail 0.279  depth 2.24
+[ 440/866] rew= 4072.5  thr=40.18Mbps  comp=0.789  drop=0.000  SINR= 10.5dB  KL= 0.0126  ent=0.483  clip=0.160  ev=+0.18  t=213787s
+    [kl-stop] update 441: minibatch KL 0.0506 > 0.0300 (epoch 2/4) -- actor frozen, value-only for remaining passes
+    [kl-stop] update 442: minibatch KL 0.0405 > 0.0300 (epoch 3/4) -- actor frozen, value-only for remaining passes
+    [kl-stop] update 445: minibatch KL 0.0329 > 0.0300 (epoch 4/4) -- actor frozen, value-only for remaining passes
+[ 445/866] rew= 2944.4  thr=77.36Mbps  comp=0.561  drop=0.000  SINR=  8.5dB  KL= 0.0184  ent=1.031  clip=0.225  ev=+0.07  t=215739s
+    [kl-stop] update 447: minibatch KL 0.0325 > 0.0300 (epoch 2/4) -- actor frozen, value-only for remaining passes
+    [kl-stop] update 449: minibatch KL 0.0301 > 0.0300 (epoch 4/4) -- actor frozen, value-only for remaining passes
+  --- eval at update 449 ---
+    PPO           reward  5053.98  thrpt  62.04Mbps  comp 0.719  totfail 0.278  depth 2.31
+[ 450/866] rew= 3019.2  thr=109.99Mbps  comp=0.533  drop=0.000  SINR= 14.7dB  KL= 0.0152  ent=1.563  clip=0.219  ev=+0.42  t=217836s
+    [kl-stop] update 452: minibatch KL 0.0353 > 0.0300 (epoch 3/4) -- actor frozen, value-only for remaining passes
+    [kl-stop] update 453: minibatch KL 0.0333 > 0.0300 (epoch 2/4) -- actor frozen, value-only for remaining passes
+    [kl-stop] update 455: minibatch KL 0.0329 > 0.0300 (epoch 3/4) -- actor frozen, value-only for remaining passes
+[ 455/866] rew= 3892.2  thr=102.03Mbps  comp=0.561  drop=0.000  SINR= 15.1dB  KL= 0.0186  ent=1.282  clip=0.235  ev=+0.08  t=219891s
+    [kl-stop] update 456: minibatch KL 0.0303 > 0.0300 (epoch 4/4) -- actor frozen, value-only for remaining passes
+    [kl-stop] update 457: minibatch KL 0.0314 > 0.0300 (epoch 4/4) -- actor frozen, value-only for remaining passes
+    [kl-stop] update 458: minibatch KL 0.0511 > 0.0300 (epoch 4/4) -- actor frozen, value-only for remaining passes
+    [kl-stop] update 459: minibatch KL 0.0449 > 0.0300 (epoch 1/4) -- actor frozen, value-only for remaining passes
+  --- eval at update 459 ---
+    PPO           reward  5061.03  thrpt  62.06Mbps  comp 0.719  totfail 0.278  depth 2.27
+[ 460/866] rew= 4133.7  thr=59.22Mbps  comp=0.658  drop=0.000  SINR= 15.4dB  KL= 0.0133  ent=0.795  clip=0.185  ev=+0.19  t=221863s
+    [kl-stop] update 461: minibatch KL 0.0336 > 0.0300 (epoch 2/4) -- actor frozen, value-only for remaining passes
+    [kl-stop] update 464: minibatch KL 0.0315 > 0.0300 (epoch 1/4) -- actor frozen, value-only for remaining passes
+[ 465/866] rew= 4157.1  thr=47.46Mbps  comp=0.726  drop=0.000  SINR= 15.3dB  KL= 0.0136  ent=0.488  clip=0.195  ev=+0.17  t=223551s
+    [kl-stop] update 466: minibatch KL 0.0347 > 0.0300 (epoch 2/4) -- actor frozen, value-only for remaining passes
+    [kl-stop] update 468: minibatch KL 0.0326 > 0.0300 (epoch 4/4) -- actor frozen, value-only for remaining passes
+  --- eval at update 469 ---
+    PPO           reward  5043.80  thrpt  62.07Mbps  comp 0.719  totfail 0.279  depth 2.22
+    [kl-stop] update 470: minibatch KL 0.0362 > 0.0300 (epoch 2/4) -- actor frozen, value-only for remaining passes
+[ 470/866] rew= 1876.4  thr=39.79Mbps  comp=0.582  drop=0.000  SINR= 12.2dB  KL= 0.0290  ent=0.514  clip=0.326  ev=+0.31  t=225459s
+    [kl-stop] update 471: minibatch KL 0.0419 > 0.0300 (epoch 3/4) -- actor frozen, value-only for remaining passes
+    [kl-stop] update 473: minibatch KL 0.0323 > 0.0300 (epoch 1/4) -- actor frozen, value-only for remaining passes
+    [kl-stop] update 474: minibatch KL 0.0300 > 0.0300 (epoch 3/4) -- actor frozen, value-only for remaining passes
+    [kl-stop] update 475: minibatch KL 0.0355 > 0.0300 (epoch 1/4) -- actor frozen, value-only for remaining passes
+[ 475/866] rew= 6513.3  thr=59.81Mbps  comp=0.829  drop=0.000  SINR= 17.1dB  KL= 0.0329  ent=0.622  clip=0.364  ev=+0.28  t=227068s
+    [kl-stop] update 476: minibatch KL 0.0326 > 0.0300 (epoch 2/4) -- actor frozen, value-only for remaining passes
+    [kl-stop] update 478: minibatch KL 0.0443 > 0.0300 (epoch 3/4) -- actor frozen, value-only for remaining passes
+    [kl-stop] update 479: minibatch KL 0.0305 > 0.0300 (epoch 2/4) -- actor frozen, value-only for remaining passes
+  --- eval at update 479 ---
+    PPO           reward  5076.05  thrpt  62.19Mbps  comp 0.720  totfail 0.278  depth 2.29
+[ 480/866] rew= 4333.9  thr=78.75Mbps  comp=0.609  drop=0.000  SINR= 13.1dB  KL= 0.0189  ent=0.915  clip=0.256  ev=+0.34  t=228977s
+    [kl-stop] update 481: minibatch KL 0.0313 > 0.0300 (epoch 2/4) -- actor frozen, value-only for remaining passes
+    [kl-stop] update 485: minibatch KL 0.0341 > 0.0300 (epoch 3/4) -- actor frozen, value-only for remaining passes
+[ 485/866] rew= 3222.3  thr=116.87Mbps  comp=0.536  drop=0.000  SINR= 17.7dB  KL= 0.0202  ent=1.202  clip=0.230  ev=+0.22  t=230903s
+    [kl-stop] update 486: minibatch KL 0.0413 > 0.0300 (epoch 1/4) -- actor frozen, value-only for remaining passes
+    [kl-stop] update 487: minibatch KL 0.0311 > 0.0300 (epoch 3/4) -- actor frozen, value-only for remaining passes
+    [kl-stop] update 488: minibatch KL 0.0473 > 0.0300 (epoch 2/4) -- actor frozen, value-only for remaining passes
+    [kl-stop] update 489: minibatch KL 0.0327 > 0.0300 (epoch 1/4) -- actor frozen, value-only for remaining passes
+  --- eval at update 489 ---
+    PPO           reward  5062.90  thrpt  62.19Mbps  comp 0.719  totfail 0.278  depth 2.28
+    [kl-stop] update 490: minibatch KL 0.0328 > 0.0300 (epoch 3/4) -- actor frozen, value-only for remaining passes
+[ 490/866] rew= 5543.8  thr=100.78Mbps  comp=0.608  drop=0.000  SINR= 12.5dB  KL= 0.0194  ent=1.224  clip=0.261  ev=+0.25  t=232804s
+    [kl-stop] update 491: minibatch KL 0.0311 > 0.0300 (epoch 4/4) -- actor frozen, value-only for remaining passes
+    [kl-stop] update 492: minibatch KL 0.0322 > 0.0300 (epoch 2/4) -- actor frozen, value-only for remaining passes
+    [kl-stop] update 493: minibatch KL 0.0391 > 0.0300 (epoch 2/4) -- actor frozen, value-only for remaining passes
+    [kl-stop] update 494: minibatch KL 0.0309 > 0.0300 (epoch 2/4) -- actor frozen, value-only for remaining passes
+    [kl-stop] update 495: minibatch KL 0.0415 > 0.0300 (epoch 1/4) -- actor frozen, value-only for remaining passes
+[ 495/866] rew= 8296.1  thr=93.84Mbps  comp=0.729  drop=0.000  SINR= 15.2dB  KL= 0.0344  ent=1.101  clip=0.386  ev=+0.23  t=234536s
+    [kl-stop] update 497: minibatch KL 0.0562 > 0.0300 (epoch 2/4) -- actor frozen, value-only for remaining passes
+    [kl-stop] update 498: minibatch KL 0.0480 > 0.0300 (epoch 1/4) -- actor frozen, value-only for remaining passes
+    [kl-stop] update 499: minibatch KL 0.0633 > 0.0300 (epoch 1/4) -- actor frozen, value-only for remaining passes
+  --- eval at update 499 ---
+    PPO           reward  4989.98  thrpt  61.91Mbps  comp 0.716  totfail 0.281  depth 2.09
+    [kl-stop] update 500: minibatch KL 0.0609 > 0.0300 (epoch 1/4) -- actor frozen, value-only for remaining passes
+[ 500/866] rew= 1136.2  thr=98.76Mbps  comp=0.500  drop=0.000  SINR= 10.9dB  KL= 0.0416  ent=1.151  clip=0.374  ev=+0.13  t=236142s
+    [kl-stop] update 501: minibatch KL 0.0458 > 0.0300 (epoch 2/4) -- actor frozen, value-only for remaining passes
+    [kl-stop] update 503: minibatch KL 0.0402 > 0.0300 (epoch 2/4) -- actor frozen, value-only for remaining passes
+    [kl-stop] update 504: minibatch KL 0.0406 > 0.0300 (epoch 3/4) -- actor frozen, value-only for remaining passes
+    [kl-stop] update 505: minibatch KL 0.0513 > 0.0300 (epoch 1/4) -- actor frozen, value-only for remaining passes
+[ 505/866] rew= 7113.6  thr=103.64Mbps  comp=0.652  drop=0.000  SINR= 12.8dB  KL= 0.0427  ent=1.144  clip=0.427  ev=+0.28  t=237640s
+    [kl-stop] update 506: minibatch KL 0.0435 > 0.0300 (epoch 2/4) -- actor frozen, value-only for remaining passes
+    [kl-stop] update 507: minibatch KL 0.0406 > 0.0300 (epoch 3/4) -- actor frozen, value-only for remaining passes
+    [kl-stop] update 508: minibatch KL 0.0313 > 0.0300 (epoch 2/4) -- actor frozen, value-only for remaining passes
+    [kl-stop] update 509: minibatch KL 0.0303 > 0.0300 (epoch 3/4) -- actor frozen, value-only for remaining passes
+  --- eval at update 509 ---
+    PPO           reward  4962.88  thrpt  61.78Mbps  comp 0.716  totfail 0.282  depth 1.97
+    [kl-stop] update 510: minibatch KL 0.0415 > 0.0300 (epoch 1/4) -- actor frozen, value-only for remaining passes
+[ 510/866] rew= 1425.1  thr=116.11Mbps  comp=0.499  drop=0.000  SINR= 18.5dB  KL= 0.0286  ent=1.657  clip=0.376  ev=+0.46  t=239344s
+    [kl-stop] update 511: minibatch KL 0.0301 > 0.0300 (epoch 1/4) -- actor frozen, value-only for remaining passes
+    [kl-stop] update 513: minibatch KL 0.0422 > 0.0300 (epoch 1/4) -- actor frozen, value-only for remaining passes
+    [kl-stop] update 514: minibatch KL 0.0362 > 0.0300 (epoch 2/4) -- actor frozen, value-only for remaining passes
+[ 515/866] rew= 4934.8  thr=80.87Mbps  comp=0.626  drop=0.000  SINR= 13.4dB  KL= 0.0152  ent=1.052  clip=0.225  ev=+0.25  t=241104s
+    [kl-stop] update 517: minibatch KL 0.0354 > 0.0300 (epoch 2/4) -- actor frozen, value-only for remaining passes
+    [kl-stop] update 518: minibatch KL 0.0383 > 0.0300 (epoch 2/4) -- actor frozen, value-only for remaining passes
+    [kl-stop] update 519: minibatch KL 0.0328 > 0.0300 (epoch 3/4) -- actor frozen, value-only for remaining passes
+  --- eval at update 519 ---
+    PPO           reward  4984.42  thrpt  61.88Mbps  comp 0.717  totfail 0.281  depth 2.00
+[ 520/866] rew= 4539.0  thr=59.64Mbps  comp=0.678  drop=0.000  SINR= 14.8dB  KL= 0.0151  ent=0.613  clip=0.206  ev=+0.29  t=242973s
+    [kl-stop] update 522: minibatch KL 0.0315 > 0.0300 (epoch 3/4) -- actor frozen, value-only for remaining passes
+    [kl-stop] update 523: minibatch KL 0.0361 > 0.0300 (epoch 2/4) -- actor frozen, value-only for remaining passes
+    [kl-stop] update 524: minibatch KL 0.0701 > 0.0300 (epoch 2/4) -- actor frozen, value-only for remaining passes
+    [kl-stop] update 525: minibatch KL 0.0527 > 0.0300 (epoch 1/4) -- actor frozen, value-only for remaining passes
+[ 525/866] rew= 1470.0  thr=42.55Mbps  comp=0.551  drop=0.000  SINR= 11.9dB  KL= 0.0387  ent=0.312  clip=0.339  ev=+0.08  t=244411s
+    [kl-stop] update 526: minibatch KL 0.0305 > 0.0300 (epoch 1/4) -- actor frozen, value-only for remaining passes
+    [kl-stop] update 527: minibatch KL 0.0393 > 0.0300 (epoch 2/4) -- actor frozen, value-only for remaining passes
+    [kl-stop] update 528: minibatch KL 0.0313 > 0.0300 (epoch 3/4) -- actor frozen, value-only for remaining passes
+    [kl-stop] update 529: minibatch KL 0.0597 > 0.0300 (epoch 1/4) -- actor frozen, value-only for remaining passes
+  --- eval at update 529 ---
+    PPO           reward  5012.72  thrpt  61.93Mbps  comp 0.718  totfail 0.279  depth 2.09
+    [kl-stop] update 530: minibatch KL 0.0393 > 0.0300 (epoch 2/4) -- actor frozen, value-only for remaining passes
+[ 530/866] rew= 6503.9  thr=79.86Mbps  comp=0.704  drop=0.000  SINR= 13.8dB  KL= 0.0256  ent=0.672  clip=0.293  ev=+0.10  t=246143s
+    [kl-stop] update 531: minibatch KL 0.0335 > 0.0300 (epoch 3/4) -- actor frozen, value-only for remaining passes
+    [kl-stop] update 532: minibatch KL 0.0335 > 0.0300 (epoch 3/4) -- actor frozen, value-only for remaining passes
+    [kl-stop] update 535: minibatch KL 0.0352 > 0.0300 (epoch 4/4) -- actor frozen, value-only for remaining passes
+[ 535/866] rew= 3885.2  thr=52.96Mbps  comp=0.667  drop=0.000  SINR= 17.6dB  KL= 0.0198  ent=0.480  clip=0.251  ev=+0.19  t=247884s
+    [kl-stop] update 537: minibatch KL 0.0316 > 0.0300 (epoch 3/4) -- actor frozen, value-only for remaining passes
+    [kl-stop] update 538: minibatch KL 0.0312 > 0.0300 (epoch 3/4) -- actor frozen, value-only for remaining passes
+    [kl-stop] update 539: minibatch KL 0.0348 > 0.0300 (epoch 3/4) -- actor frozen, value-only for remaining passes
+  --- eval at update 539 ---
+    PPO           reward  5018.11  thrpt  61.95Mbps  comp 0.718  totfail 0.280  depth 2.09
+    [kl-stop] update 540: minibatch KL 0.0300 > 0.0300 (epoch 3/4) -- actor frozen, value-only for remaining passes
+[ 540/866] rew= 6143.7  thr=58.00Mbps  comp=0.815  drop=0.000  SINR= 12.2dB  KL= 0.0166  ent=0.448  clip=0.217  ev=+0.27  t=249855s
+    [kl-stop] update 541: minibatch KL 0.0309 > 0.0300 (epoch 3/4) -- actor frozen, value-only for remaining passes
+    [kl-stop] update 542: minibatch KL 0.0372 > 0.0300 (epoch 2/4) -- actor frozen, value-only for remaining passes
+    [kl-stop] update 543: minibatch KL 0.0329 > 0.0300 (epoch 1/4) -- actor frozen, value-only for remaining passes
+    [kl-stop] update 545: minibatch KL 0.0305 > 0.0300 (epoch 4/4) -- actor frozen, value-only for remaining passes
+[ 545/866] rew= 4352.0  thr=71.76Mbps  comp=0.627  drop=0.000  SINR= 19.0dB  KL= 0.0174  ent=0.632  clip=0.227  ev=+0.37  t=251569s
+    [kl-stop] update 546: minibatch KL 0.0321 > 0.0300 (epoch 3/4) -- actor frozen, value-only for remaining passes
+    [kl-stop] update 548: minibatch KL 0.0320 > 0.0300 (epoch 3/4) -- actor frozen, value-only for remaining passes
+    [kl-stop] update 549: minibatch KL 0.0396 > 0.0300 (epoch 2/4) -- actor frozen, value-only for remaining passes
+  --- eval at update 549 ---
+    PPO           reward  5007.61  thrpt  61.88Mbps  comp 0.718  totfail 0.280  depth 2.09
+    [kl-stop] update 550: minibatch KL 0.0303 > 0.0300 (epoch 3/4) -- actor frozen, value-only for remaining passes
+[ 550/866] rew= 3847.0  thr=60.93Mbps  comp=0.634  drop=0.000  SINR= 10.8dB  KL= 0.0185  ent=0.621  clip=0.239  ev=+0.42  t=253516s
+    [kl-stop] update 551: minibatch KL 0.0505 > 0.0300 (epoch 2/4) -- actor frozen, value-only for remaining passes
+    [kl-stop] update 552: minibatch KL 0.0314 > 0.0300 (epoch 2/4) -- actor frozen, value-only for remaining passes
+    [kl-stop] update 553: minibatch KL 0.0307 > 0.0300 (epoch 2/4) -- actor frozen, value-only for remaining passes
+    [kl-stop] update 555: minibatch KL 0.0363 > 0.0300 (epoch 2/4) -- actor frozen, value-only for remaining passes
+[ 555/866] rew= 2810.4  thr=116.42Mbps  comp=0.528  drop=0.000  SINR= 12.7dB  KL= 0.0265  ent=1.266  clip=0.316  ev=+0.33  t=255254s
+    [kl-stop] update 557: minibatch KL 0.0321 > 0.0300 (epoch 2/4) -- actor frozen, value-only for remaining passes
+  --- eval at update 559 ---
+    PPO           reward  4999.97  thrpt  61.85Mbps  comp 0.718  totfail 0.280  depth 2.06
+[ 560/866] rew= 4771.0  thr=66.56Mbps  comp=0.665  drop=0.000  SINR= 13.9dB  KL= 0.0130  ent=0.521  clip=0.161  ev=+0.25  t=257293s
+    [kl-stop] update 561: minibatch KL 0.0305 > 0.0300 (epoch 2/4) -- actor frozen, value-only for remaining passes
+    [kl-stop] update 562: minibatch KL 0.0359 > 0.0300 (epoch 1/4) -- actor frozen, value-only for remaining passes
+    [kl-stop] update 563: minibatch KL 0.0419 > 0.0300 (epoch 1/4) -- actor frozen, value-only for remaining passes
+    [kl-stop] update 564: minibatch KL 0.0417 > 0.0300 (epoch 3/4) -- actor frozen, value-only for remaining passes
+    [kl-stop] update 565: minibatch KL 0.0304 > 0.0300 (epoch 2/4) -- actor frozen, value-only for remaining passes
+[ 565/866] rew= 4458.0  thr=92.50Mbps  comp=0.589  drop=0.000  SINR= 15.0dB  KL= 0.0277  ent=0.833  clip=0.295  ev=+0.08  t=258969s
+    [kl-stop] update 566: minibatch KL 0.0392 > 0.0300 (epoch 1/4) -- actor frozen, value-only for remaining passes
+    [kl-stop] update 568: minibatch KL 0.0357 > 0.0300 (epoch 4/4) -- actor frozen, value-only for remaining passes
+  --- eval at update 569 ---
+    PPO           reward  4918.77  thrpt  61.56Mbps  comp 0.715  totfail 0.283  depth 1.96
+[ 570/866] rew= 4339.7  thr=75.22Mbps  comp=0.617  drop=0.000  SINR= 14.0dB  KL= 0.0175  ent=0.638  clip=0.237  ev=+0.36  t=260951s
+    [kl-stop] update 571: minibatch KL 0.0325 > 0.0300 (epoch 3/4) -- actor frozen, value-only for remaining passes
+    [kl-stop] update 573: minibatch KL 0.0481 > 0.0300 (epoch 2/4) -- actor frozen, value-only for remaining passes
+    [kl-stop] update 574: minibatch KL 0.0412 > 0.0300 (epoch 2/4) -- actor frozen, value-only for remaining passes
+    [kl-stop] update 575: minibatch KL 0.0431 > 0.0300 (epoch 2/4) -- actor frozen, value-only for remaining passes
+[ 575/866] rew= 6141.1  thr=79.85Mbps  comp=0.683  drop=0.000  SINR= 14.9dB  KL= 0.0289  ent=0.617  clip=0.315  ev=+0.39  t=262579s
+    [kl-stop] update 576: minibatch KL 0.0312 > 0.0300 (epoch 4/4) -- actor frozen, value-only for remaining passes
+    [kl-stop] update 577: minibatch KL 0.0351 > 0.0300 (epoch 1/4) -- actor frozen, value-only for remaining passes
+    [kl-stop] update 578: minibatch KL 0.0331 > 0.0300 (epoch 1/4) -- actor frozen, value-only for remaining passes
+    [kl-stop] update 579: minibatch KL 0.0320 > 0.0300 (epoch 1/4) -- actor frozen, value-only for remaining passes
+  --- eval at update 579 ---
+    PPO           reward  4804.56  thrpt  61.08Mbps  comp 0.709  totfail 0.289  depth 1.72
+    [kl-stop] update 580: minibatch KL 0.0318 > 0.0300 (epoch 1/4) -- actor frozen, value-only for remaining passes
+[ 580/866] rew= 2931.0  thr=92.14Mbps  comp=0.546  drop=0.000  SINR= 19.4dB  KL= 0.0248  ent=0.804  clip=0.324  ev=+0.28  t=264184s
+    [kl-stop] update 583: minibatch KL 0.0419 > 0.0300 (epoch 2/4) -- actor frozen, value-only for remaining passes
+    [kl-stop] update 584: minibatch KL 0.0467 > 0.0300 (epoch 2/4) -- actor frozen, value-only for remaining passes
+    [kl-stop] update 585: minibatch KL 0.0363 > 0.0300 (epoch 2/4) -- actor frozen, value-only for remaining passes
+[ 585/866] rew= 3390.0  thr=67.35Mbps  comp=0.594  drop=0.000  SINR= 17.7dB  KL= 0.0313  ent=0.428  clip=0.318  ev=+0.30  t=265577s
+    [kl-stop] update 586: minibatch KL 0.0445 > 0.0300 (epoch 2/4) -- actor frozen, value-only for remaining passes
+    [kl-stop] update 587: minibatch KL 0.0394 > 0.0300 (epoch 1/4) -- actor frozen, value-only for remaining passes
+    [kl-stop] update 588: minibatch KL 0.0318 > 0.0300 (epoch 4/4) -- actor frozen, value-only for remaining passes
+    [kl-stop] update 589: minibatch KL 0.0327 > 0.0300 (epoch 2/4) -- actor frozen, value-only for remaining passes
+  --- eval at update 589 ---
+    PPO           reward  4635.50  thrpt  60.44Mbps  comp 0.702  totfail 0.296  depth 1.53
+    [kl-stop] update 590: minibatch KL 0.0446 > 0.0300 (epoch 2/4) -- actor frozen, value-only for remaining passes
+[ 590/866] rew= 5773.8  thr=56.45Mbps  comp=0.796  drop=0.000  SINR= 15.3dB  KL= 0.0319  ent=0.271  clip=0.318  ev=-0.16  t=266951s
+    [kl-stop] update 592: minibatch KL 0.0307 > 0.0300 (epoch 4/4) -- actor frozen, value-only for remaining passes
+    [kl-stop] update 593: minibatch KL 0.0310 > 0.0300 (epoch 2/4) -- actor frozen, value-only for remaining passes
+    [kl-stop] update 594: minibatch KL 0.0307 > 0.0300 (epoch 2/4) -- actor frozen, value-only for remaining passes
+    [kl-stop] update 595: minibatch KL 0.0358 > 0.0300 (epoch 3/4) -- actor frozen, value-only for remaining passes
+[ 595/866] rew= 3928.6  thr=80.69Mbps  comp=0.589  drop=0.000  SINR= 11.7dB  KL= 0.0200  ent=0.725  clip=0.242  ev=+0.41  t=268558s
+    [kl-stop] update 596: minibatch KL 0.0302 > 0.0300 (epoch 1/4) -- actor frozen, value-only for remaining passes
+    [kl-stop] update 597: minibatch KL 0.0417 > 0.0300 (epoch 2/4) -- actor frozen, value-only for remaining passes
+    [kl-stop] update 598: minibatch KL 0.0313 > 0.0300 (epoch 3/4) -- actor frozen, value-only for remaining passes
+    [kl-stop] update 599: minibatch KL 0.0327 > 0.0300 (epoch 3/4) -- actor frozen, value-only for remaining passes
+  --- eval at update 599 ---
+    PPO           reward  4712.84  thrpt  60.77Mbps  comp 0.705  totfail 0.293  depth 1.58
+    [kl-stop] update 600: minibatch KL 0.0319 > 0.0300 (epoch 4/4) -- actor frozen, value-only for remaining passes
+[ 600/866] rew= 2730.2  thr=40.57Mbps  comp=0.648  drop=0.000  SINR= 15.8dB  KL= 0.0123  ent=0.191  clip=0.146  ev=-0.24  t=270056s
+    [kl-stop] update 601: minibatch KL 0.0359 > 0.0300 (epoch 2/4) -- actor frozen, value-only for remaining passes
+    [kl-stop] update 602: minibatch KL 0.0663 > 0.0300 (epoch 2/4) -- actor frozen, value-only for remaining passes
+    [kl-stop] update 603: minibatch KL 0.0576 > 0.0300 (epoch 1/4) -- actor frozen, value-only for remaining passes
+    [kl-stop] update 604: minibatch KL 0.0334 > 0.0300 (epoch 1/4) -- actor frozen, value-only for remaining passes
+    [kl-stop] update 605: minibatch KL 0.0367 > 0.0300 (epoch 2/4) -- actor frozen, value-only for remaining passes
+[ 605/866] rew= 3910.2  thr=54.54Mbps  comp=0.665  drop=0.000  SINR= 13.7dB  KL= 0.0244  ent=0.329  clip=0.244  ev=+0.10  t=271442s
+    [kl-stop] update 606: minibatch KL 0.0336 > 0.0300 (epoch 2/4) -- actor frozen, value-only for remaining passes
+    [kl-stop] update 607: minibatch KL 0.0304 > 0.0300 (epoch 2/4) -- actor frozen, value-only for remaining passes
+    [kl-stop] update 608: minibatch KL 0.0364 > 0.0300 (epoch 2/4) -- actor frozen, value-only for remaining passes
+  --- eval at update 609 ---
+    PPO           reward  4770.85  thrpt  61.08Mbps  comp 0.707  totfail 0.291  depth 1.62
+    [kl-stop] update 610: minibatch KL 0.0414 > 0.0300 (epoch 3/4) -- actor frozen, value-only for remaining passes
+[ 610/866] rew= 7231.9  thr=99.54Mbps  comp=0.667  drop=0.000  SINR= 19.2dB  KL= 0.0240  ent=0.843  clip=0.235  ev=+0.28  t=273191s
+    [kl-stop] update 611: minibatch KL 0.0343 > 0.0300 (epoch 2/4) -- actor frozen, value-only for remaining passes
+    [kl-stop] update 612: minibatch KL 0.0323 > 0.0300 (epoch 2/4) -- actor frozen, value-only for remaining passes
+    [kl-stop] update 615: minibatch KL 0.0314 > 0.0300 (epoch 2/4) -- actor frozen, value-only for remaining passes
+[ 615/866] rew= 2853.1  thr=85.55Mbps  comp=0.551  drop=0.000  SINR= 19.0dB  KL= 0.0239  ent=0.734  clip=0.269  ev=+0.45  t=274803s
+    [kl-stop] update 616: minibatch KL 0.0428 > 0.0300 (epoch 2/4) -- actor frozen, value-only for remaining passes
+    [kl-stop] update 617: minibatch KL 0.0354 > 0.0300 (epoch 3/4) -- actor frozen, value-only for remaining passes
+    [kl-stop] update 618: minibatch KL 0.0322 > 0.0300 (epoch 4/4) -- actor frozen, value-only for remaining passes
+    [kl-stop] update 619: minibatch KL 0.0389 > 0.0300 (epoch 3/4) -- actor frozen, value-only for remaining passes
+  --- eval at update 619 ---
+    PPO           reward  4824.07  thrpt  61.24Mbps  comp 0.710  totfail 0.288  depth 1.69
+    [kl-stop] update 620: minibatch KL 0.0360 > 0.0300 (epoch 4/4) -- actor frozen, value-only for remaining passes
+[ 620/866] rew= 4150.0  thr=84.26Mbps  comp=0.592  drop=0.000  SINR= 20.2dB  KL= 0.0185  ent=0.665  clip=0.233  ev=+0.30  t=276594s
+    [kl-stop] update 621: minibatch KL 0.0496 > 0.0300 (epoch 2/4) -- actor frozen, value-only for remaining passes
+    [kl-stop] update 622: minibatch KL 0.0461 > 0.0300 (epoch 1/4) -- actor frozen, value-only for remaining passes
+    [kl-stop] update 623: minibatch KL 0.0336 > 0.0300 (epoch 4/4) -- actor frozen, value-only for remaining passes
+    [kl-stop] update 625: minibatch KL 0.0424 > 0.0300 (epoch 2/4) -- actor frozen, value-only for remaining passes
+[ 625/866] rew= 6784.6  thr=73.45Mbps  comp=0.746  drop=0.000  SINR= 14.7dB  KL= 0.0297  ent=0.508  clip=0.332  ev=+0.28  t=278183s
+    [kl-stop] update 626: minibatch KL 0.0311 > 0.0300 (epoch 3/4) -- actor frozen, value-only for remaining passes
+    [kl-stop] update 629: minibatch KL 0.0322 > 0.0300 (epoch 2/4) -- actor frozen, value-only for remaining passes
+  --- eval at update 629 ---
+    PPO           reward  4817.30  thrpt  61.25Mbps  comp 0.710  totfail 0.288  depth 1.70
+[ 630/866] rew= 2981.2  thr=80.58Mbps  comp=0.558  drop=0.000  SINR= 13.1dB  KL= 0.0132  ent=0.727  clip=0.169  ev=+0.34  t=280135s
+    [kl-stop] update 633: minibatch KL 0.0348 > 0.0300 (epoch 2/4) -- actor frozen, value-only for remaining passes
+    [kl-stop] update 634: minibatch KL 0.0536 > 0.0300 (epoch 1/4) -- actor frozen, value-only for remaining passes
+    [kl-stop] update 635: minibatch KL 0.0326 > 0.0300 (epoch 2/4) -- actor frozen, value-only for remaining passes
+[ 635/866] rew= 3141.2  thr=42.94Mbps  comp=0.667  drop=0.000  SINR= 14.2dB  KL= 0.0274  ent=0.234  clip=0.234  ev=-0.35  t=281672s
+    [kl-stop] update 636: minibatch KL 0.0447 > 0.0300 (epoch 2/4) -- actor frozen, value-only for remaining passes
+    [kl-stop] update 637: minibatch KL 0.0309 > 0.0300 (epoch 1/4) -- actor frozen, value-only for remaining passes
+    [kl-stop] update 638: minibatch KL 0.0737 > 0.0300 (epoch 1/4) -- actor frozen, value-only for remaining passes
+    [kl-stop] update 639: minibatch KL 0.0311 > 0.0300 (epoch 3/4) -- actor frozen, value-only for remaining passes
+  --- eval at update 639 ---
+    PPO           reward  4845.20  thrpt  61.39Mbps  comp 0.710  totfail 0.288  depth 1.83
+    [kl-stop] update 640: minibatch KL 0.0305 > 0.0300 (epoch 1/4) -- actor frozen, value-only for remaining passes
+[ 640/866] rew= 4281.0  thr=86.28Mbps  comp=0.594  drop=0.000  SINR= 28.0dB  KL= 0.0237  ent=0.570  clip=0.297  ev=+0.10  t=283274s
+    [kl-stop] update 641: minibatch KL 0.0304 > 0.0300 (epoch 2/4) -- actor frozen, value-only for remaining passes
+    [kl-stop] update 643: minibatch KL 0.0380 > 0.0300 (epoch 4/4) -- actor frozen, value-only for remaining passes
+    [kl-stop] update 645: minibatch KL 0.0323 > 0.0300 (epoch 2/4) -- actor frozen, value-only for remaining passes
+[ 645/866] rew= 1989.0  thr=101.13Mbps  comp=0.518  drop=0.000  SINR= 12.3dB  KL= 0.0213  ent=0.841  clip=0.243  ev=+0.31  t=284853s
+    [kl-stop] update 646: minibatch KL 0.0350 > 0.0300 (epoch 2/4) -- actor frozen, value-only for remaining passes
+    [kl-stop] update 647: minibatch KL 0.0323 > 0.0300 (epoch 2/4) -- actor frozen, value-only for remaining passes
+    [kl-stop] update 648: minibatch KL 0.0553 > 0.0300 (epoch 1/4) -- actor frozen, value-only for remaining passes
+    [kl-stop] update 649: minibatch KL 0.0329 > 0.0300 (epoch 2/4) -- actor frozen, value-only for remaining passes
+  --- eval at update 649 ---
+    PPO           reward  4827.63  thrpt  61.22Mbps  comp 0.710  totfail 0.287  depth 1.87
+    [kl-stop] update 650: minibatch KL 0.0317 > 0.0300 (epoch 4/4) -- actor frozen, value-only for remaining passes
+[ 650/866] rew= 3558.9  thr=47.48Mbps  comp=0.676  drop=0.001  SINR= 14.4dB  KL= 0.0137  ent=0.215  clip=0.156  ev=-0.31  t=286461s
+    [kl-stop] update 651: minibatch KL 0.0317 > 0.0300 (epoch 2/4) -- actor frozen, value-only for remaining passes
+    [kl-stop] update 653: minibatch KL 0.0328 > 0.0300 (epoch 2/4) -- actor frozen, value-only for remaining passes
+    [kl-stop] update 654: minibatch KL 0.0533 > 0.0300 (epoch 2/4) -- actor frozen, value-only for remaining passes
+    [kl-stop] update 655: minibatch KL 0.0306 > 0.0300 (epoch 4/4) -- actor frozen, value-only for remaining passes
+[ 655/866] rew= 3256.6  thr=53.86Mbps  comp=0.625  drop=0.000  SINR= 19.2dB  KL= 0.0165  ent=0.268  clip=0.191  ev=+0.06  t=288051s
+    [kl-stop] update 656: minibatch KL 0.0315 > 0.0300 (epoch 3/4) -- actor frozen, value-only for remaining passes
+    [kl-stop] update 657: minibatch KL 0.0402 > 0.0300 (epoch 2/4) -- actor frozen, value-only for remaining passes
+    [kl-stop] update 658: minibatch KL 0.0451 > 0.0300 (epoch 2/4) -- actor frozen, value-only for remaining passes
+    [kl-stop] update 659: minibatch KL 0.0473 > 0.0300 (epoch 2/4) -- actor frozen, value-only for remaining passes
+  --- eval at update 659 ---
+    PPO           reward  4794.87  thrpt  61.18Mbps  comp 0.708  totfail 0.289  depth 1.84
+    [kl-stop] update 660: minibatch KL 0.0354 > 0.0300 (epoch 1/4) -- actor frozen, value-only for remaining passes
+[ 660/866] rew= 4241.5  thr=90.33Mbps  comp=0.587  drop=0.000  SINR= 13.0dB  KL= 0.0354  ent=0.561  clip=0.356  ev=+0.13  t=289718s
+    [kl-stop] update 661: minibatch KL 0.0632 > 0.0300 (epoch 3/4) -- actor frozen, value-only for remaining passes
+    [kl-stop] update 663: minibatch KL 0.0315 > 0.0300 (epoch 3/4) -- actor frozen, value-only for remaining passes
+    [kl-stop] update 664: minibatch KL 0.0304 > 0.0300 (epoch 3/4) -- actor frozen, value-only for remaining passes
+    [kl-stop] update 665: minibatch KL 0.0460 > 0.0300 (epoch 2/4) -- actor frozen, value-only for remaining passes
+[ 665/866] rew= 4253.4  thr=79.56Mbps  comp=0.606  drop=0.000  SINR= 14.2dB  KL= 0.0282  ent=0.443  clip=0.291  ev=+0.27  t=291332s
+    [kl-stop] update 666: minibatch KL 0.0372 > 0.0300 (epoch 2/4) -- actor frozen, value-only for remaining passes
+    [kl-stop] update 667: minibatch KL 0.0397 > 0.0300 (epoch 2/4) -- actor frozen, value-only for remaining passes
+    [kl-stop] update 668: minibatch KL 0.0327 > 0.0300 (epoch 3/4) -- actor frozen, value-only for remaining passes
+    [kl-stop] update 669: minibatch KL 0.0369 > 0.0300 (epoch 2/4) -- actor frozen, value-only for remaining passes
+  --- eval at update 669 ---
+    PPO           reward  4837.41  thrpt  61.35Mbps  comp 0.711  totfail 0.287  depth 1.83
+    [kl-stop] update 670: minibatch KL 0.0327 > 0.0300 (epoch 2/4) -- actor frozen, value-only for remaining passes
+[ 670/866] rew= 5783.8  thr=96.80Mbps  comp=0.624  drop=0.000  SINR= 20.1dB  KL= 0.0201  ent=0.694  clip=0.227  ev=+0.34  t=292926s
+    [kl-stop] update 672: minibatch KL 0.0365 > 0.0300 (epoch 3/4) -- actor frozen, value-only for remaining passes
+    [kl-stop] update 673: minibatch KL 0.0358 > 0.0300 (epoch 3/4) -- actor frozen, value-only for remaining passes
+    [kl-stop] update 674: minibatch KL 0.0326 > 0.0300 (epoch 3/4) -- actor frozen, value-only for remaining passes
+    [kl-stop] update 675: minibatch KL 0.0309 > 0.0300 (epoch 4/4) -- actor frozen, value-only for remaining passes
+[ 675/866] rew= 3012.3  thr=111.30Mbps  comp=0.536  drop=0.000  SINR= 15.1dB  KL= 0.0181  ent=0.903  clip=0.242  ev=+0.46  t=294748s
+    [kl-stop] update 677: minibatch KL 0.0339 > 0.0300 (epoch 4/4) -- actor frozen, value-only for remaining passes
+  --- eval at update 679 ---
+    PPO           reward  4775.69  thrpt  61.09Mbps  comp 0.708  totfail 0.290  depth 1.70
+    [kl-stop] update 680: minibatch KL 0.0318 > 0.0300 (epoch 3/4) -- actor frozen, value-only for remaining passes
+[ 680/866] rew= 6323.3  thr=58.31Mbps  comp=0.827  drop=0.000  SINR= 16.8dB  KL= 0.0190  ent=0.264  clip=0.236  ev=+0.30  t=296469s
+    [kl-stop] update 681: minibatch KL 0.0303 > 0.0300 (epoch 4/4) -- actor frozen, value-only for remaining passes
+    [kl-stop] update 683: minibatch KL 0.0311 > 0.0300 (epoch 3/4) -- actor frozen, value-only for remaining passes
+    [kl-stop] update 684: minibatch KL 0.0311 > 0.0300 (epoch 4/4) -- actor frozen, value-only for remaining passes
+[ 685/866] rew= 5218.7  thr=54.86Mbps  comp=0.761  drop=0.000  SINR= 22.9dB  KL= 0.0149  ent=0.233  clip=0.196  ev=+0.26  t=298100s
+    [kl-stop] update 686: minibatch KL 0.0437 > 0.0300 (epoch 2/4) -- actor frozen, value-only for remaining passes
+    [kl-stop] update 689: minibatch KL 0.0384 > 0.0300 (epoch 3/4) -- actor frozen, value-only for remaining passes
+  --- eval at update 689 ---
+    PPO           reward  4751.75  thrpt  60.93Mbps  comp 0.707  totfail 0.291  depth 1.61
+    [kl-stop] update 690: minibatch KL 0.0338 > 0.0300 (epoch 3/4) -- actor frozen, value-only for remaining passes
+[ 690/866] rew= 3036.5  thr=46.58Mbps  comp=0.640  drop=0.000  SINR= 16.4dB  KL= 0.0216  ent=0.194  clip=0.227  ev=+0.31  t=299725s
+    [kl-stop] update 691: minibatch KL 0.0320 > 0.0300 (epoch 3/4) -- actor frozen, value-only for remaining passes
+    [kl-stop] update 693: minibatch KL 0.0347 > 0.0300 (epoch 4/4) -- actor frozen, value-only for remaining passes
+    [kl-stop] update 694: minibatch KL 0.0395 > 0.0300 (epoch 2/4) -- actor frozen, value-only for remaining passes
+    [kl-stop] update 695: minibatch KL 0.0408 > 0.0300 (epoch 4/4) -- actor frozen, value-only for remaining passes
+[ 695/866] rew= 4260.9  thr=72.82Mbps  comp=0.620  drop=0.000  SINR= 13.9dB  KL= 0.0167  ent=0.405  clip=0.181  ev=+0.24  t=301289s
+    [kl-stop] update 696: minibatch KL 0.0394 > 0.0300 (epoch 3/4) -- actor frozen, value-only for remaining passes
+    [kl-stop] update 697: minibatch KL 0.0375 > 0.0300 (epoch 3/4) -- actor frozen, value-only for remaining passes
+    [kl-stop] update 699: minibatch KL 0.0354 > 0.0300 (epoch 4/4) -- actor frozen, value-only for remaining passes
+  --- eval at update 699 ---
+    PPO           reward  4743.00  thrpt  60.93Mbps  comp 0.707  totfail 0.291  depth 1.63
+    [kl-stop] update 700: minibatch KL 0.0521 > 0.0300 (epoch 2/4) -- actor frozen, value-only for remaining passes
+[ 700/866] rew= 1041.1  thr=106.42Mbps  comp=0.498  drop=0.000  SINR= 19.2dB  KL= 0.0332  ent=0.798  clip=0.311  ev=+0.46  t=303031s
+    [kl-stop] update 701: minibatch KL 0.0357 > 0.0300 (epoch 3/4) -- actor frozen, value-only for remaining passes
+    [kl-stop] update 702: minibatch KL 0.0321 > 0.0300 (epoch 2/4) -- actor frozen, value-only for remaining passes
+    [kl-stop] update 703: minibatch KL 0.0512 > 0.0300 (epoch 2/4) -- actor frozen, value-only for remaining passes
+    [kl-stop] update 705: minibatch KL 0.0324 > 0.0300 (epoch 3/4) -- actor frozen, value-only for remaining passes
+[ 705/866] rew= 4498.8  thr=71.91Mbps  comp=0.632  drop=0.000  SINR= 20.3dB  KL= 0.0189  ent=0.406  clip=0.219  ev=+0.36  t=304596s
+    [kl-stop] update 706: minibatch KL 0.0347 > 0.0300 (epoch 1/4) -- actor frozen, value-only for remaining passes
+    [kl-stop] update 708: minibatch KL 0.0399 > 0.0300 (epoch 2/4) -- actor frozen, value-only for remaining passes
+    [kl-stop] update 709: minibatch KL 0.0364 > 0.0300 (epoch 2/4) -- actor frozen, value-only for remaining passes
+  --- eval at update 709 ---
+    PPO           reward  4799.42  thrpt  61.15Mbps  comp 0.709  totfail 0.289  depth 1.70
+    [kl-stop] update 710: minibatch KL 0.0402 > 0.0300 (epoch 2/4) -- actor frozen, value-only for remaining passes
+[ 710/866] rew= 6726.3  thr=86.16Mbps  comp=0.688  drop=0.000  SINR= 15.1dB  KL= 0.0280  ent=0.549  clip=0.275  ev=+0.35  t=306298s
+    [kl-stop] update 711: minibatch KL 0.0505 > 0.0300 (epoch 3/4) -- actor frozen, value-only for remaining passes
+    [kl-stop] update 712: minibatch KL 0.0317 > 0.0300 (epoch 3/4) -- actor frozen, value-only for remaining passes
+[ 715/866] rew= 4520.9  thr=63.75Mbps  comp=0.661  drop=0.000  SINR= 19.8dB  KL= 0.0164  ent=0.309  clip=0.207  ev=+0.41  t=308029s
+    [kl-stop] update 717: minibatch KL 0.0374 > 0.0300 (epoch 2/4) -- actor frozen, value-only for remaining passes
+    [kl-stop] update 719: minibatch KL 0.0382 > 0.0300 (epoch 3/4) -- actor frozen, value-only for remaining passes
+  --- eval at update 719 ---
+    PPO           reward  4769.67  thrpt  61.06Mbps  comp 0.708  totfail 0.290  depth 1.66
+    [kl-stop] update 720: minibatch KL 0.0429 > 0.0300 (epoch 2/4) -- actor frozen, value-only for remaining passes
+[ 720/866] rew= 6535.7  thr=85.26Mbps  comp=0.684  drop=0.000  SINR= 19.9dB  KL= 0.0271  ent=0.518  clip=0.260  ev=+0.41  t=309795s
+    [kl-stop] update 722: minibatch KL 0.0465 > 0.0300 (epoch 2/4) -- actor frozen, value-only for remaining passes
+    [kl-stop] update 723: minibatch KL 0.0315 > 0.0300 (epoch 2/4) -- actor frozen, value-only for remaining passes
+    [kl-stop] update 724: minibatch KL 0.0311 > 0.0300 (epoch 4/4) -- actor frozen, value-only for remaining passes
+    [kl-stop] update 725: minibatch KL 0.0419 > 0.0300 (epoch 2/4) -- actor frozen, value-only for remaining passes
+[ 725/866] rew= 2877.7  thr=91.85Mbps  comp=0.546  drop=0.000  SINR= 15.4dB  KL= 0.0346  ent=0.613  clip=0.333  ev=+0.53  t=311559s
+    [kl-stop] update 726: minibatch KL 0.0397 > 0.0300 (epoch 1/4) -- actor frozen, value-only for remaining passes
+    [kl-stop] update 727: minibatch KL 0.0303 > 0.0300 (epoch 4/4) -- actor frozen, value-only for remaining passes
+    [kl-stop] update 728: minibatch KL 0.0308 > 0.0300 (epoch 4/4) -- actor frozen, value-only for remaining passes
+  --- eval at update 729 ---
+    PPO           reward  4775.78  thrpt  61.08Mbps  comp 0.708  totfail 0.290  depth 1.70
+    [kl-stop] update 730: minibatch KL 0.0348 > 0.0300 (epoch 4/4) -- actor frozen, value-only for remaining passes
+[ 730/866] rew= 4682.5  thr=62.02Mbps  comp=0.678  drop=0.000  SINR= 18.2dB  KL= 0.0153  ent=0.258  clip=0.182  ev=+0.31  t=313295s
+    [kl-stop] update 732: minibatch KL 0.0507 > 0.0300 (epoch 1/4) -- actor frozen, value-only for remaining passes
+    [kl-stop] update 733: minibatch KL 0.0337 > 0.0300 (epoch 3/4) -- actor frozen, value-only for remaining passes
+    [kl-stop] update 734: minibatch KL 0.0448 > 0.0300 (epoch 2/4) -- actor frozen, value-only for remaining passes
+    [kl-stop] update 735: minibatch KL 0.0458 > 0.0300 (epoch 2/4) -- actor frozen, value-only for remaining passes
+[ 735/866] rew= -557.2  thr=110.99Mbps  comp=0.471  drop=0.000  SINR= 16.6dB  KL= 0.0344  ent=0.817  clip=0.346  ev=+0.53  t=314950s
+    [kl-stop] update 736: minibatch KL 0.0307 > 0.0300 (epoch 2/4) -- actor frozen, value-only for remaining passes
+    [kl-stop] update 737: minibatch KL 0.0314 > 0.0300 (epoch 2/4) -- actor frozen, value-only for remaining passes
+    [kl-stop] update 738: minibatch KL 0.0361 > 0.0300 (epoch 2/4) -- actor frozen, value-only for remaining passes
+    [kl-stop] update 739: minibatch KL 0.0329 > 0.0300 (epoch 3/4) -- actor frozen, value-only for remaining passes
+  --- eval at update 739 ---
+    PPO           reward  4768.44  thrpt  61.08Mbps  comp 0.708  totfail 0.290  depth 1.72
+    [kl-stop] update 740: minibatch KL 0.0320 > 0.0300 (epoch 1/4) -- actor frozen, value-only for remaining passes
+[ 740/866] rew= 5077.3  thr=79.71Mbps  comp=0.638  drop=0.000  SINR= 20.6dB  KL= 0.0248  ent=0.382  clip=0.280  ev=+0.31  t=316442s
+    [kl-stop] update 741: minibatch KL 0.0309 > 0.0300 (epoch 4/4) -- actor frozen, value-only for remaining passes
+    [kl-stop] update 744: minibatch KL 0.0370 > 0.0300 (epoch 2/4) -- actor frozen, value-only for remaining passes
+    [kl-stop] update 745: minibatch KL 0.0353 > 0.0300 (epoch 3/4) -- actor frozen, value-only for remaining passes
+[ 745/866] rew= 3941.3  thr=74.75Mbps  comp=0.603  drop=0.000  SINR= 14.8dB  KL= 0.0277  ent=0.414  clip=0.304  ev=+0.44  t=318051s
+    [kl-stop] update 747: minibatch KL 0.0309 > 0.0300 (epoch 3/4) -- actor frozen, value-only for remaining passes
+    [kl-stop] update 748: minibatch KL 0.0321 > 0.0300 (epoch 4/4) -- actor frozen, value-only for remaining passes
+  --- eval at update 749 ---
+    PPO           reward  4753.13  thrpt  61.05Mbps  comp 0.707  totfail 0.291  depth 1.74
+    [kl-stop] update 750: minibatch KL 0.0326 > 0.0300 (epoch 3/4) -- actor frozen, value-only for remaining passes
+[ 750/866] rew= 2667.2  thr=75.48Mbps  comp=0.556  drop=0.000  SINR= 15.9dB  KL= 0.0187  ent=0.373  clip=0.235  ev=+0.17  t=319837s
+    [kl-stop] update 754: minibatch KL 0.0436 > 0.0300 (epoch 3/4) -- actor frozen, value-only for remaining passes
+    [kl-stop] update 755: minibatch KL 0.0318 > 0.0300 (epoch 4/4) -- actor frozen, value-only for remaining passes
+[ 755/866] rew= 3428.8  thr=50.29Mbps  comp=0.652  drop=0.002  SINR= 19.1dB  KL= 0.0158  ent=0.195  clip=0.189  ev=+0.26  t=321572s
+    [kl-stop] update 756: minibatch KL 0.0307 > 0.0300 (epoch 3/4) -- actor frozen, value-only for remaining passes
+    [kl-stop] update 758: minibatch KL 0.0359 > 0.0300 (epoch 3/4) -- actor frozen, value-only for remaining passes
+    [kl-stop] update 759: minibatch KL 0.0339 > 0.0300 (epoch 3/4) -- actor frozen, value-only for remaining passes
+  --- eval at update 759 ---
+    PPO           reward  4741.70  thrpt  61.10Mbps  comp 0.706  totfail 0.292  depth 1.76
+    [kl-stop] update 760: minibatch KL 0.0308 > 0.0300 (epoch 4/4) -- actor frozen, value-only for remaining passes
+[ 760/866] rew= 3775.8  thr=74.39Mbps  comp=0.596  drop=0.000  SINR= 21.1dB  KL= 0.0154  ent=0.290  clip=0.182  ev=+0.36  t=323378s
+    [kl-stop] update 762: minibatch KL 0.0348 > 0.0300 (epoch 2/4) -- actor frozen, value-only for remaining passes
+    [kl-stop] update 763: minibatch KL 0.0317 > 0.0300 (epoch 2/4) -- actor frozen, value-only for remaining passes
+    [kl-stop] update 764: minibatch KL 0.0358 > 0.0300 (epoch 3/4) -- actor frozen, value-only for remaining passes
+[ 765/866] rew= 6413.6  thr=76.81Mbps  comp=0.708  drop=0.000  SINR= 16.9dB  KL= 0.0194  ent=0.331  clip=0.232  ev=+0.46  t=324977s
+    [kl-stop] update 767: minibatch KL 0.0329 > 0.0300 (epoch 2/4) -- actor frozen, value-only for remaining passes
+    [kl-stop] update 769: minibatch KL 0.0303 > 0.0300 (epoch 2/4) -- actor frozen, value-only for remaining passes
+  --- eval at update 769 ---
+    PPO           reward  4794.07  thrpt  61.27Mbps  comp 0.709  totfail 0.289  depth 1.75
+    [kl-stop] update 770: minibatch KL 0.0321 > 0.0300 (epoch 2/4) -- actor frozen, value-only for remaining passes
+[ 770/866] rew= 3019.5  thr=93.17Mbps  comp=0.546  drop=0.000  SINR= 20.4dB  KL= 0.0259  ent=0.535  clip=0.301  ev=+0.49  t=326709s
+    [kl-stop] update 771: minibatch KL 0.0323 > 0.0300 (epoch 3/4) -- actor frozen, value-only for remaining passes
+    [kl-stop] update 773: minibatch KL 0.0336 > 0.0300 (epoch 2/4) -- actor frozen, value-only for remaining passes
+    [kl-stop] update 774: minibatch KL 0.0310 > 0.0300 (epoch 2/4) -- actor frozen, value-only for remaining passes
+    [kl-stop] update 775: minibatch KL 0.0379 > 0.0300 (epoch 2/4) -- actor frozen, value-only for remaining passes
+[ 775/866] rew= 7794.9  thr=89.77Mbps  comp=0.722  drop=0.000  SINR= 19.1dB  KL= 0.0349  ent=0.489  clip=0.332  ev=+0.44  t=328304s
+    [kl-stop] update 776: minibatch KL 0.0327 > 0.0300 (epoch 3/4) -- actor frozen, value-only for remaining passes
+    [kl-stop] update 777: minibatch KL 0.0513 > 0.0300 (epoch 2/4) -- actor frozen, value-only for remaining passes
+    [kl-stop] update 778: minibatch KL 0.0326 > 0.0300 (epoch 4/4) -- actor frozen, value-only for remaining passes
+  --- eval at update 779 ---
+    PPO           reward  4781.72  thrpt  61.18Mbps  comp 0.708  totfail 0.290  depth 1.75
+    [kl-stop] update 780: minibatch KL 0.0396 > 0.0300 (epoch 2/4) -- actor frozen, value-only for remaining passes
+[ 780/866] rew= 5992.4  thr=76.93Mbps  comp=0.684  drop=0.000  SINR= 21.6dB  KL= 0.0253  ent=0.327  clip=0.256  ev=+0.39  t=329989s
+    [kl-stop] update 781: minibatch KL 0.0501 > 0.0300 (epoch 3/4) -- actor frozen, value-only for remaining passes
+    [kl-stop] update 782: minibatch KL 0.0427 > 0.0300 (epoch 1/4) -- actor frozen, value-only for remaining passes
+    [kl-stop] update 783: minibatch KL 0.0386 > 0.0300 (epoch 2/4) -- actor frozen, value-only for remaining passes
+    [kl-stop] update 784: minibatch KL 0.0319 > 0.0300 (epoch 2/4) -- actor frozen, value-only for remaining passes
+[ 785/866] rew= 3832.2  thr=49.68Mbps  comp=0.683  drop=0.000  SINR= 21.3dB  KL= 0.0142  ent=0.136  clip=0.170  ev=+0.47  t=331519s
+    [kl-stop] update 787: minibatch KL 0.0522 > 0.0300 (epoch 2/4) -- actor frozen, value-only for remaining passes
+    [kl-stop] update 788: minibatch KL 0.0303 > 0.0300 (epoch 3/4) -- actor frozen, value-only for remaining passes
+    [kl-stop] update 789: minibatch KL 0.0366 > 0.0300 (epoch 3/4) -- actor frozen, value-only for remaining passes
+  --- eval at update 789 ---
+    PPO           reward  4837.03  thrpt  61.42Mbps  comp 0.710  totfail 0.287  depth 1.82
+    [kl-stop] update 790: minibatch KL 0.0331 > 0.0300 (epoch 3/4) -- actor frozen, value-only for remaining passes
+[ 790/866] rew= 3625.6  thr=90.65Mbps  comp=0.567  drop=0.000  SINR= 11.3dB  KL= 0.0227  ent=0.571  clip=0.249  ev=+0.35  t=333285s
+    [kl-stop] update 791: minibatch KL 0.0348 > 0.0300 (epoch 2/4) -- actor frozen, value-only for remaining passes
+    [kl-stop] update 792: minibatch KL 0.0309 > 0.0300 (epoch 4/4) -- actor frozen, value-only for remaining passes
+    [kl-stop] update 793: minibatch KL 0.0367 > 0.0300 (epoch 3/4) -- actor frozen, value-only for remaining passes
+    [kl-stop] update 794: minibatch KL 0.0366 > 0.0300 (epoch 3/4) -- actor frozen, value-only for remaining passes
+    [kl-stop] update 795: minibatch KL 0.0394 > 0.0300 (epoch 2/4) -- actor frozen, value-only for remaining passes
+[ 795/866] rew= 3302.1  thr=86.45Mbps  comp=0.563  drop=0.000  SINR= 13.3dB  KL= 0.0241  ent=0.476  clip=0.269  ev=+0.64  t=334773s
+    [kl-stop] update 796: minibatch KL 0.0317 > 0.0300 (epoch 3/4) -- actor frozen, value-only for remaining passes
+    [kl-stop] update 797: minibatch KL 0.0347 > 0.0300 (epoch 3/4) -- actor frozen, value-only for remaining passes
+    [kl-stop] update 798: minibatch KL 0.0335 > 0.0300 (epoch 1/4) -- actor frozen, value-only for remaining passes
+    [kl-stop] update 799: minibatch KL 0.0384 > 0.0300 (epoch 3/4) -- actor frozen, value-only for remaining passes
+  --- eval at update 799 ---
+    PPO           reward  4827.99  thrpt  61.36Mbps  comp 0.711  totfail 0.287  depth 1.79
+    [kl-stop] update 800: minibatch KL 0.0316 > 0.0300 (epoch 3/4) -- actor frozen, value-only for remaining passes
+[ 800/866] rew= 5546.1  thr=57.25Mbps  comp=0.768  drop=0.000  SINR= 22.0dB  KL= 0.0175  ent=0.189  clip=0.179  ev=+0.01  t=336491s
+    [kl-stop] update 801: minibatch KL 0.0319 > 0.0300 (epoch 3/4) -- actor frozen, value-only for remaining passes
+    [kl-stop] update 803: minibatch KL 0.0310 > 0.0300 (epoch 3/4) -- actor frozen, value-only for remaining passes
+    [kl-stop] update 804: minibatch KL 0.0369 > 0.0300 (epoch 3/4) -- actor frozen, value-only for remaining passes
+    [kl-stop] update 805: minibatch KL 0.0373 > 0.0300 (epoch 2/4) -- actor frozen, value-only for remaining passes
+[ 805/866] rew= 6380.7  thr=109.11Mbps  comp=0.620  drop=0.000  SINR= 15.4dB  KL= 0.0283  ent=0.749  clip=0.288  ev=+0.61  t=338232s
+    [kl-stop] update 806: minibatch KL 0.0377 > 0.0300 (epoch 2/4) -- actor frozen, value-only for remaining passes
+    [kl-stop] update 807: minibatch KL 0.0364 > 0.0300 (epoch 3/4) -- actor frozen, value-only for remaining passes
+    [kl-stop] update 808: minibatch KL 0.0303 > 0.0300 (epoch 2/4) -- actor frozen, value-only for remaining passes
+    [kl-stop] update 809: minibatch KL 0.0341 > 0.0300 (epoch 2/4) -- actor frozen, value-only for remaining passes
+  --- eval at update 809 ---
+    PPO           reward  4848.75  thrpt  61.51Mbps  comp 0.711  totfail 0.287  depth 1.79
+    [kl-stop] update 810: minibatch KL 0.0344 > 0.0300 (epoch 2/4) -- actor frozen, value-only for remaining passes
+[ 810/866] rew=  431.1  thr=103.37Mbps  comp=0.487  drop=0.000  SINR= 11.8dB  KL= 0.0268  ent=0.741  clip=0.323  ev=+0.66  t=339937s
+    [kl-stop] update 811: minibatch KL 0.0306 > 0.0300 (epoch 4/4) -- actor frozen, value-only for remaining passes
+    [kl-stop] update 813: minibatch KL 0.0337 > 0.0300 (epoch 2/4) -- actor frozen, value-only for remaining passes
+[ 815/866] rew= 2725.3  thr=33.10Mbps  comp=0.706  drop=0.004  SINR= 13.7dB  KL= 0.0145  ent=0.103  clip=0.156  ev=+0.34  t=341659s
+    [kl-stop] update 816: minibatch KL 0.0441 > 0.0300 (epoch 2/4) -- actor frozen, value-only for remaining passes
+    [kl-stop] update 817: minibatch KL 0.0415 > 0.0300 (epoch 3/4) -- actor frozen, value-only for remaining passes
+    [kl-stop] update 818: minibatch KL 0.0339 > 0.0300 (epoch 2/4) -- actor frozen, value-only for remaining passes
+  --- eval at update 819 ---
+    PPO           reward  4855.54  thrpt  61.51Mbps  comp 0.711  totfail 0.286  depth 1.78
+    [kl-stop] update 820: minibatch KL 0.0301 > 0.0300 (epoch 4/4) -- actor frozen, value-only for remaining passes
+[ 820/866] rew= 4482.7  thr=60.61Mbps  comp=0.672  drop=0.000  SINR= 19.1dB  KL= 0.0177  ent=0.224  clip=0.209  ev=+0.31  t=343265s
+    [kl-stop] update 822: minibatch KL 0.0313 > 0.0300 (epoch 2/4) -- actor frozen, value-only for remaining passes
+    [kl-stop] update 825: minibatch KL 0.0341 > 0.0300 (epoch 2/4) -- actor frozen, value-only for remaining passes
+[ 825/866] rew= 2759.5  thr=103.04Mbps  comp=0.534  drop=0.000  SINR= 18.3dB  KL= 0.0212  ent=0.652  clip=0.249  ev=+0.66  t=344868s
+    [kl-stop] update 826: minibatch KL 0.0313 > 0.0300 (epoch 2/4) -- actor frozen, value-only for remaining passes
+    [kl-stop] update 827: minibatch KL 0.0414 > 0.0300 (epoch 2/4) -- actor frozen, value-only for remaining passes
+    [kl-stop] update 829: minibatch KL 0.0305 > 0.0300 (epoch 3/4) -- actor frozen, value-only for remaining passes
+  --- eval at update 829 ---
+    PPO           reward  4861.79  thrpt  61.50Mbps  comp 0.712  totfail 0.286  depth 1.75
+    [kl-stop] update 830: minibatch KL 0.0327 > 0.0300 (epoch 3/4) -- actor frozen, value-only for remaining passes
+[ 830/866] rew= 6529.6  thr=70.48Mbps  comp=0.748  drop=0.000  SINR= 24.7dB  KL= 0.0216  ent=0.285  clip=0.231  ev=+0.29  t=346504s
+    [kl-stop] update 832: minibatch KL 0.0301 > 0.0300 (epoch 2/4) -- actor frozen, value-only for remaining passes
+    [kl-stop] update 833: minibatch KL 0.0503 > 0.0300 (epoch 2/4) -- actor frozen, value-only for remaining passes
+    [kl-stop] update 834: minibatch KL 0.0351 > 0.0300 (epoch 2/4) -- actor frozen, value-only for remaining passes
+[ 835/866] rew= 4677.7  thr=61.38Mbps  comp=0.681  drop=0.000  SINR= 19.1dB  KL= 0.0145  ent=0.232  clip=0.179  ev=+0.25  t=348078s
+    [kl-stop] update 836: minibatch KL 0.0301 > 0.0300 (epoch 4/4) -- actor frozen, value-only for remaining passes
+    [kl-stop] update 838: minibatch KL 0.0333 > 0.0300 (epoch 3/4) -- actor frozen, value-only for remaining passes
+  --- eval at update 839 ---
+    PPO           reward  4823.46  thrpt  61.38Mbps  comp 0.710  totfail 0.288  depth 1.73
+    [kl-stop] update 840: minibatch KL 0.0311 > 0.0300 (epoch 3/4) -- actor frozen, value-only for remaining passes
+[ 840/866] rew= 3863.8  thr=65.81Mbps  comp=0.620  drop=0.000  SINR= 16.2dB  KL= 0.0185  ent=0.262  clip=0.230  ev=+0.29  t=350116s
+    [kl-stop] update 841: minibatch KL 0.0380 > 0.0300 (epoch 2/4) -- actor frozen, value-only for remaining passes
+    [kl-stop] update 842: minibatch KL 0.0368 > 0.0300 (epoch 2/4) -- actor frozen, value-only for remaining passes
+    [kl-stop] update 843: minibatch KL 0.0444 > 0.0300 (epoch 3/4) -- actor frozen, value-only for remaining passes
+    [kl-stop] update 844: minibatch KL 0.0319 > 0.0300 (epoch 3/4) -- actor frozen, value-only for remaining passes
+    [kl-stop] update 845: minibatch KL 0.0306 > 0.0300 (epoch 3/4) -- actor frozen, value-only for remaining passes
+[ 845/866] rew= 2853.4  thr=77.41Mbps  comp=0.558  drop=0.000  SINR= 13.6dB  KL= 0.0182  ent=0.343  clip=0.210  ev=+0.45  t=351711s
+    [kl-stop] update 847: minibatch KL 0.0316 > 0.0300 (epoch 2/4) -- actor frozen, value-only for remaining passes
+    [kl-stop] update 848: minibatch KL 0.0355 > 0.0300 (epoch 3/4) -- actor frozen, value-only for remaining passes
+    [kl-stop] update 849: minibatch KL 0.0543 > 0.0300 (epoch 2/4) -- actor frozen, value-only for remaining passes
+  --- eval at update 849 ---
+    PPO           reward  4817.56  thrpt  61.27Mbps  comp 0.710  totfail 0.288  depth 1.72
+    [kl-stop] update 850: minibatch KL 0.0312 > 0.0300 (epoch 2/4) -- actor frozen, value-only for remaining passes
+[ 850/866] rew= 2415.1  thr=64.87Mbps  comp=0.560  drop=0.000  SINR= 12.5dB  KL= 0.0200  ent=0.241  clip=0.211  ev=+0.27  t=353572s
+    [kl-stop] update 851: minibatch KL 0.0358 > 0.0300 (epoch 1/4) -- actor frozen, value-only for remaining passes
+    [kl-stop] update 852: minibatch KL 0.0305 > 0.0300 (epoch 4/4) -- actor frozen, value-only for remaining passes
+    [kl-stop] update 853: minibatch KL 0.0375 > 0.0300 (epoch 1/4) -- actor frozen, value-only for remaining passes
+    [kl-stop] update 854: minibatch KL 0.0425 > 0.0300 (epoch 2/4) -- actor frozen, value-only for remaining passes
+    [kl-stop] update 855: minibatch KL 0.0380 > 0.0300 (epoch 1/4) -- actor frozen, value-only for remaining passes
+[ 855/866] rew= 6635.6  thr=67.35Mbps  comp=0.777  drop=0.000  SINR= 16.2dB  KL= 0.0393  ent=0.240  clip=0.277  ev=+0.35  t=355061s
+    [kl-stop] update 857: minibatch KL 0.0304 > 0.0300 (epoch 3/4) -- actor frozen, value-only for remaining passes
+    [kl-stop] update 858: minibatch KL 0.0309 > 0.0300 (epoch 4/4) -- actor frozen, value-only for remaining passes
+    [kl-stop] update 859: minibatch KL 0.0352 > 0.0300 (epoch 3/4) -- actor frozen, value-only for remaining passes
+  --- eval at update 859 ---
+    PPO           reward  4888.44  thrpt  61.64Mbps  comp 0.713  totfail 0.285  depth 1.86
+[ 860/866] rew= 4897.3  thr=85.97Mbps  comp=0.616  drop=0.000  SINR= 14.0dB  KL= 0.0165  ent=0.463  clip=0.209  ev=+0.45  t=357268s
+    [kl-stop] update 861: minibatch KL 0.0314 > 0.0300 (epoch 3/4) -- actor frozen, value-only for remaining passes
+    [kl-stop] update 862: minibatch KL 0.0387 > 0.0300 (epoch 4/4) -- actor frozen, value-only for remaining passes
+    [kl-stop] update 863: minibatch KL 0.0476 > 0.0300 (epoch 4/4) -- actor frozen, value-only for remaining passes
+    [kl-stop] update 864: minibatch KL 0.0304 > 0.0300 (epoch 2/4) -- actor frozen, value-only for remaining passes
+[ 865/866] rew= 3112.2  thr=53.16Mbps  comp=0.620  drop=0.000  SINR= 11.1dB  KL= 0.0165  ent=0.181  clip=0.175  ev=+0.41  t=359206s
+latest.pt saved at update 865
+
+Done. 866 updates in 359206s  (414.8s/update). Best eval reward: 5143.68
+===== [wrap] DONE =====

@@ -1,0 +1,4 @@
+Historical artifact integrity: PASS
+Verified 121 files; wrote 683 paired metric rows to /home/MYH/ML_DRL_Scheduler/PaperMain/reports/evidence_summary
+Missing/invalid: LRANN OOD; LRANN/NARROW training-seed replication; strict NARROW D26.
+The 21000 band is reused evidence, not a fresh blind test.

@@ -1,0 +1,28 @@
+==========================================================================
+replay_batch EQUIVALENCE GATE
+==========================================================================
+  run     : review/logs/batch_equivalence_fixture
+  weights : best.pt@409   device cuda
+  world   : K=32 R=8 L=4 queue=8 cqi=nr4bit order=rbg_major
+  collected 48 slots in 17.0s
+  decisions/slot: mean 29.65 min 25 max 32
+
+  forward, per slot (max |diff| over all slots):
+    log_prob_sum     max |diff| = 1.144e-05   OK
+    entropy_sum      max |diff| = 1.144e-05   OK
+    value            max |diff| = 3.052e-05   OK
+    n_decisions      mismatches = 0   OK
+    vs decode lp     max |diff| = 0.000e+00   (sequential replay vs the decode that produced the actions)
+
+  gradients (random per-slot weights, one backward per head):
+    log_prob_sum     loss seq    -492.2631 vs bat    -492.2632   worst rel grad 1.619e-06 in 'score_net.net.4.weight'   OK
+    entropy_sum      loss seq    +515.8369 vs bat    +515.8369   worst rel grad 1.615e-06 in 'no_user_head.net.0.weight'   OK
+    value            loss seq   +4949.7925 vs bat   +4949.7944   worst rel grad 5.262e-07 in 'encoder.net.0.weight'   OK
+    WORST OVERALL = 1.619e-06  (log_prob_sum / score_net.net.4.weight)   OK
+
+  timing on 48 slots: sequential 2.48s   batched 0.01s   speedup 346.2x
+    (indicative: one forward pass, no backward, small batch)
+
+==========================================================================
+RESULT: PASS
+==========================================================================

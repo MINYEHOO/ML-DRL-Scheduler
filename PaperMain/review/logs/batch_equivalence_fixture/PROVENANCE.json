@@ -1,0 +1,14 @@
+{
+  "purpose": "numerical equivalence only, corrected beta world with frozen Base best weights",
+  "source_checkpoint": "artifacts/base/ckpt/best.pt",
+  "source_sha256": "7a8684b93de97f1a78021b5ac5ae3b2381513ffae2a8e2cfd39e2e8603245845",
+  "beta": [
+    1.0162,
+    0.8509,
+    0.7732,
+    0.728
+  ],
+  "episode_len_main": 1000,
+  "minibatch": 256,
+  "epochs": 4
+}

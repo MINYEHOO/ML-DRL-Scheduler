@@ -1,0 +1,8 @@
+WARMED_CHANNEL_AND_CSI
+{"mode": "legacy", "episode": 10000, "seconds": 45.30188016500324, "reward": 2484.312860559514, "goodput_mbps": 83.964698}
+{"mode": "legacy", "episode": 10001, "seconds": 45.058236978948116, "reward": 5904.593168997187, "goodput_mbps": 92.764556}
+{"mode": "legacy", "episode": 10002, "seconds": 44.61980633158237, "reward": 6160.676853930716, "goodput_mbps": 74.070688}
+{"mode": "action_only", "episode": 10000, "seconds": 33.58094485197216, "reward": 2484.312860559514, "goodput_mbps": 83.964698}
+{"mode": "action_only", "episode": 10001, "seconds": 33.20790947880596, "reward": 5904.593168997187, "goodput_mbps": 92.764556}
+{"mode": "action_only", "episode": 10002, "seconds": 33.095341694541276, "reward": 6160.676853930716, "goodput_mbps": 74.070688}
+EVAL_COMPARISON_PASSED {"speedup": 1.3513537110504723, "legacy_seconds": 134.9841409092769, "action_only_seconds": 99.88808985054493, "exact_actions": true, "metrics_match": true}

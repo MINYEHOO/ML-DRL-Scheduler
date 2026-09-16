@@ -1,0 +1,7 @@
+{
+  "requested_at": "2026-09-09T02:41:47.436866+00:00",
+  "pid": 73216,
+  "reason": "User requested linear learning-rate decay and 1000 total updates; replace this fixed-LR run with a fresh Base run.",
+  "signal": "SIGTERM",
+  "old_name": "base_cqi4_corrected_s2024_20260909_gpu5"
+}

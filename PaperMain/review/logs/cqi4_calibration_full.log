@@ -1,0 +1,228 @@
+2026-09-09 01:46:47.902550: E external/local_xla/xla/stream_executor/cuda/cuda_dnn.cc:9261] Unable to register cuDNN factory: Attempting to register factory for plugin cuDNN when one has already been registered
+2026-09-09 01:46:47.902600: E external/local_xla/xla/stream_executor/cuda/cuda_fft.cc:607] Unable to register cuFFT factory: Attempting to register factory for plugin cuFFT when one has already been registered
+2026-09-09 01:46:47.904040: E external/local_xla/xla/stream_executor/cuda/cuda_blas.cc:1515] Unable to register cuBLAS factory: Attempting to register factory for plugin cuBLAS when one has already been registered
+2026-09-09 01:46:50.499047: E external/local_xla/xla/stream_executor/cuda/cuda_driver.cc:274] failed call to cuInit: CUDA_ERROR_NO_DEVICE: no CUDA-capable device is detected
+feasible CQI4 sampler: episode 50000 (1/36)
+feasible CQI4 sampler: episode 50001 (2/36)
+feasible CQI4 sampler: episode 50002 (3/36)
+feasible CQI4 sampler: episode 50003 (4/36)
+feasible CQI4 sampler: episode 50004 (5/36)
+feasible CQI4 sampler: episode 50005 (6/36)
+feasible CQI4 sampler: episode 50006 (7/36)
+feasible CQI4 sampler: episode 50007 (8/36)
+feasible CQI4 sampler: episode 50008 (9/36)
+feasible CQI4 sampler: episode 50009 (10/36)
+feasible CQI4 sampler: episode 50010 (11/36)
+feasible CQI4 sampler: episode 50011 (12/36)
+feasible CQI4 sampler: episode 50012 (13/36)
+feasible CQI4 sampler: episode 50013 (14/36)
+feasible CQI4 sampler: episode 50014 (15/36)
+feasible CQI4 sampler: episode 50015 (16/36)
+feasible CQI4 sampler: episode 50016 (17/36)
+feasible CQI4 sampler: episode 50017 (18/36)
+feasible CQI4 sampler: episode 50018 (19/36)
+feasible CQI4 sampler: episode 50019 (20/36)
+feasible CQI4 sampler: episode 50020 (21/36)
+feasible CQI4 sampler: episode 50021 (22/36)
+feasible CQI4 sampler: episode 50022 (23/36)
+feasible CQI4 sampler: episode 50023 (24/36)
+feasible CQI4 sampler: episode 50024 (25/36)
+feasible CQI4 sampler: episode 50025 (26/36)
+feasible CQI4 sampler: episode 50026 (27/36)
+feasible CQI4 sampler: episode 50027 (28/36)
+feasible CQI4 sampler: episode 50028 (29/36)
+feasible CQI4 sampler: episode 50029 (30/36)
+feasible CQI4 sampler: episode 50030 (31/36)
+feasible CQI4 sampler: episode 50031 (32/36)
+feasible CQI4 sampler: episode 50032 (33/36)
+feasible CQI4 sampler: episode 50033 (34/36)
+feasible CQI4 sampler: episode 50034 (35/36)
+feasible CQI4 sampler: episode 50035 (36/36)
+feasible CQI4 sampler: episode 70000 (1/12)
+feasible CQI4 sampler: episode 70001 (2/12)
+feasible CQI4 sampler: episode 70002 (3/12)
+feasible CQI4 sampler: episode 70003 (4/12)
+feasible CQI4 sampler: episode 70004 (5/12)
+feasible CQI4 sampler: episode 70005 (6/12)
+feasible CQI4 sampler: episode 70006 (7/12)
+feasible CQI4 sampler: episode 70007 (8/12)
+feasible CQI4 sampler: episode 70008 (9/12)
+feasible CQI4 sampler: episode 70009 (10/12)
+feasible CQI4 sampler: episode 70010 (11/12)
+feasible CQI4 sampler: episode 70011 (12/12)
+{
+  "status": "validated",
+  "beta_rounded": [
+    1.0162,
+    0.8509,
+    0.7732,
+    0.728
+  ],
+  "holdout": {
+    "1": {
+      "first_ack": 0.9000582750582751,
+      "episode_cluster_ci95": [
+        0.8892773892773893,
+        0.909965034965035
+      ],
+      "member_count": 3432,
+      "acks": 3089,
+      "episode_member_counts": [
+        286,
+        286,
+        286,
+        286,
+        286,
+        286,
+        286,
+        286,
+        286,
+        286,
+        286,
+        286
+      ],
+      "episode_ack_counts": [
+        263,
+        251,
+        253,
+        256,
+        262,
+        265,
+        261,
+        260,
+        260,
+        252,
+        258,
+        248
+      ],
+      "zero_member_episodes": 0,
+      "bootstrap_undefined_fraction": 0.0,
+      "ack_tolerance_bits": 1e-06,
+      "strict_ratio_first_ack": 0.9000582750582751
+    },
+    "2": {
+      "first_ack": 0.9277389277389277,
+      "episode_cluster_ci95": [
+        0.9166666666666666,
+        0.9392482517482518
+      ],
+      "member_count": 6864,
+      "acks": 6368,
+      "episode_member_counts": [
+        572,
+        572,
+        572,
+        572,
+        572,
+        572,
+        572,
+        572,
+        572,
+        572,
+        572,
+        572
+      ],
+      "episode_ack_counts": [
+        539,
+        551,
+        540,
+        526,
+        542,
+        523,
+        522,
+        542,
+        525,
+        524,
+        509,
+        525
+      ],
+      "zero_member_episodes": 0,
+      "bootstrap_undefined_fraction": 0.0,
+      "ack_tolerance_bits": 1e-06,
+      "strict_ratio_first_ack": 0.9277389277389277
+    },
+    "3": {
+      "first_ack": 0.932012432012432,
+      "episode_cluster_ci95": [
+        0.9221056721056721,
+        0.9417249417249417
+      ],
+      "member_count": 10296,
+      "acks": 9596,
+      "episode_member_counts": [
+        858,
+        858,
+        858,
+        858,
+        858,
+        858,
+        858,
+        858,
+        858,
+        858,
+        858,
+        858
+      ],
+      "episode_ack_counts": [
+        819,
+        817,
+        819,
+        792,
+        807,
+        789,
+        803,
+        803,
+        809,
+        786,
+        779,
+        773
+      ],
+      "zero_member_episodes": 0,
+      "bootstrap_undefined_fraction": 0.0,
+      "ack_tolerance_bits": 1e-06,
+      "strict_ratio_first_ack": 0.932012432012432
+    },
+    "4": {
+      "first_ack": 0.93254662004662,
+      "episode_cluster_ci95": [
+        0.9208916083916084,
+        0.9444201631701632
+      ],
+      "member_count": 13728,
+      "acks": 12802,
+      "episode_member_counts": [
+        1144,
+        1144,
+        1144,
+        1144,
+        1144,
+        1144,
+        1144,
+        1144,
+        1144,
+        1144,
+        1144,
+        1144
+      ],
+      "episode_ack_counts": [
+        1096,
+        1107,
+        1087,
+        1067,
+        1076,
+        1050,
+        1076,
+        1057,
+        1081,
+        1033,
+        1031,
+        1041
+      ],
+      "zero_member_episodes": 0,
+      "bootstrap_undefined_fraction": 0.0,
+      "ack_tolerance_bits": 1e-06,
+      "strict_ratio_first_ack": 0.93254662004662
+    }
+  }
+}
+Calibration saved to /home/MYH/ML_DRL_Scheduler/PaperMain/results/cqi4_hl_corrected_v1; apply explicitly with --calibration-profile /home/MYH/ML_DRL_Scheduler/PaperMain/results/cqi4_hl_corrected_v1/summary.json

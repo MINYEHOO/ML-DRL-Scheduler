@@ -1,0 +1,84 @@
+{
+  "original_artifacts_verified": 137,
+  "package_files_verified": 218,
+  "errors": []
+}
+{
+  "status": "passed",
+  "validated_at": "2026-09-10T01:23:09.059403+00:00",
+  "tests": 135,
+  "new_schedule_tests": 23,
+  "legacy_schedule_arithmetic": "exactly retained for valid legacy schedules",
+  "gpu_smoke": {
+    "parent_update": 1,
+    "first_segment_update": 2,
+    "resumed_update": 3,
+    "first_lr": 1e-05,
+    "resumed_lr": 9.990000000000001e-06,
+    "actor_and_critic_changed": true,
+    "checkpoint_schedule_restored": true
+  },
+  "continuation": {
+    "parent": "14_base_cqi4_batched_evalfast_lr1000_s2024_20260909_gpu5",
+    "child": "16_base_cqi4_lrrestart2000_s2024_20260910_gpu5",
+    "resumed_from_update": 999,
+    "start_update": 1000,
+    "target_updates": 2000,
+    "additional_updates": 1000,
+    "config_unchanged": true,
+    "parent_files_unchanged": true,
+    "original_checkpoint_bytes_preserved_on_copy": true,
+    "full_model_optimizer_normalizer_rng_preserved": true,
+    "previous_schedule": {
+      "lr_final": 0.0,
+      "lr_decay_updates": 1000
+    },
+    "new_schedule": {
+      "lr_final": 0.0,
+      "lr_decay_updates": 1000,
+      "lr_initial": 1e-05,
+      "lr_start_update": 1000
+    },
+    "last_training_update": 1999,
+    "last_training_lr": 1e-08
+  },
+  "startup": {
+    "status": "running",
+    "checkpoint_update": 1001,
+    "completed_updates": 1002,
+    "optimizer_lr": 9.990000000000001e-06,
+    "checkpoint_finite": true,
+    "actor_weights_changed": true,
+    "critic_weights_changed": true,
+    "training_pid": 139182,
+    "supervisor_pid": 139181
+  },
+  "calibration": "validated",
+  "beta": [
+    1.0162,
+    0.8509,
+    0.7732,
+    0.728
+  ],
+  "physical_gpu": 5,
+  "original_code_files_unchanged": 16,
+  "original_and_copied_artifacts_unchanged": 137,
+  "current_source_sha256": {
+    "paper_train.py": "0b4b0fe2f6359a015df21faad99cd2c4b8cd9b0898f8dcba087578efa6077531",
+    "train_phase2.py": "fa82f7a438def16c6405cb2c79b829b256b2843abcaf99f37f983488127731bb",
+    "config.py": "5ab93d0212e1a86449896252514ffd4ddb7666410117a720efc527bb7db47658",
+    "env.py": "e91c83165b2717c3c021433c67fb6531ae20e6f714b934b936b6ff95aff5015d",
+    "channel.py": "b308c63d369a181ba08788bc0f52f6f620c1ac3ff65ad210ae5367cd0d47e755",
+    "csi.py": "e6084b6b514c1269e0a56c76637a07c2cffcf04cfa889683a38d23b10d71f356",
+    "codebook.py": "93234f7b2aae3d7f5b593deca8aa8c4aace3c0756e2a20abe577e1ffbe381abf",
+    "phy.py": "f18d9d7cf57a981c6e835a955eea0a0195e2efdf6aad675312566b61b0b66846",
+    "la_planner.py": "ddb6028d2fd138b6b4517ecc5a73ea109915f1029081350a42a152343bb3d39d",
+    "traffic.py": "49f1822387d29c4b8333cc73ea22f64af9fa153800651dcf7c14cb139e3fd4aa",
+    "transmission.py": "317e0ece855e33de44445a7c4ecb90cddbad5dbcc70dd9357435864f5887276e",
+    "policy.py": "b668806d4604abe7f69683a4b78136dd4a811abe1597dadb640c22d4507af9f5",
+    "ppo.py": "dc3157aed774fe410f729b142db5f914fd095ba824d0366d8f619c50b27fd298",
+    "baselines.py": "c227fdc61c836969f1c8f7d7bf2cbccce0efd7e1a36b4940cc6b4dddd0e17e07",
+    "metrics.py": "cba7a47dd1de4c5487bf5ee91925f3b0a869436430496044ad5bf9bada9a8809",
+    "calibration/profile.py": "35e4c3ff438eaa29770b905229ad67d47fd4bd73acc298ac00e5708cc0a98d92"
+  }
+}

@@ -1,0 +1,59 @@
+{
+  "stage1_config_equals_normalized_run14": true,
+  "base_narrow_changed_fields": [
+    "n_active_max",
+    "n_active_min",
+    "p_arrival_max",
+    "p_arrival_min",
+    "ue_speed_max",
+    "ue_speed_min"
+  ],
+  "training_seed_bands": [
+    {
+      "seed": 1002024,
+      "training_channel_seed_range": [
+        1002024,
+        1004023
+      ],
+      "validation_channel_seed_range": [
+        1012024,
+        1012026
+      ]
+    },
+    {
+      "seed": 2002024,
+      "training_channel_seed_range": [
+        2002024,
+        2004023
+      ],
+      "validation_channel_seed_range": [
+        2012024,
+        2012026
+      ]
+    }
+  ],
+  "calibration_file_sha256": "258e90406be65d7621d0938bb7755034b35c6d4f1485f4a28e7da2c506009110",
+  "core_source_sha256": {
+    "paper_train.py": "3095c067ce9ed3cf0dea43bcac5263e839986b85599e53ef4df43b84be3f64cc",
+    "train_phase2.py": "2079a90c356a92d8cd591b378d6708b6b06d3185a84fc206d887d9bb9b3e4eca",
+    "config.py": "734936660c5ea80ad64c8b58b1d9f2e6942e5e52787f5df7d07370cb0e8845a8",
+    "env.py": "e91c83165b2717c3c021433c67fb6531ae20e6f714b934b936b6ff95aff5015d",
+    "channel.py": "b308c63d369a181ba08788bc0f52f6f620c1ac3ff65ad210ae5367cd0d47e755",
+    "csi.py": "e6084b6b514c1269e0a56c76637a07c2cffcf04cfa889683a38d23b10d71f356",
+    "codebook.py": "93234f7b2aae3d7f5b593deca8aa8c4aace3c0756e2a20abe577e1ffbe381abf",
+    "phy.py": "f18d9d7cf57a981c6e835a955eea0a0195e2efdf6aad675312566b61b0b66846",
+    "la_planner.py": "ddb6028d2fd138b6b4517ecc5a73ea109915f1029081350a42a152343bb3d39d",
+    "traffic.py": "3a4c341b240924110c82c296eec3b7bf67dfcf2d7d8e2043557462ae843cdf01",
+    "transmission.py": "317e0ece855e33de44445a7c4ecb90cddbad5dbcc70dd9357435864f5887276e",
+    "policy.py": "b668806d4604abe7f69683a4b78136dd4a811abe1597dadb640c22d4507af9f5",
+    "ppo.py": "dc3157aed774fe410f729b142db5f914fd095ba824d0366d8f619c50b27fd298",
+    "baselines.py": "c227fdc61c836969f1c8f7d7bf2cbccce0efd7e1a36b4940cc6b4dddd0e17e07",
+    "metrics.py": "cba7a47dd1de4c5487bf5ee91925f3b0a869436430496044ad5bf9bada9a8809",
+    "calibration/profile.py": "35e4c3ff438eaa29770b905229ad67d47fd4bd73acc298ac00e5708cc0a98d92"
+  },
+  "run14_manifest_sha256": "c6eb026b98e12599b82f4733afe32fc90fe8600ced23e812992381a7ab8c8e12",
+  "notes": [
+    "GPU3 target is the initial 1000 updates only.",
+    "Common Base/OOD evaluation is required after training; current per-recipe validation worlds differ."
+  ]
+}

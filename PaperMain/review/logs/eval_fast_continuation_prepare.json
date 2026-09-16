@@ -1,0 +1,77 @@
+{
+  "prepared": true,
+  "run_dir": "/home/MYH/ML_DRL_Scheduler/PaperMain/runs/14_base_cqi4_batched_evalfast_lr1000_s2024_20260909_gpu5",
+  "created_at": "2026-09-09T05:14:37.214282+00:00",
+  "parent_run": "12_base_cqi4_batched_lr1000_s2024_20260909_gpu5",
+  "resumed_checkpoint_update": 20,
+  "next_update": 21,
+  "target_updates": 1000,
+  "reason": "Evaluation-only action path acceleration; unchanged training algorithm and configuration.",
+  "changed_sources": [
+    "policy.py",
+    "train_phase2.py"
+  ],
+  "parent_source_sha256": {
+    "paper_train.py": "8bfe8762214bcd9b68e7fffb425c6cf455ba6ddd10a637c8c92fd6c0965cac7b",
+    "train_phase2.py": "e26a9c72dae9331701e490cde0863c02bb5f9b8f4d64d5e6c204e964ae0c5759",
+    "config.py": "5ab93d0212e1a86449896252514ffd4ddb7666410117a720efc527bb7db47658",
+    "env.py": "e91c83165b2717c3c021433c67fb6531ae20e6f714b934b936b6ff95aff5015d",
+    "channel.py": "b308c63d369a181ba08788bc0f52f6f620c1ac3ff65ad210ae5367cd0d47e755",
+    "csi.py": "e6084b6b514c1269e0a56c76637a07c2cffcf04cfa889683a38d23b10d71f356",
+    "codebook.py": "93234f7b2aae3d7f5b593deca8aa8c4aace3c0756e2a20abe577e1ffbe381abf",
+    "phy.py": "f18d9d7cf57a981c6e835a955eea0a0195e2efdf6aad675312566b61b0b66846",
+    "la_planner.py": "ddb6028d2fd138b6b4517ecc5a73ea109915f1029081350a42a152343bb3d39d",
+    "traffic.py": "49f1822387d29c4b8333cc73ea22f64af9fa153800651dcf7c14cb139e3fd4aa",
+    "transmission.py": "317e0ece855e33de44445a7c4ecb90cddbad5dbcc70dd9357435864f5887276e",
+    "policy.py": "d52e81e5a91fcf4c23bbd944526d328eddb69039f47b21e04c6f19785947eff0",
+    "ppo.py": "dc3157aed774fe410f729b142db5f914fd095ba824d0366d8f619c50b27fd298",
+    "baselines.py": "c227fdc61c836969f1c8f7d7bf2cbccce0efd7e1a36b4940cc6b4dddd0e17e07",
+    "metrics.py": "cba7a47dd1de4c5487bf5ee91925f3b0a869436430496044ad5bf9bada9a8809",
+    "calibration/profile.py": "35e4c3ff438eaa29770b905229ad67d47fd4bd73acc298ac00e5708cc0a98d92"
+  },
+  "source_archive": "provenance/run12_before_eval_fast_sources.tar.gz",
+  "source_archive_sha256": "85be89c9e351c9449c8d5dcb6e68920b78500f9cc11c7f70a48cbd5b34ebefb4",
+  "parent_metadata_sha256": {
+    "paper_manifest.json": "c185845d602bebd11673c65350e84e42cb0976f11cf14d87efe77eae2d6bb6fc",
+    "config.json": "433b316cb19b2aed56074368d1148d5509a3aa0989606471d395a2f806933d20"
+  },
+  "copied_checkpoint_sha256": {
+    "latest.pt": "d42398b75ce576dc4d4accdc59677faa2086ded5f631248ff9328231e64c2e4e",
+    "best.pt": "16762f47b57fc68bec615c1f00832fb0afe94e4a118edc9fbdcd6986b7a1ab70"
+  },
+  "initial_child_config_sha256": "efefbc1a4b052cf7d4863b1c98108cca1dc472667dd7236eb3d22f1078afdbce",
+  "csv_history": {
+    "env_metrics.csv": {
+      "parent_sha256": "fb5db69a5db0c663a976716b139098481d2f505e33113c0d283268d6c81eca9f",
+      "initial_child_sha256": "fb5db69a5db0c663a976716b139098481d2f505e33113c0d283268d6c81eca9f",
+      "inherited_rows": 21,
+      "dropped_rows": 0,
+      "inherited_through_update": 20
+    },
+    "eval_metrics.csv": {
+      "parent_sha256": "f150ff374da7a4b7787772389ca4c89f5a1fb42f0939e36d3f0dcdfc17153ff0",
+      "initial_child_sha256": "f150ff374da7a4b7787772389ca4c89f5a1fb42f0939e36d3f0dcdfc17153ff0",
+      "inherited_rows": 14,
+      "dropped_rows": 0,
+      "inherited_through_update": 20
+    },
+    "per_ue_metrics.csv": {
+      "parent_sha256": "2856e000b2cb227440808954de217bf87fdd74c6fca6a5f05bcabb342778f2a3",
+      "initial_child_sha256": "2856e000b2cb227440808954de217bf87fdd74c6fca6a5f05bcabb342778f2a3",
+      "inherited_rows": 192,
+      "dropped_rows": 0,
+      "inherited_through_update": 20
+    },
+    "ppo_metrics.csv": {
+      "parent_sha256": "a460a42454bb1a5ff8b7c7ed8da5a01d93d56c34925c795b95e6c05c14103cef",
+      "initial_child_sha256": "a460a42454bb1a5ff8b7c7ed8da5a01d93d56c34925c795b95e6c05c14103cef",
+      "inherited_rows": 21,
+      "dropped_rows": 0,
+      "inherited_through_update": 20
+    }
+  },
+  "validation_checkpoint_update": 19,
+  "validation_checkpoint_sha256": "16762f47b57fc68bec615c1f00832fb0afe94e4a118edc9fbdcd6986b7a1ab70",
+  "evaluation_validation_sha256": "96f3f336dc84b4e462b7eebcf140e9175e62d1a25b727f0eccfa2687712167df",
+  "tensorboard": "Child events begin at update 21; earlier events remain in the parent run."
+}
