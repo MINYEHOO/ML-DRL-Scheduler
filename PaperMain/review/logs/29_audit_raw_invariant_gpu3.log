@@ -2580,11 +2580,15 @@
     "schema_version": 1,
     "name": "raw_invariant",
     "source_sha256": {
-      "paper_train_raw.py": "e532c7778621df23835afcee0b2435ca8ad6124187deaacc909766997125278e"
+      "paper_train_raw.py": "3db9a32902fc9ea3c7c7a9b841c54a91f83669002f2f4aee37419a1199c3f5fb"
     },
     "base_recipe_sha256": "8bbcd8e83195713cf9baefe96af8d4e6ed4035481d791ef7ccd63f2f043be81c",
     "derived_recipe_sha256": "8bbcd8e83195713cf9baefe96af8d4e6ed4035481d791ef7ccd63f2f043be81c",
     "changed_ranges": {},
+    "extra_eval_baselines": [
+      "SUS+CQI-Feasible",
+      "SUS-RPS"
+    ],
     "architecture": {
       "schema_version": 1,
       "encoder": "identity (raw 73-channel per-(UE,RBG) input)",
@@ -2634,26 +2638,28 @@ actor-critic params: 45,443
 
 lr anneal: 0.0003 -> 0.0 over 1000 updates from global update 0 (linear, resume-safe)
     [batch-verify] update 0: 4 slots, max scaled |diff| 2.29e-05 OK
-[   0/1] rew=  152.2  thr=77.62Mbps  comp=0.560  drop=0.000  SINR= 17.6dB  KL= 0.0001  ent=2.516  clip=0.000  ev=-0.00  t=9s
+[   0/1] rew=  152.2  thr=77.62Mbps  comp=0.560  drop=0.000  SINR= 17.6dB  KL= 0.0001  ent=2.516  clip=0.000  ev=-0.00  t=10s
   --- eval at update 0 ---
-    PPO           reward    -4.22  thrpt  61.88Mbps  comp 0.391  totfail 0.435  depth 4.00  eval_s=2.2
+    PPO           reward    -4.22  thrpt  61.88Mbps  comp 0.391  totfail 0.435  depth 4.00  eval_s=2.3
     SUS+CQI       reward   148.72  thrpt  85.92Mbps  comp 0.533  totfail 0.344  depth 3.89  eval_s=0.1
     SUS+Deadline-PF  reward    87.11  thrpt  77.73Mbps  comp 0.464  totfail 0.388  depth 3.99  eval_s=0.1
     SUS+PF        reward    81.00  thrpt  78.57Mbps  comp 0.464  totfail 0.394  depth 3.98  eval_s=0.1
     SUS+Random    reward   128.85  thrpt  83.05Mbps  comp 0.505  totfail 0.356  depth 3.98  eval_s=0.1
     SUS+MW        reward   149.85  thrpt  86.49Mbps  comp 0.533  totfail 0.344  depth 3.89  eval_s=0.1
-    SUS+EDF       reward    14.41  thrpt  62.98Mbps  comp 0.375  totfail 0.423  depth 3.98  eval_s=0.1
+    SUS+EDF       reward    14.41  thrpt  62.98Mbps  comp 0.375  totfail 0.423  depth 3.98  eval_s=0.2
     SU+CQI        reward    96.16  thrpt  76.95Mbps  comp 0.489  totfail 0.372  depth 1.00  eval_s=0.1
     SU+Deadline-PF  reward   -72.71  thrpt  52.29Mbps  comp 0.309  totfail 0.479  depth 1.00  eval_s=0.1
     SU+PF         reward   -65.92  thrpt  55.02Mbps  comp 0.328  totfail 0.479  depth 1.00  eval_s=0.1
     SU+Random     reward  -110.66  thrpt  50.55Mbps  comp 0.284  totfail 0.514  depth 1.00  eval_s=0.1
     SU+MW         reward    87.47  thrpt  76.01Mbps  comp 0.470  totfail 0.375  depth 1.00  eval_s=0.1
     SU+EDF        reward  -252.21  thrpt  27.92Mbps  comp 0.161  totfail 0.603  depth 1.00  eval_s=0.1
-  [eval-time] update 0: 3.5s total
+    SUS+CQI-Feasible  reward   144.50  thrpt  84.10Mbps  comp 0.536  totfail 0.344  depth 3.40  eval_s=0.1
+    SUS-RPS       reward   155.58  thrpt  86.29Mbps  comp 0.539  totfail 0.338  depth 2.84  eval_s=0.4
+  [eval-time] update 0: 4.2s total
   >>> new best eval reward -4.22, saved best.pt
 latest.pt saved at update 0
 
-Done. 1 updates in 12s  (12.3s/update). Best eval reward: -4.22
+Done. 1 updates in 14s  (14.2s/update). Best eval reward: -4.22
 {
   "run_dir": "/home/MYH/ML_DRL_Scheduler/PaperMain/runs/29_audit_raw_invariant_gpu3",
   "resume": "/home/MYH/ML_DRL_Scheduler/PaperMain/runs/29_audit_raw_invariant_gpu3/ckpt/latest.pt",
@@ -5236,11 +5242,15 @@ Done. 1 updates in 12s  (12.3s/update). Best eval reward: -4.22
     "schema_version": 1,
     "name": "raw_invariant",
     "source_sha256": {
-      "paper_train_raw.py": "e532c7778621df23835afcee0b2435ca8ad6124187deaacc909766997125278e"
+      "paper_train_raw.py": "3db9a32902fc9ea3c7c7a9b841c54a91f83669002f2f4aee37419a1199c3f5fb"
     },
     "base_recipe_sha256": "8bbcd8e83195713cf9baefe96af8d4e6ed4035481d791ef7ccd63f2f043be81c",
     "derived_recipe_sha256": "8bbcd8e83195713cf9baefe96af8d4e6ed4035481d791ef7ccd63f2f043be81c",
     "changed_ranges": {},
+    "extra_eval_baselines": [
+      "SUS+CQI-Feasible",
+      "SUS-RPS"
+    ],
     "architecture": {
       "schema_version": 1,
       "encoder": "identity (raw 73-channel per-(UE,RBG) input)",
@@ -5290,10 +5300,10 @@ actor-critic params: 45,443
 
 resumed /home/MYH/ML_DRL_Scheduler/PaperMain/runs/29_audit_raw_invariant_gpu3/ckpt/latest.pt: start_update=1, best_eval_reward=-4.22
 lr anneal: 0.0003 -> 0.0 over 1000 updates from global update 0 (linear, resume-safe)
-[   1/2] rew=  186.2  thr=71.83Mbps  comp=0.623  drop=0.000  SINR= 11.6dB  KL= 0.0000  ent=2.114  clip=0.000  ev=+0.01  t=7s
+[   1/2] rew=  186.2  thr=71.83Mbps  comp=0.623  drop=0.000  SINR= 11.6dB  KL= 0.0000  ent=2.114  clip=0.000  ev=+0.01  t=9s
   --- eval at update 1 ---
-    PPO           reward   -12.45  thrpt  60.60Mbps  comp 0.385  totfail 0.442  depth 4.00  eval_s=1.8
-  [eval-time] update 1: 1.8s total
+    PPO           reward   -12.45  thrpt  60.60Mbps  comp 0.385  totfail 0.442  depth 4.00  eval_s=2.3
+  [eval-time] update 1: 2.3s total
 latest.pt saved at update 1
 
-Done. 1 updates in 9s  (9.2s/update). Best eval reward: -4.22
+Done. 1 updates in 12s  (11.7s/update). Best eval reward: -4.22

@@ -227,23 +227,51 @@ def _build():
     return RawInvariantActorCritic, raw_value_tail
 
 
-def install():
-    """Route every ActorCritic construction in this process to the raw class.
+def _extra_baselines(cfg):
+    """The two strongest rule comparators, appended to the trainer's periodic
+    validation so eval_metrics.csv carries them next to PPO (user request
+    2026-09-16). Same cfg (and hence the same SUS threshold) as the stock
+    baseline rows; evaluated on the same fixed validation episodes."""
+    import baselines as B
+    return [B.SUSCQIFeasible(), B.SUSRPS()]
 
-    Must run before ``train_phase2`` is imported (it binds ``ActorCritic`` at
-    module import); modules already imported are patched too.
+
+EXTRA_EVAL_BASELINES = ['SUS+CQI-Feasible', 'SUS-RPS']
+
+
+def install():
+    """Route every ActorCritic construction in this process to the raw class
+    and extend the trainer's validation baseline list.
+
+    Must run before ``train_phase2`` is imported (it binds ``ActorCritic`` and
+    ``all_baselines`` at module import); modules already imported are patched
+    too.
     """
     global _INSTALLED
     import policy as P
+    import baselines as B
     if _INSTALLED:
         return P.ActorCritic
     cls, tail = _build()
     P.ActorCritic = cls
     P.build_value_tail = tail          # build_value_input/_rbg_major_pass look this up
+    stock_all = B.all_baselines
+
+    def all_baselines_plus(cfg):
+        out = list(stock_all(cfg))
+        have = {s.name for s in out}
+        out += [s for s in _extra_baselines(cfg) if s.name not in have]
+        return out
+
+    B.all_baselines = all_baselines_plus
     for name in ('train_phase2', 'ppo', 'paper_eval', 'paper_run_eval'):
         mod = sys.modules.get(name)
-        if mod is not None and hasattr(mod, 'ActorCritic'):
+        if mod is None:
+            continue
+        if hasattr(mod, 'ActorCritic'):
             mod.ActorCritic = cls
+        if hasattr(mod, 'all_baselines'):
+            mod.all_baselines = all_baselines_plus
     _INSTALLED = True
     return cls
 
@@ -300,6 +328,7 @@ def _recipe_record(root):
         'base_recipe_sha256': pt.sha_file(base_file),
         'derived_recipe_sha256': pt.sha_file(recipe_file),
         'changed_ranges': {},
+        'extra_eval_baselines': EXTRA_EVAL_BASELINES,
         'architecture': ARCHITECTURE,
         'architecture_sha256': hashlib.sha256(pt.canonical(ARCHITECTURE).encode()).hexdigest(),
     }

@@ -2613,11 +2613,15 @@
     "schema_version": 1,
     "name": "raw_invariant",
     "source_sha256": {
-      "paper_train_raw.py": "e532c7778621df23835afcee0b2435ca8ad6124187deaacc909766997125278e"
+      "paper_train_raw.py": "3db9a32902fc9ea3c7c7a9b841c54a91f83669002f2f4aee37419a1199c3f5fb"
     },
     "base_recipe_sha256": "8bbcd8e83195713cf9baefe96af8d4e6ed4035481d791ef7ccd63f2f043be81c",
     "derived_recipe_sha256": "8bbcd8e83195713cf9baefe96af8d4e6ed4035481d791ef7ccd63f2f043be81c",
     "changed_ranges": {},
+    "extra_eval_baselines": [
+      "SUS+CQI-Feasible",
+      "SUS-RPS"
+    ],
     "architecture": {
       "schema_version": 1,
       "encoder": "identity (raw 73-channel per-(UE,RBG) input)",
@@ -2644,7 +2648,7 @@
     "architecture_sha256": "4804df01df12d55668d0ff0124a9e6e79ec20af2ad87c053f33d1c791e9004e1"
   },
   "extension_sha256": {
-    "paper_train_raw.py": "e532c7778621df23835afcee0b2435ca8ad6124187deaacc909766997125278e",
+    "paper_train_raw.py": "3db9a32902fc9ea3c7c7a9b841c54a91f83669002f2f4aee37419a1199c3f5fb",
     "artifacts/raw_invariant/config.json": "8bbcd8e83195713cf9baefe96af8d4e6ed4035481d791ef7ccd63f2f043be81c",
     "review/runners/run_raw_invariant.py": "a332976a9edeb812f4f055231504f933919038f76a88da8c7ac62d1acda26cc3"
   },
@@ -2655,10 +2659,10 @@
   "status": "completed",
   "name": "29_audit_raw_invariant_gpu3",
   "console_log": "/home/MYH/ML_DRL_Scheduler/PaperMain/review/logs/29_audit_raw_invariant_gpu3.log",
-  "created_at": "2026-09-16T04:11:09.906280+00:00",
+  "created_at": "2026-09-16T04:43:37.817421+00:00",
   "physical_gpu": 3,
-  "supervisor_pid": 84436,
-  "training_pid": 84832,
+  "supervisor_pid": 90469,
+  "training_pid": 90850,
   "target_completed": true,
   "phase_target_updates": 2,
   "active_command": [
@@ -2679,18 +2683,18 @@
       "target_updates": 1,
       "checkpoint_update": 0,
       "optimizer_lr": 0.0003,
-      "seconds": 20.44887753482908,
+      "seconds": 21.920893718488514,
       "finite_weights": true
     },
     {
       "target_updates": 2,
       "checkpoint_update": 1,
       "optimizer_lr": 0.00029969999999999997,
-      "seconds": 16.818739681504667,
+      "seconds": 19.737236116081476,
       "finite_weights": true
     }
   ],
-  "finished_at": "2026-09-16T04:11:49.008451+00:00",
+  "finished_at": "2026-09-16T04:44:21.317147+00:00",
   "resume_verified": true,
   "actual_model_update_verified": true
 }
