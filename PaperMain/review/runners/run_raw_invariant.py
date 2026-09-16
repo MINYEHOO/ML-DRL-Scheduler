@@ -179,6 +179,16 @@ def main():
         state.update(status='failed', error=repr(exc), finished_at=now()); write(record, state); raise
     print(json.dumps(dict(dispatched=True, mode=mode, supervisor_pid=proc.pid, run_dir=pre['run_dir'],
                           launch_record=str(record)), indent=2))
+    if mode == 'train':
+        # user rule 2026-09-16: once the audit has served its purpose (gating the
+        # real launch), drop its run folder and console log so runs/ holds only
+        # paper runs; the small preflight/launch JSONs stay as evidence.
+        import shutil
+        smoke_dir = ROOT / 'runs' / NAMES['smoke']
+        if smoke_dir.is_dir() and not smoke_dir.is_symlink():
+            shutil.rmtree(smoke_dir)
+        (LOGS / (NAMES['smoke'] + '.log')).unlink(missing_ok=True)
+        print(json.dumps(dict(audit_removed=str(smoke_dir)), indent=2))
 
 
 if __name__ == '__main__': main()
