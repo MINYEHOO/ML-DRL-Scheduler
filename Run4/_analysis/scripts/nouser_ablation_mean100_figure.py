@@ -2,12 +2,10 @@
 
 Same layout / bar style / label placement as queue_s40hl_cqi4_mean40_figure.py,
 but every bar is the MEAN over the 100 blind-holdout seeds 21000-21099, and
-the schedulers are the NoUserHead ablation family plus the three strongest
-rule baselines:
+the schedulers are the NoUserHead ablation family only (no rule baselines):
 
   red    = PPO base (alpha 1.0, best.pt@409)
   blue   = learned ablations: alpha in {1.2, 1.4, 0.75, 0.5, 0}, FullRank
-  green  = rule baselines: SUS+CQI-Feasible, SUS-RPS, SUS+CQI
 
 Sources: Run4/_analysis/seedreplicate_final100_h21_*.csv (policies) and
 Run4/_analysis/holdout21_baselines_w*.csv (baselines). No episodes re-run.
@@ -51,9 +49,6 @@ ROWS = {
     "α=0.5":         pol["NUS050"],
     "α=0 (no head)": pol["NUS0"],
     "FullRank":      pol["FullRank"],
-    "SUS+CQI-Feas":  bl["SUS+CQI-Feasible"],
-    "SUS-RPS":       bl["SUS-RPS"],
-    "SUS+CQI":       bl["SUS+CQI"],
 }
 ORDER = list(ROWS)
 seeds = sorted(base)
@@ -62,7 +57,7 @@ for n in ORDER:
     assert len(ROWS[n]) == 100, n
 mean = {n: {k: np.mean([float(ROWS[n][s][k]) for s in seeds]) for k in KEYS}
         for n in ORDER}
-COLORS = ["#d62728"] + ["#1f77b4"] * 6 + ["#2ca02c"] * 3
+COLORS = ["#d62728"] + ["#1f77b4"] * 6
 
 def bars(ax, title, vals, fmt, ymax=None):
     b = ax.bar(range(len(ORDER)), vals, color=COLORS)
@@ -103,17 +98,17 @@ def paired(n):
     h = stats.t.ppf(0.975, 99) * d.std(ddof=1) / 10
     return d.mean(), h, int((d < 0).sum())
 parts = []
-for n in ["α=1.2", "α=0 (no head)", "FullRank", "SUS+CQI-Feas"]:
+for n in ["α=1.2", "α=0.5", "α=0 (no head)", "FullRank"]:
     m, h, losses = paired(n)
     parts.append(f"{n} {m:+.0f}±{h:.0f} ({losses}/100 below base)")
 
-fig.suptitle("QueuePostRZF_S40HL_CQI4 — NoUserHead ablation vs base vs rule baselines  "
+fig.suptitle("QueuePostRZF_S40HL_CQI4 — NoUserHead ablation vs base  "
              "(MEANS over 100 blind-holdout seeds 21000–21099;  best.pt per run;  SUS thr 0.75)",
              fontsize=9)
 fig.text(0.5, 0.945,
          "paired Δ reward vs PPO α=1.0 (4787):  " + ";  ".join(parts),
          ha="center", fontsize=7.5)
 fig.tight_layout(rect=(0, 0, 1, 0.93))
-png = f"{RUN}/NoUserAblation_metrics_mean100.png"
+png = f"{RUN}/NoUserAblation_metrics_mean100_nobaseline.png"
 fig.savefig(png, dpi=140)
 print("saved ->", png)
