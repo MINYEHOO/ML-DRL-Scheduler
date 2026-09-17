@@ -26,10 +26,12 @@ import paper_train_rawpi as pr
 VARIANT = sys.argv[1] if len(sys.argv) > 1 and sys.argv[1] in ('pi', 'pi_lr6') else 'pi'
 sys.argv = [sys.argv[0]] + sys.argv[2:]
 RECIPE = pr.RECIPE_BASE if VARIANT == 'pi' else pr.RECIPE_LR6
-GPU = 0 if VARIANT == 'pi' else 1
+# physical GPU comes from the environment so the same runner can be pointed at
+# whichever card is free; it propagates to the detached supervisor.
+GPU = int(os.environ.get('RAWPI_GPU', '5'))
 NAMES = {'smoke': f'audit_{RECIPE}_gpu{GPU}',
-         'train': ('34_raw_phase_inv_lr1000_s2024_20260917_gpu0' if VARIANT == 'pi'
-                   else '35_raw_phase_inv_lr6_lr1000_s2024_20260917_gpu1')}
+         'train': (f'34_raw_phase_inv_lr1000_s2024_20260917_gpu{GPU}' if VARIANT == 'pi'
+                   else f'35_raw_phase_inv_lr6_lr1000_s2024_20260917_gpu{GPU}')}
 UPDATES = {'smoke': 1, 'train': 1000}
 SCHEDULE = {'lr_final': 0.0, 'lr_decay_updates': 1000}
 COMPARISON = '26_base_stage1_lr1000_s2002024_20260914_gpu3'   # same recipe shape: base, 1000u, lr->0
