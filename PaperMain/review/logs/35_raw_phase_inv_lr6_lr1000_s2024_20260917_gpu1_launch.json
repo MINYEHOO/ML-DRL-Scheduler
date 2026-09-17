@@ -1,0 +1,2695 @@
+{
+  "command": [
+    "/usr/bin/python3",
+    "-u",
+    "paper_train_rawpi.py",
+    "--recipe",
+    "raw_phase_inv_lr6",
+    "--name",
+    "35_raw_phase_inv_lr6_lr1000_s2024_20260917_gpu1",
+    "--device",
+    "cuda",
+    "--gpu",
+    "1",
+    "--threads",
+    "4",
+    "--seed",
+    "2024",
+    "--traffic-model",
+    "bernoulli",
+    "--replay-mode",
+    "batched",
+    "--num-updates",
+    "1000",
+    "--lr-final",
+    "0",
+    "--lr-decay-updates",
+    "1000",
+    "--calibration-profile",
+    "results/cqi4_hl_corrected_v2/summary.json",
+    "--calibration-reference-root",
+    "provenance/before_ftp3_sources"
+  ],
+  "run_dir": "/home/MYH/ML_DRL_Scheduler/PaperMain/runs/35_raw_phase_inv_lr6_lr1000_s2024_20260917_gpu1",
+  "resume": null,
+  "version": 1,
+  "recipe": "raw_phase_inv_lr6",
+  "config": {
+    "age_norm_max": 50.0,
+    "b_norm": 8000.0,
+    "b_tx_epsilon": 1.0,
+    "beta_rate": 1.0,
+    "bs_ant_cols": 4,
+    "bs_ant_rows": 4,
+    "bs_polarization": "dual",
+    "carrier_frequency": 3500000000.0,
+    "codebook_size": 256,
+    "cqi_mode": "nr4bit",
+    "cqi_norm_const": 8.0,
+    "deadline_max": 12,
+    "deadline_min": 3,
+    "debug": false,
+    "decode_order": "rbg_major",
+    "enable_pathloss": true,
+    "enable_shadow_fading": true,
+    "encoder_hidden": 128,
+    "encoder_out_dim": 64,
+    "episode_len_debug": 200,
+    "episode_len_main": 1000,
+    "eta_d": 1.0,
+    "eta_data": 1.0,
+    "indoor_probability": 0.0,
+    "l_max": 4,
+    "la_beta": 1.0,
+    "la_beta_by_depth": [
+      1.0162,
+      0.8509,
+      0.7732,
+      0.728
+    ],
+    "la_mode": "post_rzf",
+    "lambda_c": 1.0,
+    "lambda_m": 2.0,
+    "lambda_s": 1.0,
+    "max_retx": 4,
+    "mu_aware_la": false,
+    "n_active_max": 32,
+    "n_active_min": 16,
+    "no_user_head_hidden": [
+      128,
+      64
+    ],
+    "noise_mode": "calibration",
+    "num_bs_ant": 32,
+    "num_rb_per_rbg": 8,
+    "num_rbg": 8,
+    "num_sc_per_rb": 12,
+    "num_sym_per_rb": 14,
+    "num_ue": 32,
+    "num_ue_ant": 1,
+    "o2i_model": "low",
+    "p_arrival": 0.22,
+    "p_arrival_ablation": [
+      0.1,
+      0.2,
+      0.4
+    ],
+    "p_arrival_max": 0.5,
+    "p_arrival_min": 0.15,
+    "p_csi": 0.6,
+    "p_csi_ablation": [
+      1.0,
+      0.5,
+      0.2,
+      0.1
+    ],
+    "p_total": 8.0,
+    "packet_size_max": 12000,
+    "packet_size_min": 4000,
+    "pf_epsilon": 1.0,
+    "pmi_mode": "type2_sparse_56bit",
+    "ppo_batch_verify_every": 25,
+    "ppo_batch_verify_slots": 4,
+    "ppo_batch_verify_tol": 0.001,
+    "ppo_batched_replay": true,
+    "ppo_clip_eps": 0.2,
+    "ppo_critic_v2": true,
+    "ppo_entropy_coef": 0.02,
+    "ppo_epochs": 4,
+    "ppo_eval_episodes": 3,
+    "ppo_eval_every": 10,
+    "ppo_force_full_rank": false,
+    "ppo_gae_lambda": 0.95,
+    "ppo_gamma": 0.99,
+    "ppo_learning_rate": 0.0006,
+    "ppo_max_grad_norm": 0.5,
+    "ppo_minibatch_size": 256,
+    "ppo_no_user_scale": 1.0,
+    "ppo_save_every": 1,
+    "ppo_target_kl": 0.02,
+    "ppo_value_coef": 0.25,
+    "queue_size": 8,
+    "rzf_alpha_mode": "noise",
+    "scenario": "umi",
+    "score_net_hidden": [
+      128,
+      64
+    ],
+    "seed": 2024,
+    "share_critic_encoder": true,
+    "speed_ablation_kmh": [
+      3.0,
+      10.0,
+      30.0,
+      60.0
+    ],
+    "subcarrier_spacing": 30000.0,
+    "sus_ortho_threshold": 0.75,
+    "t_c": 100,
+    "target_snr_ablation_db": [
+      5.0,
+      10.0,
+      15.0
+    ],
+    "target_snr_db": 10.0,
+    "traffic_model": "bernoulli",
+    "type2_L": 4,
+    "type2_O1": 4,
+    "type2_O2": 4,
+    "type2_amp_bits": 3,
+    "type2_phase_bits": 2,
+    "ue_speed_kmh": 3.0,
+    "ue_speed_max": 40.0,
+    "ue_speed_min": 5.0,
+    "ue_speed_mix": [],
+    "value_head_hidden": [
+      128,
+      64
+    ]
+  },
+  "artifact_config_sha256": "56d07c2d9d3f1c30972bffb1b136bea9008fe0bf52fe9fae3575f335f26257c1",
+  "source_sha256": {
+    "paper_train.py": "3095c067ce9ed3cf0dea43bcac5263e839986b85599e53ef4df43b84be3f64cc",
+    "train_phase2.py": "2079a90c356a92d8cd591b378d6708b6b06d3185a84fc206d887d9bb9b3e4eca",
+    "config.py": "734936660c5ea80ad64c8b58b1d9f2e6942e5e52787f5df7d07370cb0e8845a8",
+    "env.py": "e91c83165b2717c3c021433c67fb6531ae20e6f714b934b936b6ff95aff5015d",
+    "channel.py": "b308c63d369a181ba08788bc0f52f6f620c1ac3ff65ad210ae5367cd0d47e755",
+    "csi.py": "e6084b6b514c1269e0a56c76637a07c2cffcf04cfa889683a38d23b10d71f356",
+    "codebook.py": "93234f7b2aae3d7f5b593deca8aa8c4aace3c0756e2a20abe577e1ffbe381abf",
+    "phy.py": "f18d9d7cf57a981c6e835a955eea0a0195e2efdf6aad675312566b61b0b66846",
+    "la_planner.py": "ddb6028d2fd138b6b4517ecc5a73ea109915f1029081350a42a152343bb3d39d",
+    "traffic.py": "3a4c341b240924110c82c296eec3b7bf67dfcf2d7d8e2043557462ae843cdf01",
+    "transmission.py": "317e0ece855e33de44445a7c4ecb90cddbad5dbcc70dd9357435864f5887276e",
+    "policy.py": "b668806d4604abe7f69683a4b78136dd4a811abe1597dadb640c22d4507af9f5",
+    "ppo.py": "dc3157aed774fe410f729b142db5f914fd095ba824d0366d8f619c50b27fd298",
+    "baselines.py": "c227fdc61c836969f1c8f7d7bf2cbccce0efd7e1a36b4940cc6b4dddd0e17e07",
+    "metrics.py": "cba7a47dd1de4c5487bf5ee91925f3b0a869436430496044ad5bf9bada9a8809",
+    "calibration/profile.py": "35e4c3ff438eaa29770b905229ad67d47fd4bd73acc298ac00e5708cc0a98d92"
+  },
+  "schedule": {
+    "lr_final": 0.0,
+    "lr_decay_updates": 1000
+  },
+  "schedule_origin": "override",
+  "replay_origin": "override",
+  "traffic_origin": "override",
+  "target_updates": 1000,
+  "smoke_slots": null,
+  "purpose": "training",
+  "execution": {
+    "device": "cuda",
+    "gpu": "1",
+    "threads": 4
+  },
+  "runtime": {
+    "python": "3.11.0rc1",
+    "system": "Linux",
+    "machine": "x86_64",
+    "packages": {
+      "numpy": "1.26.4",
+      "torch": "2.7.1+cu118",
+      "tensorflow": "2.15.0",
+      "sionna": "1.2.1",
+      "tensorboard": "2.15.1",
+      "scipy": "1.17.0"
+    },
+    "torch_cuda": "11.8",
+    "gpu_name": "NVIDIA GeForce RTX 4090"
+  },
+  "calibration_profile": {
+    "path": "/home/MYH/ML_DRL_Scheduler/PaperMain/results/cqi4_hl_corrected_v2/summary.json",
+    "file_sha256": "258e90406be65d7621d0938bb7755034b35c6d4f1485f4a28e7da2c506009110",
+    "document_sha256": "0a8a6ff47855f24c33b8e348019ab30a4f73e05d7ef02e553eae18f5ee72e39e",
+    "document": {
+      "schema_version": 1,
+      "protocol": "cqi4-feasible-v1",
+      "status": "validated",
+      "config": {
+        "seed": 2024,
+        "num_bs_ant": 32,
+        "num_ue_ant": 1,
+        "bs_ant_rows": 4,
+        "bs_ant_cols": 4,
+        "bs_polarization": "dual",
+        "num_ue": 32,
+        "n_active_min": 16,
+        "n_active_max": 32,
+        "ue_speed_min": 5.0,
+        "ue_speed_max": 40.0,
+        "num_rbg": 8,
+        "num_rb_per_rbg": 8,
+        "num_sc_per_rb": 12,
+        "num_sym_per_rb": 14,
+        "subcarrier_spacing": 30000.0,
+        "carrier_frequency": 3500000000.0,
+        "l_max": 4,
+        "scenario": "umi",
+        "o2i_model": "low",
+        "enable_pathloss": true,
+        "enable_shadow_fading": true,
+        "indoor_probability": 0.0,
+        "ue_speed_kmh": 3.0,
+        "speed_ablation_kmh": [
+          3.0,
+          10.0,
+          30.0,
+          60.0
+        ],
+        "ue_speed_mix": [],
+        "pmi_mode": "type2_sparse_56bit",
+        "codebook_size": 256,
+        "type2_O1": 4,
+        "type2_O2": 4,
+        "type2_L": 4,
+        "type2_amp_bits": 3,
+        "type2_phase_bits": 2,
+        "p_csi": 0.6,
+        "p_csi_ablation": [
+          1.0,
+          0.5,
+          0.2,
+          0.1
+        ],
+        "cqi_mode": "nr4bit",
+        "p_arrival": 0.22,
+        "p_arrival_min": 0.15,
+        "p_arrival_max": 0.5,
+        "p_arrival_ablation": [
+          0.1,
+          0.2,
+          0.4
+        ],
+        "packet_size_min": 4000,
+        "packet_size_max": 12000,
+        "deadline_min": 3,
+        "deadline_max": 12,
+        "queue_size": 8,
+        "eta_data": 1.0,
+        "beta_rate": 1.0,
+        "la_beta": 1.0,
+        "la_beta_by_depth": [],
+        "b_tx_epsilon": 1.0,
+        "mu_aware_la": false,
+        "la_mode": "post_rzf",
+        "decode_order": "rbg_major",
+        "p_total": 8.0,
+        "target_snr_db": 10.0,
+        "target_snr_ablation_db": [
+          5.0,
+          10.0,
+          15.0
+        ],
+        "noise_mode": "calibration",
+        "rzf_alpha_mode": "noise",
+        "max_retx": 4,
+        "lambda_s": 1.0,
+        "lambda_c": 1.0,
+        "lambda_m": 2.0,
+        "eta_d": 1.0,
+        "b_norm": 8000.0,
+        "t_c": 100,
+        "sus_ortho_threshold": 0.75,
+        "pf_epsilon": 1.0,
+        "cqi_norm_const": 8.0,
+        "age_norm_max": 50.0,
+        "ppo_gamma": 0.99,
+        "ppo_gae_lambda": 0.95,
+        "ppo_clip_eps": 0.2,
+        "ppo_learning_rate": 0.0003,
+        "ppo_value_coef": 0.25,
+        "ppo_entropy_coef": 0.02,
+        "ppo_max_grad_norm": 0.5,
+        "ppo_epochs": 4,
+        "ppo_minibatch_size": 256,
+        "ppo_target_kl": 0.02,
+        "ppo_critic_v2": true,
+        "ppo_batched_replay": false,
+        "ppo_force_full_rank": false,
+        "ppo_no_user_scale": 1.0,
+        "ppo_batch_verify_every": 25,
+        "ppo_batch_verify_slots": 4,
+        "ppo_batch_verify_tol": 0.001,
+        "encoder_hidden": 128,
+        "encoder_out_dim": 64,
+        "score_net_hidden": [
+          128,
+          64
+        ],
+        "no_user_head_hidden": [
+          128,
+          64
+        ],
+        "value_head_hidden": [
+          128,
+          64
+        ],
+        "share_critic_encoder": true,
+        "ppo_eval_every": 10,
+        "ppo_eval_episodes": 3,
+        "ppo_save_every": 1,
+        "episode_len_main": 1000,
+        "episode_len_debug": 200,
+        "debug": false
+      },
+      "reference_config_sha256": "8bbcd8e83195713cf9baefe96af8d4e6ed4035481d791ef7ccd63f2f043be81c",
+      "source_sha256": {
+        "calibration/beta_m_calib_holdout.py": "f57ab3a07175f66504f9410e9cb560b298adbda0d22e431d36ebd61c81966987",
+        "calibration/cqi4.py": "be2aaeeee46cca8bd72fdd335ad06e86f0614d418414365c0462e2796f85fc20",
+        "calibration/profile.py": "35e4c3ff438eaa29770b905229ad67d47fd4bd73acc298ac00e5708cc0a98d92",
+        "channel.py": "b308c63d369a181ba08788bc0f52f6f620c1ac3ff65ad210ae5367cd0d47e755",
+        "codebook.py": "93234f7b2aae3d7f5b593deca8aa8c4aace3c0756e2a20abe577e1ffbe381abf",
+        "config.py": "5ab93d0212e1a86449896252514ffd4ddb7666410117a720efc527bb7db47658",
+        "csi.py": "e6084b6b514c1269e0a56c76637a07c2cffcf04cfa889683a38d23b10d71f356",
+        "env.py": "e91c83165b2717c3c021433c67fb6531ae20e6f714b934b936b6ff95aff5015d",
+        "la_planner.py": "ddb6028d2fd138b6b4517ecc5a73ea109915f1029081350a42a152343bb3d39d",
+        "paper_calibration.py": "4fa79689189ca4fd5135cc6a0865e36a4f34faf8e48d83c44902d7893d85c88d",
+        "phy.py": "f18d9d7cf57a981c6e835a955eea0a0195e2efdf6aad675312566b61b0b66846",
+        "traffic.py": "49f1822387d29c4b8333cc73ea22f64af9fa153800651dcf7c14cb139e3fd4aa",
+        "transmission.py": "317e0ece855e33de44445a7c4ecb90cddbad5dbcc70dd9357435864f5887276e"
+      },
+      "created_at": "2026-09-09T01:58:32.525402+00:00",
+      "threads": 4,
+      "sampling": {
+        "every_slots": 7,
+        "groups_per_depth_per_sample": 2,
+        "law": "uniform_without_replacement_over_feedback_eligible_UEs",
+        "traffic": "empty actions; all-new full-capacity reference groups",
+        "insufficient_population": "skip draw without redrawing RBG",
+        "membership": "frozen beta times every raw cap must pass runtime epsilon"
+      },
+      "target_coverage": {
+        "target_first_ack": 0.9,
+        "interpretation": "reference-group estimate; not a policy or BLER guarantee"
+      },
+      "calibration": {
+        "start": 50000,
+        "episodes": 36,
+        "sampler_seed": 777,
+        "slots": 1000,
+        "membership": {
+          "1": {
+            "member_count": 10296,
+            "below_epsilon_members": 0,
+            "minimum_raw_cap": 204.6911999999998,
+            "minimum_scaled_cap": 208.0071974399998,
+            "epsilon": 1.0
+          },
+          "2": {
+            "member_count": 20592,
+            "below_epsilon_members": 0,
+            "minimum_raw_cap": 24.751201510432686,
+            "minimum_scaled_cap": 21.060797365227174,
+            "epsilon": 1.0
+          },
+          "3": {
+            "member_count": 30888,
+            "below_epsilon_members": 0,
+            "minimum_raw_cap": 9.693088419334057,
+            "minimum_scaled_cap": 7.494695965829092,
+            "epsilon": 1.0
+          },
+          "4": {
+            "member_count": 41184,
+            "below_epsilon_members": 0,
+            "minimum_raw_cap": 5.406800226721885,
+            "minimum_scaled_cap": 3.9361505650535324,
+            "epsilon": 1.0
+          }
+        },
+        "diagnostics": {
+          "1": [
+            {
+              "draws": 286,
+              "groups": 286,
+              "members": 286,
+              "skipped_insufficient": 0,
+              "candidate_slots": 9152,
+              "excluded_candidates": 900,
+              "cqi_zero_candidates": 900,
+              "real_zero_mi_members": 0
+            },
+            {
+              "draws": 286,
+              "groups": 286,
+              "members": 286,
+              "skipped_insufficient": 0,
+              "candidate_slots": 9152,
+              "excluded_candidates": 274,
+              "cqi_zero_candidates": 274,
+              "real_zero_mi_members": 0
+            },
+            {
+              "draws": 286,
+              "groups": 286,
+              "members": 286,
+              "skipped_insufficient": 0,
+              "candidate_slots": 9152,
+              "excluded_candidates": 366,
+              "cqi_zero_candidates": 366,
+              "real_zero_mi_members": 0
+            },
+            {
+              "draws": 286,
+              "groups": 286,
+              "members": 286,
+              "skipped_insufficient": 0,
+              "candidate_slots": 9152,
+              "excluded_candidates": 1,
+              "cqi_zero_candidates": 1,
+              "real_zero_mi_members": 0
+            },
+            {
+              "draws": 286,
+              "groups": 286,
+              "members": 286,
+              "skipped_insufficient": 0,
+              "candidate_slots": 9152,
+              "excluded_candidates": 849,
+              "cqi_zero_candidates": 849,
+              "real_zero_mi_members": 0
+            },
+            {
+              "draws": 286,
+              "groups": 286,
+              "members": 286,
+              "skipped_insufficient": 0,
+              "candidate_slots": 9152,
+              "excluded_candidates": 166,
+              "cqi_zero_candidates": 166,
+              "real_zero_mi_members": 0
+            },
+            {
+              "draws": 286,
+              "groups": 286,
+              "members": 286,
+              "skipped_insufficient": 0,
+              "candidate_slots": 9152,
+              "excluded_candidates": 214,
+              "cqi_zero_candidates": 214,
+              "real_zero_mi_members": 0
+            },
+            {
+              "draws": 286,
+              "groups": 286,
+              "members": 286,
+              "skipped_insufficient": 0,
+              "candidate_slots": 9152,
+              "excluded_candidates": 984,
+              "cqi_zero_candidates": 984,
+              "real_zero_mi_members": 0
+            },
+            {
+              "draws": 286,
+              "groups": 286,
+              "members": 286,
+              "skipped_insufficient": 0,
+              "candidate_slots": 9152,
+              "excluded_candidates": 46,
+              "cqi_zero_candidates": 46,
+              "real_zero_mi_members": 0
+            },
+            {
+              "draws": 286,
+              "groups": 286,
+              "members": 286,
+              "skipped_insufficient": 0,
+              "candidate_slots": 9152,
+              "excluded_candidates": 151,
+              "cqi_zero_candidates": 151,
+              "real_zero_mi_members": 0
+            },
+            {
+              "draws": 286,
+              "groups": 286,
+              "members": 286,
+              "skipped_insufficient": 0,
+              "candidate_slots": 9152,
+              "excluded_candidates": 447,
+              "cqi_zero_candidates": 447,
+              "real_zero_mi_members": 0
+            },
+            {
+              "draws": 286,
+              "groups": 286,
+              "members": 286,
+              "skipped_insufficient": 0,
+              "candidate_slots": 9152,
+              "excluded_candidates": 96,
+              "cqi_zero_candidates": 96,
+              "real_zero_mi_members": 0
+            },
+            {
+              "draws": 286,
+              "groups": 286,
+              "members": 286,
+              "skipped_insufficient": 0,
+              "candidate_slots": 9152,
+              "excluded_candidates": 844,
+              "cqi_zero_candidates": 844,
+              "real_zero_mi_members": 0
+            },
+            {
+              "draws": 286,
+              "groups": 286,
+              "members": 286,
+              "skipped_insufficient": 0,
+              "candidate_slots": 9152,
+              "excluded_candidates": 133,
+              "cqi_zero_candidates": 133,
+              "real_zero_mi_members": 0
+            },
+            {
+              "draws": 286,
+              "groups": 286,
+              "members": 286,
+              "skipped_insufficient": 0,
+              "candidate_slots": 9152,
+              "excluded_candidates": 8,
+              "cqi_zero_candidates": 8,
+              "real_zero_mi_members": 0
+            },
+            {
+              "draws": 286,
+              "groups": 286,
+              "members": 286,
+              "skipped_insufficient": 0,
+              "candidate_slots": 9152,
+              "excluded_candidates": 622,
+              "cqi_zero_candidates": 622,
+              "real_zero_mi_members": 0
+            },
+            {
+              "draws": 286,
+              "groups": 286,
+              "members": 286,
+              "skipped_insufficient": 0,
+              "candidate_slots": 9152,
+              "excluded_candidates": 276,
+              "cqi_zero_candidates": 276,
+              "real_zero_mi_members": 0
+            },
+            {
+              "draws": 286,
+              "groups": 286,
+              "members": 286,
+              "skipped_insufficient": 0,
+              "candidate_slots": 9152,
+              "excluded_candidates": 21,
+              "cqi_zero_candidates": 21,
+              "real_zero_mi_members": 0
+            },
+            {
+              "draws": 286,
+              "groups": 286,
+              "members": 286,
+              "skipped_insufficient": 0,
+              "candidate_slots": 9152,
+              "excluded_candidates": 77,
+              "cqi_zero_candidates": 77,
+              "real_zero_mi_members": 0
+            },
+            {
+              "draws": 286,
+              "groups": 286,
+              "members": 286,
+              "skipped_insufficient": 0,
+              "candidate_slots": 9152,
+              "excluded_candidates": 384,
+              "cqi_zero_candidates": 384,
+              "real_zero_mi_members": 0
+            },
+            {
+              "draws": 286,
+              "groups": 286,
+              "members": 286,
+              "skipped_insufficient": 0,
+              "candidate_slots": 9152,
+              "excluded_candidates": 187,
+              "cqi_zero_candidates": 187,
+              "real_zero_mi_members": 0
+            },
+            {
+              "draws": 286,
+              "groups": 286,
+              "members": 286,
+              "skipped_insufficient": 0,
+              "candidate_slots": 9152,
+              "excluded_candidates": 1037,
+              "cqi_zero_candidates": 1037,
+              "real_zero_mi_members": 0
+            },
+            {
+              "draws": 286,
+              "groups": 286,
+              "members": 286,
+              "skipped_insufficient": 0,
+              "candidate_slots": 9152,
+              "excluded_candidates": 249,
+              "cqi_zero_candidates": 249,
+              "real_zero_mi_members": 0
+            },
+            {
+              "draws": 286,
+              "groups": 286,
+              "members": 286,
+              "skipped_insufficient": 0,
+              "candidate_slots": 9152,
+              "excluded_candidates": 1298,
+              "cqi_zero_candidates": 1298,
+              "real_zero_mi_members": 0
+            },
+            {
+              "draws": 286,
+              "groups": 286,
+              "members": 286,
+              "skipped_insufficient": 0,
+              "candidate_slots": 9152,
+              "excluded_candidates": 775,
+              "cqi_zero_candidates": 775,
+              "real_zero_mi_members": 0
+            },
+            {
+              "draws": 286,
+              "groups": 286,
+              "members": 286,
+              "skipped_insufficient": 0,
+              "candidate_slots": 9152,
+              "excluded_candidates": 992,
+              "cqi_zero_candidates": 992,
+              "real_zero_mi_members": 0
+            },
+            {
+              "draws": 286,
+              "groups": 286,
+              "members": 286,
+              "skipped_insufficient": 0,
+              "candidate_slots": 9152,
+              "excluded_candidates": 815,
+              "cqi_zero_candidates": 815,
+              "real_zero_mi_members": 0
+            },
+            {
+              "draws": 286,
+              "groups": 286,
+              "members": 286,
+              "skipped_insufficient": 0,
+              "candidate_slots": 9152,
+              "excluded_candidates": 115,
+              "cqi_zero_candidates": 115,
+              "real_zero_mi_members": 0
+            },
+            {
+              "draws": 286,
+              "groups": 286,
+              "members": 286,
+              "skipped_insufficient": 0,
+              "candidate_slots": 9152,
+              "excluded_candidates": 530,
+              "cqi_zero_candidates": 530,
+              "real_zero_mi_members": 0
+            },
+            {
+              "draws": 286,
+              "groups": 286,
+              "members": 286,
+              "skipped_insufficient": 0,
+              "candidate_slots": 9152,
+              "excluded_candidates": 938,
+              "cqi_zero_candidates": 938,
+              "real_zero_mi_members": 0
+            },
+            {
+              "draws": 286,
+              "groups": 286,
+              "members": 286,
+              "skipped_insufficient": 0,
+              "candidate_slots": 9152,
+              "excluded_candidates": 60,
+              "cqi_zero_candidates": 60,
+              "real_zero_mi_members": 0
+            },
+            {
+              "draws": 286,
+              "groups": 286,
+              "members": 286,
+              "skipped_insufficient": 0,
+              "candidate_slots": 9152,
+              "excluded_candidates": 916,
+              "cqi_zero_candidates": 916,
+              "real_zero_mi_members": 0
+            },
+            {
+              "draws": 286,
+              "groups": 286,
+              "members": 286,
+              "skipped_insufficient": 0,
+              "candidate_slots": 9152,
+              "excluded_candidates": 309,
+              "cqi_zero_candidates": 309,
+              "real_zero_mi_members": 0
+            },
+            {
+              "draws": 286,
+              "groups": 286,
+              "members": 286,
+              "skipped_insufficient": 0,
+              "candidate_slots": 9152,
+              "excluded_candidates": 505,
+              "cqi_zero_candidates": 505,
+              "real_zero_mi_members": 0
+            },
+            {
+              "draws": 286,
+              "groups": 286,
+              "members": 286,
+              "skipped_insufficient": 0,
+              "candidate_slots": 9152,
+              "excluded_candidates": 235,
+              "cqi_zero_candidates": 235,
+              "real_zero_mi_members": 0
+            },
+            {
+              "draws": 286,
+              "groups": 286,
+              "members": 286,
+              "skipped_insufficient": 0,
+              "candidate_slots": 9152,
+              "excluded_candidates": 1294,
+              "cqi_zero_candidates": 1294,
+              "real_zero_mi_members": 0
+            }
+          ],
+          "2": [
+            {
+              "draws": 286,
+              "groups": 286,
+              "members": 572,
+              "skipped_insufficient": 0,
+              "candidate_slots": 9152,
+              "excluded_candidates": 927,
+              "cqi_zero_candidates": 927,
+              "real_zero_mi_members": 0
+            },
+            {
+              "draws": 286,
+              "groups": 286,
+              "members": 572,
+              "skipped_insufficient": 0,
+              "candidate_slots": 9152,
+              "excluded_candidates": 300,
+              "cqi_zero_candidates": 300,
+              "real_zero_mi_members": 0
+            },
+            {
+              "draws": 286,
+              "groups": 286,
+              "members": 572,
+              "skipped_insufficient": 0,
+              "candidate_slots": 9152,
+              "excluded_candidates": 375,
+              "cqi_zero_candidates": 375,
+              "real_zero_mi_members": 0
+            },
+            {
+              "draws": 286,
+              "groups": 286,
+              "members": 572,
+              "skipped_insufficient": 0,
+              "candidate_slots": 9152,
+              "excluded_candidates": 1,
+              "cqi_zero_candidates": 1,
+              "real_zero_mi_members": 0
+            },
+            {
+              "draws": 286,
+              "groups": 286,
+              "members": 572,
+              "skipped_insufficient": 0,
+              "candidate_slots": 9152,
+              "excluded_candidates": 867,
+              "cqi_zero_candidates": 867,
+              "real_zero_mi_members": 0
+            },
+            {
+              "draws": 286,
+              "groups": 286,
+              "members": 572,
+              "skipped_insufficient": 0,
+              "candidate_slots": 9152,
+              "excluded_candidates": 192,
+              "cqi_zero_candidates": 192,
+              "real_zero_mi_members": 0
+            },
+            {
+              "draws": 286,
+              "groups": 286,
+              "members": 572,
+              "skipped_insufficient": 0,
+              "candidate_slots": 9152,
+              "excluded_candidates": 216,
+              "cqi_zero_candidates": 216,
+              "real_zero_mi_members": 0
+            },
+            {
+              "draws": 286,
+              "groups": 286,
+              "members": 572,
+              "skipped_insufficient": 0,
+              "candidate_slots": 9152,
+              "excluded_candidates": 998,
+              "cqi_zero_candidates": 998,
+              "real_zero_mi_members": 0
+            },
+            {
+              "draws": 286,
+              "groups": 286,
+              "members": 572,
+              "skipped_insufficient": 0,
+              "candidate_slots": 9152,
+              "excluded_candidates": 47,
+              "cqi_zero_candidates": 47,
+              "real_zero_mi_members": 0
+            },
+            {
+              "draws": 286,
+              "groups": 286,
+              "members": 572,
+              "skipped_insufficient": 0,
+              "candidate_slots": 9152,
+              "excluded_candidates": 152,
+              "cqi_zero_candidates": 152,
+              "real_zero_mi_members": 0
+            },
+            {
+              "draws": 286,
+              "groups": 286,
+              "members": 572,
+              "skipped_insufficient": 0,
+              "candidate_slots": 9152,
+              "excluded_candidates": 449,
+              "cqi_zero_candidates": 449,
+              "real_zero_mi_members": 0
+            },
+            {
+              "draws": 286,
+              "groups": 286,
+              "members": 572,
+              "skipped_insufficient": 0,
+              "candidate_slots": 9152,
+              "excluded_candidates": 98,
+              "cqi_zero_candidates": 98,
+              "real_zero_mi_members": 0
+            },
+            {
+              "draws": 286,
+              "groups": 286,
+              "members": 572,
+              "skipped_insufficient": 0,
+              "candidate_slots": 9152,
+              "excluded_candidates": 811,
+              "cqi_zero_candidates": 811,
+              "real_zero_mi_members": 0
+            },
+            {
+              "draws": 286,
+              "groups": 286,
+              "members": 572,
+              "skipped_insufficient": 0,
+              "candidate_slots": 9152,
+              "excluded_candidates": 139,
+              "cqi_zero_candidates": 139,
+              "real_zero_mi_members": 0
+            },
+            {
+              "draws": 286,
+              "groups": 286,
+              "members": 572,
+              "skipped_insufficient": 0,
+              "candidate_slots": 9152,
+              "excluded_candidates": 3,
+              "cqi_zero_candidates": 3,
+              "real_zero_mi_members": 0
+            },
+            {
+              "draws": 286,
+              "groups": 286,
+              "members": 572,
+              "skipped_insufficient": 0,
+              "candidate_slots": 9152,
+              "excluded_candidates": 623,
+              "cqi_zero_candidates": 623,
+              "real_zero_mi_members": 0
+            },
+            {
+              "draws": 286,
+              "groups": 286,
+              "members": 572,
+              "skipped_insufficient": 0,
+              "candidate_slots": 9152,
+              "excluded_candidates": 273,
+              "cqi_zero_candidates": 273,
+              "real_zero_mi_members": 0
+            },
+            {
+              "draws": 286,
+              "groups": 286,
+              "members": 572,
+              "skipped_insufficient": 0,
+              "candidate_slots": 9152,
+              "excluded_candidates": 20,
+              "cqi_zero_candidates": 20,
+              "real_zero_mi_members": 0
+            },
+            {
+              "draws": 286,
+              "groups": 286,
+              "members": 572,
+              "skipped_insufficient": 0,
+              "candidate_slots": 9152,
+              "excluded_candidates": 72,
+              "cqi_zero_candidates": 72,
+              "real_zero_mi_members": 0
+            },
+            {
+              "draws": 286,
+              "groups": 286,
+              "members": 572,
+              "skipped_insufficient": 0,
+              "candidate_slots": 9152,
+              "excluded_candidates": 398,
+              "cqi_zero_candidates": 398,
+              "real_zero_mi_members": 0
+            },
+            {
+              "draws": 286,
+              "groups": 286,
+              "members": 572,
+              "skipped_insufficient": 0,
+              "candidate_slots": 9152,
+              "excluded_candidates": 198,
+              "cqi_zero_candidates": 198,
+              "real_zero_mi_members": 0
+            },
+            {
+              "draws": 286,
+              "groups": 286,
+              "members": 572,
+              "skipped_insufficient": 0,
+              "candidate_slots": 9152,
+              "excluded_candidates": 1046,
+              "cqi_zero_candidates": 1046,
+              "real_zero_mi_members": 0
+            },
+            {
+              "draws": 286,
+              "groups": 286,
+              "members": 572,
+              "skipped_insufficient": 0,
+              "candidate_slots": 9152,
+              "excluded_candidates": 257,
+              "cqi_zero_candidates": 257,
+              "real_zero_mi_members": 0
+            },
+            {
+              "draws": 286,
+              "groups": 286,
+              "members": 572,
+              "skipped_insufficient": 0,
+              "candidate_slots": 9152,
+              "excluded_candidates": 1284,
+              "cqi_zero_candidates": 1284,
+              "real_zero_mi_members": 0
+            },
+            {
+              "draws": 286,
+              "groups": 286,
+              "members": 572,
+              "skipped_insufficient": 0,
+              "candidate_slots": 9152,
+              "excluded_candidates": 789,
+              "cqi_zero_candidates": 789,
+              "real_zero_mi_members": 0
+            },
+            {
+              "draws": 286,
+              "groups": 286,
+              "members": 572,
+              "skipped_insufficient": 0,
+              "candidate_slots": 9152,
+              "excluded_candidates": 977,
+              "cqi_zero_candidates": 977,
+              "real_zero_mi_members": 0
+            },
+            {
+              "draws": 286,
+              "groups": 286,
+              "members": 572,
+              "skipped_insufficient": 0,
+              "candidate_slots": 9152,
+              "excluded_candidates": 803,
+              "cqi_zero_candidates": 803,
+              "real_zero_mi_members": 0
+            },
+            {
+              "draws": 286,
+              "groups": 286,
+              "members": 572,
+              "skipped_insufficient": 0,
+              "candidate_slots": 9152,
+              "excluded_candidates": 120,
+              "cqi_zero_candidates": 120,
+              "real_zero_mi_members": 0
+            },
+            {
+              "draws": 286,
+              "groups": 286,
+              "members": 572,
+              "skipped_insufficient": 0,
+              "candidate_slots": 9152,
+              "excluded_candidates": 540,
+              "cqi_zero_candidates": 540,
+              "real_zero_mi_members": 0
+            },
+            {
+              "draws": 286,
+              "groups": 286,
+              "members": 572,
+              "skipped_insufficient": 0,
+              "candidate_slots": 9152,
+              "excluded_candidates": 941,
+              "cqi_zero_candidates": 941,
+              "real_zero_mi_members": 0
+            },
+            {
+              "draws": 286,
+              "groups": 286,
+              "members": 572,
+              "skipped_insufficient": 0,
+              "candidate_slots": 9152,
+              "excluded_candidates": 77,
+              "cqi_zero_candidates": 77,
+              "real_zero_mi_members": 0
+            },
+            {
+              "draws": 286,
+              "groups": 286,
+              "members": 572,
+              "skipped_insufficient": 0,
+              "candidate_slots": 9152,
+              "excluded_candidates": 907,
+              "cqi_zero_candidates": 907,
+              "real_zero_mi_members": 0
+            },
+            {
+              "draws": 286,
+              "groups": 286,
+              "members": 572,
+              "skipped_insufficient": 0,
+              "candidate_slots": 9152,
+              "excluded_candidates": 307,
+              "cqi_zero_candidates": 307,
+              "real_zero_mi_members": 0
+            },
+            {
+              "draws": 286,
+              "groups": 286,
+              "members": 572,
+              "skipped_insufficient": 0,
+              "candidate_slots": 9152,
+              "excluded_candidates": 495,
+              "cqi_zero_candidates": 495,
+              "real_zero_mi_members": 0
+            },
+            {
+              "draws": 286,
+              "groups": 286,
+              "members": 572,
+              "skipped_insufficient": 0,
+              "candidate_slots": 9152,
+              "excluded_candidates": 208,
+              "cqi_zero_candidates": 208,
+              "real_zero_mi_members": 0
+            },
+            {
+              "draws": 286,
+              "groups": 286,
+              "members": 572,
+              "skipped_insufficient": 0,
+              "candidate_slots": 9152,
+              "excluded_candidates": 1310,
+              "cqi_zero_candidates": 1310,
+              "real_zero_mi_members": 0
+            }
+          ],
+          "3": [
+            {
+              "draws": 286,
+              "groups": 286,
+              "members": 858,
+              "skipped_insufficient": 0,
+              "candidate_slots": 9152,
+              "excluded_candidates": 912,
+              "cqi_zero_candidates": 912,
+              "real_zero_mi_members": 0
+            },
+            {
+              "draws": 286,
+              "groups": 286,
+              "members": 858,
+              "skipped_insufficient": 0,
+              "candidate_slots": 9152,
+              "excluded_candidates": 278,
+              "cqi_zero_candidates": 278,
+              "real_zero_mi_members": 0
+            },
+            {
+              "draws": 286,
+              "groups": 286,
+              "members": 858,
+              "skipped_insufficient": 0,
+              "candidate_slots": 9152,
+              "excluded_candidates": 372,
+              "cqi_zero_candidates": 372,
+              "real_zero_mi_members": 0
+            },
+            {
+              "draws": 286,
+              "groups": 286,
+              "members": 858,
+              "skipped_insufficient": 0,
+              "candidate_slots": 9152,
+              "excluded_candidates": 0,
+              "cqi_zero_candidates": 0,
+              "real_zero_mi_members": 0
+            },
+            {
+              "draws": 286,
+              "groups": 286,
+              "members": 858,
+              "skipped_insufficient": 0,
+              "candidate_slots": 9152,
+              "excluded_candidates": 859,
+              "cqi_zero_candidates": 859,
+              "real_zero_mi_members": 0
+            },
+            {
+              "draws": 286,
+              "groups": 286,
+              "members": 858,
+              "skipped_insufficient": 0,
+              "candidate_slots": 9152,
+              "excluded_candidates": 176,
+              "cqi_zero_candidates": 176,
+              "real_zero_mi_members": 0
+            },
+            {
+              "draws": 286,
+              "groups": 286,
+              "members": 858,
+              "skipped_insufficient": 0,
+              "candidate_slots": 9152,
+              "excluded_candidates": 216,
+              "cqi_zero_candidates": 216,
+              "real_zero_mi_members": 0
+            },
+            {
+              "draws": 286,
+              "groups": 286,
+              "members": 858,
+              "skipped_insufficient": 0,
+              "candidate_slots": 9152,
+              "excluded_candidates": 992,
+              "cqi_zero_candidates": 992,
+              "real_zero_mi_members": 0
+            },
+            {
+              "draws": 286,
+              "groups": 286,
+              "members": 858,
+              "skipped_insufficient": 0,
+              "candidate_slots": 9152,
+              "excluded_candidates": 39,
+              "cqi_zero_candidates": 39,
+              "real_zero_mi_members": 0
+            },
+            {
+              "draws": 286,
+              "groups": 286,
+              "members": 858,
+              "skipped_insufficient": 0,
+              "candidate_slots": 9152,
+              "excluded_candidates": 139,
+              "cqi_zero_candidates": 139,
+              "real_zero_mi_members": 0
+            },
+            {
+              "draws": 286,
+              "groups": 286,
+              "members": 858,
+              "skipped_insufficient": 0,
+              "candidate_slots": 9152,
+              "excluded_candidates": 435,
+              "cqi_zero_candidates": 435,
+              "real_zero_mi_members": 0
+            },
+            {
+              "draws": 286,
+              "groups": 286,
+              "members": 858,
+              "skipped_insufficient": 0,
+              "candidate_slots": 9152,
+              "excluded_candidates": 108,
+              "cqi_zero_candidates": 108,
+              "real_zero_mi_members": 0
+            },
+            {
+              "draws": 286,
+              "groups": 286,
+              "members": 858,
+              "skipped_insufficient": 0,
+              "candidate_slots": 9152,
+              "excluded_candidates": 825,
+              "cqi_zero_candidates": 825,
+              "real_zero_mi_members": 0
+            },
+            {
+              "draws": 286,
+              "groups": 286,
+              "members": 858,
+              "skipped_insufficient": 0,
+              "candidate_slots": 9152,
+              "excluded_candidates": 136,
+              "cqi_zero_candidates": 136,
+              "real_zero_mi_members": 0
+            },
+            {
+              "draws": 286,
+              "groups": 286,
+              "members": 858,
+              "skipped_insufficient": 0,
+              "candidate_slots": 9152,
+              "excluded_candidates": 8,
+              "cqi_zero_candidates": 8,
+              "real_zero_mi_members": 0
+            },
+            {
+              "draws": 286,
+              "groups": 286,
+              "members": 858,
+              "skipped_insufficient": 0,
+              "candidate_slots": 9152,
+              "excluded_candidates": 621,
+              "cqi_zero_candidates": 621,
+              "real_zero_mi_members": 0
+            },
+            {
+              "draws": 286,
+              "groups": 286,
+              "members": 858,
+              "skipped_insufficient": 0,
+              "candidate_slots": 9152,
+              "excluded_candidates": 273,
+              "cqi_zero_candidates": 273,
+              "real_zero_mi_members": 0
+            },
+            {
+              "draws": 286,
+              "groups": 286,
+              "members": 858,
+              "skipped_insufficient": 0,
+              "candidate_slots": 9152,
+              "excluded_candidates": 10,
+              "cqi_zero_candidates": 10,
+              "real_zero_mi_members": 0
+            },
+            {
+              "draws": 286,
+              "groups": 286,
+              "members": 858,
+              "skipped_insufficient": 0,
+              "candidate_slots": 9152,
+              "excluded_candidates": 73,
+              "cqi_zero_candidates": 73,
+              "real_zero_mi_members": 0
+            },
+            {
+              "draws": 286,
+              "groups": 286,
+              "members": 858,
+              "skipped_insufficient": 0,
+              "candidate_slots": 9152,
+              "excluded_candidates": 400,
+              "cqi_zero_candidates": 400,
+              "real_zero_mi_members": 0
+            },
+            {
+              "draws": 286,
+              "groups": 286,
+              "members": 858,
+              "skipped_insufficient": 0,
+              "candidate_slots": 9152,
+              "excluded_candidates": 179,
+              "cqi_zero_candidates": 179,
+              "real_zero_mi_members": 0
+            },
+            {
+              "draws": 286,
+              "groups": 286,
+              "members": 858,
+              "skipped_insufficient": 0,
+              "candidate_slots": 9152,
+              "excluded_candidates": 1040,
+              "cqi_zero_candidates": 1040,
+              "real_zero_mi_members": 0
+            },
+            {
+              "draws": 286,
+              "groups": 286,
+              "members": 858,
+              "skipped_insufficient": 0,
+              "candidate_slots": 9152,
+              "excluded_candidates": 268,
+              "cqi_zero_candidates": 268,
+              "real_zero_mi_members": 0
+            },
+            {
+              "draws": 286,
+              "groups": 286,
+              "members": 858,
+              "skipped_insufficient": 0,
+              "candidate_slots": 9152,
+              "excluded_candidates": 1297,
+              "cqi_zero_candidates": 1297,
+              "real_zero_mi_members": 0
+            },
+            {
+              "draws": 286,
+              "groups": 286,
+              "members": 858,
+              "skipped_insufficient": 0,
+              "candidate_slots": 9152,
+              "excluded_candidates": 797,
+              "cqi_zero_candidates": 797,
+              "real_zero_mi_members": 0
+            },
+            {
+              "draws": 286,
+              "groups": 286,
+              "members": 858,
+              "skipped_insufficient": 0,
+              "candidate_slots": 9152,
+              "excluded_candidates": 1000,
+              "cqi_zero_candidates": 1000,
+              "real_zero_mi_members": 0
+            },
+            {
+              "draws": 286,
+              "groups": 286,
+              "members": 858,
+              "skipped_insufficient": 0,
+              "candidate_slots": 9152,
+              "excluded_candidates": 810,
+              "cqi_zero_candidates": 810,
+              "real_zero_mi_members": 0
+            },
+            {
+              "draws": 286,
+              "groups": 286,
+              "members": 858,
+              "skipped_insufficient": 0,
+              "candidate_slots": 9152,
+              "excluded_candidates": 120,
+              "cqi_zero_candidates": 120,
+              "real_zero_mi_members": 0
+            },
+            {
+              "draws": 286,
+              "groups": 286,
+              "members": 858,
+              "skipped_insufficient": 0,
+              "candidate_slots": 9152,
+              "excluded_candidates": 538,
+              "cqi_zero_candidates": 538,
+              "real_zero_mi_members": 0
+            },
+            {
+              "draws": 286,
+              "groups": 286,
+              "members": 858,
+              "skipped_insufficient": 0,
+              "candidate_slots": 9152,
+              "excluded_candidates": 936,
+              "cqi_zero_candidates": 936,
+              "real_zero_mi_members": 0
+            },
+            {
+              "draws": 286,
+              "groups": 286,
+              "members": 858,
+              "skipped_insufficient": 0,
+              "candidate_slots": 9152,
+              "excluded_candidates": 81,
+              "cqi_zero_candidates": 81,
+              "real_zero_mi_members": 0
+            },
+            {
+              "draws": 286,
+              "groups": 286,
+              "members": 858,
+              "skipped_insufficient": 0,
+              "candidate_slots": 9152,
+              "excluded_candidates": 880,
+              "cqi_zero_candidates": 880,
+              "real_zero_mi_members": 0
+            },
+            {
+              "draws": 286,
+              "groups": 286,
+              "members": 858,
+              "skipped_insufficient": 0,
+              "candidate_slots": 9152,
+              "excluded_candidates": 317,
+              "cqi_zero_candidates": 317,
+              "real_zero_mi_members": 0
+            },
+            {
+              "draws": 286,
+              "groups": 286,
+              "members": 858,
+              "skipped_insufficient": 0,
+              "candidate_slots": 9152,
+              "excluded_candidates": 486,
+              "cqi_zero_candidates": 486,
+              "real_zero_mi_members": 0
+            },
+            {
+              "draws": 286,
+              "groups": 286,
+              "members": 858,
+              "skipped_insufficient": 0,
+              "candidate_slots": 9152,
+              "excluded_candidates": 215,
+              "cqi_zero_candidates": 215,
+              "real_zero_mi_members": 0
+            },
+            {
+              "draws": 286,
+              "groups": 286,
+              "members": 858,
+              "skipped_insufficient": 0,
+              "candidate_slots": 9152,
+              "excluded_candidates": 1276,
+              "cqi_zero_candidates": 1276,
+              "real_zero_mi_members": 0
+            }
+          ],
+          "4": [
+            {
+              "draws": 286,
+              "groups": 286,
+              "members": 1144,
+              "skipped_insufficient": 0,
+              "candidate_slots": 9152,
+              "excluded_candidates": 899,
+              "cqi_zero_candidates": 899,
+              "real_zero_mi_members": 0
+            },
+            {
+              "draws": 286,
+              "groups": 286,
+              "members": 1144,
+              "skipped_insufficient": 0,
+              "candidate_slots": 9152,
+              "excluded_candidates": 262,
+              "cqi_zero_candidates": 262,
+              "real_zero_mi_members": 0
+            },
+            {
+              "draws": 286,
+              "groups": 286,
+              "members": 1144,
+              "skipped_insufficient": 0,
+              "candidate_slots": 9152,
+              "excluded_candidates": 374,
+              "cqi_zero_candidates": 374,
+              "real_zero_mi_members": 0
+            },
+            {
+              "draws": 286,
+              "groups": 286,
+              "members": 1144,
+              "skipped_insufficient": 0,
+              "candidate_slots": 9152,
+              "excluded_candidates": 0,
+              "cqi_zero_candidates": 0,
+              "real_zero_mi_members": 0
+            },
+            {
+              "draws": 286,
+              "groups": 286,
+              "members": 1144,
+              "skipped_insufficient": 0,
+              "candidate_slots": 9152,
+              "excluded_candidates": 844,
+              "cqi_zero_candidates": 844,
+              "real_zero_mi_members": 0
+            },
+            {
+              "draws": 286,
+              "groups": 286,
+              "members": 1144,
+              "skipped_insufficient": 0,
+              "candidate_slots": 9152,
+              "excluded_candidates": 182,
+              "cqi_zero_candidates": 182,
+              "real_zero_mi_members": 0
+            },
+            {
+              "draws": 286,
+              "groups": 286,
+              "members": 1144,
+              "skipped_insufficient": 0,
+              "candidate_slots": 9152,
+              "excluded_candidates": 198,
+              "cqi_zero_candidates": 198,
+              "real_zero_mi_members": 0
+            },
+            {
+              "draws": 286,
+              "groups": 286,
+              "members": 1144,
+              "skipped_insufficient": 0,
+              "candidate_slots": 9152,
+              "excluded_candidates": 968,
+              "cqi_zero_candidates": 968,
+              "real_zero_mi_members": 0
+            },
+            {
+              "draws": 286,
+              "groups": 286,
+              "members": 1144,
+              "skipped_insufficient": 0,
+              "candidate_slots": 9152,
+              "excluded_candidates": 50,
+              "cqi_zero_candidates": 50,
+              "real_zero_mi_members": 0
+            },
+            {
+              "draws": 286,
+              "groups": 286,
+              "members": 1144,
+              "skipped_insufficient": 0,
+              "candidate_slots": 9152,
+              "excluded_candidates": 145,
+              "cqi_zero_candidates": 145,
+              "real_zero_mi_members": 0
+            },
+            {
+              "draws": 286,
+              "groups": 286,
+              "members": 1144,
+              "skipped_insufficient": 0,
+              "candidate_slots": 9152,
+              "excluded_candidates": 434,
+              "cqi_zero_candidates": 434,
+              "real_zero_mi_members": 0
+            },
+            {
+              "draws": 286,
+              "groups": 286,
+              "members": 1144,
+              "skipped_insufficient": 0,
+              "candidate_slots": 9152,
+              "excluded_candidates": 115,
+              "cqi_zero_candidates": 115,
+              "real_zero_mi_members": 0
+            },
+            {
+              "draws": 286,
+              "groups": 286,
+              "members": 1144,
+              "skipped_insufficient": 0,
+              "candidate_slots": 9152,
+              "excluded_candidates": 832,
+              "cqi_zero_candidates": 832,
+              "real_zero_mi_members": 0
+            },
+            {
+              "draws": 286,
+              "groups": 286,
+              "members": 1144,
+              "skipped_insufficient": 0,
+              "candidate_slots": 9152,
+              "excluded_candidates": 124,
+              "cqi_zero_candidates": 124,
+              "real_zero_mi_members": 0
+            },
+            {
+              "draws": 286,
+              "groups": 286,
+              "members": 1144,
+              "skipped_insufficient": 0,
+              "candidate_slots": 9152,
+              "excluded_candidates": 5,
+              "cqi_zero_candidates": 5,
+              "real_zero_mi_members": 0
+            },
+            {
+              "draws": 286,
+              "groups": 286,
+              "members": 1144,
+              "skipped_insufficient": 0,
+              "candidate_slots": 9152,
+              "excluded_candidates": 621,
+              "cqi_zero_candidates": 621,
+              "real_zero_mi_members": 0
+            },
+            {
+              "draws": 286,
+              "groups": 286,
+              "members": 1144,
+              "skipped_insufficient": 0,
+              "candidate_slots": 9152,
+              "excluded_candidates": 273,
+              "cqi_zero_candidates": 273,
+              "real_zero_mi_members": 0
+            },
+            {
+              "draws": 286,
+              "groups": 286,
+              "members": 1144,
+              "skipped_insufficient": 0,
+              "candidate_slots": 9152,
+              "excluded_candidates": 21,
+              "cqi_zero_candidates": 21,
+              "real_zero_mi_members": 0
+            },
+            {
+              "draws": 286,
+              "groups": 286,
+              "members": 1144,
+              "skipped_insufficient": 0,
+              "candidate_slots": 9152,
+              "excluded_candidates": 70,
+              "cqi_zero_candidates": 70,
+              "real_zero_mi_members": 0
+            },
+            {
+              "draws": 286,
+              "groups": 286,
+              "members": 1144,
+              "skipped_insufficient": 0,
+              "candidate_slots": 9152,
+              "excluded_candidates": 391,
+              "cqi_zero_candidates": 391,
+              "real_zero_mi_members": 0
+            },
+            {
+              "draws": 286,
+              "groups": 286,
+              "members": 1144,
+              "skipped_insufficient": 0,
+              "candidate_slots": 9152,
+              "excluded_candidates": 176,
+              "cqi_zero_candidates": 176,
+              "real_zero_mi_members": 0
+            },
+            {
+              "draws": 286,
+              "groups": 286,
+              "members": 1144,
+              "skipped_insufficient": 0,
+              "candidate_slots": 9152,
+              "excluded_candidates": 1038,
+              "cqi_zero_candidates": 1038,
+              "real_zero_mi_members": 0
+            },
+            {
+              "draws": 286,
+              "groups": 286,
+              "members": 1144,
+              "skipped_insufficient": 0,
+              "candidate_slots": 9152,
+              "excluded_candidates": 247,
+              "cqi_zero_candidates": 247,
+              "real_zero_mi_members": 0
+            },
+            {
+              "draws": 286,
+              "groups": 286,
+              "members": 1144,
+              "skipped_insufficient": 0,
+              "candidate_slots": 9152,
+              "excluded_candidates": 1311,
+              "cqi_zero_candidates": 1311,
+              "real_zero_mi_members": 0
+            },
+            {
+              "draws": 286,
+              "groups": 286,
+              "members": 1144,
+              "skipped_insufficient": 0,
+              "candidate_slots": 9152,
+              "excluded_candidates": 772,
+              "cqi_zero_candidates": 772,
+              "real_zero_mi_members": 0
+            },
+            {
+              "draws": 286,
+              "groups": 286,
+              "members": 1144,
+              "skipped_insufficient": 0,
+              "candidate_slots": 9152,
+              "excluded_candidates": 991,
+              "cqi_zero_candidates": 991,
+              "real_zero_mi_members": 0
+            },
+            {
+              "draws": 286,
+              "groups": 286,
+              "members": 1144,
+              "skipped_insufficient": 0,
+              "candidate_slots": 9152,
+              "excluded_candidates": 803,
+              "cqi_zero_candidates": 803,
+              "real_zero_mi_members": 0
+            },
+            {
+              "draws": 286,
+              "groups": 286,
+              "members": 1144,
+              "skipped_insufficient": 0,
+              "candidate_slots": 9152,
+              "excluded_candidates": 128,
+              "cqi_zero_candidates": 128,
+              "real_zero_mi_members": 0
+            },
+            {
+              "draws": 286,
+              "groups": 286,
+              "members": 1144,
+              "skipped_insufficient": 0,
+              "candidate_slots": 9152,
+              "excluded_candidates": 532,
+              "cqi_zero_candidates": 532,
+              "real_zero_mi_members": 0
+            },
+            {
+              "draws": 286,
+              "groups": 286,
+              "members": 1144,
+              "skipped_insufficient": 0,
+              "candidate_slots": 9152,
+              "excluded_candidates": 933,
+              "cqi_zero_candidates": 933,
+              "real_zero_mi_members": 0
+            },
+            {
+              "draws": 286,
+              "groups": 286,
+              "members": 1144,
+              "skipped_insufficient": 0,
+              "candidate_slots": 9152,
+              "excluded_candidates": 79,
+              "cqi_zero_candidates": 79,
+              "real_zero_mi_members": 0
+            },
+            {
+              "draws": 286,
+              "groups": 286,
+              "members": 1144,
+              "skipped_insufficient": 0,
+              "candidate_slots": 9152,
+              "excluded_candidates": 867,
+              "cqi_zero_candidates": 867,
+              "real_zero_mi_members": 0
+            },
+            {
+              "draws": 286,
+              "groups": 286,
+              "members": 1144,
+              "skipped_insufficient": 0,
+              "candidate_slots": 9152,
+              "excluded_candidates": 308,
+              "cqi_zero_candidates": 308,
+              "real_zero_mi_members": 0
+            },
+            {
+              "draws": 286,
+              "groups": 286,
+              "members": 1144,
+              "skipped_insufficient": 0,
+              "candidate_slots": 9152,
+              "excluded_candidates": 492,
+              "cqi_zero_candidates": 492,
+              "real_zero_mi_members": 0
+            },
+            {
+              "draws": 286,
+              "groups": 286,
+              "members": 1144,
+              "skipped_insufficient": 0,
+              "candidate_slots": 9152,
+              "excluded_candidates": 211,
+              "cqi_zero_candidates": 211,
+              "real_zero_mi_members": 0
+            },
+            {
+              "draws": 286,
+              "groups": 286,
+              "members": 1144,
+              "skipped_insufficient": 0,
+              "candidate_slots": 9152,
+              "excluded_candidates": 1277,
+              "cqi_zero_candidates": 1277,
+              "real_zero_mi_members": 0
+            }
+          ]
+        }
+      },
+      "holdout": {
+        "start": 70000,
+        "episodes": 12,
+        "sampler_seed": 20250713,
+        "slots": 1000,
+        "beta_rounded": [
+          1.0162,
+          0.8509,
+          0.7732,
+          0.728
+        ],
+        "membership": {
+          "1": {
+            "member_count": 3432,
+            "below_epsilon_members": 0,
+            "minimum_raw_cap": 204.69120000000018,
+            "minimum_scaled_cap": 208.00719744000017,
+            "epsilon": 1.0
+          },
+          "2": {
+            "member_count": 6864,
+            "below_epsilon_members": 0,
+            "minimum_raw_cap": 24.83146334764119,
+            "minimum_scaled_cap": 21.129092162507888,
+            "epsilon": 1.0
+          },
+          "3": {
+            "member_count": 10296,
+            "below_epsilon_members": 0,
+            "minimum_raw_cap": 15.130924034278772,
+            "minimum_scaled_cap": 11.699230463304346,
+            "epsilon": 1.0
+          },
+          "4": {
+            "member_count": 13728,
+            "below_epsilon_members": 0,
+            "minimum_raw_cap": 8.418378779521934,
+            "minimum_scaled_cap": 6.1285797514919675,
+            "epsilon": 1.0
+          }
+        },
+        "diagnostics": {
+          "1": [
+            {
+              "draws": 286,
+              "groups": 286,
+              "members": 286,
+              "skipped_insufficient": 0,
+              "candidate_slots": 9152,
+              "excluded_candidates": 1035,
+              "cqi_zero_candidates": 1035,
+              "real_zero_mi_members": 0
+            },
+            {
+              "draws": 286,
+              "groups": 286,
+              "members": 286,
+              "skipped_insufficient": 0,
+              "candidate_slots": 9152,
+              "excluded_candidates": 1726,
+              "cqi_zero_candidates": 1726,
+              "real_zero_mi_members": 0
+            },
+            {
+              "draws": 286,
+              "groups": 286,
+              "members": 286,
+              "skipped_insufficient": 0,
+              "candidate_slots": 9152,
+              "excluded_candidates": 889,
+              "cqi_zero_candidates": 889,
+              "real_zero_mi_members": 0
+            },
+            {
+              "draws": 286,
+              "groups": 286,
+              "members": 286,
+              "skipped_insufficient": 0,
+              "candidate_slots": 9152,
+              "excluded_candidates": 1585,
+              "cqi_zero_candidates": 1585,
+              "real_zero_mi_members": 0
+            },
+            {
+              "draws": 286,
+              "groups": 286,
+              "members": 286,
+              "skipped_insufficient": 0,
+              "candidate_slots": 9152,
+              "excluded_candidates": 34,
+              "cqi_zero_candidates": 34,
+              "real_zero_mi_members": 0
+            },
+            {
+              "draws": 286,
+              "groups": 286,
+              "members": 286,
+              "skipped_insufficient": 0,
+              "candidate_slots": 9152,
+              "excluded_candidates": 741,
+              "cqi_zero_candidates": 741,
+              "real_zero_mi_members": 0
+            },
+            {
+              "draws": 286,
+              "groups": 286,
+              "members": 286,
+              "skipped_insufficient": 0,
+              "candidate_slots": 9152,
+              "excluded_candidates": 415,
+              "cqi_zero_candidates": 415,
+              "real_zero_mi_members": 0
+            },
+            {
+              "draws": 286,
+              "groups": 286,
+              "members": 286,
+              "skipped_insufficient": 0,
+              "candidate_slots": 9152,
+              "excluded_candidates": 1581,
+              "cqi_zero_candidates": 1581,
+              "real_zero_mi_members": 0
+            },
+            {
+              "draws": 286,
+              "groups": 286,
+              "members": 286,
+              "skipped_insufficient": 0,
+              "candidate_slots": 9152,
+              "excluded_candidates": 1371,
+              "cqi_zero_candidates": 1371,
+              "real_zero_mi_members": 0
+            },
+            {
+              "draws": 286,
+              "groups": 286,
+              "members": 286,
+              "skipped_insufficient": 0,
+              "candidate_slots": 9152,
+              "excluded_candidates": 35,
+              "cqi_zero_candidates": 35,
+              "real_zero_mi_members": 0
+            },
+            {
+              "draws": 286,
+              "groups": 286,
+              "members": 286,
+              "skipped_insufficient": 0,
+              "candidate_slots": 9152,
+              "excluded_candidates": 145,
+              "cqi_zero_candidates": 145,
+              "real_zero_mi_members": 0
+            },
+            {
+              "draws": 286,
+              "groups": 286,
+              "members": 286,
+              "skipped_insufficient": 0,
+              "candidate_slots": 9152,
+              "excluded_candidates": 16,
+              "cqi_zero_candidates": 16,
+              "real_zero_mi_members": 0
+            }
+          ],
+          "2": [
+            {
+              "draws": 286,
+              "groups": 286,
+              "members": 572,
+              "skipped_insufficient": 0,
+              "candidate_slots": 9152,
+              "excluded_candidates": 1043,
+              "cqi_zero_candidates": 1043,
+              "real_zero_mi_members": 0
+            },
+            {
+              "draws": 286,
+              "groups": 286,
+              "members": 572,
+              "skipped_insufficient": 0,
+              "candidate_slots": 9152,
+              "excluded_candidates": 1707,
+              "cqi_zero_candidates": 1707,
+              "real_zero_mi_members": 0
+            },
+            {
+              "draws": 286,
+              "groups": 286,
+              "members": 572,
+              "skipped_insufficient": 0,
+              "candidate_slots": 9152,
+              "excluded_candidates": 888,
+              "cqi_zero_candidates": 888,
+              "real_zero_mi_members": 0
+            },
+            {
+              "draws": 286,
+              "groups": 286,
+              "members": 572,
+              "skipped_insufficient": 0,
+              "candidate_slots": 9152,
+              "excluded_candidates": 1569,
+              "cqi_zero_candidates": 1569,
+              "real_zero_mi_members": 0
+            },
+            {
+              "draws": 286,
+              "groups": 286,
+              "members": 572,
+              "skipped_insufficient": 0,
+              "candidate_slots": 9152,
+              "excluded_candidates": 26,
+              "cqi_zero_candidates": 26,
+              "real_zero_mi_members": 0
+            },
+            {
+              "draws": 286,
+              "groups": 286,
+              "members": 572,
+              "skipped_insufficient": 0,
+              "candidate_slots": 9152,
+              "excluded_candidates": 736,
+              "cqi_zero_candidates": 736,
+              "real_zero_mi_members": 0
+            },
+            {
+              "draws": 286,
+              "groups": 286,
+              "members": 572,
+              "skipped_insufficient": 0,
+              "candidate_slots": 9152,
+              "excluded_candidates": 419,
+              "cqi_zero_candidates": 419,
+              "real_zero_mi_members": 0
+            },
+            {
+              "draws": 286,
+              "groups": 286,
+              "members": 572,
+              "skipped_insufficient": 0,
+              "candidate_slots": 9152,
+              "excluded_candidates": 1573,
+              "cqi_zero_candidates": 1573,
+              "real_zero_mi_members": 0
+            },
+            {
+              "draws": 286,
+              "groups": 286,
+              "members": 572,
+              "skipped_insufficient": 0,
+              "candidate_slots": 9152,
+              "excluded_candidates": 1370,
+              "cqi_zero_candidates": 1370,
+              "real_zero_mi_members": 0
+            },
+            {
+              "draws": 286,
+              "groups": 286,
+              "members": 572,
+              "skipped_insufficient": 0,
+              "candidate_slots": 9152,
+              "excluded_candidates": 39,
+              "cqi_zero_candidates": 39,
+              "real_zero_mi_members": 0
+            },
+            {
+              "draws": 286,
+              "groups": 286,
+              "members": 572,
+              "skipped_insufficient": 0,
+              "candidate_slots": 9152,
+              "excluded_candidates": 142,
+              "cqi_zero_candidates": 142,
+              "real_zero_mi_members": 0
+            },
+            {
+              "draws": 286,
+              "groups": 286,
+              "members": 572,
+              "skipped_insufficient": 0,
+              "candidate_slots": 9152,
+              "excluded_candidates": 17,
+              "cqi_zero_candidates": 17,
+              "real_zero_mi_members": 0
+            }
+          ],
+          "3": [
+            {
+              "draws": 286,
+              "groups": 286,
+              "members": 858,
+              "skipped_insufficient": 0,
+              "candidate_slots": 9152,
+              "excluded_candidates": 1032,
+              "cqi_zero_candidates": 1032,
+              "real_zero_mi_members": 0
+            },
+            {
+              "draws": 286,
+              "groups": 286,
+              "members": 858,
+              "skipped_insufficient": 0,
+              "candidate_slots": 9152,
+              "excluded_candidates": 1732,
+              "cqi_zero_candidates": 1732,
+              "real_zero_mi_members": 0
+            },
+            {
+              "draws": 286,
+              "groups": 286,
+              "members": 858,
+              "skipped_insufficient": 0,
+              "candidate_slots": 9152,
+              "excluded_candidates": 882,
+              "cqi_zero_candidates": 882,
+              "real_zero_mi_members": 0
+            },
+            {
+              "draws": 286,
+              "groups": 286,
+              "members": 858,
+              "skipped_insufficient": 0,
+              "candidate_slots": 9152,
+              "excluded_candidates": 1580,
+              "cqi_zero_candidates": 1580,
+              "real_zero_mi_members": 0
+            },
+            {
+              "draws": 286,
+              "groups": 286,
+              "members": 858,
+              "skipped_insufficient": 0,
+              "candidate_slots": 9152,
+              "excluded_candidates": 31,
+              "cqi_zero_candidates": 31,
+              "real_zero_mi_members": 0
+            },
+            {
+              "draws": 286,
+              "groups": 286,
+              "members": 858,
+              "skipped_insufficient": 0,
+              "candidate_slots": 9152,
+              "excluded_candidates": 760,
+              "cqi_zero_candidates": 760,
+              "real_zero_mi_members": 0
+            },
+            {
+              "draws": 286,
+              "groups": 286,
+              "members": 858,
+              "skipped_insufficient": 0,
+              "candidate_slots": 9152,
+              "excluded_candidates": 413,
+              "cqi_zero_candidates": 413,
+              "real_zero_mi_members": 0
+            },
+            {
+              "draws": 286,
+              "groups": 286,
+              "members": 858,
+              "skipped_insufficient": 0,
+              "candidate_slots": 9152,
+              "excluded_candidates": 1591,
+              "cqi_zero_candidates": 1591,
+              "real_zero_mi_members": 0
+            },
+            {
+              "draws": 286,
+              "groups": 286,
+              "members": 858,
+              "skipped_insufficient": 0,
+              "candidate_slots": 9152,
+              "excluded_candidates": 1368,
+              "cqi_zero_candidates": 1368,
+              "real_zero_mi_members": 0
+            },
+            {
+              "draws": 286,
+              "groups": 286,
+              "members": 858,
+              "skipped_insufficient": 0,
+              "candidate_slots": 9152,
+              "excluded_candidates": 44,
+              "cqi_zero_candidates": 44,
+              "real_zero_mi_members": 0
+            },
+            {
+              "draws": 286,
+              "groups": 286,
+              "members": 858,
+              "skipped_insufficient": 0,
+              "candidate_slots": 9152,
+              "excluded_candidates": 141,
+              "cqi_zero_candidates": 141,
+              "real_zero_mi_members": 0
+            },
+            {
+              "draws": 286,
+              "groups": 286,
+              "members": 858,
+              "skipped_insufficient": 0,
+              "candidate_slots": 9152,
+              "excluded_candidates": 22,
+              "cqi_zero_candidates": 22,
+              "real_zero_mi_members": 0
+            }
+          ],
+          "4": [
+            {
+              "draws": 286,
+              "groups": 286,
+              "members": 1144,
+              "skipped_insufficient": 0,
+              "candidate_slots": 9152,
+              "excluded_candidates": 1031,
+              "cqi_zero_candidates": 1031,
+              "real_zero_mi_members": 0
+            },
+            {
+              "draws": 286,
+              "groups": 286,
+              "members": 1144,
+              "skipped_insufficient": 0,
+              "candidate_slots": 9152,
+              "excluded_candidates": 1719,
+              "cqi_zero_candidates": 1719,
+              "real_zero_mi_members": 0
+            },
+            {
+              "draws": 286,
+              "groups": 286,
+              "members": 1144,
+              "skipped_insufficient": 0,
+              "candidate_slots": 9152,
+              "excluded_candidates": 880,
+              "cqi_zero_candidates": 880,
+              "real_zero_mi_members": 0
+            },
+            {
+              "draws": 286,
+              "groups": 286,
+              "members": 1144,
+              "skipped_insufficient": 0,
+              "candidate_slots": 9152,
+              "excluded_candidates": 1587,
+              "cqi_zero_candidates": 1587,
+              "real_zero_mi_members": 0
+            },
+            {
+              "draws": 286,
+              "groups": 286,
+              "members": 1144,
+              "skipped_insufficient": 0,
+              "candidate_slots": 9152,
+              "excluded_candidates": 33,
+              "cqi_zero_candidates": 33,
+              "real_zero_mi_members": 0
+            },
+            {
+              "draws": 286,
+              "groups": 286,
+              "members": 1144,
+              "skipped_insufficient": 0,
+              "candidate_slots": 9152,
+              "excluded_candidates": 753,
+              "cqi_zero_candidates": 753,
+              "real_zero_mi_members": 0
+            },
+            {
+              "draws": 286,
+              "groups": 286,
+              "members": 1144,
+              "skipped_insufficient": 0,
+              "candidate_slots": 9152,
+              "excluded_candidates": 388,
+              "cqi_zero_candidates": 388,
+              "real_zero_mi_members": 0
+            },
+            {
+              "draws": 286,
+              "groups": 286,
+              "members": 1144,
+              "skipped_insufficient": 0,
+              "candidate_slots": 9152,
+              "excluded_candidates": 1598,
+              "cqi_zero_candidates": 1598,
+              "real_zero_mi_members": 0
+            },
+            {
+              "draws": 286,
+              "groups": 286,
+              "members": 1144,
+              "skipped_insufficient": 0,
+              "candidate_slots": 9152,
+              "excluded_candidates": 1356,
+              "cqi_zero_candidates": 1356,
+              "real_zero_mi_members": 0
+            },
+            {
+              "draws": 286,
+              "groups": 286,
+              "members": 1144,
+              "skipped_insufficient": 0,
+              "candidate_slots": 9152,
+              "excluded_candidates": 41,
+              "cqi_zero_candidates": 41,
+              "real_zero_mi_members": 0
+            },
+            {
+              "draws": 286,
+              "groups": 286,
+              "members": 1144,
+              "skipped_insufficient": 0,
+              "candidate_slots": 9152,
+              "excluded_candidates": 160,
+              "cqi_zero_candidates": 160,
+              "real_zero_mi_members": 0
+            },
+            {
+              "draws": 286,
+              "groups": 286,
+              "members": 1144,
+              "skipped_insufficient": 0,
+              "candidate_slots": 9152,
+              "excluded_candidates": 23,
+              "cqi_zero_candidates": 23,
+              "real_zero_mi_members": 0
+            }
+          ]
+        },
+        "by_depth": {
+          "1": {
+            "first_ack": 0.9000582750582751,
+            "episode_cluster_ci95": [
+              0.8892773892773893,
+              0.909965034965035
+            ],
+            "member_count": 3432,
+            "acks": 3089,
+            "episode_member_counts": [
+              286,
+              286,
+              286,
+              286,
+              286,
+              286,
+              286,
+              286,
+              286,
+              286,
+              286,
+              286
+            ],
+            "episode_ack_counts": [
+              263,
+              251,
+              253,
+              256,
+              262,
+              265,
+              261,
+              260,
+              260,
+              252,
+              258,
+              248
+            ],
+            "zero_member_episodes": 0,
+            "bootstrap_undefined_fraction": 0.0,
+            "ack_tolerance_bits": 1e-06,
+            "strict_ratio_first_ack": 0.9000582750582751
+          },
+          "2": {
+            "first_ack": 0.9277389277389277,
+            "episode_cluster_ci95": [
+              0.9166666666666666,
+              0.9392482517482518
+            ],
+            "member_count": 6864,
+            "acks": 6368,
+            "episode_member_counts": [
+              572,
+              572,
+              572,
+              572,
+              572,
+              572,
+              572,
+              572,
+              572,
+              572,
+              572,
+              572
+            ],
+            "episode_ack_counts": [
+              539,
+              551,
+              540,
+              526,
+              542,
+              523,
+              522,
+              542,
+              525,
+              524,
+              509,
+              525
+            ],
+            "zero_member_episodes": 0,
+            "bootstrap_undefined_fraction": 0.0,
+            "ack_tolerance_bits": 1e-06,
+            "strict_ratio_first_ack": 0.9277389277389277
+          },
+          "3": {
+            "first_ack": 0.932012432012432,
+            "episode_cluster_ci95": [
+              0.9221056721056721,
+              0.9417249417249417
+            ],
+            "member_count": 10296,
+            "acks": 9596,
+            "episode_member_counts": [
+              858,
+              858,
+              858,
+              858,
+              858,
+              858,
+              858,
+              858,
+              858,
+              858,
+              858,
+              858
+            ],
+            "episode_ack_counts": [
+              819,
+              817,
+              819,
+              792,
+              807,
+              789,
+              803,
+              803,
+              809,
+              786,
+              779,
+              773
+            ],
+            "zero_member_episodes": 0,
+            "bootstrap_undefined_fraction": 0.0,
+            "ack_tolerance_bits": 1e-06,
+            "strict_ratio_first_ack": 0.932012432012432
+          },
+          "4": {
+            "first_ack": 0.93254662004662,
+            "episode_cluster_ci95": [
+              0.9208916083916084,
+              0.9444201631701632
+            ],
+            "member_count": 13728,
+            "acks": 12802,
+            "episode_member_counts": [
+              1144,
+              1144,
+              1144,
+              1144,
+              1144,
+              1144,
+              1144,
+              1144,
+              1144,
+              1144,
+              1144,
+              1144
+            ],
+            "episode_ack_counts": [
+              1096,
+              1107,
+              1087,
+              1067,
+              1076,
+              1050,
+              1076,
+              1057,
+              1081,
+              1033,
+              1031,
+              1041
+            ],
+            "zero_member_episodes": 0,
+            "bootstrap_undefined_fraction": 0.0,
+            "ack_tolerance_bits": 1e-06,
+            "strict_ratio_first_ack": 0.93254662004662
+          }
+        }
+      },
+      "beta_raw": [
+        1.0162281097433123,
+        0.850860841514678,
+        0.773227004455956,
+        0.7280035717320891
+      ],
+      "beta_rounded": [
+        1.0162,
+        0.8509,
+        0.7732,
+        0.728
+      ],
+      "membership_verified_calibration": true,
+      "old_beta_on_same_holdout": {
+        "1": {
+          "beta": 1.0018,
+          "first_ack": 0.9548368298368298
+        },
+        "2": {
+          "beta": 0.7499,
+          "first_ack": 0.9637237762237763
+        },
+        "3": {
+          "beta": 0.6592,
+          "first_ack": 0.9655205905205905
+        },
+        "4": {
+          "beta": 0.6058,
+          "first_ack": 0.965472027972028
+        }
+      },
+      "membership_verified_holdout": true,
+      "calibration_fit_sha256": "c9f5b00b41914f91b9ca12c6e151e358e8330f24f13883e9b68316f8771ea8dd",
+      "samples_sha256": {
+        "calibration_samples.npz": "6847401ef45003723d1345ce06cea9c68ee042379701323880a03aec0ae0f966",
+        "holdout_samples.npz": "66a6031d34481b2e63300698be653f139f4b065d3b5b23cdb5c7277ba6770eab"
+      },
+      "completed_at": "2026-09-09T02:04:57.719919+00:00"
+    }
+  },
+  "calibration_reference_root": "provenance/before_ftp3_sources",
+  "calibration_application": "Bernoulli Base-calibrated beta, unchanged world; phase-invariant raw-input network and a higher initial LR",
+  "variant_provenance": {
+    "schema_version": 1,
+    "name": "raw_phase_inv_lr6",
+    "source_sha256": {
+      "paper_train_rawpi.py": "ea20ffca4586e2de9c5472c46a49b740170e9e00339513e0c8e633277e2ebc3c"
+    },
+    "base_recipe_sha256": "8bbcd8e83195713cf9baefe96af8d4e6ed4035481d791ef7ccd63f2f043be81c",
+    "derived_recipe_sha256": "56d07c2d9d3f1c30972bffb1b136bea9008fe0bf52fe9fae3575f335f26257c1",
+    "changed_ranges": {
+      "ppo_learning_rate": {
+        "base": 0.0003,
+        "variant": 0.0006
+      }
+    },
+    "architecture": {
+      "schema_version": 1,
+      "encoder": "identity",
+      "channel_representation": "adjacent autocorrelation h[m]*conj(h[m+1]), real+imag, x8",
+      "channel_channels": 62,
+      "global_phase_invariant": true,
+      "encoder_input": 71,
+      "score_net_input": 78,
+      "no_user_head_input": 17,
+      "value_head_input": 60,
+      "value_tail_extra": [
+        "pair_corr_mean",
+        "pair_corr_max",
+        "pair_corr_frac_above_0.25"
+      ]
+    },
+    "architecture_sha256": "36db95b57e86915447d1e347ba23deea2ee5812452a7387faa1bb5c5e65741df",
+    "extra_eval_baselines": [
+      "SUS+CQI-Feasible",
+      "SUS-RPS"
+    ]
+  },
+  "extension_sha256": {
+    "paper_train_rawpi.py": "ea20ffca4586e2de9c5472c46a49b740170e9e00339513e0c8e633277e2ebc3c",
+    "artifacts/raw_phase_inv_lr6/config.json": "56d07c2d9d3f1c30972bffb1b136bea9008fe0bf52fe9fae3575f335f26257c1",
+    "review/runners/run_rawpi.py": "83c302c4a8647de86e0ab28c8f8dc5073e2c8477946fdfa22e8c1ef1ffb4e0c7"
+  },
+  "comparison_run": "26_base_stage1_lr1000_s2002024_20260914_gpu3",
+  "training_initialization": "fresh raw-input model, optimizer and return normalization; seed 2024",
+  "same_world_as_base": true,
+  "network_differs_from_base": true,
+  "status": "running",
+  "name": "35_raw_phase_inv_lr6_lr1000_s2024_20260917_gpu1",
+  "console_log": "/home/MYH/ML_DRL_Scheduler/PaperMain/review/logs/35_raw_phase_inv_lr6_lr1000_s2024_20260917_gpu1.log",
+  "created_at": "2026-09-17T06:42:29.225834+00:00",
+  "physical_gpu": 1,
+  "supervisor_pid": 55733,
+  "training_pid": 55746,
+  "target_completed": false,
+  "phase_target_updates": 1000,
+  "active_command": [
+    "/usr/bin/python3",
+    "-u",
+    "paper_train_rawpi.py",
+    "--recipe",
+    "raw_phase_inv_lr6",
+    "--name",
+    "35_raw_phase_inv_lr6_lr1000_s2024_20260917_gpu1",
+    "--device",
+    "cuda",
+    "--gpu",
+    "1",
+    "--threads",
+    "4",
+    "--seed",
+    "2024",
+    "--traffic-model",
+    "bernoulli",
+    "--replay-mode",
+    "batched",
+    "--num-updates",
+    "1000",
+    "--lr-final",
+    "0",
+    "--lr-decay-updates",
+    "1000",
+    "--calibration-profile",
+    "results/cqi4_hl_corrected_v2/summary.json",
+    "--calibration-reference-root",
+    "provenance/before_ftp3_sources"
+  ]
+}
