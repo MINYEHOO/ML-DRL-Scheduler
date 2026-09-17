@@ -2656,7 +2656,7 @@
     "q_star": 0.5,
     "waste_charged_at": "packet failure (miss / retx-drop removal)"
   },
-  "status": "running",
+  "status": "running (resumed)",
   "name": "33_reward_outcome_lr1000_s2024_20260916_gpu2",
   "console_log": "/home/MYH/ML_DRL_Scheduler/PaperMain/review/logs/33_reward_outcome_lr1000_s2024_20260916_gpu2.log",
   "created_at": "2026-09-16T09:40:55.603068+00:00",
@@ -2695,5 +2695,13 @@
     "results/cqi4_hl_corrected_v2/summary.json",
     "--calibration-reference-root",
     "provenance/before_ftp3_sources"
+  ],
+  "interruptions": [
+    {
+      "event": "container restart 2026-09-16 16:08 UTC",
+      "resumed_at": "2026-09-17T00:20:29.469619+00:00",
+      "method": "review/runners/resume_loop.sh (native --resume, tmux)",
+      "note": "see review/logs/restart_20260916.md; supervisor_pid/training_pid above are stale"
+    }
   ]
 }

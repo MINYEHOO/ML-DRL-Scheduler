@@ -2654,7 +2654,7 @@
   "training_initialization": "fresh raw-input model, optimizer and return normalization; seed 2024",
   "same_world_as_base": true,
   "network_differs_from_base": true,
-  "status": "running",
+  "status": "running (resumed)",
   "name": "30_raw_invariant_lr1000_s2024_20260916_gpu3",
   "console_log": "/home/MYH/ML_DRL_Scheduler/PaperMain/review/logs/30_raw_invariant_lr1000_s2024_20260916_gpu3.log",
   "created_at": "2026-09-16T04:44:41.007028+00:00",
@@ -2693,5 +2693,13 @@
     "results/cqi4_hl_corrected_v2/summary.json",
     "--calibration-reference-root",
     "provenance/before_ftp3_sources"
+  ],
+  "interruptions": [
+    {
+      "event": "container restart 2026-09-16 16:08 UTC",
+      "resumed_at": "2026-09-17T00:20:29.454117+00:00",
+      "method": "review/runners/resume_loop.sh (native --resume, tmux)",
+      "note": "see review/logs/restart_20260916.md; supervisor_pid/training_pid above are stale"
+    }
   ]
 }
