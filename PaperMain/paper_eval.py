@@ -6,9 +6,12 @@ This runner defines a new, recorded protocol; historical CSVs remain historical.
 """
 from pathlib import Path
 import argparse, copy, csv, dataclasses, hashlib, importlib.metadata, json, os, sys, time
+import paper_model_loader as models
 
 ROOT = Path(__file__).resolve().parent
-RECIPES = ('base', 'lrann', 'narrow', 'base_s3024', 'base_s4024', 'base_s5024')
+LEGACY_RECIPES = ('base', 'lrann', 'narrow', 'base_s3024', 'base_s4024', 'base_s5024')
+VARIANT_RECIPES = ('narrow_mean', 'raw_invariant', 'raw_phase_inv', 'raw_phase_inv_lr6')
+RECIPES = LEGACY_RECIPES + VARIANT_RECIPES
 WORLDS = {
     'ID': ({}, .75),
     'P055': ({'p_arrival_min': .55, 'p_arrival_max': .55}, .75),
@@ -37,7 +40,42 @@ def config_from_raw(raw):
     return cfg
 
 def recipe_config(recipe):
+    if recipe in VARIANT_RECIPES:
+        return config_from_raw(archive_manifest(recipe)['config'])
     return config_from_raw(json.loads((ROOT/'artifacts'/recipe/'config.json').read_text()))
+
+
+def archive_manifest(recipe):
+    """Variants need their original manifest beside the archived checkpoint.
+
+    Frozen recipe config.json remains the launch recipe. The manifest contains
+    the actual training config (including seed, replay and calibration).
+    Legacy unmanifested archives retain their original evaluation contract.
+    """
+    if recipe not in RECIPES:
+        raise ValueError(f'Unknown archived recipe: {recipe}')
+    if recipe in LEGACY_RECIPES:
+        return dict(recipe=recipe, config=dataclasses.asdict(recipe_config(recipe)))
+    path = ROOT/'artifacts'/recipe/'paper_manifest.json'
+    if not path.is_file():
+        raise ValueError(f'{recipe}: original paper_manifest.json is required beside the archived checkpoint')
+    manifest = json.loads(path.read_text())
+    if manifest.get('recipe') != recipe:
+        raise ValueError(f'{recipe}: archived manifest recipe mismatch')
+    import paper_train as pt
+    if type(manifest.get('version')) is not int or manifest['version'] != pt.VERSION:
+        raise ValueError('Unsupported archived manifest version')
+    models.validate_manifest(manifest, ROOT)
+    if pt.canonical(pt.normalize_config(manifest['config'])) != pt.canonical(manifest['config']):
+        raise ValueError('Archived variant config must be fully normalized')
+    reference = pt.calibration_reference(ROOT, manifest.get('calibration_reference_root'))
+    profile = manifest.get('calibration_profile')
+    if manifest.get('calibration_reference_root') is not None and profile is None:
+        raise ValueError('Calibration reference requires a saved profile')
+    if profile is not None:
+        from calibration.profile import validate_profile_record
+        validate_profile_record(profile, reference)
+    return manifest
 
 def make_configs(recipe, world, smoke_slots=None, calibration_profile=None):
     env_cfg, policy_cfg = recipe_config('base'), recipe_config(recipe)
@@ -107,12 +145,11 @@ def main():
     torch.set_num_threads(a.threads)
     if a.device == 'cuda' and not torch.cuda.is_available():
         p.error('CUDA requested but unavailable')
-    from policy import ActorCritic
     from env import SchedulerEnv
     from train_phase2 import PPOScheduler, env_episode_metrics
     from baselines import (all_baselines, SUSRPS, SURPS, SUSCQIFeasible,
                            SUSDeadlinePFFeasible, SUSCQIDepth3, PFGreedySDS, CQIGreedySDS)
-    loaded = {}
+    loaded, manifests = {}, {}
     for recipe in a.recipes:
         path = ROOT/'artifacts'/recipe/'ckpt/best.pt'
         ck = torch.load(path, map_location='cpu', weights_only=False)
@@ -121,6 +158,14 @@ def main():
         declared_cfg = recipe_config(recipe)
         if dataclasses.asdict(saved_cfg) != dataclasses.asdict(declared_cfg):
             raise ValueError(f'{recipe}: checkpoint/config mismatch')
+        manifests[recipe] = archive_manifest(recipe)
+        if recipe in VARIANT_RECIPES:
+            import paper_train as pt
+            m = manifests[recipe]
+            if type(ck.get('update')) is not int or not 0 <= ck['update'] < m['target_updates']:
+                raise ValueError('Archived checkpoint update exceeds its training target')
+            pt.validate_schedule(m['schedule'], m['config']['ppo_learning_rate'])
+            pt.validate_checkpoint_schedule(ck, m['schedule'])
         loaded[recipe] = ck
     out.mkdir(parents=True)
     manifest = dict(protocol=('paper-common-cqi4-corrected-v1' if profile else 'paper-common-v1'),
@@ -129,11 +174,15 @@ def main():
                                  if profile else 'archived beta'),
         diagnostic_only=bool(a.smoke_slots), evaluation_world_seed=2024,
         caveats=['Same seed does not guarantee identical scheduler-dependent realized traffic/CSI traces.',
+                 'ID labels the archived Base reference world, not each variant training world. Variant training calibration may differ; use paper_run_eval.py for saved-world ID comparisons.',
                  '20000/21000 bands are previously inspected historical bands, not new blind tests.',
                  ('Corrected beta is applied without retraining archived policies; results measure sensitivity, not retrained performance.'
                   if profile else 'Original beta calibration remains unchanged and has a known CQI=0 sampling defect.'),
                  'Random baseline RNG is reset per episode in this runner; archived runners may differ.'],
         checkpoint_sha256={r:sha(ROOT/'artifacts'/r/'ckpt/best.pt') for r in a.recipes},
+        variant_provenance={r:manifests[r].get('variant_provenance') for r in a.recipes},
+        archive_manifest_sha256={r:sha(ROOT/'artifacts'/r/'paper_manifest.json')
+                                 for r in a.recipes if r in VARIANT_RECIPES},
         source_sha256={**{f.name:sha(f) for f in ROOT.glob('*.py')},
                        **{f.relative_to(ROOT).as_posix():sha(f) for f in (ROOT/'calibration').glob('*.py')}},
         versions={n:importlib.metadata.version(n) for n in ['numpy','scipy','tensorflow','sionna','torch']},
@@ -157,9 +206,9 @@ def main():
                 schedulers = []
                 for recipe in a.recipes:
                     _, pcfg = make_configs(recipe,world,a.smoke_slots,profile)
-                    model = ActorCritic(pcfg)
-                    model.load_state_dict(loaded[recipe]['model'],strict=True)
-                    model.eval().to(a.device)
+                    model = models.load_model(manifests[recipe], loaded[recipe],
+                                              policy_config=dataclasses.asdict(pcfg),
+                                              root=ROOT, validate=False).to(a.device)
                     schedulers.append((f'PPO/{recipe}',PPOScheduler(model),pcfg.seed,loaded[recipe]['update']))
                 baseline_set = all_baselines(env_cfg) if a.baselines == 'all' else [s for s in all_baselines(env_cfg) if s.name in ('SUS+CQI','SU+CQI')]
                 if a.baselines != 'none':

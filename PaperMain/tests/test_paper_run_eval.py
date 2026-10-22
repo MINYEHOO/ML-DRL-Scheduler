@@ -17,7 +17,7 @@ class LiveEvaluationGuards(unittest.TestCase):
     def setUp(self):
         self.tmp = tempfile.TemporaryDirectory()
         self.root = Path(self.tmp.name)
-        for name in (*pt.SOURCES, 'paper_run_eval.py'):
+        for name in (*pt.SOURCES, 'paper_run_eval.py', 'paper_model_loader.py'):
             path = self.root / name
             path.parent.mkdir(parents=True, exist_ok=True)
             path.write_text('# frozen source\n')
@@ -186,6 +186,13 @@ class LiveEvaluationGuards(unittest.TestCase):
         ck['lr_schedule']['lr_decay_updates'] = 2000
         with self.assertRaisesRegex(ValueError, 'schedule differs'):
             ev.validate_checkpoint(ck, self.prepared())
+
+    def test_latest_checkpoint_must_reach_completed_target(self):
+        ck = self.checkpoint()
+        with self.assertRaisesRegex(ValueError, 'Latest checkpoint'):
+            ev.validate_checkpoint(ck, self.prepared('--checkpoint', 'latest'))
+        ck['update'] = 999
+        ev.validate_checkpoint(ck, self.prepared('--checkpoint', 'latest'))
 
     def test_calibration_beta_checked_against_saved_profile(self):
         # A malformed record is rejected before it can bypass strict beta/source validation.

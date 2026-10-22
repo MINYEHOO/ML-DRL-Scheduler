@@ -18,7 +18,8 @@ WORKERS = [(3,16,['ppo','sus_cqi','su_cqi']), (4,21,['ppo','sus_pf','su_pf']),
            (5,22,['ppo','sus_random','su_random'])]
 PILOT_WORLDS = {3:['ID','P055','P010','K60'],4:['V60max','CSI02','D26strict'],5:['STORM2','K8','K48']}
 NEW_FILES = ['paper_ood_inputs.py','paper_ood_eval.py','paper_ood_merge.py','paper_ood_campaign.py',
-             'paper_run_eval.py','paper_run_eval_merge.py','paper_train_variants.py']
+             'paper_run_eval.py','paper_run_eval_merge.py','paper_train_variants.py',
+             'paper_model_loader.py']
 now = lambda: datetime.now(timezone.utc).isoformat()
 
 def hashes():
