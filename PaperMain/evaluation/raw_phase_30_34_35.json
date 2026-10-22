@@ -1,0 +1,40 @@
+{
+  "version": 1,
+  "name": "raw-phase-input-run30-34-35-id",
+  "evidence_revision": "b5fdd83dfc844b33086ad88ce5fa24edab89f45f",
+  "runs": [
+    {
+      "id": 30,
+      "run": "runs/30_raw_invariant_lr1000_s2024_20260916_gpu3",
+      "recipe": "raw_invariant",
+      "learning_rate": 0.0003
+    },
+    {
+      "id": 34,
+      "run": "runs/34_raw_phase_inv_lr1000_s2024_20260917_gpu5",
+      "recipe": "raw_phase_inv",
+      "learning_rate": 0.0003
+    },
+    {
+      "id": 35,
+      "run": "runs/35_raw_phase_inv_lr6_lr1000_s2024_20260917_gpu4",
+      "recipe": "raw_phase_inv_lr6",
+      "learning_rate": 0.0006
+    }
+  ],
+  "checkpoint": "best",
+  "seed": 2024,
+  "target_updates": 1000,
+  "schedule": {"lr_final": 0.0, "lr_decay_updates": 1000},
+  "episode_slots": 1000,
+  "episode_start": 150000,
+  "episodes": 100,
+  "smoke_episode_start": 149000,
+  "smoke_episodes": 2,
+  "smoke_slots": 40,
+  "num_shards": 2,
+  "threads": 4,
+  "scheduler_keys": ["ppo", "sus_cqi", "sus_cqi_m2", "sus_cqi_m3", "sus_rps", "pf_greedy_sds", "sumrate_greedy_sds"],
+  "history_audit": "results/raw_phase_30_34_35/inputs/history_audit.json",
+  "output_root": "results/raw_phase_30_34_35"
+}

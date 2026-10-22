@@ -20,6 +20,7 @@ import time
 
 import paper_run_eval as metrics
 import paper_train as pt
+import paper_model_loader as model_loader
 
 ROOT = Path(__file__).resolve().parent
 WORLDS = {
@@ -44,7 +45,7 @@ THRESHOLDS = (.60, .65, .70, .75, .80)
 SELECTION_RULE = 'maximum mean reward; ties choose smallest threshold'
 EXTRA_COLUMNS = ['run', 'mode', 'threshold', 'environment_seed', 'policy_config_sha256']
 HEADER = metrics.HEADER + EXTRA_COLUMNS
-RUNNER_FILES = ('paper_ood_eval.py', 'paper_ood_inputs.py', 'paper_run_eval.py')
+RUNNER_FILES = ('paper_ood_eval.py', 'paper_ood_inputs.py', 'paper_run_eval.py', 'paper_model_loader.py')
 
 
 def parser():
@@ -246,6 +247,7 @@ def plan(args, root=ROOT):
         run=selected['run'].relative_to(root).as_posix(), base_run=base['run'].relative_to(root).as_posix(),
         training_config=selected['training_config'], base_config=base['training_config'],
         checkpoint_sha256=selected['checkpoint_sha256'], checkpoint_update=None,
+        recipe=selected['manifest']['recipe'], variant_provenance=selected['variant_provenance'],
         selected_input_hashes=selected['input_hashes'], base_input_hashes=base['input_hashes'],
         source_provenance=selected['source_provenance'],
         current_source_sha256=selected['source_provenance']['current_source_sha256'],
@@ -328,7 +330,6 @@ def main(argv=None):
     import torch
     from paper_ood_inputs import validate_loaded_checkpoint, validate_runtime
     from config import Config
-    from policy import ActorCritic
     torch.set_num_threads(args.threads)
     checkpoint = torch.load(prepared['selected']['checkpoint'], map_location='cpu', weights_only=False)
     validate_loaded_checkpoint(checkpoint, prepared['selected'])
@@ -342,9 +343,8 @@ def main(argv=None):
         key = config_hash(config['policy'])
         model_keys[world] = key
         if key not in models:
-            model = ActorCritic(Config(**config['policy']))
-            model.load_state_dict(checkpoint['model'], strict=True)
-            model.eval().requires_grad_(False)
+            model = model_loader.load_model(prepared['selected']['manifest'], checkpoint,
+                                            policy_config=config['policy'], root=ROOT, validate=False)
             models[key] = model
     if args.dry_run:
         print(json.dumps(dict(protocol=prepared['protocol'], execution=prepared['execution']), indent=2, allow_nan=False))

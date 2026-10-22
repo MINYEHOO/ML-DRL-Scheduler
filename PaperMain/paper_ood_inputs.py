@@ -156,8 +156,8 @@ def validate_run(root, run: Path, checkpoint='best'):
             or not isinstance(runtime.get('packages'), dict) or not runtime['packages']):
         raise ValueError('Missing or malformed source runtime record')
     recipe = manifest.get('recipe')
-    if recipe not in ('base', 'narrow_mean'):
-        raise ValueError('OOD inputs must use Base or mean-matched NARROW')
+    if recipe not in ('base', 'narrow_mean', 'raw_invariant', 'raw_phase_inv', 'raw_phase_inv_lr6'):
+        raise ValueError('Unsupported common-world OOD recipe')
     recipe_path = _file(root, root / 'artifacts' / recipe / 'config.json')
     if manifest.get('artifact_config_sha256') != pt.sha_file(recipe_path):
         raise ValueError('Frozen recipe configuration changed')
@@ -179,9 +179,9 @@ def validate_run(root, run: Path, checkpoint='best'):
     _equal(normalized, expected,
            'Training configuration differs beyond permitted recipe, seed, replay and calibration settings')
     variant = None
-    if recipe == 'narrow_mean':
-        import paper_train_variants as variants
-        variant = variants.validate_manifest(manifest, root)
+    if recipe != 'base':
+        import paper_model_loader as models
+        variant = models.validate_manifest(manifest, root)
     status = _file(root, root / 'review/logs' / f'{run.name}_launch.json')
     completion = json.loads(status.read_text())
     if (completion.get('status') != 'completed' or type(completion.get('returncode')) is not int
@@ -198,7 +198,7 @@ def validate_run(root, run: Path, checkpoint='best'):
     if legacy:
         files.update(reference / name for name in pt.SOURCES)
     if variant is not None:
-        files.add(root / 'paper_train_variants.py')
+        files.update(root / name for name in variant['source_sha256'])
     hashes = {path.relative_to(root).as_posix(): pt.sha_file(_file(root, path))
               for path in sorted(files)}
     return dict(run=run, manifest=copy.deepcopy(manifest), training_config=copy.deepcopy(normalized),

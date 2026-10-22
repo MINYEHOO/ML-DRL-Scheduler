@@ -17,6 +17,7 @@ import signal
 import time
 
 import paper_train as pt
+import paper_model_loader as models
 
 ROOT = Path(__file__).resolve().parent
 SCHEDULERS = {
@@ -137,8 +138,7 @@ def plan(args, root=ROOT):
     if manifest.get('smoke_slots') is not None or cfg['debug']:
         raise ValueError('A diagnostic training run is not a full evaluation source')
     recipe = manifest.get('recipe')
-    if recipe not in pt.RECIPES:
-        raise ValueError('Unknown frozen recipe')
+    variant = models.validate_manifest(manifest, root)
     if manifest.get('artifact_config_sha256') != pt.sha_file(root / 'artifacts' / recipe / 'config.json'):
         raise ValueError('Frozen recipe configuration changed')
     status_path = root / 'review' / 'logs' / f'{run.name}_launch.json'
@@ -184,6 +184,8 @@ def plan(args, root=ROOT):
         name='paper-live-run-id-v1', run=run.relative_to(root).as_posix(),
         checkpoint_kind=args.checkpoint, checkpoint_sha256=checkpoint_hash,
         checkpoint_update=None, training_config=copy.deepcopy(cfg),
+        recipe=recipe, variant_provenance=copy.deepcopy(variant),
+        model_loader_sha256=models.evaluation_sources(root, manifest),
         environment_config=env_cfg, policy_config=copy.deepcopy(cfg),
         source_sha256=manifest['source_sha256'], runner_sha256=pt.sha_file(root / 'paper_run_eval.py'),
         run_manifest_sha256=pt.sha_file(mpath), run_config_sha256=pt.sha_file(cpath),
@@ -212,6 +214,9 @@ def validate_checkpoint(checkpoint, prepared):
     update = integer(checkpoint.get('update'), 'checkpoint update')
     if update >= prepared['manifest']['target_updates']:
         raise ValueError('Checkpoint update exceeds the completed training target')
+    if (prepared['protocol']['checkpoint_kind'] == 'latest'
+            and update != prepared['manifest']['target_updates'] - 1):
+        raise ValueError('Latest checkpoint does not reach the completed training target')
     pt.validate_schedule(prepared['manifest']['schedule'], prepared['manifest']['config']['ppo_learning_rate'])
     pt.validate_checkpoint_schedule(checkpoint, prepared['manifest']['schedule'])
     prepared['protocol']['checkpoint_update'] = update
@@ -289,10 +294,9 @@ def main(argv=None):
     checkpoint = torch.load(prepared['checkpoint'], map_location='cpu', weights_only=False)
     validate_checkpoint(checkpoint, prepared)
     from config import Config
-    from policy import ActorCritic
-    model = ActorCritic(Config(**prepared['protocol']['policy_config']))
-    model.load_state_dict(checkpoint['model'], strict=True)
-    model.eval().requires_grad_(False)
+    model = models.load_model(prepared['manifest'], checkpoint,
+                              policy_config=prepared['protocol']['policy_config'],
+                              root=ROOT, validate=False)
     if args.dry_run:
         print(json.dumps(dict(protocol=prepared['protocol'], execution=prepared['execution']), indent=2, allow_nan=False))
         return
@@ -371,6 +375,8 @@ def main(argv=None):
             raise ValueError('Evaluation source files changed during execution')
         if pt.sha_file(prepared['checkpoint']) != prepared['protocol']['checkpoint_sha256']:
             raise ValueError('Evaluation input checkpoint changed during execution')
+        if models.evaluation_sources(ROOT, prepared['manifest']) != prepared['protocol']['model_loader_sha256']:
+            raise ValueError('Evaluation model loader or variant source changed during execution')
         record.update(status='completed', model_state_unchanged=True, torch_rng_unchanged=True,
                       metrics_sha256=pt.sha_file(out / 'metrics.csv'), raw_metrics_sha256=pt.sha_file(out / 'raw_metrics.jsonl'))
     except BaseException as exc:
